@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import RowFeed from "../../Components/RowFeed";
 
-export default function id() {
+export default function Id() {
   const router = useRouter();
   const { id } = router.query; //Debe ser el numero del periodo al que corresponde el feedback
   const dat = [1, 2, 3, 4];
