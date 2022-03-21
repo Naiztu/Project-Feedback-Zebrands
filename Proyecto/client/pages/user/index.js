@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Navbar from "../../Components/Navbar";
-import UserIndex from "../../Components/UserIndex";
-import Feedbacks from "../../Components/Feedbacks";
-import Asignar from "../../Components/Asignar";
-import Evalua from "../../Components/Evalua";
-import MemberAsignados from "../../Components/MemberAsignados";
+import Navbar from "../../components/Navbar";
+import UserIndex from "../../components/UserIndex";
+import Feedbacks from "../../components/Feedbacks";
+import Asignar from "../../components/Asignar";
+import Evalua from "../../components/Evalua";
+import MemberAsignados from "../../components/MemberAsignados";
 
 export default function Index() {
   const [option, setOption] = useState(1);
