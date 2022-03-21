@@ -6,10 +6,10 @@
 
 ## **Contenido**
 
-- [Avances](Documentacion/Avances/README.md)
+- [Avances](Documentacion/Avances)
 
-- [Casos de Estudios](Documentacion/Casos_de_Estudio/README.md)
-- [Codigo](Proyecto/README.md)
+- [Casos de Estudios](Documentacion/Casos_de_Estudio)
+- [Codigo](Proyecto)
 
 ## **Descripcón del problema**
 
