@@ -1,5 +1,5 @@
 <a>
-    <img src="https://github.com/Naiztu/Project-Feedback-Zebrands/blob/master/Documentacion/Anexos/logo.png?raw=true" alt="Eros" title="Logo" align="right" height="60" />
+    <img src="https://github.com/Naiztu/Project-Feedback-Zebrands/blob/master/Documentacion/Anexos/logo.png?raw=true" alt="Eros" title="Logo" align="right" height="50" />
 </a>
 
 # **Proyecto Feedback Zebrands**
@@ -10,6 +10,7 @@
 
 - [Casos de Estudios](Documentacion/Casos_de_Estudio)
 - [Codigo](Proyecto)
+- <a href="https://feedback.ricos.software/">Prototipo / Pagina web</a>
 
 ## **Descripcón del problema**
 
