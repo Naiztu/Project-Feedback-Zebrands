@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function Navbar({ changeOption }) {
   return (
@@ -13,8 +14,8 @@ export default function Navbar({ changeOption }) {
               className=" md:hidden flex items-center justify-center w-16 h-16 text-3xl text-white text-center mt-5 hover:bg-white hover:text-black font-bold rounded-full px-2 cursor-pointer active:scale-90 transition-all ease-in-out"
             >
               <img
-                src="https://pps.whatsapp.net/v/t61.24694-24/254357262_905156386776666_5358073800859678610_n.jpg?ccb=11-4&oh=7577d8939e0fff80249ffe598fc367ed&oe=6233AA00"
-                className=" avatar w-full mx-auto"
+                src="/assets/avatar.jpg"
+                className=" avatar w-full"
                 alt="Avatar"
               />
             </div>
@@ -24,9 +25,12 @@ export default function Navbar({ changeOption }) {
                 changeOption(1);
               }}
             >
-              <img
-                src="https://pps.whatsapp.net/v/t61.24694-24/254357262_905156386776666_5358073800859678610_n.jpg?ccb=11-4&oh=7577d8939e0fff80249ffe598fc367ed&oe=6233AA00"
-                className=" avatar w-full"
+              <Image
+                src="/assets/avatar.jpg"
+                className=" avatar"
+                layout="responsive"
+                width="100%"
+                height="100%"
                 alt="Avatar"
               />
             </div>

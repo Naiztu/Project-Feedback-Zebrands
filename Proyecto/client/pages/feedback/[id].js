@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Axios from "axios";
 import RowFeed from "../../components/RowFeed";
 
 export default function Post() {
-  const router = useRouter();
-  const { id } = router.query; //Debe ser el numero del periodo al que corresponde el feedback
+  //Debe ser el numero del periodo al que corresponde el feedback
   const dat = [1, 2, 3, 4];
+  const router = useRouter();
+  const initialFeed = {
+    id_feedback: 1,
+    calificacion_craft: "",
+    calificacion_personal: "",
+    calificacion_business: "",
+    calificacion_promedio: "",
+    comentario_craft: "",
+    comentario_personal: "",
+    comentario_business: "",
+    comentario_general: "",
+    id_empleado_member: 1,
+    id_empleado_assistant: 1,
+    id_periodo: 1,
+  };
+  const [feedback, setFeedback] = useState(initialFeed);
+
+  async function getData() {
+    const { id } = router.query;
+    const res = await Axios.get(`http://localhost:8080/feedback/${10}/${10}`);
+    res.data.feedback && setFeedback(res.data.feedback);
+    console.log(res.data);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <header className=" bg-slate-400/10 w-full rounded-b-3xl">
@@ -15,8 +43,8 @@ export default function Post() {
         >
           <div className="w-2/12 hidden md:inline">
             <img
-              src="https://pps.whatsapp.net/v/t61.24694-24/254357262_905156386776666_5358073800859678610_n.jpg?ccb=11-4&oh=7577d8939e0fff80249ffe598fc367ed&oe=6233AA00"
-              className=" avatar w-full h-full"
+              src="/assets/avatar.jpg"
+              className=" avatar w-full"
               alt="Avatar"
             />
           </div>
@@ -46,42 +74,27 @@ export default function Post() {
         >
           <div className="rowDimension ">
             <div className="dimesion">people</div>
-            <div className=" coment">
-              {" "}
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae fugiat ipsum porro cupiditate nobis debitis molestiae
-              hic repellendus pariatur fugit.
-            </div>
-            <div className=" calif"> 5</div>{" "}
+            <div className=" coment">{feedback.comentario_personal}</div>
+            <div className=" calif"> {feedback.calificacion_personal}</div>{" "}
           </div>
           <div
             className="rowDimension
           "
           >
             <div className="dimesion ">craft</div>
-            <div className=" coment">
-              {" "}
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae fugiat ipsum porro cupiditate nobis debitis molestiae
-              hic repellendus pariatur fugit.
-            </div>
-            <div className=" calif"> 5</div>{" "}
+            <div className=" coment">{feedback.comentario_craft}</div>
+            <div className=" calif"> {feedback.calificacion_craft}</div>{" "}
           </div>
           <div className="rowDimension  ">
-            <div className="dimesion">buesness</div>
-            <div className=" coment">
-              {" "}
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae fugiat ipsum porro cupiditate nobis debitis molestiae
-              hic repellendus pariatur fugit.
-            </div>
-            <div className=" calif"> 5</div>{" "}
+            <div className="dimesion">business</div>
+            <div className=" coment">{feedback.comentario_business}</div>
+            <div className=" calif"> {feedback.calificacion_business}</div>{" "}
           </div>
         </div>
       </div>
 
       {/* comentario general */}
-      <div className="w-9/12 mx-auto my-6">
+      <div className="w-full mx-auto my-6">
         <h2 className=" text-3xl font-bold mb-2 ">Comentario General</h2>
         <div
           className="flex
@@ -89,17 +102,14 @@ export default function Post() {
         rounded-3xl overflow-hidden mb-4"
         >
           <div className="basis-10/12 mx-auto bg-slate-300/40 border px-10 py-4 flex items-center">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis
-            consequatur harum nihil soluta veniam nemo, voluptatibus veritatis
-            iste amet officia molestiae? Mollitia dolores sunt, voluptatibus
-            aperiam ipsam cupiditate nam vitae?
+            {feedback.comentario_general}
           </div>
           <div
             className="w-full sm:basis-2/12 bg-black/10 
           md:text-6xl text-3xl font-bold 
            flex items-center justify-center py-5"
           >
-            5
+            {feedback.calificacion_promedio}
           </div>
         </div>
       </div>

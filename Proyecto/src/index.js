@@ -2,7 +2,9 @@
 
 const express = require("express");
 const morgan = require("morgan");
-const router = require("./routes/example.routes");
+const cors = require("cors");
+require("dotenv").config();
+const router = require("./routes/feedback.routes");
 
 const app = express();
 
@@ -10,6 +12,7 @@ const app = express();
 const port = 8080;
 
 //middlewares
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
