@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function Navbar({ changeOption }) {
+  const router = useRouter();
   return (
     <>
       <div className=" h-full shadow-md bg-black text-white absolute w-20 md:w-60 overflow-hidden">
@@ -9,7 +11,7 @@ export default function Navbar({ changeOption }) {
           <div className="flex flex-col items-center">
             <div
               onClick={() => {
-                changeOption(1);
+                router.push("/user");
               }}
               className=" md:hidden flex items-center justify-center w-16 h-16 text-3xl text-white text-center mt-5 hover:bg-white hover:text-black font-bold rounded-full px-2 cursor-pointer active:scale-90 transition-all ease-in-out"
             >
@@ -22,7 +24,7 @@ export default function Navbar({ changeOption }) {
             <div
               className="md:block hidden hover:scale-105 shrink-0 w-3/4 cursor-pointer active:scale-90 transition-all ease-in-out"
               onClick={() => {
-                changeOption(1);
+                router.push("/user");
               }}
             >
               <Image
@@ -52,7 +54,7 @@ export default function Navbar({ changeOption }) {
             <button
               className=" link-navbar"
               onClick={() => {
-                changeOption(2);
+                router.push("/user/feedback");
               }}
             >
               <svg
@@ -74,7 +76,7 @@ export default function Navbar({ changeOption }) {
             <button
               className="link-navbar"
               onClick={() => {
-                changeOption(3);
+                router.push("/user/asignar");
               }}
             >
               <svg
@@ -97,7 +99,7 @@ export default function Navbar({ changeOption }) {
             <button
               className="link-navbar"
               onClick={() => {
-                changeOption(4);
+                router.push("/user/evalua");
               }}
             >
               <svg
@@ -133,7 +135,7 @@ export default function Navbar({ changeOption }) {
             <button
               className="link-navbar"
               onClick={() => {
-                changeOption(5);
+                router.push("/user/asignados");
               }}
             >
               <svg

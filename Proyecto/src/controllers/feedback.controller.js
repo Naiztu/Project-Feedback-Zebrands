@@ -9,8 +9,8 @@ async function getFeedback(req, res) {
       `SELECT * FROM feedback WHERE id_empleado_member = ${id_user} AND id_periodo = ${id_periodo}`
     )
     .then(([rows, fieldData]) => {
-      console.log({ feedback: rows[0] });
-      res.send({ feedback: rows[0] });
+      if (rows.length == 0) res.status(404).send({ feedback: rows[0] });
+      else res.status(200).send({ feedback: rows[0] });
     })
     .catch((err) => {
       res.status(500);

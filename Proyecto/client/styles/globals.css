@@ -3,7 +3,10 @@
 @tailwind utilities;
 
 .btn {
-  @apply bg-black hover:bg-black/90 text-white flex flex-row items-center justify-center md:py-3 py-1 px-3 md:px-8 rounded-md border-[1px] border-black ease-in-out font-bold active:bg-black/80 transition-all active:scale-90 disabled:bg-dis disabled:text-[#EEEEEE] disabled:cursor-not-allowed;
+  @apply bg-black hover:bg-black/80 text-white flex flex-row items-center justify-center md:py-3 py-1 px-3 md:px-8 rounded-md border-[1px] border-black ease-in-out font-bold active:bg-black/80 transition-all active:scale-90 disabled:bg-dis disabled:text-[#EEEEEE] disabled:cursor-not-allowed;
+}
+.btn-red {
+  @apply bg-red-500  hover:bg-red-500/80 md:py-3 py-1 px-3 md:px-8 rounded-md justify-center items-center text-white active:scale-95 transition-all ease-in-out;
 }
 
 .btn-border {
@@ -22,7 +25,7 @@
   @apply rounded-full shadow-sm shadow-white border-4 border-white;
 }
 .link-navbar {
-  @apply flex items-center justify-start flex-row space-x-2 text-sm py-4 px-6  text-ellipsis whitespace-nowrap rounded-full hover:text-black hover:bg-white transition duration-300 ease-in-out active:scale-90 w-56 mx-auto;
+  @apply flex items-center justify-start flex-row space-x-2 text-sm py-4 px-6  text-ellipsis whitespace-nowrap rounded-full hover:bg-white/10 active:bg-white/30 transition duration-300 ease-in-out active:scale-90 w-56 mx-auto;
 }
 
 .title {
@@ -33,7 +36,7 @@
 }
 
 .rowDimension {
-  @apply flex flex-col space-x-0 md:space-x-2 md:flex-row mx-auto justify-center;
+  @apply flex flex-col space-x-0 md:space-x-2 md:flex-row mx-auto justify-center w-full;
 }
 /* .dimesion {
   @apply bg-black/80 uppercase p-3 text-3xl font-bold flex items-center justify-center rounded-xl w-[120px];
@@ -46,7 +49,7 @@
 } */
 
 .coment {
-  @apply bg-slate-500/10 uppercase p-6 font-semibold flex items-center  basis-6/12;
+  @apply bg-slate-500/10 uppercase p-6 font-semibold flex items-center;
 }
 /* .calif {
   @apply bg-black/80 text-white uppercase py-3 px-8 text-6xl font-bold flex justify-center items-center rounded-xl w-[120px];
