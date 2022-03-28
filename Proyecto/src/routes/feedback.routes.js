@@ -4,6 +4,6 @@ const { getFeedback } = require("../controllers/feedback.controller");
 
 const router = Router();
 
-router.get("/feedback/:id_user/:id_periodo", getFeedback);
+router.get("/:id_user/:id_periodo", getFeedback);
 
 module.exports = router;

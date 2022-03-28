@@ -4,7 +4,8 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
-const router = require("./routes/feedback.routes");
+const rutas_feedback = require("./routes/feedback.routes");
+const rutas_preguntas = require("./routes/preguntas.routes");
 
 const app = express();
 
@@ -17,7 +18,9 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 //Routes
-app.use(router);
+
+app.use('/feedback', rutas_feedback);
+app.use('/preguntas', rutas_preguntas);
 
 //Server On
 app.listen(port);
