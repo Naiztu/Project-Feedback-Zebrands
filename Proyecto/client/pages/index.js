@@ -1,7 +1,12 @@
 import Head from "next/head";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useUser } from "../context/userContext";
 
 export default function Home() {
+  const router = useRouter();
+  const [rol, setRol] = useState(3);
+  const { setIdRol } = useUser();
   return (
     <>
       <Head>
@@ -24,7 +29,9 @@ export default function Home() {
             <input
               className="input-label block mt-6"
               placeholder="Correo"
-              type={"text"}
+              value={rol}
+              onChange={(e) => setRol(parseInt(e.target.value))}
+              type={"number"}
             />
             <input
               className="input-label block mt-4"
@@ -33,9 +40,17 @@ export default function Home() {
             />
             <a className="link">Recuperar contraseña</a>
 
-            <Link href={"/user"}>
-              <button className="btn mt-5">Entrar</button>
-            </Link>
+            <button
+              className="btn mt-5"
+              onClick={() => {
+                setIdRol(rol);
+                if (rol === 1) {
+                  router.push("/lead");
+                } else router.push("/user");
+              }}
+            >
+              Entrar
+            </button>
           </div>
         </div>
       </div>

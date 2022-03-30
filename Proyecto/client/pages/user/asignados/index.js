@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "../../components/Layout";
-import MemberAsignados from "../../components/MemberAsignados";
+import Layout from "../../../components/Layout";
+import MemberAsignados from "../../../components/MemberAsignados";
 
 export default function Asignados() {
   return (

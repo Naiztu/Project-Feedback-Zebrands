@@ -9,10 +9,11 @@ async function getPreguntas(req, res) {
 
   pool
     .execute(
-       `SELECT * FROM banco_preguntas WHERE dimension_pregunta='${dimension}' and nivel_pregunta=${nivel};`
+      `SELECT * FROM banco_preguntas WHERE dimension_pregunta='${dimension}' and nivel_pregunta=${nivel};`
     )
-    .then(([rows, fieldData]) => {//Se envian todas las preguntas en rows
-      console.log({rows });
+    .then(([rows, fieldData]) => {
+      //Se envian todas las preguntas en rows
+
       res.send({ preguntas: rows });
     })
     .catch((err) => {
@@ -21,7 +22,4 @@ async function getPreguntas(req, res) {
     });
 }
 
-
-
-module.exports = { getPreguntas};
-
+module.exports = { getPreguntas };
