@@ -1,11 +1,16 @@
 import React from "react";
+import Evaluaciones from "../../../components/Evaluaciones";
 import Layout from "../../../components/Layout";
 import PlantillaFeed from "../../../components/PlantillaFeed";
+
+
 
 export default function Post() {
   return (
     <Layout>
-      <div className="pt-20"> Aqui van a ir las evaluaciones</div>
+      <div className="py-10"> 
+      <Evaluaciones />
+      </div>
       <PlantillaFeed isSaved={false} />
     </Layout>
   );
