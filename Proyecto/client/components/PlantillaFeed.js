@@ -49,18 +49,13 @@ export default function PlantillaFeed({ feedback, isSaved }) {
           </div>
         </div>
       </header>
-      <div
-        className="w-9/12 
-    mx-auto mt-2"
-      >
-        <div className="text-center italic my-4 font-semibold  flex justify-between w-[300px] mx-auto">
-          <p>Dimension</p> <strong>-</strong> <p>Comentario </p>
-          <strong>-</strong> <p>Evaluación</p>
-        </div>
+      <div className="text-center italic my-4 font-semibold  flex justify-between w-[290px] mx-auto">
+        <p>Dimension</p> <strong>-</strong> <p>Comentario </p>
+        <strong>-</strong> <p>Evaluación</p>
       </div>
-      <div className="w-9/12  mx-auto">
+      <div className="w-11/12  mx-auto">
         <div
-          className="w-9/12
+          className="w-11/12 md:w-9/12
     mx-auto rounded-3xl  flex flex-col space-y-2 overflow-hidden "
         >
           <div className="rowDimension">
@@ -69,7 +64,7 @@ export default function PlantillaFeed({ feedback, isSaved }) {
               <div className=" coment basis-6/12">{comentario_personal}</div>
             ) : (
               <textarea
-                className=" text-area-feed"
+                className=" text-area-feed basis-6/12"
                 value={preFeedback.comentario_personal}
                 name="comentario_personal"
                 placeholder="Comentario People"
@@ -95,7 +90,7 @@ export default function PlantillaFeed({ feedback, isSaved }) {
               <div className=" coment basis-6/12">{comentario_craft}</div>
             ) : (
               <textarea
-                className=" text-area-feed"
+                className=" text-area-feed basis-6/12"
                 value={preFeedback.comentario_craft}
                 name="comentario_craft"
                 placeholder="Comentario Craft"
@@ -115,13 +110,13 @@ export default function PlantillaFeed({ feedback, isSaved }) {
               />
             )}
           </div>
-          <div className="rowDimension  ">
+          <div className="rowDimension">
             <div className="dimesion">business</div>
             {isSaved ? (
               <div className=" coment basis-6/12">{comentario_business}</div>
             ) : (
               <textarea
-                className=" text-area-feed"
+                className=" text-area-feed basis-6/12"
                 value={preFeedback.comentario_business}
                 name="comentario_business"
                 placeholder="Comentario Business"
@@ -150,13 +145,13 @@ export default function PlantillaFeed({ feedback, isSaved }) {
         <div
           className="flex
         flex-col md:flex-row space-x-0 md:space-x-2
-        rounded-3xl overflow-hidden mb-4 w-9/12 mx-auto"
+        rounded-3xl overflow-hidden mb-4 w-11/12 md:w-9/12 mx-auto"
         >
           {isSaved ? (
             <div className="basis-10/12 coment">{comentario_general}</div>
           ) : (
             <textarea
-              className=" text-area-feed"
+              className=" text-area-feed basis-10/12"
               value={preFeedback.comentario_general}
               name="comentario_general"
               placeholder="Comentario General"
@@ -169,7 +164,7 @@ export default function PlantillaFeed({ feedback, isSaved }) {
               {calificacion_promedio}
             </div>
           ) : (
-            <div className="w-full sm:basis-2/12 input-feed">
+            <div className="w-full sm:basis-2/12 input-feed flex items-center justify-center font-bold">
               {preFeedback.calificacion_promedio}
             </div>
           )}
@@ -177,7 +172,7 @@ export default function PlantillaFeed({ feedback, isSaved }) {
       </div>
 
       {!isSaved && (
-        <div className="w-9/12 flex items-center justify-center">
+        <div className="w-9/12 flex items-center justify-center font-bold">
           <button className="btn">Guardar</button>
         </div>
       )}
