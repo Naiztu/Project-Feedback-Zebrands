@@ -8,7 +8,7 @@ const rutas_feedback = require("./routes/feedback.routes");
 const rutas_preguntas = require("./routes/preguntas.routes");
 const rutas_example = require("./routes/example.routes");//Para probar cosas
 const rutas_assistant_list = require("./routes/assistant_list.routes");//Para probar cosas
-
+const rutas_evaluar = require("./routes/evaluar.routes");
 
 const app = express();
 
@@ -26,8 +26,7 @@ app.use('/feedback', rutas_feedback);
 app.use('/preguntas', rutas_preguntas);
 app.use('/example', rutas_example);
 app.use('/assistant_list', rutas_assistant_list);
-
-
+app.use('/evaluar', rutas_evaluar);
 
 //Server On
 app.listen(port);
