@@ -70,7 +70,7 @@ export default function Post() {
             <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
               <tr>
                 <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">Assintant</div>
+                  <div className="font-semibold text-left">Assistant</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-left">Periodo</div>
