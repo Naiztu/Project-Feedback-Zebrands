@@ -64,9 +64,7 @@ export default function Pregunta({ data, isSaved }) {
       <div className="w-full mx-auto bg-black/10 px-3 py-2 mt-2 rounded-md flex items-center">
         <label>
           <strong className="mr-2">Tipo de pregunta:</strong>
-          {!isEdited ? (
-            tipo
-          ) : (
+          {isEdited ? (
             <select
               className="ml-4"
               value={tipo}
@@ -79,6 +77,8 @@ export default function Pregunta({ data, isSaved }) {
                 </option>
               ))}
             </select>
+          ) : (
+            tipo
           )}
         </label>
       </div>

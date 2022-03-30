@@ -8,6 +8,7 @@ export default function Post() {
   //Debe ser el numero del periodo al que corresponde el feedback
   const dat = [1, 2, 3, 4];
   const router = useRouter();
+
   const initialFeed = {
     id_feedback: 1,
     calificacion_craft: "",
@@ -25,10 +26,13 @@ export default function Post() {
 
   const [feedback, setFeedback] = useState(initialFeed);
 
-  const getFeedback = async (num) => {
+  const getFeedback = async (id_periodo) => {
+    const id_user = 1;
     let res;
     try {
-      res = await Axios.get(`http://localhost:8080/feedback/${1}/${num}`);
+      res = await Axios.get(
+        `http://localhost:8080/feedback/${id_user}/${id_periodo}`
+      );
       console.log(res);
       if (res.status != 200) {
         throw {
@@ -46,7 +50,7 @@ export default function Post() {
   useEffect(() => {
     if (router.isReady) {
       const { id } = router.query;
-      const res = getFeedback(id);
+      getFeedback(id);
     }
   }, [router.isReady]);
 
