@@ -29,10 +29,16 @@ export default function RowFeed({ data }) {
           </a>
         </Link>
       </td>
-      <td className="p-2 whitespace-nowrap hidden sm:flex">
+      <td className="h-full p-2 whitespace-nowrap hidden sm:flex items-center">
         <Link href={`/feedback/${data}`}>
-          <a className="w-full " target="_blank" rel="noreferrer">
-            <div className=" font-medium text-green-500">2.4</div>
+          <a
+            className="w-full h-full flex items-center"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className=" h-full font-medium text-green-500 flex items-center">
+              2.4
+            </div>
           </a>
         </Link>
       </td>

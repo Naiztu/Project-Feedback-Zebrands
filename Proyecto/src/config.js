@@ -2,10 +2,10 @@
 
 module.exports = {
   db: {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_DATABASE,
+    user: process.env.MYSQL_ADDON_USER,
+    password: process.env.MYSQL_ADDON_PASSWORD,
+    host: process.env.MYSQL_ADDON_HOST,
+    port: process.env.MYSQL_ADDON_PORT,
+    database: process.env.MYSQL_ADDON_DB,
   },
 };

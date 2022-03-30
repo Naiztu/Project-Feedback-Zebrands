@@ -1,14 +1,24 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 export default function CardMembers({ info }) {
-  const { avatar, first_name, last_name } = info || {};
+  const router = useRouter();
+
+  const { img, id_empleado, nombre, apellido_materno, apellido_paterno } =
+    info || {};
+
+
+    const redirectRegisterFeed=()=>{
+        router.push(`/user/asignados/${id_empleado}`)
+    }
+
   return (
     <div className="  w-[300px] rounded-xl px-4 py-6 shadow-sm shadow-black text-black md:mx-20 md:my-10 my-5 mx-2">
       <div className="flex flex-row space-x-2 lg:space-x-6 items-center px-2">
-        <img className="rounded-full md:w-20 w-16 h-16 md:h-20" src={avatar} />
+        <img className="rounded-full md:w-20 w-16 h-16 md:h-20" src={img} />
         <div className="">
           <p className="text-lg md:text-xl font-bold mb-4 text-center ">
-            {first_name + " " + last_name}
+            {nombre + " " + apellido_paterno}
           </p>
           <ul className="flex justify-center">
             <li>
@@ -80,7 +90,9 @@ export default function CardMembers({ info }) {
         </div>
       </div>
 
-      <button className="btn block mt-10 mx-auto md:text-base text-sm">
+      <button
+      onClick={redirectRegisterFeed} 
+      className="btn block mt-10 mx-auto md:text-base text-sm">
         Realizar evaluación
       </button>
     </div>
