@@ -8,8 +8,8 @@ const {
 
 const router = Router();
 
-router.get("/example", getExample);
+router.get("/", getExample);
 
-router.put("/example", updateExample);
+router.put("/", updateExample);
 
 module.exports = router;
