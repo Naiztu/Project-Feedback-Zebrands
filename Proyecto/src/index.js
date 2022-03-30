@@ -7,6 +7,8 @@ require("dotenv").config();
 const rutas_feedback = require("./routes/feedback.routes");
 const rutas_preguntas = require("./routes/preguntas.routes");
 
+const rutas_example = require("./routes/example.routes");//Para probar cosas
+
 const app = express();
 
 //setings
@@ -21,6 +23,8 @@ app.use(express.json());
 
 app.use('/feedback', rutas_feedback);
 app.use('/preguntas', rutas_preguntas);
+app.use('/example', rutas_example);
+
 
 //Server On
 app.listen(port);
