@@ -4,8 +4,6 @@ const pool = require("../db");
 async function getPreguntas(req, res) {
   const nivel = req.params.nivel;
   const dimension = req.params.dimension;
-  console.log(nivel);
-  console.log(dimension);
 
   pool
     .execute(
@@ -30,13 +28,12 @@ async function registraPregunta(req, res) {
     nivel_pregunta,
     dimension_pregunta,
     tipo_pregunta,
-    id_chapter
-  } = req.body
+    id_chapter,
+  } = req.body;
 
-
-pool
-  .execute(
-    `INSERT INTO banco_preguntas (
+  pool
+    .execute(
+      `INSERT INTO banco_preguntas (
       pregunta,
       index_pregunta,
       nivel_pregunta,
@@ -52,37 +49,30 @@ pool
          '${tipo_pregunta}',
          ${id_chapter}
   )`
-  )
-  .then(() => {
-    console.log ("Si jala registrar");
-    res.status(200).end();
-
-  })
-  .catch((err) => {
-    res.status(500);
-    res.send({ err });
-  });
+    )
+    .then(() => {
+      console.log("Si jala registrar");
+      res.status(200).end();
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send({ err });
+    });
 }
-
 
 async function eliminaPregunta(req, res) {
-  
   const id_pregunta = req.params.id_pregunta;
 
-
-pool
-  .execute(
-    `DELETE FROM banco_preguntas WHERE id_pregunta=${id_pregunta};`
-  )
-  .then(() => {
-    console.log ("Si jala eliminar");
-    res.status(200).end();
-  })
-  .catch((err) => {
-    res.status(500);
-    res.send({ err });
-  });
+  pool
+    .execute(`DELETE FROM banco_preguntas WHERE id_pregunta=${id_pregunta};`)
+    .then(() => {
+      console.log("Si jala eliminar");
+      res.status(200).end();
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send({ err });
+    });
 }
 
-
-module.exports = { getPreguntas ,registraPregunta, eliminaPregunta };
+module.exports = { getPreguntas, registraPregunta, eliminaPregunta };
