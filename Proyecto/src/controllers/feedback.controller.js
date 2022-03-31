@@ -19,7 +19,7 @@ async function getFeedback(req, res) {
 }
 
 async function postFeedback(req, res) {
-  const { id_assistant, id_member } = req.params;
+  const {id_assistant, id_member} = req.params;
   const {
     calificacion_craft,
     calificacion_personal,
@@ -29,8 +29,8 @@ async function postFeedback(req, res) {
     comentario_personal,
     comentario_business,
     comentario_general,
-    id_periodo,
-  } = req.body;
+    id_periodo
+  } = req.body
 
   pool
     .execute(
