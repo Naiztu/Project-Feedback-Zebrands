@@ -1,11 +1,14 @@
 import React from "react";
-import Boton from "../components/Boton";
+import Respuesta from "../components/Respuesta";
 
 export default function Prueba() {
   return (
     <>
-      <Boton numeroPregunta={12} />
-      <Boton numeroPregunta={45} />
+
+      <Respuesta data={2} key={2}/>
+      <Respuesta data={5} isSaved={false} key={2} />
+
     </>
   );
 }
+
