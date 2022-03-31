@@ -6,8 +6,8 @@ const cors = require("cors");
 require("dotenv").config();
 const rutas_feedback = require("./routes/feedback.routes");
 const rutas_preguntas = require("./routes/preguntas.routes");
-const rutas_example = require("./routes/example.routes");//Para probar cosas
-const rutas_assistant_list = require("./routes/assistant_list.routes");//Para probar cosas
+const rutas_example = require("./routes/example.routes"); //Para probar cosas
+const rutas_assistant_list = require("./routes/assistant_list.routes"); //Para probar cosas
 const rutas_evaluar = require("./routes/evaluar.routes");
 
 const app = express();
@@ -19,14 +19,15 @@ const port = 8080;
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(express.static("public"));
 
 //Routes
 
-app.use('/feedback', rutas_feedback);
-app.use('/preguntas', rutas_preguntas);
-app.use('/example', rutas_example);
-app.use('/assistant_list', rutas_assistant_list);
-app.use('/evaluar', rutas_evaluar);
+app.use("/feedback", rutas_feedback);
+app.use("/preguntas", rutas_preguntas);
+app.use("/example", rutas_example);
+app.use("/assistant_list", rutas_assistant_list);
+app.use("/evaluar", rutas_evaluar);
 
 //Server On
 app.listen(port);

@@ -4,6 +4,7 @@ import RowFeed from "../../components/RowFeed";
 import Axios from "axios";
 import PlantillaFeed from "../../components/PlantillaFeed";
 import Layout from "../../components/Layout";
+import Evaluaciones from "../../components/Evaluaciones";
 
 export default function Post() {
   //Debe ser el numero del periodo al que corresponde el feedback
@@ -58,37 +59,7 @@ export default function Post() {
   return (
     <Layout>
       <PlantillaFeed feedback={feedback} />
-
-      {/* tablas de evaluaciones */}
-      <h2 className="title"> Evaluaciones</h2>
-      <div className="w-9/12 mx-auto mt-6">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur,
-        ab dolores hic impedit minus voluptatibus enim quam voluptates iusto
-        quis, odit dicta maxime sapiente praesentium obcaecati nobis earum!
-        Vitae, officiis.
-        <div className="overflow-x-auto my-10">
-          <table className="table-auto w-full">
-            <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-              <tr>
-                <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">Assistant</div>
-                </th>
-                <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">Periodo</div>
-                </th>
-                <th className="p-2 whitespace-nowrap hidden sm:flex">
-                  <div className="font-semibold text-left">General</div>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="text-sm divide-y divide-gray-100">
-              {dat.map((i) => (
-                <RowFeed key={i} data={i} />
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <Evaluaciones />
     </Layout>
   );
 }

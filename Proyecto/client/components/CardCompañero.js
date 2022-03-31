@@ -1,8 +1,10 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 export default function CardCompañero({ pendientes }) {
-  const { id_empleado, nombre, apellido_paterno, imagen_perfil } = pendientes || {};
+  const router = useRouter();
+  const { id_empleado, nombre, apellido_paterno, imagen_perfil } =
+    pendientes || {};
   return (
     <div className="  w-[300px] rounded-xl p-3 shadow-sm shadow-black text-black md:mx-20 md:my-10 my-5 mx-2">
       <div className="flex flex-row space-x-4 md:space-x-8 items-center px-2">
@@ -14,13 +16,12 @@ export default function CardCompañero({ pendientes }) {
           {nombre + " " + apellido_paterno}
         </p>
       </div>
-      <Link href={`/evalua/${id_empleado}`}>
-        <a target={"_blank"} rel="noreferrer">
-          <button className=" btn mt-8 mb-2 mx-auto md:mx-auto md:text-base text-sm text-center">
-            Realizar evaluación
-          </button>
-        </a>
-      </Link>
+      <button
+        onClick={() => router.push(`/evalua/${id_empleado}`)}
+        className=" btn mt-8 mb-2 mx-auto md:mx-auto md:text-base text-sm text-center"
+      >
+        Realizar evaluación
+      </button>
     </div>
   );
 }
