@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import RowFeed from "./RowFeed";
-const dat = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+import Axios from "axios";
 
 export default function Feedbacks() {
+  const [feedbacks, setFeedbacks] = useState([]);
+
+  const getFeedbacks = async () => {
+    const id_user = 1;
+    try {
+      const res = await Axios.get(`http://localhost:8080/feedback/${id_user}`);
+      console.log(res);
+      if (res.status != 200) {
+        throw {
+          err: true,
+          status: res.status,
+          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
+        };
+      } else setFeedbacks(res.data.feedbacks);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getFeedbacks();
+  }, []);
+
   return (
     <>
-      <h1 className="title w-3/4 mx-auto">Mis Feebacks</h1>
+      <h1 className="title w-3/4 mx-auto mt-10">Mis Feebacks</h1>
       <div className="flex flex-col justify-center mt-10 mx-auto w-11/12 sm:w-3/4">
         <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
           <div className="p-3">
@@ -14,7 +37,7 @@ export default function Feedbacks() {
                 <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th className="p-2 whitespace-nowrap">
-                      <div className="font-semibold text-left">Assintant</div>
+                      <div className="font-semibold text-left">Assistant</div>
                     </th>
                     <th className="p-2 whitespace-nowrap">
                       <div className="font-semibold text-left">Periodo</div>
@@ -25,8 +48,8 @@ export default function Feedbacks() {
                   </tr>
                 </thead>
                 <tbody className="text-sm divide-y divide-gray-100">
-                  {dat.map((i) => (
-                    <RowFeed key={i} data={i} />
+                  {feedbacks.map((item, index) => (
+                    <RowFeed key={index} data={item} />
                   ))}
                 </tbody>
               </table>

@@ -26,11 +26,14 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
     setPreFeedback(newFeed);
   };
 
-  const id_assistant = 1
+  const id_assistant = 1;
 
-  const registerFeed = async() => {
+  const registerFeed = async () => {
     try {
-      const resultado = await Axios.post(`http://localhost:8080/feedback/${id_assistant}/${id_member}`, preFeedback)
+      const resultado = await Axios.post(
+        `http://localhost:8080/feedback/${id_assistant}/${id_member}`,
+        preFeedback
+      );
       if (res.status != 200) {
         throw {
           err: true,
@@ -39,13 +42,13 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
         };
       } else alert("Pregunta guardada");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <>
-      <header className=" bg-slate-400/10 w-full rounded-b-3xl">
+      <header className=" bg-slate-400/10 w-full pt-10 rounded-b-3xl">
         <div
           className="w-9/12 
     mx-auto  flex p-5 flex-row space-x-6"
@@ -191,7 +194,9 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
 
       {!isSaved && (
         <div className="w-9/12 flex items-center justify-center font-bold">
-          <button className="btn" onClick={registerFeed}>Guardar</button>
+          <button className="btn" onClick={registerFeed}>
+            Guardar
+          </button>
         </div>
       )}
     </>

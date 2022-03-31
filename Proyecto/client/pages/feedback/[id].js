@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import RowFeed from "../../components/RowFeed";
 import Axios from "axios";
 import PlantillaFeed from "../../components/PlantillaFeed";
+import Layout from "../../components/Layout";
 
 export default function Post() {
   //Debe ser el numero del periodo al que corresponde el feedback
@@ -55,10 +56,10 @@ export default function Post() {
   }, [router.isReady]);
 
   return (
-    <>
+    <Layout>
       <PlantillaFeed feedback={feedback} />
 
-      {/* stablas de evaluacones */}
+      {/* tablas de evaluaciones */}
       <h2 className="title"> Evaluaciones</h2>
       <div className="w-9/12 mx-auto mt-6">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur,
@@ -88,6 +89,6 @@ export default function Post() {
           </table>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }
