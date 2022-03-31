@@ -6,7 +6,8 @@ const Preguntas = require('../models/preguntas');
 const getExample = (req, res) => {
   const preguntas= new Preguntas(1.3, 1.4, 1.5);
   console.log('Get example');
-  
+  const body=req.body;
+  console.log(body);
   res.json(preguntas.fetchAll());
 };
 const updateExample = (req, res) => {
