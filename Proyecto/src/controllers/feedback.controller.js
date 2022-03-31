@@ -22,9 +22,9 @@ async function getFeedbackHistory(req, res) {
   const { id_user } = req.params;
   pool
     .execute(
-      `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, F.id_periodo, F.calificacion_promedio
-      FROM feedback F, empleado E1, empleado E2
-      WHERE F.id_empleado_member = E1.id_empleado AND F.id_empleado_assistant = E2.id_empleado AND E1.id_empleado = ${id_user};`
+      `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, F.id_periodo, F.calificacion_promedio, P.nombre_periodo
+      FROM feedback F, empleado E1, empleado E2, periodo P
+      WHERE F.id_empleado_member = E1.id_empleado AND F.id_empleado_assistant = E2.id_empleado AND F.id_periodo = P.id_periodo AND E1.id_empleado = ${id_user};`
     )
     .then(([rows, fieldData]) => {
       res.status(200).send({ feedbacks: rows });
