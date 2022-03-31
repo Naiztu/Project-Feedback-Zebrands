@@ -12,12 +12,9 @@ async function getEvaluarPendiente(req, res) {
         AND estatus = "No Contestado");`
     )
     .then(([rows, fieldData]) => {
-<<<<<<< HEAD
       res.status(200).send({ pendientes: rows });
-=======
       if (rows.length == 0) res.status(404).send({ feedback: rows });
       else res.status(200).send({ feedback: rows });
->>>>>>> ca556113428de92b2b96d9548f922e58b81c6eed
     })
     .catch((err) => {
       res.status(500).send({ err });
