@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Layout from "../../components/Layout";
 import PreguntaDimension from "../../components/PreguntaDimension";
 
 export default function Cuestionario() {
@@ -7,8 +8,8 @@ export default function Cuestionario() {
   const dimensiones = ["craft", "people", "bussiness"];
 
   return (
-    <div>
-      <div className="flex items-center justify-center bg-slate-300 py-10 space-x-5 rounded-b-lg">
+    <Layout>
+      <div className="flex flex-col sm:flex-row items-center justify-center bg-slate-300 py-10 sm:space-x-5 rounded-b-lg w-full">
         <h1 className="title  ">Cuestionario</h1>
         <label className=" ">
           <strong>Nivel:</strong>
@@ -30,6 +31,6 @@ export default function Cuestionario() {
       {dimensiones.map((item, index) => (
         <PreguntaDimension Dimension={item} Nivel={nivel} key={index} />
       ))}
-    </div>
+    </Layout>
   );
 }
