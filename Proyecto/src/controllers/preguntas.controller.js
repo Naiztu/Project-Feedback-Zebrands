@@ -64,4 +64,25 @@ pool
   });
 }
 
-module.exports = { getPreguntas ,registraPregunta };
+
+async function eliminaPregunta(req, res) {
+  
+  const id_pregunta = req.params.id_pregunta;
+
+
+pool
+  .execute(
+    `DELETE FROM banco_preguntas WHERE id_pregunta=${id_pregunta};`
+  )
+  .then(() => {
+    console.log ("Si jala eliminar");
+    res.status(200).end();
+  })
+  .catch((err) => {
+    res.status(500);
+    res.send({ err });
+  });
+}
+
+
+module.exports = { getPreguntas ,registraPregunta, eliminaPregunta };
