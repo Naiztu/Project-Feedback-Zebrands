@@ -22,8 +22,9 @@ async function getFeedbackHistory(req, res) {
   const { id_user } = req.params;
   pool
     .execute(
-      `SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio FROM feedback F
-      INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado WHERE id_empleado_member = ${id_user};`
+      `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, F.id_periodo, F.calificacion_promedio
+      FROM feedback F, empleado E1, empleado E2
+      WHERE F.id_empleado_member = E1.id_empleado AND F.id_empleado_assistant = E2.id_empleado AND E1.id_empleado = ${id_user};`
     )
     .then(([rows, fieldData]) => {
       res.status(200).send({ feedbacks: rows });
