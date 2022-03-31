@@ -6,13 +6,13 @@ async function getEvaluarPendiente(req, res) {
 
   pool
     .execute(
-      `SELECT id_empleado,nombre, apellido_materno, apellido_paterno from empleado
+      `SELECT id_empleado,nombre, apellido_paterno, imagen_perfil FROM empleado
       where id_empleado in (SELECT E.id_empleado_evaluado FROM evaluacion E 
         WHERE id_periodo = ${id_periodo} AND id_empleado_evaluador = ${id_user} 
         AND estatus = "No Contestado");`
     )
     .then(([rows, fieldData]) => {
-      res.status(200).send({ feedback: rows });
+      res.status(200).send({ pendientes: rows });
     })
     .catch((err) => {
       res.status(500).send({ err });
