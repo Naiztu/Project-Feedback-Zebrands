@@ -17,10 +17,8 @@ export default function Post() {
 
   return (
     <Layout>
-      <div className="py-10">
-        <Evaluaciones />
-      </div>
-      {(id_mem != null) && <PlantillaFeed isSaved={false} id_member={id_mem} />}
+      <Evaluaciones />
+      {id_mem != null && <PlantillaFeed isSaved={false} id_member={id_mem} />}
     </Layout>
   );
 }

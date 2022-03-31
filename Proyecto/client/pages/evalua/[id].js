@@ -1,15 +1,16 @@
 import React from "react";
 import { useRouter } from "next/router";
+import Layout from "../../components/Layout";
 
 export default function Post() {
   const router = useRouter();
   const { id } = router.query;
   return (
-    <>
+    <Layout>
       <div className=" shadow-black shadow-sm rounded-3xl  mt-5 pt-10 w-11/12 sm:w-10/12 mx-auto">
         <h1 className="title"> Evaluame {id}!</h1>
         <section className="h-32"></section>
       </div>
-    </>
+    </Layout>
   );
 }

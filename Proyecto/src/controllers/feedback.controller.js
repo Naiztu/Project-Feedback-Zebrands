@@ -33,6 +33,20 @@ async function getFeedbackHistory(req, res) {
     });
 }
 
+async function getAllFeedbacks(req, res) {
+  pool
+    .execute(
+      `SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio 
+      FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado`
+    )
+    .then(([rows, fieldData]) => {
+      res.status(200).send({ feedbacks: rows });
+    })
+    .catch((err) => {
+      res.status(500).send({ err });
+    });
+}
+
 async function postFeedback(req, res) {
   const { id_assistant, id_member } = req.params;
   const {
@@ -85,4 +99,9 @@ async function postFeedback(req, res) {
     });
 }
 
-module.exports = { getFeedback, getFeedbackHistory, postFeedback };
+module.exports = {
+  getFeedback,
+  getFeedbackHistory,
+  postFeedback,
+  getAllFeedbacks,
+};

@@ -56,7 +56,7 @@ const options = {
 export default function UserIndex() {
   return (
     <>
-      <h1 className="title -mt-2 mx-auto">Hola de nuevo!</h1>
+      <h1 className="title my-10 mx-auto">Hola de nuevo!</h1>
       <p className="text text-center w-3/4 mx-auto">
         Aqui esta un resumen de tu desempeño en las ultimas cuatro evaluaciones.
       </p>

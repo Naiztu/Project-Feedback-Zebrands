@@ -49,25 +49,13 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   return (
     <>
       <header className=" bg-slate-400/10 w-full pt-10 rounded-b-3xl">
-        <div
-          className="w-9/12 
-    mx-auto  flex p-5 flex-row space-x-6"
-        >
-          <div className="w-2/12 hidden md:inline ">
-            <img
-              src="/assets/avatar.jpg"
-              className=" avatar w-full"
-              alt="Avatar"
-            />
-          </div>
-          <div className="flex flex-col justify-center items-center w-10/12">
-            <h1 className=" text-4xl md:text-6xl font-bold text-center">
-              {isSaved ? "Mi feedback" : "Registrar Feedback"}
-            </h1>
-            <h2 className="mt-2 italic font-semibold">
-              Periodo Enero-Febrero 2020
-            </h2>
-          </div>
+        <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
+          <h1 className=" title">
+            {isSaved ? "Mi feedback" : "Registrar Feedback"}
+          </h1>
+          <h2 className="mt-1 mb-10 italic font-semibold">
+            Periodo Enero-Febrero 2020
+          </h2>
         </div>
       </header>
       <div className="text-center italic my-4 font-semibold  flex justify-between w-[290px] mx-auto">
