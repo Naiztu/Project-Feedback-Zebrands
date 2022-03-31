@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import Axios from "axios";
 
-export default function PlantillaFeed({ feedback, isSaved }) {
+export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   const {
     calificacion_craft,
     calificacion_personal,
@@ -18,12 +19,29 @@ export default function PlantillaFeed({ feedback, isSaved }) {
     const newFeed = { ...preFeedback };
     newFeed[e.target.name] = e.target.value;
     newFeed["calificacion_promedio"] = Math.min(
-      parseInt(newFeed.calificacion_business) + 1,
-      parseInt(newFeed.calificacion_personal) + 1,
-      parseInt(newFeed.calificacion_craft)
+      parseFloat(newFeed.calificacion_business) + 1,
+      parseFloat(newFeed.calificacion_personal) + 1,
+      parseFloat(newFeed.calificacion_craft)
     );
     setPreFeedback(newFeed);
   };
+
+  const id_assistant = 1
+
+  const registerFeed = async() => {
+    try {
+      const resultado = await Axios.post(`http://localhost:8080/feedback/${id_assistant}/${id_member}`, preFeedback)
+      if (res.status != 200) {
+        throw {
+          err: true,
+          status: res.status,
+          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
+        };
+      } else alert("Pregunta guardada");
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -173,7 +191,7 @@ export default function PlantillaFeed({ feedback, isSaved }) {
 
       {!isSaved && (
         <div className="w-9/12 flex items-center justify-center font-bold">
-          <button className="btn">Guardar</button>
+          <button className="btn" onClick={registerFeed}>Guardar</button>
         </div>
       )}
     </>
@@ -190,6 +208,7 @@ PlantillaFeed.defaultProps = {
     comentario_personal: "",
     comentario_craft: "",
     comentario_general: "",
+    id_periodo: 4,
   },
   isSaved: true,
 };

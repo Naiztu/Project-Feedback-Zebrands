@@ -18,17 +18,22 @@ async function getFeedback(req, res) {
     });
 }
 
-
 async function postFeedback(req, res) {
-  const id_assistant = req.params.id_assistant;
-  const id_member = req.params.id_member;
-  console.log(id_assistant);
-  console.log(id_member);
-
+  const { id_assistant, id_member } = req.params;
+  const {
+    calificacion_craft,
+    calificacion_personal,
+    calificacion_business,
+    calificacion_promedio,
+    comentario_craft,
+    comentario_personal,
+    comentario_business,
+    comentario_general,
+    id_periodo,
+  } = req.body;
 
   pool
     .execute(
-
       `INSERT INTO feedback (
         calificacion_craft,
         calificacion_personal,
@@ -43,24 +48,22 @@ async function postFeedback(req, res) {
         id_periodo
         )
         VALUES (
-            ${req.body.calificacion_craft},
-            ${req.body.calificacion_personal},
-            ${req.body.calificacion_business},
-            ${req.body.calificacion_promedio},
-            ${req.body.comentario_craft},
-            ${req.body.comentario_personal},
-            ${req.body.comentario_business},
-            ${req.body.comentario_general},
+            ${calificacion_craft},
+            ${calificacion_personal},
+            ${calificacion_business},
+            ${calificacion_promedio},
+           '${comentario_craft}',
+            '${comentario_personal}',
+            '${comentario_business}',
+            '${comentario_general}',
             ${id_member},
             ${id_assistant},
-            ${req.body.id_periodo}        
+            ${id_periodo}        
         )`
-
     )
     .then(() => {
-      console.log ("Si jala");
+      console.log("Si jala");
       res.status(200).end();
-  
     })
     .catch((err) => {
       res.status(500).send({ err });
@@ -68,6 +71,3 @@ async function postFeedback(req, res) {
 }
 
 module.exports = { getFeedback, postFeedback };
-
-
-
