@@ -9,6 +9,7 @@ const rutas_preguntas = require("./routes/preguntas.routes");
 const rutas_example = require("./routes/example.routes"); //Para probar cosas
 const rutas_assistant_list = require("./routes/assistant_list.routes"); //Para probar cosas
 const rutas_evaluar = require("./routes/evaluar.routes");
+const rutas_empleado = require("./routes/empleado.routes");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/preguntas", rutas_preguntas);
 app.use("/example", rutas_example);
 app.use("/assistant_list", rutas_assistant_list);
 app.use("/evaluar", rutas_evaluar);
+app.use("/empleado", rutas_empleado);
 
 //Server On
 app.listen(port);
