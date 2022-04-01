@@ -36,17 +36,20 @@ async function registraPregunta(req, res) {
 
 pool
   .execute(
-    `INSERT INTO banco_preguntas (
+    `
+    INSERT INTO banco_preguntas (
       pregunta,
       index_pregunta,
       nivel_pregunta,
       dimension_pregunta,
-       tipo_pregunta,
+      tipo_pregunta,
       id_chapter
       )
       VALUES (
          '${pregunta}',
-         ${index_pregunta},
+         (SELECT MAX(b2.index_pregunta)+1 
+  FROM banco_preguntas b2
+  WHERE b2.id_chapter=${id_chapter} AND b2.nivel_pregunta=${nivel_pregunta} AND b2.dimension_pregunta='${dimension_pregunta}'),
          ${nivel_pregunta},
          '${dimension_pregunta}',
          '${tipo_pregunta}',
