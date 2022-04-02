@@ -1,5 +1,5 @@
 const pool = require("../db");
-
+const {queryPostSolicitarEvaluaciones}  = require("../util/query");
 //Obtener feedback
 async function getEvaluarPendiente(req, res) {
   const { id_user, id_periodo } = req.params;
@@ -26,7 +26,7 @@ async function postAsignarCompaniero(req, res) {
 
   pool
     .execute(
-      `${generateQuery(
+      `${queryPostSolicitarEvaluaciones(
         lista_id_empleado_evaluador,
         id_empleado_evaluado,
         id_periodo
@@ -42,33 +42,5 @@ async function postAsignarCompaniero(req, res) {
     });
 }
 
-// Función para automatizar los POST de la función
-function generateQuery(lista_id_empleado_evaluador, id_evaluado, id_periodo) {
-  let s = `INSERT INTO evaluacion (
-      id_empleado_evaluador,
-      id_empleado_evaluado,
-      id_periodo,
-      estatus,
-      fecha_realizacion
-      )
-      VALUES`;
-  for (let i of lista_id_empleado_evaluador) {
-    s +=
-      "(" +
-      i +
-      "," +
-      id_evaluado +
-      "," +
-      id_periodo +
-      "," +
-      "'No Contestado'" +
-      "," +
-      "NULL" +
-      "),";
-  }
-  const query = s.slice(0, -1);
-
-  return query;
-}
 
 module.exports = { getEvaluarPendiente, postAsignarCompaniero };

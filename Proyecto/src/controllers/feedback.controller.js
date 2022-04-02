@@ -92,8 +92,7 @@ async function postFeedback(req, res) {
         )`
     )
     .then(() => {
-      console.log("Si jala");
-      res.status(200).end();
+      res.status(200).send({Message: "Si jala el post"}).end();
     })
     .catch((err) => {
       res.status(500).send({ err });
