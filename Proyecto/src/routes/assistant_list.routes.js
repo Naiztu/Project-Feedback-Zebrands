@@ -1,8 +1,6 @@
-const { Router } = require("express");
+import { Router } from "express";
 
-const {
-  getAssistantList,
-} = require("../controllers/assistant_list.controller");
+import { getAssistantList } from "../controllers/assistant_list.controller";
 
 const router = Router();
 

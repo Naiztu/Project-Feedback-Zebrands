@@ -1,27 +1,31 @@
 import pool from "../database/db";
+import Pregunta from "../models/preguntas.model";
 
 //Obtener preguntas
 export async function getPreguntas(req, res) {
-  const nivel = req.params.nivel;
-  const dimension = req.params.dimension;
+  const { nivel } = req.params;
+  const baseNivel = new Pregunta(0, nivel);
 
-  pool
-    .execute(
-      `SELECT * FROM banco_preguntas WHERE dimension_pregunta='${dimension}' and nivel_pregunta=${nivel};`
-    )
-    .then(([rows, fieldData]) => {
-      //Se envian todas las preguntas en rows
+  try {
+    const preguntas = await baseNivel.fetchAllToNivel();
+    res.status(200).send({ preguntas });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
+export async function getPreguntasDimension(req, res) {
+  const { nivel, dimension } = req.params;
+  const baseNivel = new Pregunta(0, nivel, dimension);
 
-      res.send({ preguntas: rows });
-    })
-    .catch((err) => {
-      res.status(500);
-      res.send({ err });
-    });
+  try {
+    const preguntas = await baseNivel.fetchAllToNivelWithDimension();
+    res.status(200).send({ preguntas });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 }
 
 export async function registraPregunta(req, res) {
-  //const id_user = req.params.id_user;
   const {
     pregunta,
     index_pregunta,
@@ -31,8 +35,8 @@ export async function registraPregunta(req, res) {
     id_chapter,
   } = req.body;
 
-  pool
-    .execute(
+  try {
+    const [rows, fields] = await pool.execute(
       `INSERT INTO banco_preguntas (
       pregunta,
       index_pregunta,
@@ -44,35 +48,31 @@ export async function registraPregunta(req, res) {
       VALUES (
          '${pregunta}',
          (SELECT MAX(b2.index_pregunta)+1 
-  FROM banco_preguntas b2
-  WHERE b2.id_chapter=${id_chapter} AND b2.nivel_pregunta=${nivel_pregunta} AND b2.dimension_pregunta='${dimension_pregunta}'),
+          FROM banco_preguntas b2
+          WHERE b2.id_chapter=${id_chapter} AND b2.nivel_pregunta=${nivel_pregunta} 
+          AND b2.dimension_pregunta='${dimension_pregunta}'),
          ${nivel_pregunta},
          '${dimension_pregunta}',
          '${tipo_pregunta}',
          ${id_chapter}
   )`
-    )
-    .then(() => {
-      console.log("Si jala registrar");
-      res.status(200).end();
-    })
-    .catch((err) => {
-      res.status(500);
-      res.send({ err });
-    });
+    );
+    res.status(200).send({ message: "post correct" });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 }
 
 export async function eliminaPregunta(req, res) {
-  const id_pregunta = req.params.id_pregunta;
+  const { id_pregunta } = req.params;
 
-  pool
-    .execute(`DELETE FROM banco_preguntas WHERE id_pregunta=${id_pregunta};`)
-    .then(() => {
-      console.log("Si jala eliminar");
-      res.status(200).end();
-    })
-    .catch((err) => {
-      res.status(500);
-      res.send({ err });
-    });
+  try {
+    const [rows, fields] = await pool.execute(
+      `DELETE FROM banco_preguntas WHERE id_pregunta=${id_pregunta};`
+    );
+
+    res.status(200).send({ message: "delete correct" });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 }

@@ -1,9 +1,9 @@
-const { Router } = require("express");
+import { Router } from "express";
 
-const {
+import {
   getEvaluarPendiente,
   postAsignarCompaniero,
-} = require("../controllers/evaluar.controller");
+} from "../controllers/evaluar.controller";
 
 const router = Router();
 
