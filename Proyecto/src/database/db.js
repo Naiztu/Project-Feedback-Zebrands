@@ -1,7 +1,7 @@
 //Conexion a la base de datos
 
-const { createPool } = require("mysql2");
-const { db } = require("./config");
+import { createPool } from "mysql2/promise";
+import { db } from "../config";
 
 const pool = createPool({
   host: db.host,
@@ -11,4 +11,4 @@ const pool = createPool({
   database: db.database,
 });
 
-module.exports = pool.promise();
+export default pool;

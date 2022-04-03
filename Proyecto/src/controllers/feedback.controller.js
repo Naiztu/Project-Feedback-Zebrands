@@ -1,54 +1,51 @@
-const pool = require("../db");
+import pool from "../database/db";
 
 //Obtener feedback
-async function getFeedback(req, res) {
-  const id_user = req.params.id_user;
-  const id_periodo = req.params.id_periodo;
+export async function getFeedback(req, res) {
+  const { id_user, id_periodo } = req.params;
 
-  pool
-    .execute(
+  try {
+    const [rows, fields] = await pool.execute(
       `SELECT * FROM feedback WHERE id_empleado_member = ${id_user} AND id_periodo = ${id_periodo}`
-    )
-    .then(([rows, fieldData]) => {
-      if (rows.length === 0) res.status(404).send({ feedback: rows[0] });
-      else res.status(200).send({ feedback: rows[0] });
-    })
-    .catch((err) => {
-      res.status(500).send({ err });
-    });
+    );
+    rows.length === 0
+      ? res.status(404).send({ feedback: rows[0] })
+      : res.status(200).send({ feedback: rows[0] });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 }
 
-async function getFeedbackHistory(req, res) {
+export async function getFeedbackHistory(req, res) {
   const { id_user } = req.params;
-  pool
-    .execute(
-      `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, F.id_periodo, F.calificacion_promedio, P.nombre_periodo
+  try {
+    const [rows] = await pool.execute(
+      `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, 
+      F.id_periodo, F.calificacion_promedio, P.nombre_periodo
       FROM feedback F, empleado E1, empleado E2, periodo P
-      WHERE F.id_empleado_member = E1.id_empleado AND F.id_empleado_assistant = E2.id_empleado AND F.id_periodo = P.id_periodo AND E1.id_empleado = ${id_user};`
-    )
-    .then(([rows, fieldData]) => {
-      res.status(200).send({ feedbacks: rows });
-    })
-    .catch((err) => {
-      res.status(500).send({ err });
-    });
+      WHERE F.id_empleado_member = E1.id_empleado AND 
+      F.id_empleado_assistant = E2.id_empleado AND 
+      F.id_periodo = P.id_periodo AND E1.id_empleado = ${id_user};`
+    );
+    res.status(200).send({ feedbacks: rows });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 }
 
-async function getAllFeedbacks(req, res) {
-  pool
-    .execute(
+export async function getAllFeedbacks(req, res) {
+  try {
+    const [rows, fields] = await pool.execute(
       `SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio 
       FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado`
-    )
-    .then(([rows, fieldData]) => {
-      res.status(200).send({ feedbacks: rows });
-    })
-    .catch((err) => {
-      res.status(500).send({ err });
-    });
+    );
+    res.status(200).send({ feedbacks: rows });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 }
 
-async function postFeedback(req, res) {
+export async function postFeedback(req, res) {
   const { id_assistant, id_member } = req.params;
   const {
     calificacion_craft,
@@ -62,8 +59,8 @@ async function postFeedback(req, res) {
     id_periodo,
   } = req.body;
 
-  pool
-    .execute(
+  try {
+    const [rows, fields] = await pool.execute(
       `INSERT INTO feedback (
         calificacion_craft,
         calificacion_personal,
@@ -90,18 +87,9 @@ async function postFeedback(req, res) {
             ${id_assistant},
             ${id_periodo}        
         )`
-    )
-    .then(() => {
-      res.status(200).send({Message: "Si jala el post"}).end();
-    })
-    .catch((err) => {
-      res.status(500).send({ err });
-    });
+    );
+    res.status(200).send({ message: "post correct" });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 }
-
-module.exports = {
-  getFeedback,
-  getFeedbackHistory,
-  postFeedback,
-  getAllFeedbacks,
-};
