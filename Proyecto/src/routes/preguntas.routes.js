@@ -1,7 +1,10 @@
 const { Router } = require("express");
 
-const { getPreguntas, registraPregunta, eliminaPregunta } = require("../controllers/preguntas.controller");
-
+const {
+  getPreguntas,
+  registraPregunta,
+  eliminaPregunta,
+} = require("../controllers/preguntas.controller");
 
 const router = Router();
 
@@ -11,5 +14,4 @@ router.post("/registra", registraPregunta);
 
 router.delete("/:id_pregunta", eliminaPregunta);
 
-
-module.exports = router;
+export default router;

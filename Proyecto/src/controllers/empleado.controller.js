@@ -1,4 +1,4 @@
-const pool = require("../db");
+const pool = require("../database/db");
 
 const getEmpleado = (req, res) => {
   const { id_empleado } = req.params;

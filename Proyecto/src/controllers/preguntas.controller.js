@@ -1,7 +1,7 @@
-const pool = require("../db");
+import pool from "../database/db";
 
 //Obtener preguntas
-async function getPreguntas(req, res) {
+export async function getPreguntas(req, res) {
   const nivel = req.params.nivel;
   const dimension = req.params.dimension;
 
@@ -20,7 +20,7 @@ async function getPreguntas(req, res) {
     });
 }
 
-async function registraPregunta(req, res) {
+export async function registraPregunta(req, res) {
   //const id_user = req.params.id_user;
   const {
     pregunta,
@@ -60,7 +60,7 @@ async function registraPregunta(req, res) {
     });
 }
 
-async function eliminaPregunta(req, res) {
+export async function eliminaPregunta(req, res) {
   const id_pregunta = req.params.id_pregunta;
 
   pool
@@ -74,5 +74,3 @@ async function eliminaPregunta(req, res) {
       res.send({ err });
     });
 }
-
-module.exports = { getPreguntas, registraPregunta, eliminaPregunta };

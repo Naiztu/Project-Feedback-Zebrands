@@ -1,4 +1,4 @@
-const pool = require("../db");
+const pool = require("../database/db");
 
 //Obtener feedback
 async function getEvaluarPendiente(req, res) {

@@ -12,4 +12,4 @@ router.get("/", getExample);
 
 router.put("/", updateExample);
 
-module.exports = router;
+export default router;

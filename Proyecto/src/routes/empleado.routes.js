@@ -5,4 +5,4 @@ const router = Router();
 
 router.get("/:id_empleado", getEmpleado);
 
-module.exports = router;
+export default router;

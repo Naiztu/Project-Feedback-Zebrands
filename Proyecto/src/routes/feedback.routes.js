@@ -14,4 +14,4 @@ router.get("/:id_user", getFeedbackHistory);
 router.get("/", getAllFeedbacks);
 router.post("/:id_assistant/:id_member", postFeedback);
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const pool = require("../db");
+import pool from "../database/db";
 
 //Obtener feedback
 async function getFeedback(req, res) {
@@ -20,18 +20,19 @@ async function getFeedback(req, res) {
 
 async function getFeedbackHistory(req, res) {
   const { id_user } = req.params;
-  pool
-    .execute(
-      `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, F.id_periodo, F.calificacion_promedio, P.nombre_periodo
+  try {
+    const [rows] = await pool.execute(
+      `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, 
+      F.id_periodo, F.calificacion_promedio, P.nombre_periodo
       FROM feedback F, empleado E1, empleado E2, periodo P
-      WHERE F.id_empleado_member = E1.id_empleado AND F.id_empleado_assistant = E2.id_empleado AND F.id_periodo = P.id_periodo AND E1.id_empleado = ${id_user};`
-    )
-    .then(([rows, fieldData]) => {
-      res.status(200).send({ feedbacks: rows });
-    })
-    .catch((err) => {
-      res.status(500).send({ err });
-    });
+      WHERE F.id_empleado_member = E1.id_empleado AND 
+      F.id_empleado_assistant = E2.id_empleado AND 
+      F.id_periodo = P.id_periodo AND E1.id_empleado = ${id_user};`
+    );
+    res.status(200).send({ feedbacks: rows });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
 }
 
 async function getAllFeedbacks(req, res) {
@@ -93,10 +94,10 @@ async function postFeedback(req, res) {
     )
     .then(() => {
       console.log("Si jala");
-      res.status(200).end();
+      res.status(200).send({ message: "post correct" }).end();
     })
     .catch((err) => {
-      res.status(500).send({ err });
+      res.status(500).send({ err }).end();
     });
 }
 
