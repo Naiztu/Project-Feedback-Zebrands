@@ -9,7 +9,7 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
   const getPreguntas = async () => {
     try {
       const res = await Axios.get(
-        `http://localhost:8080/preguntas/${Nivel}.0/${Dimension}`
+        `http://localhost:8080/preguntas/${Nivel}/${Dimension}`
       );
       console.log(res);
       if (res.status != 200) {
@@ -35,7 +35,7 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
     pregunta: "",
     index_pregunta: 0,
     nivel_pregunta: Nivel,
-    dimension: `${Dimension}`,
+    dimension: Dimension,
     tipo_pregunta: "abierta",
   };
 

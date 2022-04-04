@@ -5,23 +5,19 @@ import Axios from "axios";
 import Respuesta from "../../components/Respuesta";
 
 export default function Post() {
-  const level_craft = 1,
-    level_people = 1,
-    level_business = 1;
-
   const router = useRouter();
   const [evaluado, setEvaluado] = useState({});
   const [preguntasPeople, setPreguntasPeople] = useState([]);
   const [preguntasCraft, setPreguntasCraft] = useState([]);
   const [preguntasBusiness, setPreguntasBusiness] = useState([]);
 
-  const peticiones = [
-    `http://localhost:8080/preguntas/${level_craft}/craft`,
-    `http://localhost:8080/preguntas/${level_people}/people`,
-    `http://localhost:8080/preguntas/${level_business}/business`,
-  ];
+  const getPreguntas = async (nivel_business, nivel_craft, nivel_people) => {
+    const peticiones = [
+      `http://localhost:8080/preguntas/${Math.trunc(nivel_craft)}/craft`,
+      `http://localhost:8080/preguntas/${Math.trunc(nivel_people)}/people`,
+      `http://localhost:8080/preguntas/${Math.trunc(nivel_business)}/business`,
+    ];
 
-  const getPreguntas = async () => {
     try {
       const res = await Axios.all(peticiones.map((item) => Axios.get(item)));
       console.log({ res });
@@ -53,6 +49,8 @@ export default function Post() {
         };
       } else {
         setEvaluado(res.data.empleado);
+        const { nivel_business, nivel_craft, nivel_people } = res.data.empleado;
+        getPreguntas(nivel_business, nivel_craft, nivel_people);
       }
     } catch (err) {
       console.log({ err });
@@ -65,10 +63,6 @@ export default function Post() {
       getEvaluado(id);
     }
   }, [router.isReady]);
-
-  useEffect(() => {
-    getPreguntas();
-  }, []);
 
   return (
     <Layout>

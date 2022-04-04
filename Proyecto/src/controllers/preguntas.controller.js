@@ -35,6 +35,8 @@ export async function registraPregunta(req, res) {
     id_chapter,
   } = req.body;
 
+  console.log(req.body);
+
   try {
     const [rows, fields] = await pool.execute(
       `INSERT INTO banco_preguntas (
@@ -57,7 +59,7 @@ export async function registraPregunta(req, res) {
          ${id_chapter}
   )`
     );
-    res.status(200).send({ message: "post correct" });
+    res.status(200).send({ message: rows });
   } catch (err) {
     res.status(500).send({ err });
   }

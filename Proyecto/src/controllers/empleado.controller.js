@@ -4,7 +4,7 @@ export async function getEmpleado(req, res) {
   const { id_empleado } = req.params;
   try {
     const [rows, fields] = await pool.execute(
-      `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil 
+      `SELECT id_empleado, nombre, apellido_paterno, nivel_craft, nivel_people, nivel_business, imagen_perfil 
       FROM empleado WHERE id_empleado = ${id_empleado}`
     );
     rows.length === 0
