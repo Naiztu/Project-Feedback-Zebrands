@@ -1,10 +1,13 @@
-const { Router } = require("express");
+import { Router } from "express";
 
-const { getEvaluarPendiente, postAsignarCompaniero } = require("../controllers/evaluar.controller");
+import {
+  getEvaluarPendiente,
+  postAsignarCompaniero,
+} from "../controllers/evaluar.controller";
 
 const router = Router();
 
 router.get("/:id_periodo/:id_user", getEvaluarPendiente);
 router.post("/", postAsignarCompaniero);
 
-module.exports = router;
+export default router;

@@ -26,7 +26,7 @@ export default function OptionLead() {
               />
             </svg>
             <span className="pt-1 text-sm font-semibold hidden md:inline">
-              Feeedbacks
+              Feedbacks
             </span>
           </button>
         </li>

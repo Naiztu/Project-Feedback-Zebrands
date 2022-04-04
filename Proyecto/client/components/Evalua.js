@@ -7,8 +7,8 @@ export default function Evalua() {
   const [pendientes, setPendientes] = useState([]);
 
   const getPendientes = async () => {
-    const id_periodo = 1;
-    const id_user = 2;
+    const id_periodo = 20;
+    const id_user = 1;
     try {
       const res = await Axios.get(
         `http://localhost:8080/evaluar/${id_periodo}/${id_user}`

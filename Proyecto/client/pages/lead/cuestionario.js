@@ -5,7 +5,7 @@ import PreguntaDimension from "../../components/PreguntaDimension";
 export default function Cuestionario() {
   const [nivel, setNivel] = useState(1);
 
-  const dimensiones = ["craft", "people", "bussiness"];
+  const dimensiones = ["craft", "people", "business"];
 
   return (
     <Layout>

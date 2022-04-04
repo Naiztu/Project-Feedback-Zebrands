@@ -30,7 +30,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
 
   const registerFeed = async () => {
     try {
-      const resultado = await Axios.post(
+      const res = await Axios.post(
         `http://localhost:8080/feedback/${id_assistant}/${id_member}`,
         preFeedback
       );
@@ -40,7 +40,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
           status: res.status,
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
-      } else alert("Pregunta guardada");
+      } else alert("Feedback guardada");
     } catch (error) {
       console.log(error);
     }
