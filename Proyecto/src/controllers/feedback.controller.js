@@ -9,7 +9,7 @@ export async function getFeedback(req, res) {
       `SELECT * FROM feedback WHERE id_empleado_member = ${id_user} AND id_periodo = ${id_periodo}`
     );
     rows.length === 0
-      ? res.status(404).send({ feedback: rows[0] })
+      ? res.status(403).send({ feedback: rows[0] })
       : res.status(200).send({ feedback: rows[0] });
   } catch (err) {
     res.status(500).send({ err });

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashAlt, FaPencilAlt, FaSave } from "react-icons/fa";
+import swal from "sweetalert";
+import Axios from "axios";
 
 export default function Pregunta({ data, isSaved }) {
   const [isSave, setIsSave] = useState(isSaved);
@@ -12,13 +14,73 @@ export default function Pregunta({ data, isSaved }) {
   };
   const updateQuestion = () => {
     if (!isSave) {
-      alert("Pregunta guardada en la base de datos");
+      createQuestion();
       setIsSave(true);
     } else alert("Pregunta actualizada");
     setIsEdited(false);
   };
-  const deleteQuestion = () => {
-    alert("Pregunta eliminada");
+  const deleteQuestion = async () => {
+    const willDelete = await swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    });
+    if (willDelete) {
+      try {
+        const res = await Axios.delete(
+          `http://localhost:8080/preguntas/${data.id_pregunta}`
+        );
+        console.log({ res });
+        if (res.status != 200) {
+          throw {
+            err: true,
+            status: res.status,
+            statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
+          };
+        }
+        swal("Poof! Your imaginary file has been deleted!", {
+          icon: "success",
+        });
+      } catch (err) {
+        swal("Hubo un error", {
+          icon: "warning",
+        });
+      }
+    } else {
+      swal("Your imaginary file is safe!");
+    }
+  };
+
+  const createQuestion = async () => {
+    try {
+      const res = await Axios.post(
+        `http://localhost:8080/preguntas/registra`,
+        {
+          pregunta,
+          nivel_pregunta: data.nivel_pregunta,
+          dimension_pregunta: data.dimension,
+          tipo_pregunta: tipo,
+          id_chapter: 1,
+        }
+      );
+      console.log({ res });
+      if (res.status != 200) {
+        throw {
+          err: true,
+          status: res.status,
+          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
+        };
+      }
+      swal("Poof! Your imaginary file has been saved!", {
+        icon: "success",
+      });
+    } catch (err) {
+      swal("Hubo error", {
+        icon: "warning",
+      });
+    }
   };
 
   const options = [
