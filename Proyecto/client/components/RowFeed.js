@@ -1,46 +1,47 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 export default function RowFeed({ data }) {
+  const router = useRouter();
+  const {
+    imagen_perfil,
+    nombre,
+    apellido_paterno,
+    id_periodo,
+    calificacion_promedio,
+  } = data || {};
+
+  const redirectFeedback = () => {
+    router.push(`/feedback/${id_periodo}`);
+  };
   return (
-    <tr className="hover:bg-blue-400/20 active:scale-95 transition-all ease-in-out w-full">
+    <tr
+      onClick={redirectFeedback}
+      className="hover:bg-blue-400/20 active:scale-95 transition-all ease-in-out w-full cursor-pointer"
+    >
       <td className="p-2 whitespace-nowrap ">
-        <Link href={`/feedback/${data}`}>
-          <a className="w-full" target="_blank" rel="noreferrer">
-            <div className="flex items-center">
-              <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                <img
-                  className="rounded-full"
-                  src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-09.jpg"
-                  width={40}
-                  height={40}
-                  alt="Burak Long"
-                />
-              </div>
-              <div className="font-medium text-gray-800">Burak Long</div>
-            </div>
-          </a>
-        </Link>
+        <div className="flex items-center">
+          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+            <img
+              className="rounded-full"
+              src={imagen_perfil}
+              width={40}
+              height={40}
+              alt="Burak Long"
+            />
+          </div>
+          <div className="font-medium text-gray-800">
+            {nombre + " " + apellido_paterno}
+          </div>
+        </div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <Link href={`/feedback/${data}`}>
-          <a className="w-full" target="_blank" rel="noreferrer">
-            <div className="text-left">12/02/2020</div>
-          </a>
-        </Link>
+        <div className="text-left">{id_periodo}</div>
       </td>
-      <td className="h-full p-2 whitespace-nowrap hidden sm:flex items-center">
-        <Link href={`/feedback/${data}`}>
-          <a
-            className="w-full h-full flex items-center"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className=" h-full font-medium text-green-500 flex items-center">
-              2.4
-            </div>
-          </a>
-        </Link>
+      <td className=" p-2 whitespace-nowrap hidden sm:flex items-center">
+        <div className="h-10  font-medium text-green-500 flex items-center">
+          {calificacion_promedio}
+        </div>
       </td>
     </tr>
   );

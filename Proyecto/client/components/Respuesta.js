@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import { FaTrashAlt, FaPencilAlt, FaSave } from "react-icons/fa";
 
-export default function Respuesta({ data, isSaved }) {
-  const [isSave, setIsSave] = useState(isSaved);
-  const [isEdited, setIsEdited] = useState(!isSaved);
-  const [pregunta, setPregunta] = useState(data.pregunta);
-  const [tipo, setTipo] = useState(data.tipo_pregunta);
+export default function Respuesta({ info }) {
+  const [respuesta, setRespuesta] = useState({ ...info, contenido: "" });
 
   const handleEdit = () => {
     setIsEdited(true);
   };
-
 
   const options = [
     { label: "Nivel 1", value: 1 },
@@ -21,67 +16,80 @@ export default function Respuesta({ data, isSaved }) {
   ];
 
   const handleChange = (e) => {
-    setTipo(e.target.value);
+    const newRes = { ...respuesta };
+    newRes[e.target.name] = e.target.value;
+    setRespuesta(newRes);
   };
 
   return (
-    <div className="flex-col w-full mx-auto mt-9 px-6 py-4 bg-slate-500/10 rounded-lg">
-      <div className=" flex flex-row items-center justify-between space-x-2">
-        <p>Pregunta predeterminada 1</p>
-        <p>{pregunta}</p> 
-        {isEdited ? (
-          <select
-          className="ml-4"
-          value={tipo}
-          onChange={handleChange}
-          disabled={!isEdited}
-        >
-          {options.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        ) : (
-            <textarea
+    <div className="flex flex-col w-full mx-auto mt-9 px-6 py-4 bg-slate-500/10 rounded-lg  items-center space-y-6">
+      <h2 className="text-xl font-bold">{respuesta.pregunta}</h2>
+      <div className="w-11/12 flex justify-center mx-auto">
+        {respuesta.tipo_pregunta === "abierta" && (
+          <textarea
             type="text"
-            className="w-full h-full appearance-none bg-white border-none text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none rounded-md"
-            name="pregunta"
-            placeholder="Aqui va la respuesta"
-            id={data.id_pregunta}
-            value={pregunta}
-            onChange={(e) => setPregunta(e.target.value)}
+            className="text-center w-3/4 mx-auto h-20 appearance-none p-3 bg-white border-none text-gray-700  leading-tight focus:outline-none rounded-md"
+            name="contenido"
+            placeholder="Respuesta"
+            value={respuesta.contenido}
+            onChange={handleChange}
           />
         )}
-      </div>
-      <div className="w-full mx-auto bg-black/10 px-3 py-2 mt-2 rounded-md flex items-center">
-        <label>
-          <strong className="mr-2">Respuesta:</strong>
-          {isEdited ? (
-            <div>
-              <p>Respuesta:</p>
-            <select
-              className="ml-4"
-              value={tipo}
-              onChange={handleChange}
-              disabled={!isEdited}
+        {respuesta.tipo_pregunta === "numerica" && (
+          <div className="flex flex-row space-x-4 justify-center w-full">
+            <button
+              className="btn-option"
+              onClick={handleChange}
+              value="1"
+              name="contenido"
             >
-              {options.map((option, index) => (
-                <option key={index} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            </div>
-          ) : (
-            tipo
-          )}
-        </label>
-        
+              1
+            </button>
+            <button
+              className="btn-option"
+              onClick={handleChange}
+              value="2"
+              name="contenido"
+            >
+              2
+            </button>
+            <button
+              className="btn-option"
+              onClick={handleChange}
+              value="3"
+              name="contenido"
+            >
+              3
+            </button>
+            <button
+              className="btn-option"
+              onClick={handleChange}
+              value="4"
+              name="contenido"
+            >
+              4
+            </button>
+            <button
+              className="btn-option"
+              onClick={handleChange}
+              value="5"
+              name="contenido"
+            >
+              5
+            </button>
+          </div>
+        )}
+        {respuesta.tipo_pregunta === "calificacion" && (
+          <input
+            onChange={handleChange}
+            value={respuesta.contenido}
+            type="number"
+            className=" text-center w-3/4 md:w-1/2 h-12 appearance-none p-3 bg-white border-none text-gray-700 leading-tight focus:outline-none rounded-md"
+            placeholder="Calificación del 1 al 5 (puede llevar decimal)"
+            name="contenido"
+          />
+        )}
       </div>
     </div>
   );
 }
-Respuesta.defaultProps = {
-  isSaved: true,
-};

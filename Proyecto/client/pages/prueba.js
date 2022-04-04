@@ -1,14 +1,15 @@
+
+   
 import React from "react";
-import Respuesta from "../components/Respuesta";
+import DatosEmpleado from "../components/DatosEmpleado";
 
 export default function Prueba() {
   return (
     <>
 
-      <Respuesta data={2} key={2}/>
-      <Respuesta data={5} isSaved={false} key={2} />
+      <DatosEmpleado label={"nombre"} value={"Felipe Neduro"}/>
+      <DatosEmpleado label={5} value={5}/>
 
     </>
   );
 }
-

@@ -1,12 +1,17 @@
-const { Router } = require("express");
+import { Router } from "express";
 
-const { getPreguntas} = require("../controllers/preguntas.controller");
-
+import {
+  getPreguntas,
+  registraPregunta,
+  eliminaPregunta,
+  getPreguntasDimension,
+} from "../controllers/preguntas.controller";
 
 const router = Router();
 
-router.get("/:nivel/:dimension", getPreguntas);
+router.get("/:nivel", getPreguntas);
+router.get("/:nivel/:dimension", getPreguntasDimension);
+router.post("/registra", registraPregunta);
+router.delete("/:id_pregunta", eliminaPregunta);
 
-
-
-module.exports = router;
+export default router;
