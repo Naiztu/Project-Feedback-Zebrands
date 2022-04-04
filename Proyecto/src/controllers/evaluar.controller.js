@@ -4,6 +4,7 @@ import { Evaluar } from "../models/evaluar.model";
 export async function getEvaluarPendiente(req, res) {
   const { id_user, id_periodo } = req.params;
   const evalua = new Evaluar (id_user, id_periodo);
+  console.log(evalua)
   try {
     const data_evalua = await evalua.getDataEvaluarPendiente();
     res.send({data_evalua});

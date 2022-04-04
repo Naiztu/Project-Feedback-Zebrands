@@ -11,6 +11,7 @@ export class Evaluar{
     }
 
     async getDataEvaluarPendiente(){
+        console.log("xd")
         try{
             const[rows, fields] = await pool.execute(
                 `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil FROM empleado
