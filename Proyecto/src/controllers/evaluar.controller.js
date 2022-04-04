@@ -1,5 +1,4 @@
 import { Evaluar } from "../models/evaluar.model";
-import { queryPostSolicitarEvaluaciones } from "../util/query";
 
 //Obtener feedback
 export async function getEvaluarPendiente(req, res) {
@@ -16,16 +15,10 @@ export async function getEvaluarPendiente(req, res) {
 export async function postAsignarCompaniero(req, res) {
   const { lista_id_empleado_evaluador, id_empleado_evaluado, id_periodo } =
     req.body;
-
+  const post_evalua = new Evaluar(lista_id_empleado_evaluador, id_empleado_evaluado, id_periodo);
   try {
-    const [rows, fields] = pool.execute(
-      `${queryPostSolicitarEvaluaciones(
-        lista_id_empleado_evaluador,
-        id_empleado_evaluado,
-        id_periodo
-      )}`
-    );
-    res.status(200).end();
+    const data_post_evalua = await post_evalua.postDataAsignarCompaniero();
+    res.send({data_post_evalua});
   } catch (err) {
     res.status(500).send({ err });
   }
