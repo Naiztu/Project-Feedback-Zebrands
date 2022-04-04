@@ -76,3 +76,25 @@ export async function eliminaPregunta(req, res) {
     res.status(500).send({ err });
   }
 }
+
+export async function cambiaIndex(req, res) {
+  const { 
+
+    id_pregunta_origen,
+    id_pregunta_destino,
+    index_pregunta_destino
+
+  } = req.body;
+
+  try {
+    const [rows, fields] = await pool.execute(
+      `
+        CALL cambioIndex (${id_pregunta_origen}, ${id_pregunta_destino})
+      `
+    );
+
+    res.status(200).send({ message: "correct update" });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
