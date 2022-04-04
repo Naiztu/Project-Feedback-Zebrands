@@ -15,7 +15,7 @@ export class Evaluar{
             const[rows, fields] = await pool.execute(
                 `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil FROM empleado
                 where id_empleado in (SELECT E.id_empleado_evaluado FROM evaluacion E 
-                WHERE id_periodo = ${id_periodo} AND id_empleado_evaluador = ${id_user} 
+                WHERE id_periodo = ${this.id_periodo} AND id_empleado_evaluador = ${this.id_user} 
                 AND estatus = "No Contestado");`
             );
             return rows;
@@ -28,9 +28,9 @@ export class Evaluar{
         try{
             const[rows, fields] = await pool.execute(
                 `${queryPostSolicitarEvaluaciones(
-                    lista_id_empleado_evaluador,
-                    id_empleado_evaluado,
-                    id_periodo
+                    this.lista_id_empleado_evaluador,
+                    this.id_empleado_evaluado,
+                    this.id_periodo
                   )}`
             );
             return rows;
