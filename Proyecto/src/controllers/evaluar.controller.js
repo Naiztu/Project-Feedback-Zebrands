@@ -14,9 +14,10 @@ export async function getEvaluarPendiente(req, res) {
 }
 
 export async function postAsignarCompaniero(req, res) {
-  const { lista_id_empleado_evaluador, id_empleado_evaluado, id_periodo } =
+  const { lista_id_empleado_evaluador, id_periodo, id_empleado_evaluado } =
     req.body;
-  const post_evalua = new Evaluar(lista_id_empleado_evaluador, id_empleado_evaluado, id_periodo);
+  const post_evalua = new Evaluar(lista_id_empleado_evaluador, id_periodo, id_empleado_evaluado);
+  console.log(post_evalua);
   try {
     const data_post_evalua = await post_evalua.postDataAsignarCompaniero();
     res.send({data_post_evalua});
