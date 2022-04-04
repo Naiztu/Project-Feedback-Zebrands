@@ -83,8 +83,7 @@ export async function cambiaIndex(req, res) {
   const { 
 
     id_pregunta_origen,
-    id_pregunta_destino,
-    index_pregunta_destino
+    id_pregunta_destino
 
   } = req.body;
 
@@ -95,7 +94,31 @@ export async function cambiaIndex(req, res) {
       `
     );
 
-    res.status(200).send({ message: "correct update" });
+    res.status(200).send({ message: "correct update index" });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
+
+export async function updatePregunta(req, res) {
+  const { 
+
+    id_pregunta,
+    pregunta,
+    tipo_pregunta
+
+  } = req.body;
+
+  try {
+    const [rows, fields] = await pool.execute(
+      `
+      UPDATE banco_preguntas 
+      SET pregunta = '${pregunta}', tipo_pregunta = '${tipo_pregunta}' 
+      WHERE banco_preguntas.id_pregunta = ${id_pregunta}
+      `
+    );
+
+    res.status(200).send({ message: "correct update pregunta" });
   } catch (err) {
     res.status(500).send({ err });
   }
