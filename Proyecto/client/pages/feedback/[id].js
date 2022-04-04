@@ -5,10 +5,11 @@ import Axios from "axios";
 import PlantillaFeed from "../../components/PlantillaFeed";
 import Layout from "../../components/Layout";
 import Evaluaciones from "../../components/Evaluaciones";
+import Lista from "../../components/Lista";
 
 export default function Post() {
   //Debe ser el numero del periodo al que corresponde el feedback
-  const dat = [1, 2, 3, 4];
+
   const router = useRouter();
 
   const initialFeed = {

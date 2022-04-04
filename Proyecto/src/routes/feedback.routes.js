@@ -1,11 +1,11 @@
-const { Router } = require("express");
+import { Router } from "express";
 
-const {
+import {
   getFeedback,
   getFeedbackHistory,
   postFeedback,
   getAllFeedbacks,
-} = require("../controllers/feedback.controller");
+} from "../controllers/feedback.controller";
 
 const router = Router();
 
@@ -14,4 +14,4 @@ router.get("/:id_user", getFeedbackHistory);
 router.get("/", getAllFeedbacks);
 router.post("/:id_assistant/:id_member", postFeedback);
 
-module.exports = router;
+export default router;

@@ -1,9 +1,14 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useUser } from "../context/userContext";
 import Navbar from "./Navbar";
 
 export default function Layout({ children }) {
   const router = useRouter();
+  const {
+    user: { id_rol },
+  } = useUser();
+
   return (
     <>
       <Head>
@@ -19,11 +24,12 @@ export default function Layout({ children }) {
         <div
           type="button"
           onClick={() => {
-            router.push("/user");
+            if (id_rol === 1) router.push("/lead");
+            else router.push("/user");
           }}
           className="group bg-black h-20 w-20 fixed right-0 bottom-0 text-white flex items-center justify-center m-3 rounded-full font-bold text-4xl cursor-pointer active:scale-90 transition-all ease-in-out"
         >
-          {router.pathname === "/user" ? (
+          {router.pathname === "/user" || router.pathname === "/lead" ? (
             <p>4.5</p>
           ) : (
             <svg
@@ -41,7 +47,8 @@ export default function Layout({ children }) {
         <div
           className="fixed top-0 right-0 m-3 w-6 cursor-pointer"
           onClick={() => {
-            router.push("/user");
+            if (id_rol === 1) router.push("/lead");
+            else router.push("/user");
           }}
         >
           <span className="flex h-3 w-3 z-50 ">
