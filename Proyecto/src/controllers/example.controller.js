@@ -1,6 +1,6 @@
 //Controlador que relaciona con la base de datos
 const dotenv = require("dotenv").config();
-const Preguntas = require('../models/preguntas');
+const Preguntas = require('../models/preguntas.model');
 
 
 const getExample = (req, res) => {

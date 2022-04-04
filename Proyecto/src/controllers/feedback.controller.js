@@ -1,10 +1,13 @@
 const pool = require("../db");
+const {Feedback} = require('../models/feedback.model');
 
 //Obtener feedback
 async function getFeedback(req, res) {
   const id_user = req.params.id_user;
   const id_periodo = req.params.id_periodo;
 
+  feedback=new Feedback(id_user,  id_periodo);
+  console.log(feedback);
   pool
     .execute(
       `SELECT * FROM feedback WHERE id_empleado_member = ${id_user} AND id_periodo = ${id_periodo}`
