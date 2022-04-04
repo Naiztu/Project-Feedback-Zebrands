@@ -14,6 +14,6 @@ router.get("/:nivel", getPreguntas);
 router.get("/:nivel/:dimension", getPreguntasDimension);
 router.post("/registra", registraPregunta);
 router.delete("/:id_pregunta", eliminaPregunta);
-router.post("/index", cambiaIndex);
+router.put("/index", cambiaIndex);
 
 export default router;
