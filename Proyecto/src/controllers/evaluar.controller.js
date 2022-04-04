@@ -1,18 +1,13 @@
-import pool from "../database/db";
+import { Evaluar } from "../models/evaluar.model";
 import { queryPostSolicitarEvaluaciones } from "../util/query";
 
 //Obtener feedback
 export async function getEvaluarPendiente(req, res) {
   const { id_user, id_periodo } = req.params;
-
+  const evalua = new Evaluar (id_user, id_periodo);
   try {
-    const [rows, fields] = await pool.execute(
-      `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil FROM empleado
-      where id_empleado in (SELECT E.id_empleado_evaluado FROM evaluacion E 
-        WHERE id_periodo = ${id_periodo} AND id_empleado_evaluador = ${id_user} 
-        AND estatus = "No Contestado");`
-    );
-    res.status(200).send({ pendientes: rows });
+    const data_evalua = await evalua.getDataEvaluarPendiente();
+    res.send({data_evalua});
   } catch (err) {
     res.status(500).send({ err });
   }
