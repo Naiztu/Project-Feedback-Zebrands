@@ -20,7 +20,7 @@ export default function Evalua() {
           status: res.status,
           statutText: !res.statusText ? "Error" : res.statusText,
         };
-      } else setPendientes(res.data.pendientes);
+      } else setPendientes(res.data.data_evalua);
     } catch (err) {
       console.log(err);
     }
