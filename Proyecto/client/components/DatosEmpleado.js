@@ -83,7 +83,6 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
                 name="nombre_member"
                 placeholder="Nombre del member"
                 onChange={(e) => setPreInfo(e.target.value)}
-                id={info.id_empleado}
 
               ></textarea>
             )}
@@ -306,8 +305,8 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
 
 DatosEmpleado.defaultProps = {
   info: {
-    nombre_member: "",
-    apellidopaterno_member: "",
+    nombre_member: "Felipe",
+    apellidopaterno_member: "Neduro",
     apellidomaterno_member: "",
     correo_member: "" ,
     contraseña_member: "",
@@ -316,6 +315,6 @@ DatosEmpleado.defaultProps = {
     equipo_member: "",
     lead_member: ""
   },
-  isSaved: false,
+  isSaved: true,
 };
 
