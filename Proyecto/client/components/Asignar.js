@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import ButtonAsignar from "./ButtonAsignar";
@@ -6,16 +7,11 @@ export default function Asignar() {
   const [info, setInfo] = useState([]);
   const [info2, setInfo2] = useState([]);
   useEffect(() => {
-    fetch("https://reqres.in/api/users?page=1")
-      .then((response) => {
-        return response.json();
-      })
-      .then((dat) => setInfo(info.concat(dat.data)));
-    fetch("https://reqres.in/api/users?page=2")
-      .then((response) => {
-        return response.json();
-      })
-      .then((dat) => setInfo2(info2.concat(dat.data)));
+    try {
+      const res = await Axios.get("https://reqres.in/api/users?page=1");
+      setInfo(info.concat(dat.data));
+    } catch (err) {}
+    
   }, []);
 
   return (

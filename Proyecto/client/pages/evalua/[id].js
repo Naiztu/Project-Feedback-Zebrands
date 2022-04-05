@@ -48,8 +48,9 @@ export default function Post() {
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
       } else {
-        setEvaluado(res.data.empleado);
-        const { nivel_business, nivel_craft, nivel_people } = res.data.empleado;
+        setEvaluado(res.data.data_empleado);
+        const { nivel_business, nivel_craft, nivel_people } =
+          res.data.data_empleado;
         getPreguntas(nivel_business, nivel_craft, nivel_people);
       }
     } catch (err) {

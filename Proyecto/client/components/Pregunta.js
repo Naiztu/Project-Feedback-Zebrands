@@ -16,11 +16,8 @@ export default function Pregunta({ data, isSaved }) {
     if (!isSave) {
       createQuestion();
       setIsSave(true);
-      setIsEdited(false);
-    } else {
-      updateQuestion();
-      setIsEdited(false);
-    }
+    } else updateQuestion();
+    setIsEdited(false);
   };
   const deleteQuestion = async () => {
     const willDelete = await swal({
@@ -33,7 +30,7 @@ export default function Pregunta({ data, isSaved }) {
     if (willDelete) {
       try {
         const res = await Axios.delete(
-          `${process.env.HOSTBACK}preguntas/${data.id_pregunta}`
+          `${process.env.HOSTBACK}/preguntas/${data.id_pregunta}`
         );
         console.log({ res });
         if (res.status != 200) {

@@ -1,48 +1,75 @@
-import { get_AllFeedbacks, get_Feedback, get_FeedbackHistory, post_Feedback } from "../models/feedback.model";
+import {
+  get_AllFeedbacks,
+  get_Feedback,
+  get_FeedbackHistory,
+  post_Feedback,
+} from "../models/feedback.model";
 
-export async function getFeedback(req, res){
-  const{ id_user, id_periodo } = req.params;
-  const feedback = new get_Feedback (id_user, id_periodo);
-  try{
+export async function getFeedback(req, res) {
+  const { id_user, id_periodo } = req.params;
+  const feedback = new get_Feedback(id_user, id_periodo);
+  try {
     const data_feedback = await feedback.getDataFeedback();
-    res.send({data_feedback});
-  }catch (err) {
-    res.status(500).send({err});
+    res.send({ data_feedback });
+  } catch (err) {
+    res.status(500).send({ err });
   }
 }
 
-export async function getFeedbackHistory(req, res){
-  const{ id_user } = req.params;
-  const feedbackHistory = new get_FeedbackHistory (id_user);
-  try{
+export async function getFeedbackHistory(req, res) {
+  const { id_user } = req.params;
+  const feedbackHistory = new get_FeedbackHistory(id_user);
+  try {
     const data_feedbackHistory = await feedbackHistory.getDataHistoryFeedback();
-    res.send({data_feedbackHistory});
-  }catch (err) {
-    res.status(500).send({err});
+    res.status(200).send({ data_feedbackHistory });
+  } catch (err) {
+    res.status(500).send({ err });
   }
 }
 
-export async function getAllFeedbacks(req, res){
-  try{
-    const data_feedbackAll = await get_AllFeedbacks.getDataAllFeedback(); 
-    res.send({data_feedbackAll});
-  }catch (err) {
-    res.status(500).send({err});
+export async function getAllFeedbacks(req, res) {
+  try {
+    const data_feedbackAll = await get_AllFeedbacks.getDataAllFeedback();
+    res.send({ data_feedbackAll });
+  } catch (err) {
+    res.status(500).send({ err });
   }
-  
 }
 
-export async function postFeedback(req, res){
-  const { calificacion_craft, calificacion_personal, calificacion_business, calificacion_promedio, comentario_craft, comentario_personal, comentario_business, comentario_general, id_member, id_assistant, id_periodo } = req.body;
-  const postfeedback = new post_Feedback (calificacion_craft, calificacion_personal, calificacion_business, calificacion_promedio, comentario_craft, comentario_personal, comentario_business, comentario_general, id_member, id_assistant, id_periodo); 
-  try{
+export async function postFeedback(req, res) {
+  const {
+    calificacion_craft,
+    calificacion_personal,
+    calificacion_business,
+    calificacion_promedio,
+    comentario_craft,
+    comentario_personal,
+    comentario_business,
+    comentario_general,
+    id_member,
+    id_assistant,
+    id_periodo,
+  } = req.body;
+  const postfeedback = new post_Feedback(
+    calificacion_craft,
+    calificacion_personal,
+    calificacion_business,
+    calificacion_promedio,
+    comentario_craft,
+    comentario_personal,
+    comentario_business,
+    comentario_general,
+    id_member,
+    id_assistant,
+    id_periodo
+  );
+  try {
     const data_post_feedback = await postfeedback.postDataFeedback();
-    res.send({data_post_feedback});
-  }catch (err){
-    res.status(500).send({err});
+    res.send({ data_post_feedback });
+  } catch (err) {
+    res.status(500).send({ err });
   }
 }
-
 
 // import pool from "../database/db";
 
@@ -66,11 +93,11 @@ export async function postFeedback(req, res){
 //   const { id_user } = req.params;
 //   try {
 //     const [rows] = await pool.execute(
-//       `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, 
+//       `SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno,
 //       F.id_periodo, F.calificacion_promedio, P.nombre_periodo
 //       FROM feedback F, empleado E1, empleado E2, periodo P
-//       WHERE F.id_empleado_member = E1.id_empleado AND 
-//       F.id_empleado_assistant = E2.id_empleado AND 
+//       WHERE F.id_empleado_member = E1.id_empleado AND
+//       F.id_empleado_assistant = E2.id_empleado AND
 //       F.id_periodo = P.id_periodo AND E1.id_empleado = ${id_user};`
 //     );
 //     res.status(200).send({ feedbacks: rows });
@@ -82,7 +109,7 @@ export async function postFeedback(req, res){
 // export async function getAllFeedbacks(req, res) {
 //   try {
 //     const [rows, fields] = await pool.execute(
-//       `SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio 
+//       `SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio
 //       FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado`
 //     );
 //     res.status(200).send({ feedbacks: rows });
@@ -102,7 +129,7 @@ export async function postFeedback(req, res){
 //     comentario_business,
 //     comentario_general,
 //     id_member,
-//     id_assistant, 
+//     id_assistant,
 //     id_periodo,
 //   } = req.body;
 
@@ -132,7 +159,7 @@ export async function postFeedback(req, res){
 //             '${comentario_general}',
 //             ${id_member},
 //             ${id_assistant},
-//             ${id_periodo}        
+//             ${id_periodo}
 //         )`
 //     );
 //     res.status(200).send({ message: "post correct" });
