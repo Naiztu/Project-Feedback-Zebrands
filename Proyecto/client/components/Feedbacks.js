@@ -8,17 +8,18 @@ export default function Feedbacks() {
   const getFeedbacks = async () => {
     const id_user = 1;
     try {
-      const res = await Axios.get(`${process.env.HOSTBACK}/feedback/${id_user}`);
-      console.log(res);
+      const res = await Axios.get(
+        `${process.env.HOSTBACK}/feedback/${id_user}`
+      );
       if (res.status != 200) {
         throw {
           err: true,
           status: res.status,
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
-      } else setFeedbacks(res.data.feedbacks);
+      } else setFeedbacks(res.data.data_feedbackHistory);
     } catch (err) {
-      console.log(err);
+      console.log({ err });
     }
   };
 

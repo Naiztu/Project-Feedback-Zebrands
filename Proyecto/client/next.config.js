@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    HOSTBACK: 'http://localhost:8080',
+    HOSTBACK: "http://localhost:8080",
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

@@ -16,11 +16,8 @@ export default function Pregunta({ data, isSaved }) {
     if (!isSave) {
       createQuestion();
       setIsSave(true);
-      setIsEdited(false);
-    } else {
-      updateQuestion();
-      setIsEdited(false);
-    }
+    } else updateQuestion();
+    setIsEdited(false);
   };
   const deleteQuestion = async () => {
     const willDelete = await swal({

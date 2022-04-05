@@ -19,7 +19,7 @@ export default function MemberAsignados() {
           status: res.status,
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
-      } else setInfo(res.data.members);
+      } else setInfo(res.data.data_members);
     } catch (error) {
       console.log(error);
     }
