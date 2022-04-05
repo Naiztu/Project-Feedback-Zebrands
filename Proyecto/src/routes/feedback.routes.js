@@ -12,6 +12,6 @@ const router = Router();
 router.get("/:id_user/:id_periodo", getFeedback);
 router.get("/:id_user", getFeedbackHistory);
 router.get("/", getAllFeedbacks);
-router.post("/:id_assistant/:id_member", postFeedback);
+router.post("/", postFeedback);
 
 export default router;

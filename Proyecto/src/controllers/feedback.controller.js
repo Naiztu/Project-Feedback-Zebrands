@@ -46,7 +46,6 @@ export async function getAllFeedbacks(req, res) {
 }
 
 export async function postFeedback(req, res) {
-  const { id_assistant, id_member } = req.params;
   const {
     calificacion_craft,
     calificacion_personal,
@@ -56,6 +55,8 @@ export async function postFeedback(req, res) {
     comentario_personal,
     comentario_business,
     comentario_general,
+    id_member,
+    id_assistant, 
     id_periodo,
   } = req.body;
 
