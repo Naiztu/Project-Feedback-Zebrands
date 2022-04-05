@@ -1,12 +1,12 @@
 export function queryPostSolicitarEvaluaciones(
   lista_id_empleado_evaluador,
-  id_periodo,
-  id_evaluado
+  id_evaluado,
+  id_periodo
 ) {
   let s = `INSERT INTO evaluacion (
         id_empleado_evaluador,
-        id_periodo,
         id_empleado_evaluado,
+        id_periodo,
         estatus,
         fecha_realizacion
         )
@@ -16,9 +16,9 @@ export function queryPostSolicitarEvaluaciones(
       "(" +
       i +
       "," +
-      id_periodo +
-      "," +
       id_evaluado +
+      "," +
+      id_periodo +
       "," +
       "'No Contestado'" +
       "," +
