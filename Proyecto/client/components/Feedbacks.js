@@ -8,7 +8,7 @@ export default function Feedbacks() {
   const getFeedbacks = async () => {
     const id_user = 1;
     try {
-      const res = await Axios.get(`${process.env.HOSTBACK}feedback/${id_user}`);
+      const res = await Axios.get(`${process.env.HOSTBACK}/feedback/${id_user}`);
       console.log(res);
       if (res.status != 200) {
         throw {
