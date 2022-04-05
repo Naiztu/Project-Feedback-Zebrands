@@ -16,4 +16,7 @@ export class Empleado{
             throw{ err };
         }
     }
+
+   
+
 }

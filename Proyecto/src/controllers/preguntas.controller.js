@@ -1,13 +1,12 @@
-import pool from "../database/db";
-import Pregunta from "../models/preguntas.model";
+import {Pregunta} from "../models/preguntas.model";
 
 //Obtener preguntas
 export async function getPreguntas(req, res) {
   const { nivel } = req.params;
-  const baseNivel = new Pregunta(0, nivel);
+ 
 
   try {
-    const preguntas = await baseNivel.fetchAllToNivel();
+    const preguntas = await Pregunta.fetchAllToNivel(nivel);
     res.status(200).send({ preguntas });
   } catch (err) {
     res.status(500).send({ err });
@@ -15,10 +14,9 @@ export async function getPreguntas(req, res) {
 }
 export async function getPreguntasDimension(req, res) {
   const { nivel, dimension } = req.params;
-  const baseNivel = new Pregunta(0, nivel, dimension);
 
   try {
-    const preguntas = await baseNivel.fetchAllToNivelWithDimension();
+    const preguntas = await Pregunta.fetchAllToNivelWithDimension(nivel,dimension);
     res.status(200).send({ preguntas });
   } catch (err) {
     res.status(500).send({ err });
@@ -28,51 +26,34 @@ export async function getPreguntasDimension(req, res) {
 export async function registraPregunta(req, res) {
   const {
     pregunta,
-    index_pregunta,
     nivel_pregunta,
     dimension_pregunta,
     tipo_pregunta,
-    id_chapter,
+    id_chapter
   } = req.body;
 
-  console.log(req.body);
+  const nueva_pregunta = new Pregunta(0, pregunta,
+    nivel_pregunta,
+    dimension_pregunta,
+    tipo_pregunta,
+    id_chapter);
 
-  try {
-    const [rows, fields] = await pool.execute(
-      `INSERT INTO banco_preguntas (
-      pregunta,
-      index_pregunta,
-      nivel_pregunta,
-      dimension_pregunta,
-      tipo_pregunta,
-      id_chapter
-      )
-      VALUES (
-         '${pregunta}',
-         (SELECT MAX(b2.index_pregunta)+1 
-          FROM banco_preguntas b2
-          WHERE b2.id_chapter=${id_chapter} AND b2.nivel_pregunta=${nivel_pregunta} 
-          AND b2.dimension_pregunta='${dimension_pregunta}'),
-         ${nivel_pregunta},
-         '${dimension_pregunta}',
-         '${tipo_pregunta}',
-         ${id_chapter}
-  )`
-    );
-    res.status(200).send({ message: rows });
+
+  console.log(nueva_pregunta);
+  try{
+  const data = await nueva_pregunta.post_pregunta();
+    res.status(200).send({ message: data });
   } catch (err) {
     res.status(500).send({ err });
   }
+
 }
 
 export async function eliminaPregunta(req, res) {
   const { id_pregunta } = req.params;
 
   try {
-    const [rows, fields] = await pool.execute(
-      `DELETE FROM banco_preguntas WHERE id_pregunta=${id_pregunta};`
-    );
-
+   Pregunta.deletePregunta(id_pregunta);
     res.status(200).send({ message: "delete correct" });
   } catch (err) {
     res.status(500).send({ err });
@@ -88,12 +69,7 @@ export async function cambiaIndex(req, res) {
   } = req.body;
 
   try {
-    const [rows, fields] = await pool.execute(
-      `
-        CALL cambioIndex (${id_pregunta_origen}, ${id_pregunta_destino})
-      `
-    );
-
+   Pregunta.changeIndex(id_pregunta_origen,id_pregunta_destino);
     res.status(200).send({ message: "correct update index" });
   } catch (err) {
     res.status(500).send({ err });
@@ -109,15 +85,15 @@ export async function updatePregunta(req, res) {
 
   } = req.body;
 
-  try {
-    const [rows, fields] = await pool.execute(
-      `
-      UPDATE banco_preguntas 
-      SET pregunta = '${pregunta}', tipo_pregunta = '${tipo_pregunta}' 
-      WHERE banco_preguntas.id_pregunta = ${id_pregunta}
-      `
-    );
+  const nueva_pregunta = new Pregunta(id_pregunta, pregunta,
+    0,
+   "",
+    tipo_pregunta,
+    0);
 
+  try {
+    const data=nueva_pregunta.update_Pregunta();
+    console.log(data);
     res.status(200).send({ message: "correct update pregunta" });
   } catch (err) {
     res.status(500).send({ err });
