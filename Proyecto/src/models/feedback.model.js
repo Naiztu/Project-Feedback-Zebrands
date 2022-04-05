@@ -1,6 +1,6 @@
 import pool from "../database/db";
 
-export class getFeedback{
+export class get_Feedback{
     constructor(_id_user, _id_periodo){
         this.id_user = _id_user;
         this.id_periodo = _id_periodo;
@@ -18,7 +18,7 @@ export class getFeedback{
     }
 }
 
-export class getFeedbackHistory{
+export class get_FeedbackHistory{
     constructor(_id_user){
         this.id_user = _id_user;
     }
@@ -40,7 +40,7 @@ export class getFeedbackHistory{
     }
 }
 
-export class getAllFeedbacks{
+export class get_AllFeedbacks{
     static async getDataAllFeedback(){
         try{
             const[rows, fields] = await pool.execute(
@@ -54,7 +54,7 @@ export class getAllFeedbacks{
     }
 }
 
-export class postFeedback{
+export class post_Feedback{
     constructor(_calificacion_craft, _calificacion_personal, _calificacion_business, _calificacion_promedio, _comentario_craft, _comentario_personal, _comentario_business, _comentario_general, _id_member, _id_assistant, _id_periodo,){
         this.calificacion_craft = _calificacion_craft;
         this.calificacion_personal = _calificacion_personal;

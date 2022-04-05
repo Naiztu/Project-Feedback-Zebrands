@@ -1,6 +1,5 @@
 import { getEvaluar, postEvaluar } from "../models/evaluar.model";
 
-//Obtener feedback
 export async function getEvaluarPendiente(req, res) {
   const { id_user, id_periodo } = req.params;
   const evalua = new getEvaluar (id_user, id_periodo);
