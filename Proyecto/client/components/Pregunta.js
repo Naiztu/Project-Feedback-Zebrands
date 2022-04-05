@@ -12,12 +12,15 @@ export default function Pregunta({ data, isSaved }) {
   const handleEdit = () => {
     setIsEdited(true);
   };
-  const updateQuestion = () => {
+  const handleQuestion = () => {
     if (!isSave) {
       createQuestion();
       setIsSave(true);
-    } else alert("Pregunta actualizada");
-    setIsEdited(false);
+      setIsEdited(false);
+    } else {
+      updateQuestion();
+      setIsEdited(false);
+    }
   };
   const deleteQuestion = async () => {
     const willDelete = await swal({
@@ -30,7 +33,7 @@ export default function Pregunta({ data, isSaved }) {
     if (willDelete) {
       try {
         const res = await Axios.delete(
-          `http://localhost:8080/preguntas/${data.id_pregunta}`
+          `${process.env.HOSTBACK}preguntas/${data.id_pregunta}`
         );
         console.log({ res });
         if (res.status != 200) {
@@ -56,13 +59,41 @@ export default function Pregunta({ data, isSaved }) {
   const createQuestion = async () => {
     try {
       const res = await Axios.post(
-        `http://localhost:8080/preguntas/registra`,
+        `${process.env.HOSTBACK}preguntas/registra`,
         {
           pregunta,
           nivel_pregunta: data.nivel_pregunta,
           dimension_pregunta: data.dimension,
           tipo_pregunta: tipo,
           id_chapter: 1,
+        }
+      );
+      console.log({ res });
+      if (res.status != 200) {
+        throw {
+          err: true,
+          status: res.status,
+          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
+        };
+      }
+      swal("Poof! Your imaginary file has been saved!", {
+        icon: "success",
+      });
+    } catch (err) {
+      swal("Hubo error", {
+        icon: "warning",
+      });
+    }
+  };
+
+  const updateQuestion = async () => {
+    try {
+      const res = await Axios.put(
+        `${process.env.HOSTBACK}preguntas/descripcion`,
+        {
+          id_pregunta: data.id_pregunta,
+          pregunta,
+          tipo_pregunta: tipo,
         }
       );
       console.log({ res });
@@ -111,7 +142,7 @@ export default function Pregunta({ data, isSaved }) {
         <div className=" flex flex-col space-y-3">
           <button
             className="btn"
-            onClick={isEdited ? updateQuestion : handleEdit}
+            onClick={isEdited ? handleQuestion : handleEdit}
           >
             {isEdited ? <FaSave /> : <FaPencilAlt />}
           </button>
