@@ -16,7 +16,7 @@ export default function Feedbacks() {
           status: res.status,
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
-      } else setFeedbacks(res.data.feedbacks);
+      } else setFeedbacks(res.data.data_feedbackAll);
     } catch (err) {
       console.log(err);
     }

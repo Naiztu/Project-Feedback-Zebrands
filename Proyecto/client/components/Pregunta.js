@@ -56,7 +56,7 @@ export default function Pregunta({ data, isSaved }) {
   const createQuestion = async () => {
     try {
       const res = await Axios.post(
-        `${process.env.HOSTBACK}preguntas/registra`,
+        `${process.env.HOSTBACK}/preguntas/registra`,
         {
           pregunta,
           nivel_pregunta: data.nivel_pregunta,
@@ -86,7 +86,7 @@ export default function Pregunta({ data, isSaved }) {
   const updateQuestion = async () => {
     try {
       const res = await Axios.put(
-        `${process.env.HOSTBACK}preguntas/descripcion`,
+        `${process.env.HOSTBACK}/preguntas/descripcion`,
         {
           id_pregunta: data.id_pregunta,
           pregunta,
@@ -105,6 +105,7 @@ export default function Pregunta({ data, isSaved }) {
         icon: "success",
       });
     } catch (err) {
+      console.log(err),
       swal("Hubo error", {
         icon: "warning",
       });
