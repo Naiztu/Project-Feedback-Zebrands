@@ -1,5 +1,24 @@
 import pool from "../database/db";
 
+export class Feedback{
+    constructor(_calificacion_craft, _calificacion_personal, _calificacion_business, _calificacion_promedio, _comentario_craft, _comentario_personal, _comentario_business, _comentario_general, _id_member, _id_assistant, _id_periodo){
+        this.calificacion_craft = _calificacion_craft;
+        this.calificacion_personal = _calificacion_personal;
+        this.calificacion_business = _calificacion_business;
+        this.calificacion_promedio = _calificacion_promedio;
+        this.comentario_craft = _comentario_craft;
+        this.comentario_personal = _comentario_personal;
+        this.comentario_business = _comentario_business;
+        this.comentario_general = _comentario_general;
+        this.id_member = _id_member;
+        this.id_assistant = _id_assistant;
+        this.id_periodo = _id_periodo;
+    }
+
+
+    
+}
+
 export class get_Feedback{
     constructor(_id_user, _id_periodo){
         this.id_user = _id_user;
