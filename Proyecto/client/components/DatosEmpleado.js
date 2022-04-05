@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {FaPencilAlt, FaSave } from "react-icons/fa";
+import Axios from "axios";
+
 
 export default function DatosEmpleado({info, isSaved, id_empleado}) {
   const {
@@ -7,23 +9,32 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
     apellidopaterno_member,
     apellidomaterno_member,
     correo_member,
-    contraseña_member,
     rol_member,
     chapter,
     equipo_member,
     lead_member
   } = info;
+
+  const [isSave, setIsSave] = useState(isSaved)
   const [isEdited, setIsEdited] = useState(!isSaved);
+  const [preInfo, setPreInfo] = useState(info);
 
   const handleEdit = () => {
     setIsEdited(true);
   };
-  const [preInfo, setPreInfo] = useState(info);
 
   const handleChange = (e) => {
     const newInfo = { ...preInfo };
     newInfo[e.target.name] = e.target.value;
     setPreInfo(newInfo);
+  };
+
+  const updateInfo = () => {
+    if (!isSave) {
+      alert("Se salva");
+      setIsSave(true);
+    } else alert("Pregunta actualizada");
+    setIsEdited(false);
   };
 
 
@@ -66,25 +77,24 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
               <div className=" coment basis-6/12">{nombre_member}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
+                type="text"
+                className=" text-area-info basis-6/12"
                 value={preInfo.nombre_member}
                 name="nombre_member"
                 placeholder="Nombre del member"
-                onChange={handleChange}
+                onChange={(e) => setPreInfo(e.target.value)}
+                id={info.id_empleado}
+
               ></textarea>
             )}
           </div>
 
-      <div className=" flex flex-col space-y-3">
+          <div className=" flex flex-col space-y-3">
           <button
             className="btn"
+            onClick={isEdited ? updateInfo : handleEdit}
           >
-          <FaSave />  
-          </button>
-          <button
-            className={`btn-red "hidden" : "flex"`}
-          >
-            <FaPencilAlt />
+            {isEdited ? <FaSave /> : <FaPencilAlt />}
           </button>
         </div>
         <div className="rowDimension">
@@ -93,7 +103,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
               <div className=" coment basis-6/12">{apellidopaterno_member}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
+                className=" text-area-info basis-6/12"
                 value={preInfo.apellidopaterno_member}
                 name="apellidopaterno_member"
                 placeholder="Apellido paterno del empleado"
@@ -120,7 +130,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
               <div className=" coment basis-6/12">{apellidomaterno_member}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
+                className=" text-area-info basis-6/12"
                 value={preInfo.apellidomaterno_member}
                 name="apellidomaterno_member"
                 placeholder="Apellido materno del empleado"
@@ -147,7 +157,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
               <div className=" coment basis-6/12">{correo_member}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
+                className=" text-area-info basis-6/12"
                 value={preInfo.correo_member}
                 name="correo_member"
                 placeholder="Correo del member"
@@ -159,29 +169,6 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
           <div className=" flex flex-col space-y-3">
           <button
             className="btn"
-            onClick={isEdited ? updateInfo : handleEdit}
-          >
-            {isEdited ? <FaSave /> : <FaPencilAlt />}
-          </button>
-        </div>
-        <div className="rowDimension">
-            <div className="dimesion">Contraseña</div>
-            {isSaved ? (
-              <div className=" coment basis-6/12">{contraseña_member}</div>
-            ) : (
-              <textarea
-                className=" text-area-feed basis-6/12"
-                value={preInfo.contraseña_member}
-                name="contraseña_member"
-                placeholder="Contraseña del member"
-                onChange={handleChange}
-              ></textarea>
-            )}
-          </div>
-
-      <div className=" flex flex-col space-y-3">
-          <button
-            className="btn"
           >
           <FaSave />  
           </button>
@@ -191,13 +178,15 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
             <FaPencilAlt />
           </button>
         </div>
+
+
         <div className="rowDimension">
             <div className="dimesion">Rol del empleado</div>
             {isSaved ? (
               <div className=" coment basis-6/12">{rol_member}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
+                className=" text-area-info basis-6/12"
                 value={preInfo.contraseña_member}
                 name="rol_member"
                 placeholder="Rol del member"
@@ -224,7 +213,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
               <div className=" coment basis-6/12">{chapter}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
+                className=" text-area-info basis-6/12"
                 value={preInfo.chapter}
                 name="chapter"
                 placeholder="Chapter del member"
@@ -251,7 +240,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
               <div className=" coment basis-6/12">{equipo_member}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
+                className=" text-area-info basis-6/12"
                 value={preInfo.equipo_member}
                 name="equipo_member"
                 placeholder="Equipo del member"
@@ -278,7 +267,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
               <div className=" coment basis-6/12">{lead_member}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
+                className=" text-area-info basis-6/12"
                 value={preInfo.lead_member}
                 name="lead_member"
                 placeholder="Lead del member"
@@ -317,16 +306,16 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
 
 DatosEmpleado.defaultProps = {
   info: {
-    nombre_member: "felipe",
-    apellidopaterno_member: "neduro",
-    apellidomaterno_member: "garcia",
-    correo_member: "noobmaster69@gmail.com" ,
-    contraseña_member: "123454321",
-    rol_member: "Chapter Lead Assistant",
-    chapter: "software",
-    equipo_member: "Zecore Client",
-    lead_member: "Edgar Santanta Matute"
+    nombre_member: "",
+    apellidopaterno_member: "",
+    apellidomaterno_member: "",
+    correo_member: "" ,
+    contraseña_member: "",
+    rol_member: "",
+    chapter: "",
+    equipo_member: "",
+    lead_member: ""
   },
-  isSaved: true,
+  isSaved: false,
 };
 
