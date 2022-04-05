@@ -11,7 +11,24 @@ export default function Post() {
   const [preguntasCraft, setPreguntasCraft] = useState([]);
   const [preguntasBusiness, setPreguntasBusiness] = useState([]);
 
-  const getPreguntas = async (nivel_business, nivel_craft, nivel_people) => {
+  const questionToResponse = (item, id) => ({
+    pregunta: item.pregunta,
+    tipo_respuesta: item.tipo_pregunta,
+    descripcion_respuesta: "",
+    id_empleado_evaluador: 1,
+    id_empleado_evaluado: id,
+    dimension_respuesta: item.dimension_pregunta,
+  });
+  const postRespuestas = () => {
+    console.log("enviado");
+  };
+
+  const getPreguntas = async (
+    nivel_business,
+    nivel_craft,
+    nivel_people,
+    id
+  ) => {
     const peticiones = [
       `http://localhost:8080/preguntas/${Math.trunc(nivel_craft)}/craft`,
       `http://localhost:8080/preguntas/${Math.trunc(nivel_people)}/people`,
@@ -28,9 +45,15 @@ export default function Post() {
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
       } else {
-        setPreguntasCraft(res[0].data.preguntas);
-        setPreguntasPeople(res[1].data.preguntas);
-        setPreguntasBusiness(res[2].data.preguntas);
+        setPreguntasCraft(
+          res[0].data.preguntas.map((i) => questionToResponse(i, id))
+        );
+        setPreguntasPeople(
+          res[1].data.preguntas.map((i) => questionToResponse(i, id))
+        );
+        setPreguntasBusiness(
+          res[2].data.preguntas.map((i) => questionToResponse(i, id))
+        );
       }
     } catch (err) {
       console.log(err);
@@ -51,7 +74,7 @@ export default function Post() {
         setEvaluado(res.data.data_empleado);
         const { nivel_business, nivel_craft, nivel_people } =
           res.data.data_empleado;
-        getPreguntas(nivel_business, nivel_craft, nivel_people);
+        getPreguntas(nivel_business, nivel_craft, nivel_people, id);
       }
     } catch (err) {
       console.log({ err });
@@ -80,7 +103,13 @@ export default function Post() {
           <div className="flex-grow border-t border-gray-400"></div>
         </div>
         {preguntasPeople.map((item, index) => (
-          <Respuesta info={item} key={index} />
+          <Respuesta
+            info={item}
+            key={index}
+            index={index}
+            variable={preguntasPeople}
+            metodo={setPreguntasPeople}
+          />
         ))}
       </section>
       <section className="w-9/12 mx-auto">
@@ -92,7 +121,13 @@ export default function Post() {
           <div className="flex-grow border-t border-gray-400"></div>
         </div>
         {preguntasBusiness.map((item, index) => (
-          <Respuesta info={item} key={index} />
+          <Respuesta
+            info={item}
+            key={index}
+            index={index}
+            variable={preguntasBusiness}
+            metodo={setPreguntasBusiness}
+          />
         ))}
       </section>
       <section className="w-9/12 mx-auto">
@@ -104,9 +139,18 @@ export default function Post() {
           <div className="flex-grow border-t border-gray-400"></div>
         </div>
         {preguntasCraft.map((item, index) => (
-          <Respuesta info={item} key={index} />
+          <Respuesta
+            info={item}
+            key={index}
+            index={index}
+            variable={preguntasCraft}
+            metodo={setPreguntasCraft}
+          />
         ))}
       </section>
+      <button onClick={postRespuestas} className="btn mt-5 w-10/12 mx-auto">
+        Enviar
+      </button>
     </Layout>
   );
 }

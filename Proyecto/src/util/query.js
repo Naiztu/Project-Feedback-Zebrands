@@ -7,8 +7,7 @@ export function queryPostSolicitarEvaluaciones(
         id_empleado_evaluador,
         id_empleado_evaluado,
         id_periodo,
-        estatus,
-        fecha_realizacion
+        estatus
         )
         VALUES`;
   for (let i of lista_id_empleado_evaluador) {
@@ -20,10 +19,7 @@ export function queryPostSolicitarEvaluaciones(
       "," +
       id_periodo +
       "," +
-      "'No Contestado'" +
-      "," +
-      "NULL" +
-      "),";
+      "'No Contestado'),";
   }
   const query = s.slice(0, -1);
   return query;
