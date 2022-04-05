@@ -9,9 +9,10 @@ export default function CompaneroAsignar({
   const addAsignados = () => {
     setAsignados(asignados.concat(info));
   };
+
   const deleteAsignados = () => {
     setAsignados(
-      asignados.filter((item) => item.first_name != info.first_name)
+      asignados.filter((item) => item.id_empleado != info.id_empleado)
     );
   };
 
@@ -23,13 +24,13 @@ export default function CompaneroAsignar({
             <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
               <img
                 className="rounded-full"
-                src={info.avatar}
+                src={info.imagen_perfil}
                 width={40}
                 height={40}
               />
             </div>
             <div className="font-medium text-gray-800">
-              {info.first_name + " " + info.last_name}
+              {info.nombre + " " + info.apellido_paterno}
             </div>
           </div>
           <div>

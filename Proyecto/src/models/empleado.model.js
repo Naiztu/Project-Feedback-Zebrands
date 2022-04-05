@@ -16,4 +16,16 @@ export class Empleado {
       throw { err };
     }
   }
+
+  async getAllDataEmpleado() {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+                FROM empleado LIMIT 6;`
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
 }

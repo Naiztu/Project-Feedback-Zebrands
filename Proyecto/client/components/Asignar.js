@@ -10,9 +10,9 @@ export default function Asignar() {
 
   const getCompaneros = async () => {
     try {
-      const res = await Axios.get("https://reqres.in/api/users?page=1");
+      const res = await Axios.get(`${process.env.HOSTBACK}/empleado/`);
       console.log(res);
-      setCompaneros(res.data.data);
+      setCompaneros(res.data.data_empleados);
     } catch (err) {
       console.log({ err });
     }
