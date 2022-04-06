@@ -4,27 +4,21 @@ import { queryPostRespuestas } from "../util/query";
 
 export class Respuesta{
 
-    constructor( 
-
-        _pregunta,
-        _descripcion_respuesta,
-        _tipo_respuesta,
-        _id_empleado_evaluador,
-        _id_empleado_evaluado,
-        _dimension_respuesta,
-        _id_periodo
-
-        )
-        {
-            this.pregunta = _pregunta;
-            this.descripcion_respuesta = _descripcion_respuesta;
-            this.tipo_respuesta = _tipo_respuesta;
-            this.id_empleado_evaluador = _id_empleado_evaluador;
-            this.id_empleado_evaluado = _id_empleado_evaluado;
-            this.dimension_respuesta = _dimension_respuesta;
-            this.id_periodo = _id_periodo;
-
-        }
+  static async getRes(id_evaluado, id_evaluador, id_periodo ) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT * FROM respuesta
+        WHERE id_empleado_evaluado=${id_evaluado}
+        AND id_empleado_evaluador=${id_evaluador}
+        AND id_periodo=${id_periodo}
+        ORDER BY id_respuesta ASC;`
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+    
 
 }
 

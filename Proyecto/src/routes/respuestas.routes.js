@@ -2,14 +2,14 @@ import { Router } from "express";
 
 import {
 
-    //getRespuestas,
+    getRespuestas,
     postRespuestas
     
   } from "../controllers/respuestas.controller";
   
   const router = Router();
   
-  //router.get("/:nivel", getRespuestas);
+  router.get("/:id_evaluador/:id_evaluado/:id_periodo", getRespuestas);
   router.post("/registrar", postRespuestas);
 
   
