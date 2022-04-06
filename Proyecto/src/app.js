@@ -9,6 +9,7 @@ import rutas_preguntas from "./routes/preguntas.routes";
 import rutas_assistant_list from "./routes/assistant_list.routes"; //Para probar cosas
 import rutas_evaluar from "./routes/evaluar.routes";
 import rutas_empleado from "./routes/empleado.routes";
+import rutas_respuestas from "./routes/respuestas.routes";
 
 //setings
 const app = express();
@@ -25,5 +26,7 @@ app.use("/preguntas", rutas_preguntas);
 app.use("/assistant_list", rutas_assistant_list);
 app.use("/evaluar", rutas_evaluar);
 app.use("/empleado", rutas_empleado);
+app.use("/respuestas", rutas_respuestas);
+
 
 export default app;
