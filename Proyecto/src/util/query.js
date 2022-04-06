@@ -43,8 +43,8 @@ export function queryPostRespuestas(
         tipo_respuesta,
         id_empleado_evaluador,
         id_empleado_evaluado,
-        dimension_respuesta,
-        id_periodo
+        id_periodo,
+        dimension_respuesta        
         )
         VALUES`;
   for (let i of lista_preguntas) {
@@ -60,9 +60,9 @@ export function queryPostRespuestas(
       "," +
       id_empleado_evaluado +
       "," +
-      "'" + i.dimension_respuesta + "'" +
-      "," +
       id_periodo +
+      "," +
+      "'" + i.dimension_respuesta + "'" +
       "),";
   }
   const query = s.slice(0, -1);

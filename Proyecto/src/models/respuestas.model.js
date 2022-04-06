@@ -51,14 +51,8 @@ export class pstRespuesta{
         async postRespuestas() {
             try {
               const [rows, fields] = await pool.execute(
-                console.log(`
-                ${queryPostRespuestas(this.id_empleado_evaluador,
-                    this.id_empleado_evaluado,
-                    this.id_periodo,
-                    this.lista_preguntas )   
-                }
-                `)
-                
+
+
                 `
                 ${queryPostRespuestas(this.id_empleado_evaluador,
                     this.id_empleado_evaluado,
@@ -69,6 +63,7 @@ export class pstRespuesta{
               );
               return rows;
             } catch (err) {
+                console.log(err)
               throw { err };
             }
           }
