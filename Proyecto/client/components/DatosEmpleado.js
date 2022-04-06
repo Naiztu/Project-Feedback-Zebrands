@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {FaPencilAlt, FaSave } from "react-icons/fa";
 import Axios from "axios";
+import swal from "sweetalert";
 
 
 export default function DatosEmpleado({info, isSaved, id_empleado}) {
@@ -14,7 +15,6 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
     equipo_member,
     lead_member
   } = info;
-
   const [isSave, setIsSave] = useState(isSaved)
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [preInfo, setPreInfo] = useState(info);
@@ -29,14 +29,43 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
     setPreInfo(newInfo);
   };
 
-  const updateInfo = () => {
+  const handleInfo = () => {
     if (!isSave) {
-      alert("Se salva");
       setIsSave(true);
-    } else alert("Pregunta actualizada");
-    setIsEdited(false);
+      setIsEdited(false);
+    } else {
+      updateInfo();
+      setIsEdited(false);
+    }
   };
 
+    const updateInfo = async () => {
+    try {
+      const res = await Axios.put(
+        `${process.env.HOSTBACK}id_empleado`,
+        {
+          
+          id_empleado: data.id_empleado,
+          info,
+        }
+      );
+      console.log({ res });
+      if (res.status != 200) {
+        throw {
+          err: true,
+          status: res.status,
+          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
+        };
+      }
+      swal("Poof! Your imaginary file has been saved!", {
+        icon: "success",
+      });
+    } catch (err) {
+      swal("Hubo error", {
+        icon: "warning",
+      });
+    }
+  };
 
   const registerInfo = async () => {
     try {
@@ -73,7 +102,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
         >
       <div className="rowDimension">
             <div className="dimesion">nombre</div>
-            {isSaved ? (
+            {!isEdited ? (
               <div className=" coment basis-6/12">{nombre_member}</div>
             ) : (
               <textarea
@@ -82,7 +111,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
                 value={preInfo.nombre_member}
                 name="nombre_member"
                 placeholder="Nombre del member"
-                onChange={(e) => setPreInfo(e.target.value)}
+                onChange={(e) => setInfo(e.target.value)}
 
               ></textarea>
             )}
@@ -91,7 +120,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
           <div className=" flex flex-col space-y-3">
           <button
             className="btn"
-            onClick={isEdited ? updateInfo : handleEdit}
+            onClick={isEdited ? handleInfo : handleEdit}
           >
             {isEdited ? <FaSave /> : <FaPencilAlt />}
           </button>
@@ -291,13 +320,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
 
     </div>
     
-    {!isSaved && (
-        <div className="w-9/12 flex items-center justify-center font-bold">
-          <button className="btn" onClick={registerInfo}>
-            Guardar
-          </button>
-        </div>
-      )}
+
       </div>
     </>
   )
@@ -305,8 +328,8 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
 
 DatosEmpleado.defaultProps = {
   info: {
-    nombre_member: "Felipe",
-    apellidopaterno_member: "Neduro",
+    nombre_member: "",
+    apellidopaterno_member: "",
     apellidomaterno_member: "",
     correo_member: "" ,
     contraseña_member: "",
@@ -315,6 +338,6 @@ DatosEmpleado.defaultProps = {
     equipo_member: "",
     lead_member: ""
   },
-  isSaved: true,
+  isSaved: false,
 };
 
