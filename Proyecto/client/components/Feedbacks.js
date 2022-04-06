@@ -6,7 +6,7 @@ export default function Feedbacks() {
   const [feedbacks, setFeedbacks] = useState([]);
 
   const getFeedbacks = async () => {
-    const id_user = 1;
+    const id_user = 2;
     try {
       const res = await Axios.get(
         `${process.env.HOSTBACK}/feedback/${id_user}`

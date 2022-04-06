@@ -5,7 +5,7 @@ import Axios from "axios";
 import PlantillaFeed from "../../components/PlantillaFeed";
 import Layout from "../../components/Layout";
 import Evaluaciones from "../../components/Evaluaciones";
-import Lista from "../../components/Lista";
+import swal from "sweetalert";
 
 export default function Post() {
   //Debe ser el numero del periodo al que corresponde el feedback
@@ -30,7 +30,7 @@ export default function Post() {
   const [feedback, setFeedback] = useState(initialFeed);
 
   const getFeedback = async (id_periodo) => {
-    const id_user = 1;
+    const id_user = 2;
     let res;
     try {
       res = await Axios.get(
@@ -46,6 +46,9 @@ export default function Post() {
       } else setFeedback(res.data.data_feedback);
     } catch (err) {
       console.log(err);
+      swal("Estas intentando acceder a un feedback que no existe", {
+        icon: "warning",
+      });
       router.push("/user");
     }
   };
