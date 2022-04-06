@@ -43,7 +43,7 @@ export default function Post() {
           status: res.status,
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
-      } else setFeedback(res.data.feedback);
+      } else setFeedback(res.data.data_feedback);
     } catch (err) {
       console.log(err);
       router.push("/user");

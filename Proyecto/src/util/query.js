@@ -7,8 +7,7 @@ export function queryPostSolicitarEvaluaciones(
         id_empleado_evaluador,
         id_empleado_evaluado,
         id_periodo,
-        estatus,
-        fecha_realizacion
+        estatus
         )
         VALUES`;
   for (let i of lista_id_empleado_evaluador) {
@@ -20,9 +19,46 @@ export function queryPostSolicitarEvaluaciones(
       "," +
       id_periodo +
       "," +
-      "'No Contestado'" +
+      "'No Contestado'),";
+  }
+  const query = s.slice(0, -1);
+  return query;
+}
+
+
+
+export function queryPostRespuestas(
+  id_empleado_evaluador,
+  id_empleado_evaluado,
+  id_periodo,
+  lista_preguntas
+) {
+  let s = `INSERT INTO respuesta (
+        pregunta,
+        descripcion_respuesta,
+        tipo_respuesta,
+        id_empleado_evaluador,
+        id_empleado_evaluado,
+        id_periodo,
+        dimension_respuesta        
+        )
+        VALUES`;
+  for (let i of lista_preguntas) {
+    s +=
+      "(" +
+      "'" + i.pregunta + "'" +
       "," +
-      "NULL" +
+      "'" + i.descripcion_respuesta + "'" +
+      "," +
+      "'" + i.tipo_respuesta + "'" +
+      "," +
+      id_empleado_evaluador +
+      "," +
+      id_empleado_evaluado +
+      "," +
+      id_periodo +
+      "," +
+      "'" + i.dimension_respuesta + "'" +
       "),";
   }
   const query = s.slice(0, -1);
