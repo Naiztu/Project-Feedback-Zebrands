@@ -15,12 +15,12 @@ export default function Post() {
     pregunta: item.pregunta,
     tipo_respuesta: item.tipo_pregunta,
     descripcion_respuesta: "",
-    id_empleado_evaluador: 1,
-    id_empleado_evaluado: id,
     dimension_respuesta: item.dimension_pregunta,
   });
   const postRespuestas = () => {
     console.log("enviado");
+    // id_empleado_evaluador: 1,
+    // id_empleado_evaluado: id,
   };
 
   const getPreguntas = async (
