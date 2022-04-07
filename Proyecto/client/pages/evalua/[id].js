@@ -23,7 +23,7 @@ export default function Post() {
       const res = await Axios.post(
         `${process.env.HOSTBACK}/respuestas/registrar`,
         {
-          id_empleado_evaluador: 1,
+          id_empleado_evaluador: 3,
           id_empleado_evaluado: evaluado.id_empleado,
           id_periodo: 1,
           lista_preguntas: preguntasBusiness

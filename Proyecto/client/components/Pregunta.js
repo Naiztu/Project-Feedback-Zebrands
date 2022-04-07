@@ -3,7 +3,7 @@ import { FaTrashAlt, FaPencilAlt, FaSave } from "react-icons/fa";
 import swal from "sweetalert";
 import Axios from "axios";
 
-export default function Pregunta({ data, isSaved }) {
+export default function Pregunta({ data, isSaved, update }) {
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [pregunta, setPregunta] = useState(data.pregunta);
@@ -43,6 +43,7 @@ export default function Pregunta({ data, isSaved }) {
         swal("Poof! Your imaginary file has been deleted!", {
           icon: "success",
         });
+        update();
       } catch (err) {
         swal("Hubo un error", {
           icon: "warning",
@@ -106,9 +107,9 @@ export default function Pregunta({ data, isSaved }) {
       });
     } catch (err) {
       console.log(err),
-      swal("Hubo error", {
-        icon: "warning",
-      });
+        swal("Hubo error", {
+          icon: "warning",
+        });
     }
   };
 

@@ -8,7 +8,7 @@ export default function Evalua() {
 
   const getPendientes = async () => {
     const id_periodo = 1;
-    const id_user = 1;
+    const id_user = 3;
     try {
       const res = await Axios.get(
         `${process.env.HOSTBACK}/evaluar/${id_periodo}/${id_user}`

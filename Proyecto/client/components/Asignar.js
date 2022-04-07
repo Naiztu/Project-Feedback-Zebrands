@@ -26,7 +26,7 @@ export default function Asignar() {
     try {
       await Axios.post(`${process.env.HOSTBACK}/evaluar/`, {
         lista_id_empleado_evaluador: asignados.map((item) => item.id_empleado),
-        id_empleado_evaluado: 9,
+        id_empleado_evaluado: 1,
         id_periodo: 1,
       });
       await swal("Asignado correctamente!", {
