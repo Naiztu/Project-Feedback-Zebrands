@@ -76,3 +76,19 @@
 .input-respuesta {
   @apply text-center w-3/4 md:w-1/2 h-12 appearance-none p-3 bg-white border-none text-gray-700 leading-tight focus:outline-none rounded-md disabled:bg-transparent disabled:italic disabled:text-2xl;
 }
+
+.modal {
+  @apply fixed z-50 top-0 left-0 w-full min-h-screen bg-opacity-75 bg-black hidden justify-center items-center;
+}
+
+.modal.is-open {
+ @apply flex;
+}
+
+.modal-container {
+  @apply relative p-4 bg-white min-w-max max-w-max min-h-max max-h-max  overflow-y-auto  bg-white;
+}
+
+.modal-close {
+  @apply absolute top-4 right-4;
+}

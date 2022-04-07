@@ -1,5 +1,5 @@
 import React from "react";
-
+import Modals from "./Modals";
 export default function Evaluaciones() {
   const evalu = [
     {
@@ -67,6 +67,9 @@ export default function Evaluaciones() {
           ))}
         </tbody>
       </table>
+
+    <Modals/>
+
     </>
   );
 }

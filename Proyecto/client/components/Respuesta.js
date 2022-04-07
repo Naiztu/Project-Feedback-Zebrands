@@ -61,5 +61,5 @@ export default function Respuesta({ info, variable, metodo, index, isSaved }) {
 }
 
 Respuesta.defaultProps = {
-  isSaved: false,
+  isSaved: true,
 };
