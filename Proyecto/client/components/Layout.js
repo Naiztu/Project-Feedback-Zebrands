@@ -5,9 +5,7 @@ import Navbar from "./Navbar";
 
 export default function Layout({ children }) {
   const router = useRouter();
-  const {
-    user: { id_rol },
-  } = useUser();
+  const { idRol } = useUser();
 
   return (
     <>
@@ -24,7 +22,7 @@ export default function Layout({ children }) {
         <div
           type="button"
           onClick={() => {
-            if (id_rol === 1) router.push("/lead");
+            if (idRol === 1) router.push("/lead");
             else router.push("/user");
           }}
           className="group bg-black h-20 w-20 fixed right-0 bottom-0 text-white flex items-center justify-center m-3 rounded-full font-bold text-4xl cursor-pointer active:scale-90 transition-all ease-in-out"
@@ -47,7 +45,7 @@ export default function Layout({ children }) {
         <div
           className="fixed top-0 right-0 m-3 w-6 cursor-pointer"
           onClick={() => {
-            if (id_rol === 1) router.push("/lead");
+            if (idRol === 1) router.push("/lead");
             else router.push("/user");
           }}
         >

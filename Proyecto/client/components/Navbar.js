@@ -5,12 +5,10 @@ import OptionMember from "./OptionMember";
 import OptionAsisstant from "./OptionAsisstant";
 import OptionLead from "./OptionLead";
 
-export default function Navbar({ changeOption }) {
+export default function Navbar() {
   const router = useRouter();
 
-  const {
-    user: { img, nombre, apellido_paterno, id_rol },
-  } = useUser();
+  const { user, idRol } = useUser();
 
   return (
     <>
@@ -20,30 +18,32 @@ export default function Navbar({ changeOption }) {
             <div
               className=" hover:scale-105 shrink-0 w-[3rem] md:w-7/12 cursor-pointer active:scale-90 transition-all ease-in-out"
               onClick={() => {
-                id_rol === 1 ? router.push("/lead") : router.push("/user");
+                idRol === 1 ? router.push("/lead") : router.push("/user");
               }}
             >
-              <img
-                src={img}
-                className=" avatar"
-                layout="responsive"
-                alt="Avatar"
-              />
+              {user && (
+                <img
+                  src={user.imagen_perfil}
+                  className=" avatar"
+                  layout="responsive"
+                  alt="Avatar"
+                />
+              )}
             </div>
             <div className="grow ml-3">
               <p className="md:block hidden pt-2 text-xl text-center  font-bold">
-                {nombre + " " + apellido_paterno}
+                {user && user.nombre + " " + user.apellido_paterno}
               </p>
             </div>
           </div>
         </div>
 
         <hr className="block my-3 " />
-        {id_rol === 3 && <OptionMember />}
+        {idRol === 3 && <OptionMember />}
 
-        {id_rol === 2 && <OptionAsisstant />}
+        {idRol === 2 && <OptionAsisstant />}
 
-        {id_rol === 1 && <OptionLead />}
+        {idRol === 1 && <OptionLead />}
       </div>
     </>
   );

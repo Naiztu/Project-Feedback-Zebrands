@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import Axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export const UserContext = createContext();
 
@@ -7,26 +8,22 @@ export const useUser = () => {
 };
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    id_empleado: 1,
-    nombre: "Alan",
-    apellido_paterno: "Brito",
-    apellido_materno: "Juarez",
-    nivel_general: 3.1,
-    nivel_craft: 3.1,
-    nivel_business: 3.1,
-    nivel_people: 3.2,
-    correo: "alanBrito@zeb.mx",
-    equipo: "ZeCore Client",
-    chapterId: 1,
-    img: "/assets/avatar.jpg",
-    id_rol: 3,
-  });
-  const setIdRol = (_id_rol) => {
-    setUser({ ...user, id_rol: _id_rol });
-  };
+  const [id_user, setId_User] = useState(1);
+  const [user, setUser] = useState(null);
+  const [idRol, setIdRol] = useState(3);
+
+  useEffect(async () => {
+    if (id_user) {
+      const res = await Axios.get(
+        `${process.env.HOSTBACK}/empleado/${id_user}`
+      );
+      console.log(res);
+      setUser(res.data.data_empleado);
+    }
+  }, [id_user]);
+
   return (
-    <UserContext.Provider value={{ user, setIdRol }}>
+    <UserContext.Provider value={{ user, setId_User, setIdRol, idRol }}>
       {children}
     </UserContext.Provider>
   );

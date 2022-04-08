@@ -6,7 +6,8 @@ import { useUser } from "../context/userContext";
 export default function Home() {
   const router = useRouter();
   const [rol, setRol] = useState(3);
-  const { setIdRol } = useUser();
+  const [idUser, setIdUser] = useState(1);
+  const { setId_User, setIdRol } = useUser();
   return (
     <>
       <Head>
@@ -35,6 +36,8 @@ export default function Home() {
             <input
               className="input-label block mt-4"
               placeholder="Contraseña"
+              value={idUser}
+              onChange={(e) => setIdUser(parseInt(e.target.value))}
               type={"password"}
             />
             <a className="link">Recuperar contraseña</a>
@@ -43,6 +46,7 @@ export default function Home() {
               className="btn mt-5"
               onClick={() => {
                 setIdRol(rol);
+                setId_User(idUser);
                 if (rol === 1) {
                   router.push("/lead");
                 } else router.push("/user");

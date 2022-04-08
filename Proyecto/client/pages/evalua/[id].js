@@ -4,9 +4,11 @@ import Layout from "../../components/Layout";
 import Axios from "axios";
 import swal from "sweetalert";
 import Respuesta from "../../components/Respuesta";
+import { useUser } from "../../context/userContext";
 
 export default function Post() {
   const router = useRouter();
+  const { user } = useUser();
   const [evaluado, setEvaluado] = useState({});
   const [preguntasPeople, setPreguntasPeople] = useState([]);
   const [preguntasCraft, setPreguntasCraft] = useState([]);
@@ -18,12 +20,13 @@ export default function Post() {
     descripcion_respuesta: "",
     dimension_respuesta: item.dimension_pregunta,
   });
+
   const postRespuestas = async () => {
     try {
       const res = await Axios.post(
         `${process.env.HOSTBACK}/respuestas/registrar`,
         {
-          id_empleado_evaluador: 3,
+          id_empleado_evaluador: user.id_empleado,
           id_empleado_evaluado: evaluado.id_empleado,
           id_periodo: 1,
           lista_preguntas: preguntasBusiness

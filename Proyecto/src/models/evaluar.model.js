@@ -10,13 +10,30 @@ export class getEvaluar {
   async getDataEvaluarPendiente() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil FROM empleado
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil 
+            FROM empleado
                 where id_empleado in (SELECT E.id_empleado_evaluado FROM evaluacion E 
                 WHERE id_periodo = ${this.id_periodo} AND id_empleado_evaluador = ${this.id_user} 
                 AND estatus = "No Contestado");`
       );
       return rows;
     } catch (err) {
+      throw { err };
+    }
+  }
+
+  async getDataEvaluar() {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT Em.id_empleado, Em.nombre, Em.apellido_paterno, Em.imagen_perfil, E.estatus 
+          FROM empleado Em, evaluacion E 
+            WHERE Em.id_empleado = E.id_empleado_evaluador AND
+            E.id_empleado_evaluado = ${this.id_user} AND
+            E.id_periodo = ${this.id_periodo};`
+      );
+      return rows;
+    } catch (err) {
+      console.log({ err });
       throw { err };
     }
   }

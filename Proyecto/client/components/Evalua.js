@@ -2,13 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import CardCompañero from "./CardCompañero";
 import Axios from "axios";
+import { useUser } from "../context/userContext";
 
 export default function Evalua() {
   const [pendientes, setPendientes] = useState([]);
+  const { user } = useUser();
 
   const getPendientes = async () => {
     const id_periodo = 1;
-    const id_user = 3;
+    const id_user = user.id_empleado;
     try {
       const res = await Axios.get(
         `${process.env.HOSTBACK}/evaluar/${id_periodo}/${id_user}`

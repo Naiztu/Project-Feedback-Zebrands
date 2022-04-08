@@ -9,7 +9,7 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
   const getPreguntas = async () => {
     try {
       const res = await Axios.get(
-        `http://localhost:8080/preguntas/${Nivel}/${Dimension}`
+        `${process.env.HOSTBACK}/preguntas/${Nivel}/${Dimension}`
       );
       console.log(res);
       if (res.status != 200) {
@@ -26,6 +26,7 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
 
   useEffect(() => {
     getPreguntas();
+    setAddQ([]);
   }, [Nivel]);
 
   const [addQ, setAddQ] = useState([]);
