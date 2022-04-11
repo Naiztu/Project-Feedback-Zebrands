@@ -21,12 +21,12 @@ app.use(json());
 app.use(express.static("public"));
 
 //Routes
-app.use("/feedback", rutas_feedback);
-app.use("/preguntas", rutas_preguntas);
-app.use("/assistant_list", rutas_assistant_list);
-app.use("/evaluar", rutas_evaluar);
-app.use("/empleado", rutas_empleado);
-app.use("/respuestas", rutas_respuestas);
+app.use("/api/feedback", rutas_feedback);
+app.use("/api/preguntas", rutas_preguntas);
+app.use("/api/assistant_list", rutas_assistant_list);
+app.use("/api/evaluar", rutas_evaluar);
+app.use("/api/empleado", rutas_empleado);
+app.use("/api/respuestas", rutas_respuestas);
 
 
 export default app;
