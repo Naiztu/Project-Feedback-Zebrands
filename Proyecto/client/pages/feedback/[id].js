@@ -34,7 +34,7 @@ export default function Post() {
     const id_user = user.id_empleado;
     try {
       const res = await Axios.get(
-        `http://localhost:8080/feedback/${id_user}/${id_periodo}`
+        `${process.env.HOSTBACK}/feedback/${id_user}/${id_periodo}`
       );
       console.log(res);
       if (res.status != 200) {

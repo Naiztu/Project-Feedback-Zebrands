@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  env: {
-    HOSTBACK: "http://localhost:8080",
-  },
+  reactStrictMode: true
 };
 
 module.exports = nextConfig;
