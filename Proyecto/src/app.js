@@ -10,6 +10,7 @@ import rutas_assistant_list from "./routes/assistant_list.routes"; //Para probar
 import rutas_evaluar from "./routes/evaluar.routes";
 import rutas_empleado from "./routes/empleado.routes";
 import rutas_respuestas from "./routes/respuestas.routes";
+import rutas_rol from "./routes/rol.routes";
 
 //setings
 const app = express();
@@ -27,6 +28,7 @@ app.use("/api/assistant_list", rutas_assistant_list);
 app.use("/api/evaluar", rutas_evaluar);
 app.use("/api/empleado", rutas_empleado);
 app.use("/api/respuestas", rutas_respuestas);
+app.use("/api/rol", rutas_rol);
 
 
 export default app;
