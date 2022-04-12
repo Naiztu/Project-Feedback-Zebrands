@@ -20,10 +20,26 @@ export class Empleado {
   async getAllDataEmpleado() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_general
                 FROM empleado LIMIT 6;`
       );
       return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
+  async updateNivel(nuevo_nivel){
+    try {
+      const [msg] = await pool.execute(
+
+        `UPDATE empleado
+        SET nivel_general=${nuevo_nivel}
+        WHERE id_empleado=${this.id_empleado};`
+        
+    
+      );
+      return msg;
     } catch (err) {
       throw { err };
     }

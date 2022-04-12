@@ -23,3 +23,17 @@ export async function getAllEmpleado(req, res) {
     res.status(500).send({ err });
   }
 }
+
+
+export async function updateNivelEmpleado(req, res) {
+  const {id_empleado, nuevo_nivel} = req.body;
+
+  const nuevo_empleado= new Empleado(id_empleado);
+
+  try {
+    const msg = await nuevo_empleado.updateNivel(nuevo_nivel);
+    res.send({ msg});
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}

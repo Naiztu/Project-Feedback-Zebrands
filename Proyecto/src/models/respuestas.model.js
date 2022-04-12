@@ -62,7 +62,6 @@ export class pstRespuesta {
         `);
         
     
-        
         await conn.commit();
         await conn.release();
       } catch (error) {
