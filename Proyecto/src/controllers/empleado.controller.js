@@ -35,3 +35,23 @@ export async function postEmpleado(req, res){
     res.status(500).send({err});
   }
 }
+
+export async function updateChapterMember (req, res) {
+  const { 
+
+    password,
+    imagen_perfil, 
+    id_empleado
+
+  } = req.body;
+
+  const nueva_informacion = new Empleado(id_empleado, "", "", "", 0, 0, 0, 0, 1, "", password, "", 0, imagen_perfil, 0);
+
+  try {
+    const data=nueva_informacion.updateChapterMember();
+    console.log(data);
+    res.status(200).send({ message: "correct update" });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}

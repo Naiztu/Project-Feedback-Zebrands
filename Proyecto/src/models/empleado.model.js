@@ -101,4 +101,18 @@ export class Empleado {
       throw error;
     }
   }
+
+  async updateChapterMember(){
+    try {
+      const [rows, fields] = await pool.execute(
+        `
+        UPDATE empleado SET empleado.password = '${this.password}', empleado.imagen_perfil = '${this.imagen_perfil}' 
+        WHERE empleado.id_empleado = ${this.id_empleado};
+      `
+        );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
 }
