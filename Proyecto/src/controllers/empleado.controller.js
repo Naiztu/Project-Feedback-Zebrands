@@ -23,3 +23,15 @@ export async function getAllEmpleado(req, res) {
     res.status(500).send({ err });
   }
 }
+
+export async function postEmpleado(req, res){
+  const { nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people,  correo_electronico, equipo, id_chapter, imagen_perfil } = req.body;
+  const empleado = new Empleado (0, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people, 1, correo_electronico, "", equipo, id_chapter, imagen_perfil, 3); 
+  try{
+    console.log(empleado);
+    const data_post_empleado = await empleado.postEmpleado();
+    res.send({data_post_empleado});
+  }catch (err){
+    res.status(500).send({err});
+  }
+}
