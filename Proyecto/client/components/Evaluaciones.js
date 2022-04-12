@@ -1,26 +1,33 @@
-import React from "react";
+import Axios from "axios";
+import React, { useEffect, useState } from "react";
+import RowEvaluaciones from "./RowEvaluaciones";
+export default function Evaluaciones({ id_periodo, id_user }) {
+  // id_periodo, id_user
+  const [evaluaciones, setEvaluaciones] = useState([]);
+  const getEvaluaciones = async () => {
+    try {
+      const res = await Axios.get(
+        `${process.env.HOSTBACK}/evaluar/all/${id_periodo}/${id_user}`
+      );
+      console.log(res);
+      const { data_evalua } = res.data;
+      setEvaluaciones(
+        data_evalua.map((item, index) => ({
+          ...item,
+          id_evaluador: item.id_empleado,
+          index,
+          id_evaluado: id_user,
+          id_periodo,
+        }))
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getEvaluaciones();
+  }, []);
 
-export default function Evaluaciones() {
-  const evalu = [
-    {
-      id_evaluado: 1,
-      id_evaluador: 2,
-      nombre_evaluador: "Emiliano",
-      status: "Contestada",
-    },
-    {
-      id_evaluado: 1,
-      id_evaluador: 3,
-      nombre_evaluador: "Pepe",
-      status: "Contestada",
-    },
-    {
-      id_evaluado: 1,
-      id_evaluador: 4,
-      nombre_evaluador: "Cris",
-      status: "No Contestada",
-    },
-  ];
   return (
     <>
       <h2 className="title my-10"> Evaluaciones</h2>
@@ -32,41 +39,32 @@ export default function Evaluaciones() {
           mejorar en alguna área de oportunidad ¡Aquí están las Evaluaciones!
         </p>
       </div>
-
-      <table className=" mx-auto mb-10  bg-white shadow-lg rounded-sm border border-gray-200 w-11/12 sm:w-3/4">
-        <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-          <tr>
-            <th className="p-2 whitespace-nowrap">
-              <div className="font-semibold text-left">Evaluador</div>
-            </th>
-            <th className="p-2 whitespace-nowrap">
-              <div className="font-semibold text-left">Status</div>
-            </th>
-          </tr>
-        </thead>
-        <tbody className="text-sm divide-y divide-gray-100">
-          {evalu.map((item, index) => (
-            <tr
-              key={index}
-              className={`${
-                item.status === "No Contestada"
-                  ? "bg-red-400/20 cursor-not-allowed"
-                  : "hover:bg-blue-400/20 cursor-pointer "
-              }  active:scale-95 transition-all ease-in-out w-full text-black/80`}
-            >
-              <td className="p-2 whitespace-nowrap">
-                <button
-                  disabled={item.status === "No Contestada"}
-                  className=" disable:cursor-not-allowed"
-                >
-                  {item.nombre_evaluador}
-                </button>
-              </td>
-              <td className="p-2 whitespace-nowrap">{item.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="w-10/12 max-w-2xl mx-auto bg-white shadow-lg border border-gray-200 rounded-lg mb-10">
+        <div className="p-3">
+          <div className="overflow-x-auto">
+            <table className=" table-auto w-full">
+              <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                <tr>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Evaluador</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Status</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Ver</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-sm divide-y divide-gray-100">
+                {evaluaciones.map((item, index) => (
+                  <RowEvaluaciones key={index} item={item} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

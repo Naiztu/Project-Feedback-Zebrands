@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 export default function Post() {
   const router = useRouter();
   const [id_mem, setId_mem] = useState(null);
-
+  const id_periodo = 1;
   useEffect(() => {
     if (router.isReady) {
       const { id_member } = router.query;
@@ -17,7 +17,9 @@ export default function Post() {
 
   return (
     <Layout>
-      <Evaluaciones />
+      {id_mem != null && (
+        <Evaluaciones id_user={id_mem} id_periodo={id_periodo} />
+      )}
       {id_mem != null && <PlantillaFeed isSaved={false} id_member={id_mem} />}
     </Layout>
   );

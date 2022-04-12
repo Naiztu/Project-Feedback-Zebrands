@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: bfslomngqiv4lrdhuov3-mysql.services.clever-cloud.com:3306
--- Generation Time: Apr 06, 2022 at 12:52 AM
+-- Generation Time: Apr 06, 2022 at 09:51 PM
 -- Server version: 8.0.15-5
 -- PHP Version: 7.2.34
 
@@ -169,7 +169,8 @@ INSERT INTO `banco_preguntas` (`id_pregunta`, `pregunta`, `index_pregunta`, `niv
 (63, 'prueba update', 46, 1, 'craft', 'numerica', 1),
 (64, '¿Kscjdsvkbsd?', NULL, 1, 'undefined', 'abierta', 1),
 (65, '¿ADSGERH?', NULL, 1, 'undefined', 'abierta', 1),
-(71, 'Cambio exitoso', 47, 1, 'craft', 'abierta', 1);
+(71, 'Cambio exitoso', 47, 1, 'craft', 'abierta', 1),
+(73, 'Prueba no null 1', 48, 1, 'craft', 'abierta', 1);
 
 -- --------------------------------------------------------
 
@@ -301,7 +302,7 @@ CREATE TABLE `evaluacion` (
   `id_empleado_evaluado` int(11) NOT NULL,
   `id_periodo` int(11) NOT NULL,
   `estatus` varchar(45) DEFAULT NULL,
-  `fecha_realizacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `fecha_realizacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -312,8 +313,8 @@ INSERT INTO `evaluacion` (`id_empleado_evaluador`, `id_empleado_evaluado`, `id_p
 (1, 1, 1, 'No Contestado'),
 (1, 6, 1, 'No Contestado'),
 (1, 7, 1, 'No Contestado'),
-(1, 9, 1, 'No Contestado'),
-(2, 1, 1, 'No Contestado'),
+(1, 9, 1, 'Contestado'),
+(2, 1, 1, 'Contestado'),
 (2, 1, 4, 'Contestado'),
 (2, 3, 2, 'Contestado'),
 (2, 3, 5, 'Contestado'),
@@ -548,6 +549,46 @@ CREATE TABLE `respuesta` (
   `dimension_respuesta` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `respuesta`
+--
+
+INSERT INTO `respuesta` (`id_respuesta`, `pregunta`, `descripcion_respuesta`, `tipo_respuesta`, `id_empleado_evaluador`, `id_empleado_evaluado`, `id_periodo`, `dimension_respuesta`) VALUES
+(1, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas', 'abierta', 2, 4, 13, 'craft'),
+(2, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 2, 4, 13, 'craft'),
+(3, 'Del a 1 al 5. ¿Cómo evaluarias la dimension bussines? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '2', 'calificacion', 1, 6, 1, 'business'),
+(4, 'Del a 1 al 5. ¿Qué tanto se comporta de acuerdo a las politicas de la empresa? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'abierta', 1, 6, 1, 'business'),
+(5, 'Desde tu perspectiva,¿crees que hace un trabajo integral a la visión y misión de la empresa? Describe sí o n y por qué', '5', 'abierta', 1, 6, 1, 'business'),
+(6, '¿Qué le recomendarias al evaluado para mejorar?', '5', 'abierta', 1, 6, 1, 'business'),
+(7, 'Del 1 al 5 donde 5 es excelente y 1 deficiente. ¿Qué tan bien documenta el evaluado?', '5', 'numerica', 1, 6, 1, 'business'),
+(8, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', '5', 'abierta', 1, 6, 1, 'craft'),
+(9, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 6, 1, 'craft'),
+(10, 'Describe cómo el evaluado atiende las recomendaciones que le hace sus compañeros. Menciona 2 ejemplos.', '5', 'abierta', 1, 6, 1, 'craft'),
+(11, '¿Qué le recomendarias al evaluado para mejorar?', '5', 'abierta', 1, 6, 1, 'craft'),
+(12, 'Describe el trato que tuvo contigo desde la perspectiva de respeto a tu integridad', '5', 'abierta', 1, 6, 1, 'craft'),
+(13, '¿Cuál es la importancia de su trabajo en la empresa?', '5', 'abierta', 1, 6, 1, 'craft'),
+(14, 'prueba update', '5', 'numerica', 1, 6, 1, 'craft'),
+(15, 'Cambio exitoso', '5', 'abierta', 1, 6, 1, 'craft'),
+(16, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '4', 'calificacion', 1, 6, 1, 'people'),
+(17, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 2, 4, 12, 'craft'),
+(18, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 2, 4, 12, 'craft'),
+(27, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 1, 4, 11, 'craft'),
+(28, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 4, 11, 'craft'),
+(29, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 2, 4, 11, 'craft'),
+(30, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 2, 4, 11, 'craft'),
+(37, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 2, 1, 4, 'craft'),
+(38, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 2, 1, 4, 'craft'),
+(45, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 2, 1, 1, 'craft'),
+(46, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 2, 1, 1, 'craft'),
+(47, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 1, 9, 1, 'craft'),
+(48, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 9, 1, 'craft'),
+(49, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 1, 9, 1, 'craft'),
+(50, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 9, 1, 'craft'),
+(51, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 1, 9, 1, 'craft'),
+(52, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 9, 1, 'craft'),
+(53, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 1, 9, 1, 'craft'),
+(54, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 9, 1, 'craft');
+
 -- --------------------------------------------------------
 
 --
@@ -725,7 +766,7 @@ ALTER TABLE `rol_funciones`
 -- AUTO_INCREMENT for table `banco_preguntas`
 --
 ALTER TABLE `banco_preguntas`
-  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `chapter`
@@ -761,7 +802,7 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT for table `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- Constraints for dumped tables

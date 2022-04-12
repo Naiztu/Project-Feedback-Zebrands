@@ -4,9 +4,11 @@ import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import CompaneroAsignar from "./CompaneroAsignar";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
+import { useUser } from "../context/userContext";
 
 export default function Asignar() {
   const router = useRouter();
+  const { user } = useUser();
   const [asignados, setAsignados] = useState([]);
   const [companeros, setCompaneros] = useState([]);
 
@@ -14,7 +16,11 @@ export default function Asignar() {
     try {
       const res = await Axios.get(`${process.env.HOSTBACK}/empleado/`);
       console.log(res);
-      setCompaneros(res.data.data_empleados);
+      setCompaneros(
+        res.data.data_empleados.filter(
+          (item) => item.id_empleado != user.id_empleado
+        )
+      );
     } catch (err) {
       swal("Hubo un error", {
         icon: "warning",
@@ -26,7 +32,7 @@ export default function Asignar() {
     try {
       await Axios.post(`${process.env.HOSTBACK}/evaluar/`, {
         lista_id_empleado_evaluador: asignados.map((item) => item.id_empleado),
-        id_empleado_evaluado: 9,
+        id_empleado_evaluado: 1,
         id_periodo: 1,
       });
       await swal("Asignado correctamente!", {

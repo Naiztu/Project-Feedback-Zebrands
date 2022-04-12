@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import swal from "sweetalert";
 
 export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   const {
@@ -30,18 +31,26 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
 
   const registerFeed = async () => {
     try {
-      const res = await Axios.post(
-        `http://localhost:8080/feedback/${id_assistant}/${id_member}`,
-        preFeedback
-      );
+      const res = await Axios.post(`http://localhost:8080/feedback/`, {
+        ...preFeedback,
+        id_assistant,
+        id_member,
+      });
+
       if (res.status != 200) {
         throw {
           err: true,
           status: res.status,
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
-      } else alert("Feedback guardada");
+      } else
+        swal("Registrado", {
+          icon: "sucess",
+        });
     } catch (error) {
+      swal("Hubo un error", {
+        icon: "warning",
+      });
       console.log(error);
     }
   };
@@ -201,7 +210,7 @@ PlantillaFeed.defaultProps = {
     comentario_personal: "",
     comentario_craft: "",
     comentario_general: "",
-    id_periodo: 4,
+    id_periodo: 3,
   },
   isSaved: true,
 };

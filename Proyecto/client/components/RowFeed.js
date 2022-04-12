@@ -3,6 +3,7 @@ import React from "react";
 
 export default function RowFeed({ data }) {
   const router = useRouter();
+
   const {
     imagen_perfil,
     nombre,
@@ -14,6 +15,7 @@ export default function RowFeed({ data }) {
   const redirectFeedback = () => {
     router.push(`/feedback/${id_periodo}`);
   };
+
   return (
     <tr
       onClick={redirectFeedback}
