@@ -20,7 +20,7 @@ export class Empleado {
   async getAllDataEmpleado() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_general
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
                 FROM empleado LIMIT 6;`
       );
       return rows;
