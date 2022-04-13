@@ -11,6 +11,7 @@ import rutas_evaluar from "./routes/evaluar.routes";
 import rutas_empleado from "./routes/empleado.routes";
 import rutas_respuestas from "./routes/respuestas.routes";
 import rutas_rol from "./routes/rol.routes";
+import rutas_perfil from "./routes/perfil.routes";
 
 //setings
 const app = express();
@@ -29,6 +30,7 @@ app.use("/api/evaluar", rutas_evaluar);
 app.use("/api/empleado", rutas_empleado);
 app.use("/api/respuestas", rutas_respuestas);
 app.use("/api/rol", rutas_rol);
+app.use("/api/perfil", rutas_perfil);
 
 
 export default app;
