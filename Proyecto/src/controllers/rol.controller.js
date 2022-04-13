@@ -2,6 +2,7 @@ import { Rol } from "../models/rol.model";
 
 export async function postAsignacion(req, res) {
   const { id_assistant, id_member } = req.body;
+  console.log(req.body);
   try {
     const data = await Rol.postAsignacion(id_assistant, id_member);
     res.send({ data });
