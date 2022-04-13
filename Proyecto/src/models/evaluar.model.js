@@ -37,6 +37,34 @@ export class getEvaluar {
       throw { err };
     }
   }
+
+  async getResumen() {
+    let conn = null;
+    try {
+      conn = await pool.getConnection();
+      await conn.beginTransaction();
+
+
+      const [evaluadores_data, fields] = await conn.query(`
+      SELECT id_empleado_evaluador, estatus FROM	evaluacion 
+      WHERE id_periodo=${this.id_periodo}
+      AND id_empleado_evaluado=${this.id_user};
+      `);
+     
+
+      await conn.commit();
+      await conn.release();
+      return evaluadores_data
+    } catch (error) {
+      console.log(error);
+      if (conn) {
+        await conn.rollback();
+        await conn.release();
+      }
+      throw error;
+    }
+  }
+
 }
 
 export class postEvaluar {
@@ -64,4 +92,6 @@ export class postEvaluar {
       throw { err };
     }
   }
+
+  
 }
