@@ -115,4 +115,20 @@ export class Empleado {
       throw { err };
     }
   }
+
+  async updateCMasCL(){
+    try {
+      const [rows, fields] = await pool.execute(
+        `
+        UPDATE empleado SET empleado.nombre = '${this.nombre}', empleado.apellido_paterno = '${this.apellido_paterno}', 
+        empleado.apellido_materno = '${this.apellido_materno}', empleado.activo = ${this.activo}, empleado.equipo = '${this.equipo}'
+        WHERE empleado.id_empleado = ${this.id_empleado};
+      `
+        );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
 }
+

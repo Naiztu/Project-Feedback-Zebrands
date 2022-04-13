@@ -55,3 +55,26 @@ export async function updateChapterMember (req, res) {
     res.status(500).send({ err });
   }
 }
+
+export async function updateCMasCL (req, res) {
+  const { 
+
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    activo,
+    equipo,
+    id_empleado
+
+  } = req.body;
+
+  const nueva_informacion_lead = new Empleado(id_empleado, nombre, apellido_paterno, apellido_materno, 0, 0, 0, 0, activo, "", "", equipo, 0, "", 0);
+
+  try {
+    const data=nueva_informacion_lead.updateCMasCL();
+    console.log(data);
+    res.status(200).send({ message: "correct update" });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
