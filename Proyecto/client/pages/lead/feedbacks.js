@@ -27,7 +27,7 @@ export default function Feedbacks() {
   }, []);
   return (
     <Layout>
-      <h1 className="title w-3/4 mx-auto mt-10">Feebacks</h1>
+      <h1 className="title w-3/4 mx-auto mt-10">Feedbacks</h1>
       <div className=" flex mt-3 mx-auto w-full items-center justify-center text-sm">
         <input
           type="text"

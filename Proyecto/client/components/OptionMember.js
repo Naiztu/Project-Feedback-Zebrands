@@ -24,7 +24,7 @@ export default function OptionMember() {
               />
             </svg>
             <span className="pt-1 text-sm font-semibold hidden md:inline">
-              Mis Feeedback
+              Mis Feedback
             </span>
           </button>
         </li>
