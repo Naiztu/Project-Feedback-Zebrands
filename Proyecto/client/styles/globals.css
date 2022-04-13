@@ -76,3 +76,6 @@
 .input-respuesta {
   @apply text-center w-full md:w-1/2 h-12 appearance-none p-3 bg-white border-none text-gray-700 leading-tight focus:outline-none rounded-md disabled:bg-transparent disabled:italic disabled:text-2xl;
 }
+.error {
+  @apply text-xs italic text-center text-red-500;
+}

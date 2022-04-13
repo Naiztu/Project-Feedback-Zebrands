@@ -5,21 +5,35 @@ import Axios from "axios";
 import swal from "sweetalert";
 import Respuesta from "../../components/Respuesta";
 import { useUser } from "../../context/userContext";
+import { useForm } from "../../hooks/useForm";
 
 export default function Post() {
   const router = useRouter();
+
   const { user } = useUser();
   const [evaluado, setEvaluado] = useState({});
-  const [preguntasPeople, setPreguntasPeople] = useState([]);
-  const [preguntasCraft, setPreguntasCraft] = useState([]);
-  const [preguntasBusiness, setPreguntasBusiness] = useState([]);
+  const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
 
-  const questionToResponse = (item, id) => ({
-    pregunta: item.pregunta,
-    tipo_respuesta: item.tipo_pregunta,
-    descripcion_respuesta: "",
-    dimension_respuesta: item.dimension_pregunta,
-  });
+  function expresion(tipo) {
+    switch (tipo) {
+      case "abierta":
+        return /^.{1,255}$/;
+      case "numerica":
+        return /^.{1,255}$/;
+      case "calificacion":
+        return /^([0-4]{1}([.]([0-5]{1}))?)|[5]{1}$/;
+    }
+  }
+  function message(tipo) {
+    switch (tipo) {
+      case "abierta":
+        return "No puede exeder los 255 caracteres";
+      case "numerica":
+        return "Selecciona una opción";
+      case "calificacion":
+        return "Escribe un numero valido, de 0 al 5 (puede llevar decimal)";
+    }
+  }
 
   const postRespuestas = async () => {
     try {
@@ -29,9 +43,7 @@ export default function Post() {
           id_empleado_evaluador: user.id_empleado,
           id_empleado_evaluado: evaluado.id_empleado,
           id_periodo: 1,
-          lista_preguntas: preguntasBusiness
-            .concat(preguntasCraft)
-            .concat(preguntasPeople),
+          lista_preguntas: data,
         }
       );
       await swal("Registrado correctamente!", {
@@ -39,22 +51,29 @@ export default function Post() {
       });
       router.push("/user/evalua");
     } catch (err) {
+      console.log({ err });
       swal("Hubo un error", {
         icon: "warning",
       });
     }
   };
+  const generatorData = (item) => {
+    return {
+      pregunta: item.pregunta,
+      tipo_respuesta: item.tipo_pregunta,
+      descripcion_respuesta: "",
+      dimension_respuesta: item.dimension_pregunta,
+      message: message(item.tipo_pregunta),
+    };
+  };
 
-  const getPreguntas = async (
-    nivel_business,
-    nivel_craft,
-    nivel_people,
-    id
-  ) => {
+  const getPreguntas = async (nivel_business, nivel_craft, nivel_people) => {
     const peticiones = [
-      `http://localhost:8080/preguntas/${Math.trunc(nivel_craft)}/craft`,
-      `http://localhost:8080/preguntas/${Math.trunc(nivel_people)}/people`,
-      `http://localhost:8080/preguntas/${Math.trunc(nivel_business)}/business`,
+      `${process.env.HOSTBACK}/preguntas/${Math.trunc(nivel_craft)}/craft`,
+      `${process.env.HOSTBACK}/preguntas/${Math.trunc(nivel_people)}/people`,
+      `${process.env.HOSTBACK}/preguntas/${Math.trunc(
+        nivel_business
+      )}/business`,
     ];
 
     try {
@@ -67,15 +86,12 @@ export default function Post() {
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
       } else {
-        setPreguntasCraft(
-          res[0].data.preguntas.map((i) => questionToResponse(i, id))
-        );
-        setPreguntasPeople(
-          res[1].data.preguntas.map((i) => questionToResponse(i, id))
-        );
-        setPreguntasBusiness(
-          res[2].data.preguntas.map((i) => questionToResponse(i, id))
-        );
+        res[0].data.preguntas
+          .concat(res[1].data.preguntas)
+          .concat(res[2].data.preguntas)
+          .forEach((item) =>
+            setItem(generatorData(item), expresion(item.tipo_pregunta))
+          );
       }
     } catch (err) {
       console.log(err);
@@ -84,7 +100,7 @@ export default function Post() {
 
   const getEvaluado = async (id) => {
     try {
-      const res = await Axios.get(`http://localhost:8080/empleado/${id}`);
+      const res = await Axios.get(`${process.env.HOSTBACK}/empleado/${id}`);
       console.log({ res });
       if (res.status != 200) {
         throw {
@@ -124,15 +140,17 @@ export default function Post() {
           </span>
           <div className="flex-grow border-t border-gray-400"></div>
         </div>
-        {preguntasPeople.map((item, index) => (
-          <Respuesta
-            info={item}
-            key={index}
-            index={index}
-            variable={preguntasPeople}
-            metodo={setPreguntasPeople}
-          />
-        ))}
+        {data
+          .filter((el) => el.dimension_respuesta === "people")
+          .map((item, index) => (
+            <Respuesta
+              info={item}
+              key={index}
+              variable={data}
+              handleBlur={handleBlur}
+              errors={errors}
+            />
+          ))}
       </section>
       <section className="w-9/12 mx-auto">
         <div className="relative flex pt-10 items-center w-9/12 mx-auto">
@@ -142,15 +160,17 @@ export default function Post() {
           </span>
           <div className="flex-grow border-t border-gray-400"></div>
         </div>
-        {preguntasBusiness.map((item, index) => (
-          <Respuesta
-            info={item}
-            key={index}
-            index={index}
-            variable={preguntasBusiness}
-            metodo={setPreguntasBusiness}
-          />
-        ))}
+        {data
+          .filter((el) => el.dimension_respuesta === "business")
+          .map((item, index) => (
+            <Respuesta
+              info={item}
+              key={index}
+              variable={data}
+              handleBlur={handleBlur}
+              errors={errors}
+            />
+          ))}
       </section>
       <section className="w-9/12 mx-auto">
         <div className="relative flex pt-10 items-center w-9/12 mx-auto">
@@ -160,17 +180,31 @@ export default function Post() {
           </span>
           <div className="flex-grow border-t border-gray-400"></div>
         </div>
-        {preguntasCraft.map((item, index) => (
-          <Respuesta
-            info={item}
-            key={index}
-            index={index}
-            variable={preguntasCraft}
-            metodo={setPreguntasCraft}
-          />
-        ))}
+        {data
+          .filter((el) => el.dimension_respuesta === "craft")
+          .map((item, index) => (
+            <Respuesta
+              info={item}
+              key={index}
+              variable={data}
+              handleBlur={handleBlur}
+              errors={errors}
+            />
+          ))}
       </section>
-      <button onClick={postRespuestas} className="btn mt-5 w-10/12 mx-auto">
+      <button
+        disabled={errors.length > 0}
+        onClick={() => {
+          if (checkErrors() === 0) {
+            postRespuestas();
+          } else {
+            swal("¡Tienes preguntas faltantes!", {
+              icon: "warning",
+            });
+          }
+        }}
+        className="btn mt-5 w-10/12 mx-auto"
+      >
         Enviar
       </button>
     </Layout>
