@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import RowEvaluaciones from "./rowEvaluaciones";
+import RowEvaluaciones from "./RowEvaluaciones";
 export default function Evaluaciones({ id_periodo, id_user }) {
   // id_periodo, id_user
   const [evaluaciones, setEvaluaciones] = useState([]);

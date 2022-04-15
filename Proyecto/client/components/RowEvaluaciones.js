@@ -39,15 +39,15 @@ export default function RowEvaluaciones({ item }) {
           >
             {item.estatus === "Contestado" ? <FaEye /> : <FaEyeSlash />}
           </button>
+          <Modal isOpen={isOpenModal} closeModal={closeModal}>
+            <div className=" flex flex-col pt-16">
+              {respuestas.map((item, index) => (
+                <Respuesta info={item} key={index} isSaved={true} />
+              ))}
+            </div>
+          </Modal>
         </td>
       </tr>
-      <Modal isOpen={isOpenModal} closeModal={closeModal}>
-        <div className=" flex flex-col pt-16">
-          {respuestas.map((item, index) => (
-            <Respuesta info={item} key={index} isSaved={true} />
-          ))}
-        </div>
-      </Modal>
     </>
   );
 }
