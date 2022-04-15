@@ -20,11 +20,8 @@ export default function (req, res, next) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
 
-
-
-
   const {
-    id_empleado,
+    id,
     nombre,
     apellido_paterno,
     imagen_perfil,
@@ -34,7 +31,7 @@ export default function (req, res, next) {
   } = decodedToken;
 
   req.data = {
-    id_empleado,
+    id_empleado: id,
     nombre,
     apellido_paterno,
     imagen_perfil,

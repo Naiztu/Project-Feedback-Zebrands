@@ -27,13 +27,13 @@ app.use(express.static("public"));
 //Routes
 app.use("/api/login/auth", rutas_auth)
 app.use("/api/feedback", userExtractor, rutas_feedback);
-app.use("/api/preguntas", rutas_preguntas);
-app.use("/api/assistant_list", rutas_assistant_list);
-app.use("/api/evaluar", rutas_evaluar);
-app.use("/api/empleado", rutas_empleado);
-app.use("/api/respuestas", rutas_respuestas);
-app.use("/api/rol", rutas_rol);
-app.use("/api/perfil", rutas_perfil);
+app.use("/api/preguntas", userExtractor, rutas_preguntas);
+app.use("/api/assistant_list", userExtractor, rutas_assistant_list);
+app.use("/api/evaluar", userExtractor, rutas_evaluar);
+app.use("/api/empleado", userExtractor, rutas_empleado);
+app.use("/api/respuestas", userExtractor, rutas_respuestas);
+app.use("/api/rol", userExtractor, rutas_rol);
+app.use("/api/perfil", userExtractor, rutas_perfil);
 
 
 export default app;
