@@ -21,6 +21,13 @@ export const UserProvider = ({ children }) => {
       setUser(res.data.data_empleado);
     }
   }, [id_user]);
+  function loginAuth(email, pass) {
+    try {
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <UserContext.Provider value={{ user, setId_User, setIdRol, idRol }}>

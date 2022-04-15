@@ -9,11 +9,19 @@ export default function (req, res, next) {
     token = authorization.substring(7);
   }
 
-  const decodedToken = jwt.verify(token, process.env.SECRET);
+  let decodedToken = null;
+  try {
+    decodedToken = jwt.verify(token, process.env.SECRET);
+  } catch (error) {
+    return res.status(401).json({ error: "token missing or invalid" });
+  }
 
   if (!token || !decodedToken.id) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
+
+
+
 
   const {
     id_empleado,
