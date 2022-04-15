@@ -1,7 +1,7 @@
 import pool from "../database/db";
+import { queryUpdatePass } from "../util/query";
 const bcrypt = require("bcrypt");
-
-
+require("dotenv").config();
 
 export class Empleado {
   constructor(id_empleado, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people,
@@ -24,19 +24,34 @@ export class Empleado {
   }
 
   async generatorPass() {
-    const salt = await bcrypt.genSalt(5);
+    const salt = await bcrypt.genSalt(parseInt(process.env.SALT));
     this.password = await bcrypt.hash(this.password, salt);
+  }
+  static async generatorPassNew(pass) {
+    const salt = await bcrypt.genSalt(parseInt(process.env.SALT));
+    const newPass = await bcrypt.hash(pass, salt);
+    return newPass
+  }
+  static async updatePass(passwords) {
+    const [rows, fields] = await pool.execute(queryUpdatePass(passwords))
   }
 
   static async findEmail(correo) {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT *
-                FROM empleado WHERE correo_electronico = '${correo}'`
+        `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
+        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
+        e.password, r.id_rol
+        FROM empleado e, empleado_rol r
+        WHERE e.activo = true AND
+          e.correo_electronico = '${correo}' 
+          AND r.id_empleado = e.id_empleado 
+        ORDER BY r.fecha_rol DESC
+        LIMIT 1;`
       );
-      return rows[0];
+      return rows[0] || null;
     } catch (err) {
-      throw { err };
+      return null;
     }
   }
 
@@ -55,8 +70,8 @@ export class Empleado {
   async getAllDataEmpleado() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
-                FROM empleado LIMIT 7,6;`
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, password
+                FROM empleado;`
       );
       return rows;
     } catch (err) {

@@ -8,7 +8,6 @@ export const loginRouter = async (req, res) => {
   let user = null
   try {
     user = await Empleado.findEmail(email);
-    console.log(user)
   } catch (error) {
     console.log({ error })
   }
@@ -21,24 +20,23 @@ export const loginRouter = async (req, res) => {
     res.status(401).send({
       error: "invalid user or password",
     });
+  } else {
+    const { id_empleado, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft,
+      nivel_business, nivel_people, correo_electronico, imagen_perfil, id_rol } = user || {}
+
+    const userForToken = {
+      id_empleado, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft,
+      nivel_business, nivel_people, correo_electronico, imagen_perfil, id_rol
+    };
+
+    const token = jwt.sign(userForToken, process.env.SECRET, {
+      expiresIn: 60 * 60 * 24 * 7,
+    });
+
+    res.send({
+      user: userForToken,
+      token,
+    });
   }
 
-  const userForToken = {
-    id: user.id_empleado,
-    nombre: user.nombre,
-    apellido_paterno: user.apellido_paterno,
-    imagen_perfil: user.imagen_perfil,
-    nivel_business: user.nivel_business,
-    nivel_craft: user.nivel_craft,
-    nivel_people: user.nivel_people,
-  };
-
-  const token = jwt.sign(userForToken, process.env.SECRET, {
-    expiresIn: 60 * 60 * 24 * 7,
-  });
-
-  res.send({
-    user,
-    token,
-  });
 };

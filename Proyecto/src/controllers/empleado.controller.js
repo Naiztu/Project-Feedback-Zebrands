@@ -13,6 +13,9 @@ export async function getEmpleado(req, res) {
     res.status(500).send({ err });
   }
 }
+export async function getCurrentEmpleado(req, res) {
+  res.status(200).send(req.data)
+}
 
 export async function getAllEmpleado(req, res) {
   const empleado = new Empleado(0);
@@ -20,9 +23,11 @@ export async function getAllEmpleado(req, res) {
     const data_empleados = await empleado.getAllDataEmpleado();
     res.send({ data_empleados });
   } catch (err) {
+    console.log({ err })
     res.status(500).send({ err });
   }
 }
+
 
 export async function postEmpleado(req, res) {
   const { nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people, correo_electronico, equipo, id_chapter, imagen_perfil, password } = req.body;

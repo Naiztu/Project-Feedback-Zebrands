@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import RowFeed from "./RowFeed";
-import Axios from "axios";
 import { useUser } from "../context/userContext";
+import api from "../services/api";
 
 export default function Feedbacks() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -9,9 +9,7 @@ export default function Feedbacks() {
 
   const getFeedbacks = async () => {
     try {
-      const res = await Axios.get(
-        `${process.env.HOSTBACK}/feedback/${user.id_empleado}`
-      );
+      const res = await api.get(`/feedback/${user.id_empleado}`);
       if (res.status != 200) {
         throw {
           err: true,

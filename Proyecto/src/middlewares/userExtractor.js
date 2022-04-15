@@ -9,35 +9,30 @@ export default function (req, res, next) {
     token = authorization.substring(7);
   }
 
-  let decodedToken = null;
+  let decodedToken;
   try {
     decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!decodedToken.id_empleado) {
+      return res.status(401).json({ error: "token missing or invalid" });
+    }
   } catch (error) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
 
-  if (!token || !decodedToken.id) {
+  if (!token || !decodedToken.id_empleado) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
 
   const {
-    id,
-    nombre,
-    apellido_paterno,
-    imagen_perfil,
-    nivel_business,
-    nivel_craft,
-    nivel_people,
+    id_empleado, nombre, apellido_paterno,
+    apellido_materno, nivel_general, nivel_craft,
+    nivel_business, nivel_people, correo_electronico, imagen_perfil, id_rol
   } = decodedToken;
 
   req.data = {
-    id_empleado: id,
-    nombre,
-    apellido_paterno,
-    imagen_perfil,
-    nivel_business,
-    nivel_craft,
-    nivel_people,
+    id_empleado, nombre, apellido_paterno,
+    apellido_materno, nivel_general, nivel_craft,
+    nivel_business, nivel_people, correo_electronico, imagen_perfil, id_rol
   };
 
   next();
