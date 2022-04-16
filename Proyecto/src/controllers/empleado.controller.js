@@ -18,10 +18,10 @@ export async function getCurrentEmpleado(req, res) {
 }
 
 export async function getAllEmpleado(req, res) {
-  const empleado = new Empleado(0);
+  const empleado = new Empleado();
   try {
     const data_empleados = await empleado.getAllDataEmpleado();
-    res.send({ data_empleados });
+    res.status(200).send({ data_empleados });
   } catch (err) {
     console.log({ err })
     res.status(500).send({ err });

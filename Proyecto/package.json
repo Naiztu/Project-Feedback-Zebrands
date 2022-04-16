@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "dev": "nodemon --exec babel-node src/index.js",
+    "dev": "nodemon --ignore ./client/ --exec babel-node src/index.js",
     "start": "node dist/index.js"
   },
   "author": "Interfectorem Eros",

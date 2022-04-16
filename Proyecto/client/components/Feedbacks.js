@@ -5,7 +5,7 @@ import api from "../services/api";
 
 export default function Feedbacks() {
   const [feedbacks, setFeedbacks] = useState([]);
-  const { user } = useUser();
+  const { user, isAuthenticated } = useUser();
 
   const getFeedbacks = async () => {
     try {
@@ -23,8 +23,11 @@ export default function Feedbacks() {
   };
 
   useEffect(() => {
-    getFeedbacks();
-  }, []);
+    if (isAuthenticated) {
+      getFeedbacks();
+    }
+
+  }, [isAuthenticated]);
 
   return (
     <>

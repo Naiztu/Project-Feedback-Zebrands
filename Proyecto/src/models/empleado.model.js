@@ -70,8 +70,8 @@ export class Empleado {
   async getAllDataEmpleado() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, password
-                FROM empleado;`
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+                FROM empleado LIMIT 0, 8`
       );
       return rows;
     } catch (err) {

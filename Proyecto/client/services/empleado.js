@@ -20,3 +20,14 @@ export async function currentEmpleado() {
         throw { error }
     }
 }
+export async function getAllEmpleados(page) {
+    try {
+        const { data } = await api.get(`/empleado/all`)
+        console.log(data)
+        return data;
+    } catch (error) {
+        console.log(error)
+        throw { error }
+    }
+
+}
