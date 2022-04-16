@@ -4,10 +4,7 @@ import DatosEmpleado from "../components/DatosEmpleado";
 export default function Prueba() {
   return (
     <>
-      <DatosEmpleado></DatosEmpleado>
-
-
-
+      <DatosEmpleado/>
     </>
   );
 }
