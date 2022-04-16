@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "dev": "nodemon --exec babel-node src/index.js",
+    "dev": "nodemon --ignore ./client/ --exec babel-node src/index.js",
     "start": "node dist/index.js"
   },
   "author": "Interfectorem Eros",
@@ -13,9 +13,12 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "babel-node": "^0.0.1-security",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "js-cookie": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "react-datepicker": "^4.7.0"

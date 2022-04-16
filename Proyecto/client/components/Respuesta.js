@@ -1,13 +1,10 @@
 import React from "react";
 
-export default function Respuesta({ info, variable, metodo, index, isSaved }) {
-  const options = [1, 2, 3, 4, 5];
+export default function Respuesta({ info, variable, metodo, index, isSaved, handleBlur,
+  errors }) {
 
-  const handleChange = (e) => {
-    const newRes = [...variable];
-    newRes[index][e.target.name] = e.target.value;
-    metodo(newRes);
-  };
+  // const error = errors.filter((i) => i.id = info.id) || "";
+  const options = [1, 2, 3, 4, 5];
 
   return (
     <div className=" w-full mx-auto mt-9 px-6 py-4 bg-slate-500/10 rounded-lg   ">
@@ -22,9 +19,10 @@ export default function Respuesta({ info, variable, metodo, index, isSaved }) {
               className="textarea-respuesta"
               name="descripcion_respuesta"
               placeholder="Respuesta"
+              id={info.id}
               value={info.descripcion_respuesta}
               disabled={isSaved}
-              onChange={handleChange}
+              onChange={handleBlur}
             />
           )}
           {info.tipo_respuesta === "numerica" && (
@@ -32,13 +30,13 @@ export default function Respuesta({ info, variable, metodo, index, isSaved }) {
               {options.map((item) => (
                 <button
                   key={item}
-                  className={`${
-                    info.descripcion_respuesta === `${item}`
-                      ? " bg-slate-500 "
-                      : "bg-black hover:bg-black/80 "
-                  } btn-option-respuesta`}
+                  className={`${info.descripcion_respuesta === `${item}`
+                    ? " bg-slate-500 "
+                    : "bg-black hover:bg-black/80 "
+                    } btn-option-respuesta`}
                   disabled={isSaved}
-                  onClick={handleChange}
+                  onClick={handleBlur}
+                  id={info.id}
                   value={`${item}`}
                   name="descripcion_respuesta"
                 >
@@ -49,16 +47,20 @@ export default function Respuesta({ info, variable, metodo, index, isSaved }) {
           )}
           {info.tipo_respuesta === "calificacion" && (
             <input
-              onChange={handleChange}
+              onChange={handleBlur}
               value={info.descripcion_respuesta}
               type="number"
+              id={info.id}
               disabled={isSaved}
+              min={0}
+              max={5}
               className="input-respuesta"
               placeholder="Calificación del 1 al 5 (puede llevar decimal)"
               name="descripcion_respuesta"
             />
           )}
         </div>
+        {(errors) && errors.filter((i) => i.id === info.id).map((item) => <p className="error" key={item.id}>{item.message}</p>)}
       </div>
     </div>
   );

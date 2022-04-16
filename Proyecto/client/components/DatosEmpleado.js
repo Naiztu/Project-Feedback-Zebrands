@@ -32,10 +32,9 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
     const updateInfo = async () => {
     try {
       const res = await Axios.put(
-        `${process.env.HOSTBACK}id_empleado`,
+        `${process.env.HOSTBACK}/empleado`,
         {
-          
-          id_empleado: data.id_empleado,
+          id_empleado: datos.id_empleado,
           info,
         }
       );
@@ -51,6 +50,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
         icon: "success",
       });
     } catch (err) {
+      console.log(err)
       swal("Hubo error", {
         icon: "warning",
       });
@@ -79,10 +79,9 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
           </div>
           {!isSaved && (
           <div className="w-9/12 flex items-center justify-center font-bold">
-            {/* <button className="btn" onClick={registerInfo}>
-              {/* //  */}
-              {/* Guardar
-              </button> */}
+            { <button className="btn" onClick={updateInfo}>
+              Guardar
+              </button> }
           </div>
           )}
     </>

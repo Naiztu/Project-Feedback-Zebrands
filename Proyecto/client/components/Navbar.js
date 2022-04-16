@@ -8,7 +8,8 @@ import OptionLead from "./OptionLead";
 export default function Navbar() {
   const router = useRouter();
 
-  const { user, idRol } = useUser();
+  const { user } = useUser();
+  const { id_rol } = user || {}
 
   return (
     <>
@@ -18,13 +19,13 @@ export default function Navbar() {
             <div
               className=" hover:scale-105 shrink-0 w-[3rem] md:w-7/12 cursor-pointer active:scale-90 transition-all ease-in-out"
               onClick={() => {
-                idRol === 1 ? router.push("/lead") : router.push("/user");
+                id_rol === 1 ? router.push("/lead") : router.push("/user");
               }}
             >
               {user && (
                 <img
                   src={user.imagen_perfil}
-                  className=" avatar"
+                  className=" avatar "
                   layout="responsive"
                   alt="Avatar"
                 />
@@ -39,11 +40,11 @@ export default function Navbar() {
         </div>
 
         <hr className="block my-3 " />
-        {idRol === 3 && <OptionMember />}
+        {id_rol === 3 && <OptionMember />}
 
-        {idRol === 2 && <OptionAsisstant />}
+        {id_rol === 2 && <OptionAsisstant />}
 
-        {idRol === 1 && <OptionLead />}
+        {id_rol === 1 && <OptionLead />}
       </div>
     </>
   );

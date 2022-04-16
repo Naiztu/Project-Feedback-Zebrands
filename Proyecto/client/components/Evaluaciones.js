@@ -1,5 +1,6 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
+import api from "../services/api";
 import RowEvaluaciones from "./RowEvaluaciones";
 
 export default function Evaluaciones({ id_periodo, id_user }) {
@@ -7,11 +8,10 @@ export default function Evaluaciones({ id_periodo, id_user }) {
   const [evaluaciones, setEvaluaciones] = useState([]);
   const getEvaluaciones = async () => {
     try {
-      const res = await Axios.get(
-        `${process.env.HOSTBACK}/evaluar/all/${id_periodo}/${id_user}`
+      const { data } = await api.get(`/evaluar/all/${id_periodo}/${id_user}`
       );
-      console.log(res);
-      const { data_evalua } = res.data;
+      console.log(data);
+      const { data_evalua } = data;
       setEvaluaciones(
         data_evalua.map((item, index) => ({
           ...item,

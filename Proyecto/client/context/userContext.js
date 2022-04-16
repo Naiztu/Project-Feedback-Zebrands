@@ -1,5 +1,9 @@
-import Axios from "axios";
+import Cookies from "js-cookie"
+import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
+import api from "../services/api";
+import { currentEmpleado } from "../services/empleado";
+import { getAuth } from "../services/login";
 
 export const UserContext = createContext();
 
@@ -8,22 +12,48 @@ export const useUser = () => {
 };
 
 export const UserProvider = ({ children }) => {
-  const [id_user, setId_User] = useState(1);
+  const router = useRouter();
   const [user, setUser] = useState(null);
-  const [idRol, setIdRol] = useState(3);
 
-  useEffect(async () => {
-    if (id_user) {
-      const res = await Axios.get(
-        `${process.env.HOSTBACK}/empleado/${id_user}`
-      );
-      console.log(res);
-      setUser(res.data.data_empleado);
+  useEffect(() => {
+    async function loadUserFromCookies() {
+      const token = Cookies.get("token")
+      if (token) {
+        try {
+          const data = await currentEmpleado();
+          setUser(data);
+        } catch (error) {
+          console.log(error)
+        }
+      }
     }
-  }, [id_user]);
+    loadUserFromCookies();
+  }, []);
+
+  async function loginAuth(email, password) {
+    const body = { email, password }
+    try {
+      const data = await getAuth(body);
+      setUser(data.user)
+      Cookies.set("token", data.token)
+      if (user.id_rol === 1) {
+        router.push("/lead");
+      } else router.push("/user");
+    } catch (error) {
+      console.log(error)
+      throw { error }
+    }
+  }
+
+  async function logoutAuth() {
+    setUser(null)
+    Cookies.remove("token")
+    delete api.defaults.headers.Authorization
+    router.push("/");
+  }
 
   return (
-    <UserContext.Provider value={{ user, setId_User, setIdRol, idRol }}>
+    <UserContext.Provider value={{ user, loginAuth, logoutAuth, isAuthenticated: !!user }}>
       {children}
     </UserContext.Provider>
   );
