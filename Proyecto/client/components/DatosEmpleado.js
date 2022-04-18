@@ -32,7 +32,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
     const updateInfo = async () => {
     try {
       const res = await Axios.put(
-        `${process.env.HOSTBACK}/empleado`,
+        `${process.env.HOSTBACK}/empleado/updateCM`,
         {
           id_empleado: datos.id_empleado,
           info,
@@ -56,6 +56,42 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
       });
     }
   };
+
+  const registerMember = async () => {
+    try {
+      const res = await Axios.post(
+        `${process.env.HOSTBACK}/empleado`,
+        {
+          nombre_member: datos.nombre_member,
+          apellidopaterno_member: datos.apellidopaterno_member,
+          apellidomaterno_member: datos.apellidomaterno_member, 
+          correo_member: datos.correo_member,
+          contraseña_member: datos.contraseña_member,
+          rol_member: datos.rol_member,
+          chapter: datos.chapter,
+          equipo_member: datos.equipo_member,
+          lead_member: datos.lead_member,
+        }
+      );
+      console.log({ res });
+      if (res.status != 200) {
+        throw {
+          err: true,
+          status: res.status,
+          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
+        };
+      }
+      swal("La información ha sido guardada de forma exitosa.", {
+        icon: "success",
+      });
+    } catch (err) {
+      console.log(err)
+      swal("Hubo error", {
+        icon: "warning",
+      });
+    }
+  };
+
   return (
     <>
     <header className=" bg-slate-400/10 w-full pt-10 rounded-b-3xl">
@@ -79,7 +115,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
           </div>
           {!isSaved && (
           <div className="w-9/12 flex items-center justify-center font-bold">
-            { <button className="btn" onClick={updateInfo}>
+            { <button className="btn" onClick={registerMember}>
               Guardar
               </button> }
           </div>
