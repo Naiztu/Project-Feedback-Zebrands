@@ -12,9 +12,9 @@ export default function Evalua() {
     const id_periodo = 1;
     const id_user = user.id_empleado;
     try {
-      const data_evalua = await getPendientes(id_periodo, id_user);
-      console.log(data_evalua)
-      setPendientes(data_evalua);
+      const data = await getPendientes(id_periodo, id_user);
+      console.log(data.data_evalua)
+      setPendientes(data.data_evalua);
     } catch (err) {
       console.log(err);
     }
@@ -30,7 +30,7 @@ export default function Evalua() {
     <>
       <h1 className="title w-11/12 mx-auto my-10">Evaluaciones pendientes</h1>
       <div className="w-11/12 items-center justify-center mx-auto flex flex-wrap">
-        {pendientes.map((item, index) => (
+        {pendientes && pendientes.map((item, index) => (
           <CardCompañero key={index} pendientes={item} />
         ))}
       </div>

@@ -2,31 +2,27 @@ import Axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import CardMembers from "./CardMembers";
+import { useUser } from "../context/userContext";
+import { getAsignados } from "../services/asignados";
 
 export default function MemberAsignados() {
   const [info, setInfo] = useState([]);
+  const { isAuthenticated } = useUser();
 
-  const getAsignados = async () => {
-    const id_assistant = 1;
+  const getData = async () => {
     try {
-      const res = await Axios.get(
-        `http://localhost:8080/assistant_list/${id_assistant}`
-      );
-      console.log(res);
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else setInfo(res.data.data_members);
+      const data = await getAsignados();
+      console.log(data);
+      setInfo(data.data_members);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getAsignados();
-  }, []);
+    if (isAuthenticated) {
+      getData();
+    }
+  }, [isAuthenticated]);
   return (
     <>
       <h1 className="title w-11/12 mx-auto my-10">Member&apos;s Asignados</h1>
