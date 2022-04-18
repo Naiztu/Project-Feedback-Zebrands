@@ -21,7 +21,7 @@ export class Periodo {
       throw { err };
     }
   }
-    async changeDate(fecha_inicio, fecha_fin, id_periodo){
+    static async changeDate(fecha_inicio, fecha_fin, id_periodo){
     try {
       const [rows, fields] = await pool.execute(
         `

@@ -7,10 +7,10 @@ exports["default"] = void 0;
 
 var _express = require("express");
 
-var _empleado = require("../controllers/empleado.controller");
+var _periodo = require("../controllers/periodo.controller");
 
 var router = (0, _express.Router)();
-router.get("/:id_empleado", _empleado.getEmpleado);
-router.get("/", _empleado.getAllEmpleado);
+router.post("/newperiodo", _periodo.postPeriodo);
+router.put("/fechas", _periodo.cambiaPeriodo);
 var _default = router;
 exports["default"] = _default;

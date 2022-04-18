@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Empleado = void 0;
+exports.Periodo = void 0;
 
 var _db = _interopRequireDefault(require("../database/db"));
 
@@ -31,17 +31,15 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-var Empleado = /*#__PURE__*/function () {
-  function Empleado(id_empleado) {
-    _classCallCheck(this, Empleado);
-
-    this.id_empleado = id_empleado;
+var Periodo = /*#__PURE__*/function () {
+  function Periodo() {
+    _classCallCheck(this, Periodo);
   }
 
-  _createClass(Empleado, [{
-    key: "getDataEmpleado",
+  _createClass(Periodo, [{
+    key: "changeDate",
     value: function () {
-      var _getDataEmpleado = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _changeDate = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(fecha_inicio, fecha_fin, id_periodo) {
         var _yield$pool$execute, _yield$pool$execute2, rows, fields;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -50,14 +48,14 @@ var Empleado = /*#__PURE__*/function () {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return _db["default"].execute("SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people  \n                FROM empleado WHERE id_empleado = ".concat(this.id_empleado));
+                return _db["default"].execute("\n        UPDATE periodo\n        SET fecha_inicio='".concat(fecha_inicio, "', fecha_fin='").concat(fecha_fin, "' \n        WHERE periodo.id_periodo= ").concat(id_periodo, "\n                "));
 
               case 3:
                 _yield$pool$execute = _context.sent;
                 _yield$pool$execute2 = _slicedToArray(_yield$pool$execute, 2);
                 rows = _yield$pool$execute2[0];
                 fields = _yield$pool$execute2[1];
-                return _context.abrupt("return", rows[0]);
+                return _context.abrupt("return", rows);
 
               case 10:
                 _context.prev = 10;
@@ -71,19 +69,19 @@ var Empleado = /*#__PURE__*/function () {
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 10]]);
+        }, _callee, null, [[0, 10]]);
       }));
 
-      function getDataEmpleado() {
-        return _getDataEmpleado.apply(this, arguments);
+      function changeDate(_x, _x2, _x3) {
+        return _changeDate.apply(this, arguments);
       }
 
-      return getDataEmpleado;
+      return changeDate;
     }()
-  }, {
-    key: "getAllDataEmpleado",
+  }], [{
+    key: "postPeriodo",
     value: function () {
-      var _getAllDataEmpleado = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _postPeriodo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(nombre_periodo, fecha_inicio, fecha_fin, estatus_periodo, id_chapter) {
         var _yield$pool$execute3, _yield$pool$execute4, rows, fields;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -92,7 +90,7 @@ var Empleado = /*#__PURE__*/function () {
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return _db["default"].execute("SELECT id_empleado, nombre, apellido_paterno, imagen_perfil\n                FROM empleado LIMIT 7,6;");
+                return _db["default"].execute(" INSERT INTO periodo ( nombre_periodo, fecha_inicio, fecha_fin, estatus_periodo, id_chapter)\n     VALUES (  \n         '".concat(nombre_periodo, "',\n         '").concat(fecha_inicio, "',\n         '").concat(fecha_fin, "',\n         '").concat(estatus_periodo, "',\n         ").concat(id_chapter, "\n        ) "));
 
               case 3:
                 _yield$pool$execute3 = _context2.sent;
@@ -116,15 +114,15 @@ var Empleado = /*#__PURE__*/function () {
         }, _callee2, null, [[0, 10]]);
       }));
 
-      function getAllDataEmpleado() {
-        return _getAllDataEmpleado.apply(this, arguments);
+      function postPeriodo(_x4, _x5, _x6, _x7, _x8) {
+        return _postPeriodo.apply(this, arguments);
       }
 
-      return getAllDataEmpleado;
+      return postPeriodo;
     }()
   }]);
 
-  return Empleado;
+  return Periodo;
 }();
 
-exports.Empleado = Empleado;
+exports.Periodo = Periodo;

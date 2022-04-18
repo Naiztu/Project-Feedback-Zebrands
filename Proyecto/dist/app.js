@@ -27,6 +27,8 @@ var _respuestas = _interopRequireDefault(require("./routes/respuestas.routes"));
 
 var _rol = _interopRequireDefault(require("./routes/rol.routes"));
 
+var _periodo = _interopRequireDefault(require("./routes/periodo.routes"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -51,5 +53,6 @@ app.use("/api/evaluar", _evaluar["default"]);
 app.use("/api/empleado", _empleado["default"]);
 app.use("/api/respuestas", _respuestas["default"]);
 app.use("/api/rol", _rol["default"]);
+app.use("/api/periodo", _periodo["default"]);
 var _default = app;
 exports["default"] = _default;
