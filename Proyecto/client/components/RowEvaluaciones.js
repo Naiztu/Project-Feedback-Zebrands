@@ -4,6 +4,7 @@ import Respuesta from "./Respuesta";
 import { useModal } from "../hooks/useModal";
 import Modal from "./Modal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import api from "../services/api";
 
 export default function RowEvaluaciones({ item }) {
   const { id_evaluado, id_evaluador, id_periodo } = item;
@@ -16,9 +17,7 @@ export default function RowEvaluaciones({ item }) {
 
   const getRespuestas = async () => {
     try {
-      const res = await Axios.get(
-        `${process.env.HOSTBACK}/respuestas/${id_evaluador}/${id_evaluado}/${id_periodo}`
-      );
+      const res = await api.get(`/respuestas/${id_evaluador}/${id_evaluado}/${id_periodo}`);
       console.log({ res });
       setRespuestas(res.data.data_res);
     } catch (err) {

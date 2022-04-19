@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import PreguntaDimension from "../../components/PreguntaDimension";
+import { useUser } from "../../context/userContext";
 
 export default function Cuestionario() {
   const [nivel, setNivel] = useState(1);
+  const { isAuthenticated } = useUser();
 
   const dimensiones = ["craft", "people", "business"];
 
@@ -28,7 +30,7 @@ export default function Cuestionario() {
         </label>
       </div>
 
-      {dimensiones.map((item, index) => (
+      {isAuthenticated && dimensiones.map((item, index) => (
         <PreguntaDimension Dimension={item} Nivel={nivel} key={index} />
       ))}
     </Layout>

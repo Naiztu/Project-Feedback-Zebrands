@@ -60,7 +60,7 @@ export default function Respuesta({ info, variable, metodo, index, isSaved, hand
             />
           )}
         </div>
-        {errors.filter((i) => i.id === info.id).map((item) => <p className="error" key={item.id}>{item.message}</p>)}
+        {(errors) && errors.filter((i) => i.id === info.id).map((item) => <p className="error" key={item.id}>{item.message}</p>)}
       </div>
     </div>
   );
