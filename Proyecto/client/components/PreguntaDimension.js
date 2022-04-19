@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Pregunta from "./Pregunta";
 import { FaPlus } from "react-icons/fa";
-import Axios from "axios";
+import api from "../services/api"
 
 export default function PreguntaDimension({ Nivel, Dimension }) {
   const [pntas, setPntas] = useState([]);
 
   const getPreguntas = async () => {
     try {
-      const res = await Axios.get(
-        `${process.env.HOSTBACK}/preguntas/${Nivel}/${Dimension}`
-      );
+      const res = await api.get(`/preguntas/${Nivel}/${Dimension}`);
       console.log(res);
       if (res.status != 200) {
         throw {

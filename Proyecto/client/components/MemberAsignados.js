@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
+import api from "../services/api";
 import CardMembers from "./CardMembers";
 
 export default function MemberAsignados() {
@@ -9,8 +10,8 @@ export default function MemberAsignados() {
   const getAsignados = async () => {
     const id_assistant = 1;
     try {
-      const res = await Axios.get(
-        `http://localhost:8080/assistant_list/${id_assistant}`
+      const res = await api.get(
+        `assistant_list/${id_assistant}`
       );
       console.log(res);
       if (res.status != 200) {
