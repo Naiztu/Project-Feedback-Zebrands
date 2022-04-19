@@ -1,7 +1,5 @@
 import api from "./api";
 
-
-
 export async function postAsignados(body) {
     try {
         const res = await api.post("/evaluar", body);
