@@ -24,7 +24,7 @@ export default function Periodo() {
       </div>
 
       <section className="w-9/12 mx-auto ">
-        <h2 className="title my-10">Proximos periodo</h2>
+        <h2 className="title my-10">Próximos Periodos</h2>
         <table className="table-auto w-full shadow-lg rounded-lg">
           <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
             <tr>
@@ -32,7 +32,7 @@ export default function Periodo() {
                 <div className="font-semibold text-left">Periodo</div>
               </th>
               <th className="p-2 whitespace-nowrap ">
-                <div className="font-semibold text-left">Descripcion</div>
+                <div className="font-semibold text-left">Descripción</div>
               </th>
               <th className="p-2 whitespace-nowrap ">
                 <div className="font-semibold text-left"></div>

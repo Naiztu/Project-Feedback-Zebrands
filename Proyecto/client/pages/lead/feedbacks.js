@@ -1,33 +1,30 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
 import Layout from "../../components/Layout";
 import RowFeed from "../../components/RowFeed";
+import { useUser } from "../../context/userContext";
+import { getFeedbackLead } from "../../services/feedback";
 
 export default function Feedbacks() {
+  const { isAuthenticated } = useUser();
   const [feedbacks, setFeedbacks] = useState([]);
 
   const getFeedbacks = async () => {
     try {
-      const res = await Axios.get(`http://localhost:8080/feedback/`);
-      console.log(res);
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else setFeedbacks(res.data.data_feedbackAll);
+      const data = await getFeedbackLead();
+      setFeedbacks(data.data_feedbackAll);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getFeedbacks();
-  }, []);
+    if (isAuthenticated) {
+      getFeedbacks();
+    }
+  }, [isAuthenticated]);
   return (
     <Layout>
-      <h1 className="title w-3/4 mx-auto mt-10">Feebacks</h1>
+      <h1 className="title w-3/4 mx-auto mt-10">Feedbacks</h1>
       <div className=" flex mt-3 mx-auto w-full items-center justify-center text-sm">
         <input
           type="text"

@@ -5,9 +5,9 @@ import { useUser } from "../context/userContext";
 
 export default function Home() {
   const router = useRouter();
-  const [rol, setRol] = useState(3);
-  const [idUser, setIdUser] = useState(1);
-  const { setId_User, setIdRol } = useUser();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { loginAuth } = useUser();
   return (
     <>
       <Head>
@@ -29,27 +29,27 @@ export default function Home() {
             <input
               className="input-label block mt-6"
               placeholder="Correo"
-              value={rol}
-              onChange={(e) => setRol(parseInt(e.target.value))}
-              type={"number"}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type={"email"}
             />
             <input
               className="input-label block mt-4"
               placeholder="Contraseña"
-              value={idUser}
-              onChange={(e) => setIdUser(parseInt(e.target.value))}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               type={"password"}
             />
-            <a className="link">Recuperar contraseña</a>
 
             <button
               className="btn mt-5"
-              onClick={() => {
-                setIdRol(rol);
-                setId_User(idUser);
-                if (rol === 1) {
-                  router.push("/lead");
-                } else router.push("/user");
+              onClick={async () => {
+                try {
+                  await loginAuth(email, password);
+
+                } catch (error) {
+                  console.log({ error })
+                }
               }}
             >
               Entrar

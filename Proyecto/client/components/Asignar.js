@@ -1,26 +1,23 @@
-import Axios from "axios";
+
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import CompaneroAsignar from "./CompaneroAsignar";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
+import { getAllEmpleados } from "../services/empleado";
 import { useUser } from "../context/userContext";
+import { postAsignados } from "../services/evaluacion";
 
 export default function Asignar() {
   const router = useRouter();
-  const { user } = useUser();
+  const { isAuthenticated, user } = useUser();
   const [asignados, setAsignados] = useState([]);
   const [companeros, setCompaneros] = useState([]);
 
   const getCompaneros = async () => {
     try {
-      const res = await Axios.get(`${process.env.HOSTBACK}/empleado/`);
-      console.log(res);
-      setCompaneros(
-        res.data.data_empleados.filter(
-          (item) => item.id_empleado != user.id_empleado
-        )
-      );
+      const { data_empleados } = await getAllEmpleados();
+      setCompaneros(data_empleados);
     } catch (err) {
       swal("Hubo un error", {
         icon: "warning",
@@ -30,16 +27,17 @@ export default function Asignar() {
 
   const sendAsignados = async () => {
     try {
-      await Axios.post(`${process.env.HOSTBACK}/evaluar/`, {
+      await postAsignados({
         lista_id_empleado_evaluador: asignados.map((item) => item.id_empleado),
-        id_empleado_evaluado: 1,
-        id_periodo: 1,
+        id_empleado_evaluado: user.id_empleado,
+        id_periodo: 1
       });
       await swal("Asignado correctamente!", {
         icon: "success",
       });
       router.push("/user");
     } catch (err) {
+      console.log(err)
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -47,8 +45,10 @@ export default function Asignar() {
   };
 
   useEffect(() => {
-    getCompaneros();
-  }, []);
+    if (isAuthenticated) {
+      getCompaneros();
+    }
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -80,7 +80,7 @@ export default function Asignar() {
                       </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-100">
-                      {companeros
+                      {companeros && companeros
                         .filter((el) => !asignados.includes(el))
                         .map((item, index) => (
                           <CompaneroAsignar

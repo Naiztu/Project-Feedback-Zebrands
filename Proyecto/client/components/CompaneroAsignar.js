@@ -23,7 +23,7 @@ export default function CompaneroAsignar({
           <div className="flex items-center">
             <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
               <img
-                className="rounded-full"
+                className="rounded-full aspect-square object-cover"
                 src={info.imagen_perfil}
                 width={40}
                 height={40}
@@ -37,7 +37,7 @@ export default function CompaneroAsignar({
             {select ? (
               <button
                 onClick={addAsignados}
-                className="btn text-xs md:text-base "
+                className="btn  "
               >
                 Agregar
               </button>

@@ -60,7 +60,7 @@ export default function Index() {
       <div className=" w-full">
         <h1 className="title my-10 mx-auto">Resumen general del Chapter!</h1>
         <p className="text text-center w-3/4 mx-auto">
-          Aqui esta un resumen de los member de tu chapter
+          Aquí está un resumen de los member de tu chapter
         </p>
         <div className=" w-11/12 lg:w-7/12 mx-auto mt-2">
           <Line data={data} options={options}></Line>

@@ -58,7 +58,7 @@ export default function UserIndex() {
     <>
       <h1 className="title my-10 mx-auto">Hola de nuevo!</h1>
       <p className="text text-center w-3/4 mx-auto">
-        Aqui esta un resumen de tu desempeño en las ultimas cuatro evaluaciones.
+        Aquí está un resumen de tu desempeño en las últimas cuatro evaluaciones.
       </p>
       <div className=" w-11/12 lg:w-7/12 mx-auto mt-2">
         <Line data={data} options={options}></Line>
@@ -77,7 +77,7 @@ export default function UserIndex() {
         </div>
       </div>
       <button className="btn self-center mt-3 w-7/12 lg:w-5/12">
-        Ver ultimo feeback
+        Ver último feeback
       </button>
     </>
   );
