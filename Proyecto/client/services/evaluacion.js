@@ -14,8 +14,8 @@ export async function postAsignados(body) {
 export async function getPendientes(id_periodo, id_user) {
 
     try {
-        const { data: data_evalua } = await api.get(`/evaluar/${id_periodo}/${id_user}`);
-        return data_evalua
+        const { data} = await api.get(`/evaluar/${id_periodo}/${id_user}`);
+        return data
     } catch (error) {
         throw { error }
     }

@@ -9,12 +9,12 @@ export default function Evalua() {
   const { user, isAuthenticated } = useUser();
 
   const getData = async () => {
-    const id_periodo = 1;
+    const id_periodo = 3;
     const id_user = user.id_empleado;
     try {
-      const data_evalua = await getPendientes(id_periodo, id_user);
-      console.log(data_evalua)
-      setPendientes(data_evalua);
+      const data = await getPendientes(id_periodo, id_user);
+      console.log(data.data_evalua)
+      setPendientes(data.data_evalua);
     } catch (err) {
       console.log(err);
     }
