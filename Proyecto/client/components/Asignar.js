@@ -10,7 +10,7 @@ import { postAsignados } from "../services/evaluacion";
 
 export default function Asignar() {
   const router = useRouter();
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, user } = useUser();
   const [asignados, setAsignados] = useState([]);
   const [companeros, setCompaneros] = useState([]);
 
@@ -29,7 +29,7 @@ export default function Asignar() {
     try {
       await postAsignados({
         lista_id_empleado_evaluador: asignados.map((item) => item.id_empleado),
-        id_empleado_evaluado: 1,
+        id_empleado_evaluado: user.id_empleado,
         id_periodo: 1
       });
       await swal("Asignado correctamente!", {
