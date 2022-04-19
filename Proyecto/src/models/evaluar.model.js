@@ -39,22 +39,75 @@ export class getEvaluar {
   }
 
   async getResumen() {
+    const resumen={
+      "calificaciones":[],
+      "promedios":[]
+    };
     let conn = null;
     try {
       conn = await pool.getConnection();
       await conn.beginTransaction();
 
 
-      const [evaluadores_data, fields] = await conn.query(`
-      SELECT id_empleado_evaluador, estatus FROM	evaluacion 
-      WHERE id_periodo=${this.id_periodo}
+      const [evaluadores_data] = await conn.query(`
+      SELECT nombre, apellido_paterno,id_empleado_evaluador, estatus FROM	empleado em, evaluacion ev
+      WHERE ev.id_empleado_evaluador=em.id_empleado 
+      AND id_periodo=${this.id_periodo}
       AND id_empleado_evaluado=${this.id_user};
       `);
-     
+      const sum={
+        "cont":0,
+        "craft":0,
+        "people":0,
+        "business":0
+      }
+      const calif={
+        "craft":1,
+        "people":2,
+        "business":3
+      }
+      for (let i of evaluadores_data) {
+        if(i.estatus="No contestado"){
+          resumen.calificaciones.push({
+            "nombre":"nombre_ejp",
+            "craft":0,
+            "people":0,
+            "business":0,
+            "estatus":i.estatus
+          })
+        }
+        else{
 
+      // const [consulta_cal] = await conn.query(`SELECT * FROM respuesta WHERE 
+      // id_empleado_evaluador=i.id_empleado_evaluador AND
+      // id_empleado_evaluado=${this.id_user} AND
+      // id_periodo=${this.id_periodo} AND 
+      // tipo_respuesta="calificacion"
+      // `);
+
+          resumen.calificaciones.push({
+            "nombre":"nombre_ejp",
+            "craft":calif.craft,
+            "people":calif.people,
+            "business":calif.business,
+            "estatus":i.estatus
+          })
+          resumen.sum.cont+=1;
+          resumen.sum.craft+=calif.craft;
+          resumen.sum.people+=calif.people;
+          resumen.sum.business+=calif.business;
+        }
+        console.log(i);
+        console.log("evaluador "+i.id_empleado_evaluador)
+        console.log("estatus "+i.estatus)
+      }
+      
+    
       await conn.commit();
       await conn.release();
-      return evaluadores_data
+      //return consulta_cal
+      //return resumen
+      return evaluadores_data;
     } catch (error) {
       console.log(error);
       if (conn) {
