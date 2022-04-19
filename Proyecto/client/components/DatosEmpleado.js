@@ -60,7 +60,7 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
   const registerMember = async () => {
     try {
       const res = await Axios.post(
-        `${process.env.HOSTBACK}/empleado`,
+        `${process.env.HOSTBACK}/empleado/`,
         {
           nombre_member: datos.nombre_member,
           apellidopaterno_member: datos.apellidopaterno_member,
@@ -126,15 +126,15 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
 
 DatosEmpleado.defaultProps = {
   info: {
-    nombre_member: "Oli",
-    apellidopaterno_member: "M",
-    apellidomaterno_member: "Q",
-    correo_member: "olim@SAO" ,
-    contraseña_member: "iluvdrugs",
-    rol_member: "lead",
-    chapter: "all",
-    equipo_member: "god",
-    lead_member: "i"
+    nombre_member: "",
+    apellidopaterno_member: "",
+    apellidomaterno_member: "",
+    correo_member: "" ,
+    contraseña_member: "",
+    rol_member: "",
+    chapter: "",
+    equipo_member: "",
+    lead_member: ""
   },
   isSaved: false,
 };
