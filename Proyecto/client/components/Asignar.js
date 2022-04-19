@@ -37,6 +37,7 @@ export default function Asignar() {
       });
       router.push("/user");
     } catch (err) {
+      console.log(err)
       swal("Hubo un error", {
         icon: "warning",
       });

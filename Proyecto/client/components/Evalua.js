@@ -9,7 +9,7 @@ export default function Evalua() {
   const { user, isAuthenticated } = useUser();
 
   const getData = async () => {
-    const id_periodo = 1;
+    const id_periodo = 3;
     const id_user = user.id_empleado;
     try {
       const data = await getPendientes(id_periodo, id_user);

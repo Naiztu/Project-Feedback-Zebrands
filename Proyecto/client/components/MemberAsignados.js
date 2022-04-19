@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
+import api from "../services/api";
 import CardMembers from "./CardMembers";
 import { useUser } from "../context/userContext";
 import { getAsignados } from "../services/asignados";
@@ -11,9 +12,23 @@ export default function MemberAsignados() {
 
   const getData = async () => {
     try {
+<<<<<<< HEAD
       const data = await getAsignados();
       console.log(data);
       setInfo(data.data_members);
+=======
+      const res = await api.get(
+        `assistant_list/${id_assistant}`
+      );
+      console.log(res);
+      if (res.status != 200) {
+        throw {
+          err: true,
+          status: res.status,
+          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
+        };
+      } else setInfo(res.data.data_members);
+>>>>>>> bed6a464331454fa5861b13e0e5dc4ccc2bee225
     } catch (error) {
       console.log(error);
     }
