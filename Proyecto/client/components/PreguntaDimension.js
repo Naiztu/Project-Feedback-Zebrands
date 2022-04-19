@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Pregunta from "./Pregunta";
 import { FaPlus } from "react-icons/fa";
-<<<<<<< HEAD
 import { getPreguntaNivelDimension } from "../services/preguntas";
-=======
-import api from "../services/api"
->>>>>>> bed6a464331454fa5861b13e0e5dc4ccc2bee225
 
 export default function PreguntaDimension({ Nivel, Dimension }) {
   const [pntas, setPntas] = useState([]);
 
   const getPreguntas = async () => {
     try {
-<<<<<<< HEAD
       const data = await getPreguntaNivelDimension(Nivel, Dimension)
       console.log(data.preguntas);
       setPntas(data.preguntas);
-=======
-      const res = await api.get(`/preguntas/${Nivel}/${Dimension}`);
-      console.log(res);
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else setPntas(res.data.preguntas);
->>>>>>> bed6a464331454fa5861b13e0e5dc4ccc2bee225
     } catch (err) {
       console.log(err);
     }
