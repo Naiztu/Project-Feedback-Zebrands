@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    HOSTBACK: "http://localhost:8080/api"
+    HOSTBACK: process.env.HOSTBACK
   }
 };
 
