@@ -40,7 +40,8 @@ var Rol = /*#__PURE__*/function () {
     key: "postAsignacion",
     value: function () {
       var _postAsignacion = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(id_assistant, id_member) {
-        var conn, msg;
+        var conn, _yield$conn$query, _yield$conn$query2, data1, rol_assistant, _yield$conn$query3, _yield$conn$query4, data2, rol_member;
+
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -57,52 +58,84 @@ var Rol = /*#__PURE__*/function () {
 
               case 7:
                 _context.next = 9;
-                return conn.query("\n      INSERT INTO asignacion (id_empleado_member, id_empleado_assistant) \n      VALUES ( \n        ".concat(id_member, ",\n        ").concat(id_assistant, "\n        );\n    \n        "));
+                return conn.query("SELECT * FROM empleado_rol WHERE id_empleado= ".concat(id_assistant, " AND \n        fecha_rol=(SELECT MAX(e2.fecha_rol) \n        FROM empleado_rol e2 WHERE e2.id_empleado= ").concat(id_assistant, ");"));
 
               case 9:
-                _context.next = 11;
-                return conn.query("\n        INSERT INTO empleado_rol (id_empleado, id_rol) \n        VALUES ( \n          ".concat(id_member, ",\n          ", 2, "\n          );"));
-
-              case 11:
-                msg = _context.sent;
-                console.log(msg);
+                _yield$conn$query = _context.sent;
+                _yield$conn$query2 = _slicedToArray(_yield$conn$query, 1);
+                data1 = _yield$conn$query2[0];
+                rol_assistant = data1[0].id_rol;
                 _context.next = 15;
-                return conn.commit();
+                return conn.query("SELECT * FROM empleado_rol WHERE id_empleado= ".concat(id_member, " AND \n        fecha_rol=(SELECT MAX(e2.fecha_rol) \n        FROM empleado_rol e2 WHERE e2.id_empleado= ").concat(id_member, ");"));
 
               case 15:
-                _context.next = 17;
-                return conn.release();
+                _yield$conn$query3 = _context.sent;
+                _yield$conn$query4 = _slicedToArray(_yield$conn$query3, 1);
+                data2 = _yield$conn$query4[0];
+                rol_member = data2[0].id_rol; //console.log("rol_assistant:"+rol_assistant)
+                //console.log("rol_member:"+rol_member)
 
-              case 17:
-                _context.next = 28;
-                break;
+                if (!(rol_assistant >= rol_member)) {
+                  _context.next = 22;
+                  break;
+                }
 
-              case 19:
-                _context.prev = 19;
-                _context.t0 = _context["catch"](1);
-                console.log(_context.t0);
+                console.log("Inconsistencia en la jerarquia de roles");
+                return _context.abrupt("return", {
+                  msg: "Inconsistencia en la jerarquia de roles"
+                });
 
-                if (!conn) {
+              case 22:
+                _context.next = 24;
+                return conn.query("\n      INSERT INTO asignacion (id_empleado_member, id_empleado_assistant) \n      VALUES ( \n        ".concat(id_member, ",\n        ").concat(id_assistant, "\n        );\n        "));
+
+              case 24:
+                if (!(rol_assistant == 1)) {
                   _context.next = 27;
                   break;
                 }
 
-                _context.next = 25;
-                return conn.rollback();
-
-              case 25:
                 _context.next = 27;
-                return conn.release();
+                return conn.query("\n        INSERT INTO empleado_rol (id_empleado, id_rol) \n        VALUES ( \n          ".concat(id_member, ",\n          ", 2, "\n          );"));
 
               case 27:
+                _context.next = 29;
+                return conn.commit();
+
+              case 29:
+                _context.next = 31;
+                return conn.release();
+
+              case 31:
+                _context.next = 42;
+                break;
+
+              case 33:
+                _context.prev = 33;
+                _context.t0 = _context["catch"](1);
+                console.log(_context.t0);
+
+                if (!conn) {
+                  _context.next = 41;
+                  break;
+                }
+
+                _context.next = 39;
+                return conn.rollback();
+
+              case 39:
+                _context.next = 41;
+                return conn.release();
+
+              case 41:
                 throw _context.t0;
 
-              case 28:
+              case 42:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 19]]);
+        }, _callee, null, [[1, 33]]);
       }));
 
       function postAsignacion(_x, _x2) {

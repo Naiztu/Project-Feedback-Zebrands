@@ -27,7 +27,11 @@ var _respuestas = _interopRequireDefault(require("./routes/respuestas.routes"));
 
 var _rol = _interopRequireDefault(require("./routes/rol.routes"));
 
-var _periodo = _interopRequireDefault(require("./routes/periodo.routes"));
+var _perfil = _interopRequireDefault(require("./routes/perfil.routes"));
+
+var _auth = _interopRequireDefault(require("./routes/auth.routes"));
+
+var _userExtractor = _interopRequireDefault(require("./middlewares/userExtractor"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -46,13 +50,14 @@ app.use((0, _morgan["default"])("dev"));
 app.use((0, _express.json)());
 app.use(_express["default"]["static"]("public")); //Routes
 
-app.use("/api/feedback", _feedback["default"]);
-app.use("/api/preguntas", _preguntas["default"]);
-app.use("/api/assistant_list", _assistant_list["default"]);
-app.use("/api/evaluar", _evaluar["default"]);
-app.use("/api/empleado", _empleado["default"]);
-app.use("/api/respuestas", _respuestas["default"]);
-app.use("/api/rol", _rol["default"]);
-app.use("/api/periodo", _periodo["default"]);
+app.use("/api/login/auth", _auth["default"]);
+app.use("/api/feedback", _userExtractor["default"], _feedback["default"]);
+app.use("/api/preguntas", _userExtractor["default"], _preguntas["default"]);
+app.use("/api/assistant_list", _userExtractor["default"], _assistant_list["default"]);
+app.use("/api/evaluar", _userExtractor["default"], _evaluar["default"]);
+app.use("/api/empleado", _userExtractor["default"], _empleado["default"]);
+app.use("/api/respuestas", _userExtractor["default"], _respuestas["default"]);
+app.use("/api/rol", _userExtractor["default"], _rol["default"]);
+app.use("/api/perfil", _userExtractor["default"], _perfil["default"]);
 var _default = app;
 exports["default"] = _default;

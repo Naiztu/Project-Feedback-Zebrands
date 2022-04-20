@@ -4,7 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getAllEmpleado = getAllEmpleado;
+exports.getCurrentEmpleado = getCurrentEmpleado;
 exports.getEmpleado = getEmpleado;
+exports.postEmpleado = postEmpleado;
+exports.updateCMasCL = updateCMasCL;
+exports.updateChapterMember = updateChapterMember;
 
 var _empleado = require("../models/empleado.model");
 
@@ -57,43 +61,193 @@ function _getEmpleado() {
   return _getEmpleado.apply(this, arguments);
 }
 
-function getAllEmpleado(_x3, _x4) {
-  return _getAllEmpleado.apply(this, arguments);
+function getCurrentEmpleado(_x3, _x4) {
+  return _getCurrentEmpleado.apply(this, arguments);
 }
 
-function _getAllEmpleado() {
-  _getAllEmpleado = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var empleado, data_empleados;
+function _getCurrentEmpleado() {
+  _getCurrentEmpleado = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            empleado = new _empleado.Empleado(0);
-            _context2.prev = 1;
-            _context2.next = 4;
-            return empleado.getAllDataEmpleado();
+            res.status(200).send(req.data);
 
-          case 4:
-            data_empleados = _context2.sent;
-            res.send({
-              data_empleados: data_empleados
-            });
-            _context2.next = 11;
-            break;
-
-          case 8:
-            _context2.prev = 8;
-            _context2.t0 = _context2["catch"](1);
-            res.status(500).send({
-              err: _context2.t0
-            });
-
-          case 11:
+          case 1:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 8]]);
+    }, _callee2);
+  }));
+  return _getCurrentEmpleado.apply(this, arguments);
+}
+
+function getAllEmpleado(_x5, _x6) {
+  return _getAllEmpleado.apply(this, arguments);
+}
+
+function _getAllEmpleado() {
+  _getAllEmpleado = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+    var empleado, data_empleados;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            empleado = new _empleado.Empleado();
+            _context3.prev = 1;
+            _context3.next = 4;
+            return empleado.getAllDataEmpleado();
+
+          case 4:
+            data_empleados = _context3.sent;
+            res.status(200).send({
+              data_empleados: data_empleados
+            });
+            _context3.next = 12;
+            break;
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](1);
+            console.log({
+              err: _context3.t0
+            });
+            res.status(500).send({
+              err: _context3.t0
+            });
+
+          case 12:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[1, 8]]);
   }));
   return _getAllEmpleado.apply(this, arguments);
+}
+
+function postEmpleado(_x7, _x8) {
+  return _postEmpleado.apply(this, arguments);
+}
+
+function _postEmpleado() {
+  _postEmpleado = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+    var _req$body, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people, correo_electronico, equipo, id_chapter, imagen_perfil, password, empleado, data_post_empleado;
+
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _req$body = req.body, nombre = _req$body.nombre, apellido_paterno = _req$body.apellido_paterno, apellido_materno = _req$body.apellido_materno, nivel_general = _req$body.nivel_general, nivel_craft = _req$body.nivel_craft, nivel_business = _req$body.nivel_business, nivel_people = _req$body.nivel_people, correo_electronico = _req$body.correo_electronico, equipo = _req$body.equipo, id_chapter = _req$body.id_chapter, imagen_perfil = _req$body.imagen_perfil, password = _req$body.password;
+            empleado = new _empleado.Empleado(0, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people, 1, correo_electronico, password, equipo, id_chapter, imagen_perfil, 3);
+            _context4.prev = 2;
+            _context4.next = 5;
+            return empleado.generatorPass();
+
+          case 5:
+            console.log(empleado);
+            _context4.next = 8;
+            return empleado.postEmpleado();
+
+          case 8:
+            data_post_empleado = _context4.sent;
+            console.log({
+              data_post_empleado: data_post_empleado
+            });
+            res.send({
+              data_post_empleado: data_post_empleado
+            });
+            _context4.next = 16;
+            break;
+
+          case 13:
+            _context4.prev = 13;
+            _context4.t0 = _context4["catch"](2);
+            res.status(500).send({
+              err: _context4.t0
+            });
+
+          case 16:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[2, 13]]);
+  }));
+  return _postEmpleado.apply(this, arguments);
+}
+
+function updateChapterMember(_x9, _x10) {
+  return _updateChapterMember.apply(this, arguments);
+}
+
+function _updateChapterMember() {
+  _updateChapterMember = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+    var _req$body2, password, imagen_perfil, id_empleado, nueva_informacion, data;
+
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _req$body2 = req.body, password = _req$body2.password, imagen_perfil = _req$body2.imagen_perfil, id_empleado = _req$body2.id_empleado;
+            nueva_informacion = new _empleado.Empleado(id_empleado, "", "", "", 0, 0, 0, 0, 1, "", password, "", 0, imagen_perfil, 0);
+
+            try {
+              data = nueva_informacion.updateChapterMember();
+              console.log(data);
+              res.status(200).send({
+                message: "correct update"
+              });
+            } catch (err) {
+              res.status(500).send({
+                err: err
+              });
+            }
+
+          case 3:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  }));
+  return _updateChapterMember.apply(this, arguments);
+}
+
+function updateCMasCL(_x11, _x12) {
+  return _updateCMasCL.apply(this, arguments);
+}
+
+function _updateCMasCL() {
+  _updateCMasCL = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+    var _req$body3, nombre, apellido_paterno, apellido_materno, activo, equipo, id_empleado, nueva_informacion_lead, datas;
+
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _req$body3 = req.body, nombre = _req$body3.nombre, apellido_paterno = _req$body3.apellido_paterno, apellido_materno = _req$body3.apellido_materno, activo = _req$body3.activo, equipo = _req$body3.equipo, id_empleado = _req$body3.id_empleado;
+            nueva_informacion_lead = new _empleado.Empleado(id_empleado, nombre, apellido_paterno, apellido_materno, 0, 0, 0, 0, activo, "", "", equipo, 0, "", 0);
+
+            try {
+              datas = nueva_informacion_lead.updateCMasCL();
+              console.log(datas);
+              res.status(200).send({
+                message: "correct update"
+              });
+            } catch (err) {
+              res.status(500).send({
+                err: err
+              });
+            }
+
+          case 3:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6);
+  }));
+  return _updateCMasCL.apply(this, arguments);
 }
