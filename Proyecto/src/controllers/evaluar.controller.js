@@ -38,3 +38,16 @@ export async function postAsignarCompaniero(req, res) {
     res.status(500).send({ err });
   }
 }
+
+  
+export async function getResumen(req, res) {
+  const { id_user, id_periodo } = req.params;
+  const evalua = new getEvaluar(id_user, id_periodo);
+  try {
+    const data_resumen = await evalua.getResumen();
+    res.send({ data_resumen });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ err });
+  }
+}
