@@ -62,6 +62,7 @@ export class getEvaluar {
       const calificaciones_por_evaluador= evaluadores_data.map( (element)=> {
         if(element.estatus==="Contestado"){
           return {
+            "id_evaluador":element.id_empleado_evaluador,
             "nombre":element.nombre,
             "apellido_paterno":element.apellido_paterno,
             "imagen":element.imagen_perfil,
@@ -88,6 +89,7 @@ export class getEvaluar {
         }
         else{
           return{
+            "id_evaluador":element.id_empleado_evaluador,
             "nombre":element.nombre,
             "apellido_paterno":element.apellido_paterno,
             "imagen":element.imagen_perfil,
