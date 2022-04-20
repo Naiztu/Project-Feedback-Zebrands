@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.queryPostRespuestas = queryPostRespuestas;
 exports.queryPostSolicitarEvaluaciones = queryPostSolicitarEvaluaciones;
+exports.queryUpdatePass = queryUpdatePass;
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -31,6 +32,15 @@ function queryPostSolicitarEvaluaciones(lista_id_empleado_evaluador, id_evaluado
 
   var query = s.slice(0, -1);
   return query;
+}
+
+function queryUpdatePass(items) {
+  var s = "";
+  items.forEach(function (element) {
+    s += "UPDATE empleado SET " + "`" + "password" + "`" + " = '".concat(element.password, "' WHERE id_empleado = ").concat(element.id_empleado, ";");
+  });
+  console.log(s);
+  return s;
 }
 
 function queryPostRespuestas(id_empleado_evaluador, id_empleado_evaluado, id_periodo, lista_preguntas) {

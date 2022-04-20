@@ -103,36 +103,38 @@ function getAllFeedbacks(_x5, _x6) {
 
 function _getAllFeedbacks() {
   _getAllFeedbacks = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var data_feedbackAll;
+    var _req$data, id_empleado, apellido_paterno, nivel_business, nivel_craft, nivel_people, data_feedbackAll;
+
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.prev = 0;
-            _context3.next = 3;
+            _req$data = req.data, id_empleado = _req$data.id_empleado, apellido_paterno = _req$data.apellido_paterno, nivel_business = _req$data.nivel_business, nivel_craft = _req$data.nivel_craft, nivel_people = _req$data.nivel_people;
+            _context3.prev = 1;
+            _context3.next = 4;
             return _feedback.Feedback.getDataAllFeedback();
 
-          case 3:
+          case 4:
             data_feedbackAll = _context3.sent;
             res.send({
               data_feedbackAll: data_feedbackAll
             });
-            _context3.next = 10;
+            _context3.next = 11;
             break;
 
-          case 7:
-            _context3.prev = 7;
-            _context3.t0 = _context3["catch"](0);
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](1);
             res.status(500).send({
               err: _context3.t0
             });
 
-          case 10:
+          case 11:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 7]]);
+    }, _callee3, null, [[1, 8]]);
   }));
   return _getAllFeedbacks.apply(this, arguments);
 }
