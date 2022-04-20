@@ -27,7 +27,7 @@ export default function Post() {
   function message(tipo) {
     switch (tipo) {
       case "abierta":
-        return "No puede exeder los 255 caracteres";
+        return "No puede exceder los 255 caracteres";
       case "numerica":
         return "Selecciona una opción";
       case "calificacion":

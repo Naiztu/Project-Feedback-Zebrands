@@ -30,7 +30,7 @@ export default function Evalua() {
     <>
       <h1 className="title w-11/12 mx-auto my-10">Evaluaciones pendientes</h1>
       <div className="w-11/12 items-center justify-center mx-auto flex flex-wrap">
-        {pendientes.map((item, index) => (
+        {pendientes && pendientes.map((item, index) => (
           <CardCompañero key={index} pendientes={item} />
         ))}
       </div>
