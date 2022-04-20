@@ -39,75 +39,91 @@ export class getEvaluar {
   }
 
   async getResumen() {
-    const resumen={
-      "calificaciones":[],
-      "promedios":[]
-    };
+
+
     let conn = null;
     try {
       conn = await pool.getConnection();
       await conn.beginTransaction();
-
+      const arrAvg = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
 
       const [evaluadores_data] = await conn.query(`
-      SELECT nombre, apellido_paterno,id_empleado_evaluador, estatus FROM	empleado em, evaluacion ev
+      SELECT nombre, apellido_paterno,id_empleado_evaluador, imagen_perfil, estatus FROM	empleado em, evaluacion ev
       WHERE ev.id_empleado_evaluador=em.id_empleado 
       AND id_periodo=${this.id_periodo}
       AND id_empleado_evaluado=${this.id_user};
       `);
-      const sum={
-        "cont":0,
-        "craft":0,
-        "people":0,
-        "business":0
-      }
-      const calif={
-        "craft":1,
-        "people":2,
-        "business":3
-      }
-      for (let i of evaluadores_data) {
-        if(i.estatus="No contestado"){
-          resumen.calificaciones.push({
-            "nombre":"nombre_ejp",
-            "craft":0,
-            "people":0,
-            "business":0,
-            "estatus":i.estatus
-          })
+      const [calif] = await conn.query(`
+      SELECT  id_empleado_evaluador, dimension_respuesta, descripcion_respuesta 
+      FROM respuesta 
+      WHERE id_empleado_evaluado=${this.id_user} 
+      AND id_periodo=${this.id_periodo};
+  `);;
+      const calificaciones_por_evaluador= evaluadores_data.map( (element)=> {
+        if(element.estatus==="Contestado"){
+          return {
+            "nombre":element.nombre,
+            "apellido_paterno":element.apellido_paterno,
+            "imagen":element.imagen_perfil,
+            "estatus":element.estatus,
+            "cal_business": arrAvg(calif.filter((cal)=>{
+              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              cal.dimension_respuesta==="business";
+            }).map((ob)=>{
+              return parseInt(ob.descripcion_respuesta);
+            })),
+            "cal_craft": arrAvg(calif.filter((cal)=>{
+              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              cal.dimension_respuesta==="craft";
+            }).map((ob)=>{
+              return parseInt(ob.descripcion_respuesta);
+            })),
+            "cal_people":  arrAvg(calif.filter((cal)=>{
+              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              cal.dimension_respuesta==="people";
+            }).map((ob)=>{
+              return parseInt(ob.descripcion_respuesta);
+            }))
+          }
         }
         else{
-
-      // const [consulta_cal] = await conn.query(`SELECT * FROM respuesta WHERE 
-      // id_empleado_evaluador=i.id_empleado_evaluador AND
-      // id_empleado_evaluado=${this.id_user} AND
-      // id_periodo=${this.id_periodo} AND 
-      // tipo_respuesta="calificacion"
-      // `);
-
-          resumen.calificaciones.push({
-            "nombre":"nombre_ejp",
-            "craft":calif.craft,
-            "people":calif.people,
-            "business":calif.business,
-            "estatus":i.estatus
-          })
-          resumen.sum.cont+=1;
-          resumen.sum.craft+=calif.craft;
-          resumen.sum.people+=calif.people;
-          resumen.sum.business+=calif.business;
+          return{
+            "nombre":element.nombre,
+            "apellido_paterno":element.apellido_paterno,
+            "imagen":element.imagen_perfil,
+            "estatus":element.estatus
+          }
         }
-        console.log(i);
-        console.log("evaluador "+i.id_empleado_evaluador)
-        console.log("estatus "+i.estatus)
-      }
+        
+      })
       
-    
+      
       await conn.commit();
       await conn.release();
-      //return consulta_cal
-      //return resumen
-      return evaluadores_data;
+      const contestados=calificaciones_por_evaluador.filter((cal)=>{
+        return cal.estatus==="Contestado";
+      })
+
+      const promedios=[
+        arrAvg(contestados.map((ob)=>{
+          return ob.cal_craft;
+        })), 
+        arrAvg(contestados.map((ob)=>{
+          return ob.cal_people;
+        })), 
+        arrAvg(contestados.map((ob)=>{
+          return ob.cal_business;
+        }))]
+
+      const resumen={
+        "calificaciones": calificaciones_por_evaluador,
+        "prom_craft": promedios[0],
+        "prom_people":promedios[1],
+        "prom_business": promedios[2],
+        "prom_gen":arrAvg(promedios)
+      }
+  
+      return resumen;
     } catch (error) {
       console.log(error);
       if (conn) {
@@ -146,5 +162,5 @@ export class postEvaluar {
     }
   }
 
-  
+
 }
