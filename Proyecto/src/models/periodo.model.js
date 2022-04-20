@@ -41,8 +41,9 @@ export class Periodo {
     try {
     const [rows, fields] = await pool.execute(
 
-    ` SELECT nombre_periodo, fecha_inicio, fecha_fin FROM periodo 
-      WHERE estatus_periodo = 'Vigente'`);
+    ` SELECT nombre_periodo, fecha_inicio, fecha_fin, estatus_periodo FROM periodo 
+    order BY fecha_fin DESC
+    `);
         return rows;
     } catch (err) {
       throw { err };
