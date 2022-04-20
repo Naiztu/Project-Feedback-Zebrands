@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,11 +12,11 @@ exports.getPreguntasDimension = getPreguntasDimension;
 exports.registraPregunta = registraPregunta;
 exports.updatePregunta = updatePregunta;
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
 var _preguntas = require("../models/preguntas.model");
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 //Obtener preguntas
 function getPreguntas(_x, _x2) {
@@ -22,9 +24,9 @@ function getPreguntas(_x, _x2) {
 }
 
 function _getPreguntas() {
-  _getPreguntas = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
+  _getPreguntas = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
     var nivel, preguntas;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+    return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -63,10 +65,10 @@ function getPreguntasDimension(_x3, _x4) {
 }
 
 function _getPreguntasDimension() {
-  _getPreguntasDimension = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
+  _getPreguntasDimension = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
     var _req$params, nivel, dimension, preguntas;
 
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -105,10 +107,10 @@ function registraPregunta(_x5, _x6) {
 }
 
 function _registraPregunta() {
-  _registraPregunta = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+  _registraPregunta = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
     var _req$body, pregunta, nivel_pregunta, dimension_pregunta, tipo_pregunta, id_chapter, nueva_pregunta, data;
 
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -149,9 +151,9 @@ function eliminaPregunta(_x7, _x8) {
 }
 
 function _eliminaPregunta() {
-  _eliminaPregunta = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+  _eliminaPregunta = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
     var id_pregunta;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return _regenerator["default"].wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -184,10 +186,10 @@ function cambiaIndex(_x9, _x10) {
 }
 
 function _cambiaIndex() {
-  _cambiaIndex = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+  _cambiaIndex = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
     var _req$body2, id_pregunta_origen, id_pregunta_destino;
 
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -220,10 +222,10 @@ function updatePregunta(_x11, _x12) {
 }
 
 function _updatePregunta() {
-  _updatePregunta = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+  _updatePregunta = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
     var _req$body3, id_pregunta, pregunta, tipo_pregunta, nueva_pregunta, data;
 
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    return _regenerator["default"].wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:

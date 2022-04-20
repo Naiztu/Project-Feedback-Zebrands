@@ -28,3 +28,13 @@ export async function postPeriodo(req, res) {
       res.status(500).send({ err });
     }
   }
+
+  export async function getPeriodo(req, res) {
+    const {} = req.body;
+    try {
+      const data = await Periodo.getPeriodo();
+      res.send({ data });
+    } catch (err) {
+      res.status(500).send({ err });
+    }
+  }

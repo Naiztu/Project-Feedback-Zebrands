@@ -12,8 +12,10 @@ import rutas_empleado from "./routes/empleado.routes";
 import rutas_respuestas from "./routes/respuestas.routes";
 import rutas_rol from "./routes/rol.routes";
 import rutas_perfil from "./routes/perfil.routes";
+import rutas_periodo from "./routes/periodo.routes";
 import rutas_auth from "./routes/auth.routes"
 import userExtractor from "./middlewares/userExtractor";
+
 
 //setings
 const app = express();
@@ -34,6 +36,8 @@ app.use("/api/empleado", userExtractor, rutas_empleado);
 app.use("/api/respuestas", userExtractor, rutas_respuestas);
 app.use("/api/rol", userExtractor, rutas_rol);
 app.use("/api/perfil", userExtractor, rutas_perfil);
+app.use("/api/periodo", userExtractor, rutas_periodo);
+
 
 
 export default app;
