@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: bfslomngqiv4lrdhuov3-mysql.services.clever-cloud.com:3306
--- Generation Time: Apr 06, 2022 at 09:51 PM
+-- Generation Time: Apr 21, 2022 at 02:57 AM
 -- Server version: 8.0.15-5
 -- PHP Version: 7.2.34
 
@@ -21,35 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `bfslomngqiv4lrdhuov3`
 --
-
-DELIMITER $$
---
--- Procedures
---
-CREATE DEFINER=`uzgdua95rlqgl1sz`@`%` PROCEDURE `cambioIndex` (IN `U_id_pregunta_origen` INT(11), IN `U_id_pregunta_destino` INT(11))  NO SQL BEGIN
-
-SET @auxOrigen = (
-    SELECT index_pregunta 
-    FROM banco_preguntas 
-    WHERE id_pregunta = U_id_pregunta_origen
-);
-
-SET @auxDestino = (
-    SELECT index_pregunta 
-    FROM banco_preguntas 
-    WHERE id_pregunta = U_id_pregunta_destino
-);
-
-UPDATE banco_preguntas 
-    SET index_pregunta = @auxOrigen 
-    WHERE id_pregunta = U_id_pregunta_destino;
-UPDATE banco_preguntas 
-    SET index_pregunta = @auxDestino 
-    WHERE id_pregunta = U_id_pregunta_origen;
-
-END$$
-
-DELIMITER ;
+CREATE DATABASE IF NOT EXISTS `bfslomngqiv4lrdhuov3` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `bfslomngqiv4lrdhuov3`;
 
 -- --------------------------------------------------------
 
@@ -60,40 +33,45 @@ DELIMITER ;
 CREATE TABLE `asignacion` (
   `id_empleado_member` int(11) NOT NULL,
   `id_empleado_assistant` int(11) NOT NULL,
-  `fecha_asignacion` date NOT NULL
+  `fecha_asignacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `asignacion`
 --
 
-INSERT INTO `asignacion` (`id_empleado_member`, `id_empleado_assistant`, `fecha_asignacion`) VALUES
-(22, 1, '2005-03-22'),
-(23, 1, '2005-03-22'),
-(24, 1, '2005-03-22'),
-(26, 1, '2005-03-22'),
-(1, 2, '2006-03-22'),
-(3, 2, '2006-03-22'),
-(10, 2, '2006-03-22'),
-(17, 2, '2006-03-22'),
-(4, 3, '2005-03-22'),
-(5, 3, '2005-03-22'),
-(6, 3, '2005-03-22'),
-(7, 3, '2005-03-22'),
-(8, 3, '2005-03-22'),
-(9, 3, '2005-03-22'),
-(11, 10, '2006-03-22'),
-(12, 10, '2006-03-22'),
-(13, 10, '2006-03-22'),
-(14, 10, '2006-03-22'),
-(15, 10, '2006-03-22'),
-(16, 10, '2006-03-22'),
-(17, 16, '2009-03-22'),
-(18, 17, '2006-03-22'),
-(19, 17, '2006-03-22'),
-(20, 17, '2006-03-22'),
-(21, 17, '2006-03-22'),
-(17, 20, '2009-03-22');
+INSERT INTO `asignacion` (`id_empleado_member`, `id_empleado_assistant`) VALUES
+(22, 1),
+(23, 1),
+(24, 1),
+(26, 1),
+(1, 2),
+(3, 2),
+(10, 2),
+(17, 2),
+(4, 3),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(9, 3),
+(11, 10),
+(11, 10),
+(12, 10),
+(13, 10),
+(14, 10),
+(15, 10),
+(16, 10),
+(16, 10),
+(16, 10),
+(17, 16),
+(18, 17),
+(19, 17),
+(20, 17),
+(21, 17),
+(18, 18),
+(17, 20),
+(18, 26);
 
 -- --------------------------------------------------------
 
@@ -116,43 +94,26 @@ CREATE TABLE `banco_preguntas` (
 --
 
 INSERT INTO `banco_preguntas` (`id_pregunta`, `pregunta`, `index_pregunta`, `nivel_pregunta`, `dimension_pregunta`, `tipo_pregunta`, `id_chapter`) VALUES
-(3, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 3, 5, 'craft', 'calificacion', 1),
-(4, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 4, 3, 'craft', 'numerica', 1),
-(5, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 5, 3, 'craft', 'numerica', 1),
-(6, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 6, 3, 'craft', 'abierta', 1),
 (7, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 7, 3, 'people', 'calificacion', 1),
 (8, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 8, 3, 'business', 'numerica', 1),
-(9, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 9, 2, 'people', 'calificacion', 1),
-(10, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 10, 5, 'business', 'abierta', 1),
-(12, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 12, 4, 'business', 'calificacion', 1),
+(9, '¿Como te llevaste personalmente con el evaluado en proyectos/iniciativas que coincidieron?', 9, 2, 'people', 'abierta', 1),
 (13, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 13, 4, 'people', 'calificacion', 1),
-(14, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 14, 5, 'people', 'abierta', 1),
-(15, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 15, 3, 'craft', 'numerica', 1),
 (16, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 16, 4, 'craft', 'calificacion', 1),
-(17, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 17, 3, 'craft', 'numerica', 1),
 (18, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 18, 2, 'craft', 'abierta', 1),
-(19, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 19, 2, 'craft', 'calificacion', 1),
-(20, 'Cambio exitoso', 20, 4, 'craft', 'abierta', 1),
-(22, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 22, 3, 'people', 'abierta', 1),
+(19, '¿Como calificas las habilidades en base de datos del evaluado?', 19, 2, 'craft', 'calificacion', 1),
 (24, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 24, 4, 'business', 'calificacion', 1),
-(25, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 25, 5, 'people', 'numerica', 1),
 (26, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 26, 4, 'people', 'numerica', 1),
-(27, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 27, 4, 'business', 'abierta', 1),
-(28, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 28, 5, 'people', 'numerica', 1),
 (29, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 29, 4, 'people', 'numerica', 1),
-(36, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 41, 1, 'craft', 'abierta', 1),
+(36, '¿En general, cómo es la retroalimentación que da en las revisiones de código?', 41, 1, 'craft', 'abierta', 1),
 (37, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', 42, 1, 'craft', 'numerica', 1),
-(38, 'Describe cómo el evaluado atiende las recomendaciones que le hace sus compañeros. Menciona 2 ejemplos.', 43, 1, 'craft', 'abierta', 1),
 (39, '¿Qué le recomendarias al evaluado para mejorar?', 44, 1, 'craft', 'abierta', 1),
 (40, 'Del a 1 al 5. ¿Cómo evaluarias la dimension people? Siendo 1 que requiere mejorar y 5 que excede las expectativas', 39, 1, 'people', 'calificacion', 1),
 (41, 'Del a 1 al 5. ¿Cómo el trato a los demás compañeros de trabajo? Siendo 1 que requiere mejorar y 5 que excede las expectativas', 40, 1, 'people', 'abierta', 1),
 (42, '¿Crees que la salud del evaluado está en riesgo? ¿Se desvela trabajando? ¿Tiene malos hábitos alimenticios?', 41, 1, 'people', 'abierta', 1),
-(43, 'Describe el trato que tuvo contigo desde la perspectiva de respeto a tu integridad', 42, 1, 'craft', 'abierta', 1),
 (44, '¿Qué le recomendarias al evaluado para mejorar?', 44, 1, 'people', 'abierta', 1),
 (45, 'Del a 1 al 5. ¿Cómo evaluarias la dimension bussines? Siendo 1 que requiere mejorar y 5 que excede las expectativas', 39, 1, 'business', 'calificacion', 1),
 (46, 'Del a 1 al 5. ¿Qué tanto se comporta de acuerdo a las politicas de la empresa? Siendo 1 que requiere mejorar y 5 que excede las expectativas', 40, 1, 'business', 'abierta', 1),
 (47, 'Desde tu perspectiva,¿crees que hace un trabajo integral a la visión y misión de la empresa? Describe sí o n y por qué', 41, 1, 'business', 'abierta', 1),
-(48, '¿Cuál es la importancia de su trabajo en la empresa?', 42, 1, 'craft', 'abierta', 1),
 (49, '¿Qué le recomendarias al evaluado para mejorar?', 44, 1, 'business', 'abierta', 1),
 (50, 'Del 1 al 5 donde 5 es excelente y 1 deficiente. ¿Qué tan bien documenta el evaluado?', 45, 1, 'business', 'numerica', 1),
 (51, 'prueba 1 de models', NULL, 1, 'undefined', 'abierta', 1),
@@ -166,11 +127,17 @@ INSERT INTO `banco_preguntas` (`id_pregunta`, `pregunta`, `index_pregunta`, `niv
 (59, 'prueba 6 de models', NULL, 1, 'undefined', 'abierta', 1),
 (60, 'prueba 6 de models', NULL, 1, 'undefined', 'abierta', 1),
 (62, 'prueba  8 de models', NULL, 1, 'undefined', 'abierta', 1),
-(63, 'prueba update', 46, 1, 'craft', 'numerica', 1),
 (64, '¿Kscjdsvkbsd?', NULL, 1, 'undefined', 'abierta', 1),
 (65, '¿ADSGERH?', NULL, 1, 'undefined', 'abierta', 1),
-(71, 'Cambio exitoso', 47, 1, 'craft', 'abierta', 1),
-(73, 'Prueba no null 1', 48, 1, 'craft', 'abierta', 1);
+(79, '¿Como calificarias la forma de expresar conceptos el evaluado? (tecnicos a un cliente)', 10, 2, 'people', 'calificacion', 1),
+(80, 'Describe una experencia de negociacion que tuviste con el evaluado.', NULL, 2, 'business', 'abierta', 1),
+(81, 'Si tuvieras que calificar a tu compañero en esta area ¿Cual le darias?', NULL, 2, 'business', 'calificacion', 1),
+(82, 'Describe cómo el evaluado atiende las recomendaciones que le hace sus compañeros. (Menciona 2 ejemplos)', NULL, 3, 'craft', 'abierta', 1),
+(83, '¿En cuantos proyectos colaboraste con el evaluado?', NULL, 3, 'craft', 'numerica', 1),
+(84, 'A que nivel crees que deberia estar en esta categoria', NULL, 3, 'craft', 'calificacion', 1),
+(85, 'Del 1 al 5, ¿Qué tan bueno es para diseñar arquitecturas de microservicios?', 45, 1, 'craft', 'numerica', 1),
+(86, 'Como lo calificarias del 1 al 5 (con decimal)', 46, 1, 'business', 'calificacion', 1),
+(87, 'Como calificar al evaluado', 46, 1, 'craft', 'calificacion', 1);
 
 -- --------------------------------------------------------
 
@@ -208,6 +175,7 @@ CREATE TABLE `empleado` (
   `nivel_craft` decimal(65,1) DEFAULT NULL,
   `nivel_business` decimal(65,1) DEFAULT NULL,
   `nivel_people` decimal(65,1) DEFAULT NULL,
+  `activo` tinyint(1) NOT NULL DEFAULT '1',
   `correo_electronico` varchar(255) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
   `equipo` varchar(45) DEFAULT NULL,
@@ -219,33 +187,40 @@ CREATE TABLE `empleado` (
 -- Dumping data for table `empleado`
 --
 
-INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido_paterno`, `apellido_materno`, `nivel_general`, `nivel_craft`, `nivel_business`, `nivel_people`, `correo_electronico`, `password`, `equipo`, `id_chapter`, `imagen_perfil`) VALUES
-(1, 'Bernardo', 'Laing', 'Pérez', '3.1', '3.1', '3.1', '2.2', 'bernlain@zeb.mx', '\"V!Cx2>?J=NFD{jB\"', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032T3ZRJQ4-e95b408542c0-512'),
-(2, 'Arisbeth', 'Aguirre', 'Muñoz', '2.2', '2.2', '2.2', '4.2', 'nicoro@zeb.mx', 'DJhV@;ezr#gKS6{}', 'ZeCore Payments', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032ZT65TFD-g0dcc9c67fc7-512'),
-(3, 'Jaime', 'López', 'Bolaños', '3.1', '3.3', '2.3', '2.1', 'gabhuibol@zeb.mx', 'W*V@3Qg}FZhqHs5Q', 'ZeCore Shipping', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032ZTLM77D-69158b45a0f2-512'),
-(4, 'Jordana', 'Betancourt', 'Santana', '3.3', '4.2', '4.3', '2.3', 'almpatsan@zeb.mx', 'N/5ay`7x%_', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U033PKGCJEL-e0e77a6fe9b2-512'),
-(5, 'Diego', 'Resendiz', 'Amogus', '2.2', '2.2', '1.3', '3.3', 'origatamon@zeb.mx', 'ZhqHs5Q&', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U02E8LKCRC2-c99a48de617c-512'),
-(6, 'Ana Karen', 'López', 'Capybara', '1.3', '1.3', '1.2', '2.2', 'feliosscap@zeb.mx', 'vmY#B659]}n', 'Client+SM', 1, 'https://ca.slack-edge.com/T08BWSY0P-U03326KHJNQ-454da28d98a5-512'),
-(7, 'Jorge', 'Castro', 'Sánchez', '2.3', '2.3', '2.3', '4.1', 'carrisa@zeb.mx', 'u0shjHO', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U03326LAV8C-849ec178f1c3-512'),
-(8, 'Sarah', 'Martinez', 'Valdés', '4.1', '4.1', '4.3', '4.1', 'diegaval@zeb.mx', '99JurcTSDH9B', 'ZeCore Shipping', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032ZSCUGKD-345e780c15d1-512'),
-(9, 'Denisse', 'Domínguez', 'del Moral', '2.2', '2.3', '1.2', '1.3', 'valnunmor@zeb.mx', 'KvxWGN2ZzBH', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032X00EMMK-93d1cbf1114f-512'),
-(10, 'Sebastían', 'Pedrero', 'Rodríguez', '2.2', '3.3', '2.1', '1.2', 'sunny.bartell@hotmail.com', 'ix5EtfT1E', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032X15N5DK-77bebed0078d-512'),
-(11, 'Natalia', 'Rodríguez', 'Martínez', '4.1', '4.1', '4.1', '3.1', 'tanner.bernier@gmail.com', 'HfPa0aGT', 'ZeCore Client', 1, 'http://localhost:8080/img/user_default.png'),
-(12, 'Edgar', 'Santana', 'Matute', '3.2', '3.3', '4.2', '2.2', 'keyshawn.kreiger@gmail.com', 'SYtOKN3R', 'ZeCore CRM', 1, 'http://localhost:8080/img/user_default.png'),
-(13, 'Cristhian', 'Abarca', 'Alberca', '1.2', '1.2', '1.3', '2.3', 'nernser@orn.info', 'PtWXyJuzS', 'ZeCore WMS', 1, 'http://localhost:8080/img/user_default.png'),
-(14, 'Ivan', 'Celis', 'Cea', '1.2', '1.2', '1.3', '3.2', 'collins.elfrieda@gmail.com', 'YRMBNH1Rhq', 'ZeCore WMS', 1, 'http://localhost:8080/img/user_default.png'),
-(15, 'Kevin', 'Rojas', 'Ladino', '1.1', '1.1', '2.2', '1.1', 'zola65@sanford.info', '6KE4Hk33Xcv', 'ZeCore CRM', 1, 'http://localhost:8080/img/user_default.png'),
-(16, 'Cristian', 'Rico', 'Espinosa', '1.3', '1.3', '2.3', '1.1', 'aparisian@gmail.com', 'nPK82QB4', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U033PKURJHE-22cc216346d2-512'),
-(17, 'Julio', 'Celis', 'Romero', '3.2', '3.2', '4.1', '3.3', 'gframi@gmail.com', 'g2ZsGVns', 'ZeCore Payments', 1, 'http://localhost:8080/img/user_default.png'),
-(18, 'Aldo', 'Rivera', 'Morales', '4.3', '4.3', '4.3', '4.3', 'oswald14@crona.biz', 'QqRrvFzl63e', 'ZeCore Shipping', 1, 'http://localhost:8080/img/user_default.png'),
-(19, 'Erick', 'Samaniego', 'Becerra', '3.2', '5.1', '4.2', '2.2', 'bogan.aurore@nader.com', 'NE6cyxvZUXo', 'ZeCore Payments', 1, 'http://localhost:8080/img/user_default.png'),
-(20, 'Matias', 'Becerra', 'Alanís', '2.2', '5.3', '1.2', '5.3', 'pgoodwin@mills.com', 'vtIx9r', 'Zeus', 1, 'http://localhost:8080/img/user_default.png'),
-(21, 'Abraham', 'Febres', 'del Moral', '2.2', '2.2', '5.1', '4.3', 'turner.mueller@gmail.com', 'WCLCnBE', 'ZeCore CRM', 1, 'http://localhost:8080/img/user_default.png'),
-(22, 'Adrian', 'Matute', 'Beltrán', '3.3', '3.2', '4.2', '3.1', 'daren46@cremin.com', 'YH19byb7vW', 'Production Engineering', 1, 'https://pps.whatsapp.net/v/t61.24694-24/254566233_5300896393263416_5613531432146880897_n.jpg?ccb=11-4&oh=01_AVw0Dsqm8rPQKg1B22O4uRxznrtLumIpoOKhS1T8hkhr3w&oe=624B269D'),
-(23, 'Fermin', 'Méndez', 'García', '3.1', '2.3', '2.2', '4.2', 'van44@gmail.com', 'DrFZbO1NI', 'Production Engineering', 1, 'https://pps.whatsapp.net/v/t61.24694-24/172228257_740812833551791_241537930840892720_n.jpg?ccb=11-4&oh=01_AVy6wdobOC7oIaW0Pb8-e4YTtppGDAzZAWD-DI1phadDZg&oe=624CC814'),
-(24, 'Ricardo', 'Núñez', 'Alanís', '1.1', '1.1', '1.1', '1.1', 'grady.kenna@reilly.info', 'PjYuRp0y', 'Production Engineering', 1, 'https://pps.whatsapp.net/v/t61.24694-24/74620806_1568205653343912_4892105546824215749_n.jpg?ccb=11-4&oh=01_AVxuKTcazPwWvR_gBVE2UIOShgSh7ZCY6YiOVm0wNG0c9Q&oe=624B9A0F'),
-(25, 'Olivia', 'Morales', 'Quezada', '2.2', '2.1', '3.3', '1.2', 'kovacek.brock@dickens.biz', 'E6i8KgNq', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U033274FN9J-d2c2e0b6c4e0-512'),
-(26, 'Angel', 'Rico', 'Mendieta', '4.1', '4.3', '3.1', '1.2', 'julius34@wiegand.com', 'NPWkamM', 'Production Engineering', 1, 'https://pps.whatsapp.net/v/t61.24694-24/213224524_1363904737368243_6916231182105360410_n.jpg?stp=dst-jpg_s96x96&ccb=11-4&oh=f98b6f245de1ab2931e2202cb2713905&oe=624C5F5E');
+INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido_paterno`, `apellido_materno`, `nivel_general`, `nivel_craft`, `nivel_business`, `nivel_people`, `activo`, `correo_electronico`, `password`, `equipo`, `id_chapter`, `imagen_perfil`) VALUES
+(1, 'Alan', 'Brito', 'Perez', '3.1', '3.1', '3.1', '2.2', 1, 'alanBrito@zeb.mx', '$2b$05$mWMh/d0S5OL3DDArUlA9neUyAwER7cMHodIQlqCz5UMQcDEl7Frd2', 'ZeCore Client', 1, 'http://localhost:8080/img/avatar.jpg'),
+(2, 'Arisbeth', 'Aguirre', 'Muñoz', '2.2', '2.2', '2.2', '4.2', 1, 'nicoro@zeb.mx', '$2b$05$PV5bEoDp/LcHEc1321VG4ur50cc40GqeousLD4uCCYyNPSj3h4gYm', 'ZeCore Payments', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032ZT65TFD-g0dcc9c67fc7-512'),
+(3, 'Jaime', 'López', 'Bolaños', '3.1', '3.3', '2.3', '2.1', 1, 'gabhuibol@zeb.mx', '$2b$05$.XVbldqqRj4b34BlvcjWB.qhenoeBLWVRKVPrh62jGF2Un5uEVkN.', 'ZeCore Shipping', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032ZTLM77D-69158b45a0f2-512'),
+(4, 'Jordana', 'Betancourt', 'Santana', '3.3', '4.2', '4.3', '2.3', 1, 'almpatsan@zeb.mx', '$2b$05$kRoJPk8kpKHkKkPxyLzJGO5VkjgTreeDarTddIkv99WDKT5jvPwdm', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U033PKGCJEL-e0e77a6fe9b2-512'),
+(5, 'Diego', 'Resendiz', 'Amogus', '3.1', '2.2', '1.3', '3.3', 1, 'origatamon@zeb.mx', '$2b$05$gW5feyNInMf6BSLMNM.nm.oN8miQ7xjUtBlt5JYEjjpy5R7R5bpFi', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U02E8LKCRC2-c99a48de617c-512'),
+(6, 'Ana Karen', 'López', 'Capybara', '1.3', '1.3', '1.2', '2.2', 1, 'feliosscap@zeb.mx', '$2b$05$zLNHu0oy88LQyjATspMFJOjob5qkk6spkmS1cOu5f7Cp/hadKECAS', 'Client+SM', 1, 'https://ca.slack-edge.com/T08BWSY0P-U03326KHJNQ-454da28d98a5-512'),
+(7, 'Jorge', 'Castro', 'Sánchez', '2.3', '2.3', '2.3', '4.1', 1, 'carrisa@zeb.mx', '$2b$05$pESxaJXcLrE69aO.2h2yN.7fDiwUx9j2VA/9dkWYok6PZbH0nRacm', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U03326LAV8C-849ec178f1c3-512'),
+(8, 'Sarah', 'Martinez', 'Valdés', '4.1', '4.1', '4.3', '4.1', 1, 'diegaval@zeb.mx', '$2b$05$faV9J/K2z8sWFH3z7tPL8.bTh.8n9qQU9WsuWkeHKyFcYs1e9.hjO', 'ZeCore Shipping', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032ZSCUGKD-345e780c15d1-512'),
+(9, 'Denisse', 'Domínguez', 'del Moral', '2.2', '2.3', '1.2', '1.3', 1, 'valnunmor@zeb.mx', '$2b$05$b442RvN1aRmOlLvNwd4Kleiaf2ygbuv1YLdsdnoQ9xzwA83pLgedi', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032X00EMMK-93d1cbf1114f-512'),
+(10, 'Sebastían', 'Pedrero', 'Rodríguez', '2.2', '3.3', '2.1', '1.2', 1, 'sunny.bartell@hotmail.com', '$2b$05$XqSUu6t2QR90onLah.SRvORJZs15ujI0JZv.Sa3gnEis.qZZQE/dq', 'ZeCore Client', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032X15N5DK-77bebed0078d-512'),
+(11, 'Natalia', 'Rodríguez', 'Martínez', '4.1', '4.1', '4.1', '3.1', 1, 'tanner.bernier@gmail.com', '$2b$05$CWTv3RNccNY8FFsEOEsPrO7507A8v.bVNTp2RtaPTj01cIzwT90ie', 'ZeCore Client', 1, 'http://localhost:8080/img/user_default.png'),
+(12, 'Edgar', 'Santana', 'Matute', '3.2', '3.3', '4.2', '2.2', 1, 'keyshawn.kreiger@gmail.com', '$2b$05$coDUJ3fDeoWvP0Il2vl./.waErtqjPx1TF8t6oa31eYRzJMQ/nNCm', 'ZeCore CRM', 1, 'http://localhost:8080/img/user_default.png'),
+(13, 'Cristhian', 'Abarca', 'Alberca', '1.2', '1.2', '1.3', '2.3', 1, 'nernser@orn.info', '$2b$05$2IEP6wXxnOPKD5besCnUSO5vqgYe2amxhwJpNz5thnTR4UuiJyw4.', 'ZeCore WMS', 1, 'http://localhost:8080/img/user_default.png'),
+(14, 'Ivan', 'Celis', 'Cea', '1.2', '1.2', '1.3', '3.2', 1, 'collins.elfrieda@gmail.com', '$2b$05$BtxzWUSrkZ1L.feUYdlGUOgG.ZHLija22DJQiWgD.KVZ/YLoEjK1W', 'ZeCore WMS', 1, 'http://localhost:8080/img/user_default.png'),
+(15, 'Kevin', 'Rojas', 'Ladino', '1.1', '1.1', '2.2', '1.1', 1, 'zola65@sanford.info', '$2b$05$zadGei1xH77V17ihlLj9lOkeLjmeaA6uUhPOQQU9kVt7x.RAVbir.', 'ZeCore CRM', 1, 'http://localhost:8080/img/user_default.png'),
+(16, 'Cristian', 'Rico', 'Espinosa', '1.3', '1.3', '2.3', '1.1', 1, 'aparisian@gmail.com', '$2b$05$fpGP2DrrefP.6hDPNV7dW.fzLK9qMtE2MhnakiN3bm9FK0vWAej/m', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U033PKURJHE-22cc216346d2-512'),
+(17, 'Julio', 'Celis', 'Romero', '3.2', '3.2', '4.1', '3.3', 1, 'gframi@gmail.com', '$2b$05$98aUdb07AMIFLNHtxop3yOd3XCOYlIEADeMpKE35jKpjiDO8Vtu3y', 'ZeCore Payments', 1, 'http://localhost:8080/img/user_default.png'),
+(18, 'Aldo', 'Rivera', 'Morales', '4.3', '4.3', '4.3', '4.3', 1, 'oswald14@crona.biz', '$2b$05$fIKekhZO2.IuUoEay5EskuSWt9CjOeqMw6xPb6po/ahaHvyolHWc.', 'ZeCore Shipping', 1, 'http://localhost:8080/img/user_default.png'),
+(19, 'Erick', 'Samaniego', 'Becerra', '3.2', '5.1', '4.2', '2.2', 1, 'bogan.aurore@nader.com', '$2b$05$Whg34vx5O37AbEDV1Nt3lOYIjvxbmVZWRy1/9HeMGfBKScuxO/T0S', 'ZeCore Payments', 1, 'http://localhost:8080/img/user_default.png'),
+(20, 'Matias1', 'Becerra1', 'Alanís1', '2.2', '5.3', '1.2', '5.3', 0, 'pgoodwin@mills.com', '$2b$05$2yDvVwiIeNIHq7adrsg3veYGEeK6Nr.sbQ1u6pwn8Bn0tSGmLusr2', 'Zebrands', 1, 'https://static.wikia.nocookie.net/kirby/images/1/1e/KBR_Bandana_Waddle_Dee.png/revision/latest/scale-to-width-down/250?cb=20200827020651&path-prefix=en'),
+(21, 'Abraham', 'Febres', 'del Moral', '2.2', '2.2', '5.1', '4.3', 1, 'turner.mueller@gmail.com', '$2b$05$TBUYx620aGs5xhaAX7i3cOrZYaEX.kKK1Xbqwwybn517ABaVB5GJC', 'ZeCore CRM', 1, 'http://localhost:8080/img/user_default.png'),
+(22, 'Adrian', 'Matute', 'Beltrán', '3.3', '3.2', '4.2', '3.1', 1, 'daren46@cremin.com', '$2b$05$4lbjgUKAOlOuxqqD0d6gjepW3x1PUbZy4K1/aqnF7PqquvGrfo5Y.', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U032K8FQES3-8b95e6a4c5ba-512'),
+(23, 'Fermin', 'Méndez', 'García', '3.1', '2.3', '2.2', '4.2', 1, 'van44@gmail.com', '$2b$05$M9IuSeuZskJSUSMwc3Z93OPWR.rhncJra4A02SmYtP4sk4dQ8giry', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U03328BAJRJ-c00c2cd580c4-512'),
+(24, 'Ricardo', 'Núñez', 'Alanís', '1.1', '1.1', '1.1', '1.1', 1, 'grady.kenna@reilly.info', '$2b$05$f7.s2aPAPZYUuG3Q9MuWl.qHv1vBRAyyxLWR7SchxwGuycDwPgWQC', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U033PK3MUMN-cb792f361f9f-512'),
+(25, 'Olivia', 'Morales', 'Quezada', '2.2', '2.1', '3.3', '1.2', 1, 'kovacek.brock@dickens.biz', '$2b$05$MjFeKdtJ9btVmrtEw/h4dekA8JT8RrkG7KlPBDdtXb2ndfoyOJCKG', 'Production Engineering', 1, 'https://ca.slack-edge.com/T08BWSY0P-U033274FN9J-d2c2e0b6c4e0-512'),
+(26, 'Angel', 'Rico', 'Mendieta', '4.1', '4.3', '3.1', '1.2', 1, 'angelCriko@zeb.mx', '$2b$05$qI9S8/k8VOukadeMZIJAqOhY1pWgrldELGhP64Cpf0aufiiJDwLE2', 'Production Engineering', 1, 'https://www.ricos.software/images/perfil.jfif'),
+(40, 'Padawan', 'Sky', 'Walker', '1.1', '1.1', '1.1', '1.1', 1, 'padasky@zeb.mx', '$2b$05$zAS2TSVMQNb5ppGMq/XBi.rh6ylkUoSjUO2J61k.f7av22Y4XsXbi', 'ZeCoreClient', 1, 'url.example'),
+(41, 'Padagwam', 'Don', 'Pepe', '1.1', '1.1', '1.1', '1.1', 1, 'pepedon@zeb.mx', '$2b$05$PW7QT7VLjOuJplgHk4upY.rJSNpjXxctX0OOyQ558SoZyaCHBY0Ii', 'ZecoreClient', 1, 'url.example'),
+(43, 'Padagwam', 'Don', 'Pepe', '1.1', '1.1', '1.1', '1.1', 1, 'pepe.com', '$2b$05$MdIplDk7Lw2ycxpwVS6cz.ACGAgym6WiEihrDE3P2Ml9BxjKAZngC', 'ZecoreClient', 1, 'url.example'),
+(44, 'Padagwam', 'Don', 'Pepe', '1.1', '1.1', '1.1', '1.1', 1, 'pepe@xd.com', '$2b$05$Al.MQ5lqRk5ZNNEu4Ip7MOerrb9YK6M18tnU8xW/41yftq0wRU4He', 'ZecoreClient', 1, 'url.example'),
+(45, 'Padagwam', 'Don', 'Pepe', '1.1', '1.1', '1.1', '1.1', 1, 'pepe@xdsgd.com', '$2b$05$Av/aHJHAdgBz8bCCrQc7RODKaxOQ2dj/P7c6xbFFL.ijI4O1omIj.', 'ZecoreClient', 1, 'https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/test/5cbeea135cafe88451149213/sw1.jpg'),
+(46, 'Padagwam', 'Don', 'Pepe', '1.1', '1.1', '1.1', '1.1', 1, 'pepe@xgd.com', '$2b$05$suki9b2LeMD4kbZ1X/mz3uGrdJVn8ymE/MR1ACpZcHKinBPEPa2Iq', 'ZecoreClient', 1, 'url.example'),
+(47, 'Yoselin', 'Martinez', 'Martinez', '1.0', '1.0', '1.0', '1.0', 1, 'yosql@zeb.mx', '$2b$05$KT/0HKFqfo.hUdRAMplu.evHr8RY9sg6z1GcSM69HMXuXGcnhCsXe', 'dinamita', 1, 'https://pps.whatsapp.net/v/t61.24694-24/248636445_350232377062403_1264689935649594623_n.jpg?ccb=11-4&oh=01_AVwlnoM22Ns5R4MYFVskjICWccHg8QanOuyUMRM96eQf7g&oe=62708CF9');
 
 -- --------------------------------------------------------
 
@@ -256,40 +231,50 @@ INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido_paterno`, `apellido_m
 CREATE TABLE `empleado_rol` (
   `id_empleado` int(11) NOT NULL,
   `id_rol` int(11) NOT NULL,
-  `fecha_rol` date NOT NULL
+  `fecha_rol` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `empleado_rol`
 --
 
-INSERT INTO `empleado_rol` (`id_empleado`, `id_rol`, `fecha_rol`) VALUES
-(26, 1, '2026-01-22'),
-(9, 2, '2009-01-22'),
-(10, 2, '2010-01-22'),
-(20, 2, '2020-01-22'),
-(22, 2, '2022-01-22'),
-(24, 2, '2024-01-22'),
-(1, 3, '2001-01-22'),
-(2, 3, '2002-01-22'),
-(3, 3, '2003-01-22'),
-(4, 3, '2004-01-22'),
-(5, 3, '2005-01-22'),
-(6, 3, '2006-01-22'),
-(7, 3, '2007-01-22'),
-(8, 3, '2008-01-22'),
-(11, 3, '2011-01-22'),
-(12, 3, '2012-01-22'),
-(13, 3, '2013-01-22'),
-(14, 3, '2014-01-22'),
-(15, 3, '2015-01-22'),
-(16, 3, '2016-01-22'),
-(17, 3, '2017-01-22'),
-(18, 3, '2018-01-22'),
-(19, 3, '2019-01-22'),
-(21, 3, '2021-01-22'),
-(23, 3, '2023-01-22'),
-(25, 3, '2025-01-22');
+INSERT INTO `empleado_rol` (`id_empleado`, `id_rol`) VALUES
+(26, 1),
+(9, 2),
+(10, 2),
+(11, 2),
+(16, 2),
+(18, 2),
+(20, 2),
+(22, 2),
+(24, 2),
+(1, 3),
+(2, 3),
+(3, 3),
+(4, 3),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(11, 3),
+(12, 3),
+(13, 3),
+(14, 3),
+(15, 3),
+(16, 3),
+(17, 3),
+(18, 3),
+(19, 3),
+(21, 3),
+(23, 3),
+(25, 3),
+(40, 3),
+(41, 3),
+(43, 3),
+(44, 3),
+(45, 3),
+(46, 3),
+(47, 3);
 
 -- --------------------------------------------------------
 
@@ -310,10 +295,12 @@ CREATE TABLE `evaluacion` (
 --
 
 INSERT INTO `evaluacion` (`id_empleado_evaluador`, `id_empleado_evaluado`, `id_periodo`, `estatus`) VALUES
-(1, 1, 1, 'No Contestado'),
-(1, 6, 1, 'No Contestado'),
-(1, 7, 1, 'No Contestado'),
+(1, 1, 1, 'Contestado'),
+(1, 2, 1, 'No Contestado'),
+(1, 6, 1, 'Contestado'),
+(1, 7, 1, 'Contestado'),
 (1, 9, 1, 'Contestado'),
+(1, 47, 1, 'No Contestado'),
 (2, 1, 1, 'Contestado'),
 (2, 1, 4, 'Contestado'),
 (2, 3, 2, 'Contestado'),
@@ -324,6 +311,7 @@ INSERT INTO `evaluacion` (`id_empleado_evaluador`, `id_empleado_evaluado`, `id_p
 (2, 7, 7, 'Contestado'),
 (2, 7, 11, 'Contestado'),
 (2, 7, 12, 'Contestado'),
+(2, 9, 1, 'No Contestado'),
 (2, 9, 8, 'Contestado'),
 (2, 13, 1, 'Contestado'),
 (2, 14, 13, 'Contestado'),
@@ -343,7 +331,8 @@ INSERT INTO `evaluacion` (`id_empleado_evaluador`, `id_empleado_evaluado`, `id_p
 (2, 24, 3, 'Contestado'),
 (2, 25, 2, 'Contestado'),
 (2, 26, 1, 'Contestado'),
-(3, 1, 1, 'No Contestado'),
+(3, 1, 1, 'Contestado'),
+(3, 9, 1, 'Contestado'),
 (4, 1, 1, 'No Contestado'),
 (4, 1, 7, 'Contestado'),
 (4, 1, 10, 'Contestado'),
@@ -351,6 +340,9 @@ INSERT INTO `evaluacion` (`id_empleado_evaluador`, `id_empleado_evaluado`, `id_p
 (4, 6, 6, 'Contestado'),
 (4, 6, 9, 'Contestado'),
 (4, 8, 6, 'Contestado'),
+(4, 8, 12, 'Contestado'),
+(4, 8, 13, 'Contestado'),
+(4, 9, 1, 'No Contestado'),
 (4, 9, 5, 'Contestado'),
 (4, 10, 4, 'Contestado'),
 (4, 11, 9, 'Contestado'),
@@ -362,7 +354,23 @@ INSERT INTO `evaluacion` (`id_empleado_evaluador`, `id_empleado_evaluado`, `id_p
 (4, 15, 11, 'Contestado'),
 (4, 16, 11, 'Contestado'),
 (5, 1, 1, 'No Contestado'),
-(6, 1, 1, 'No Contestado');
+(5, 9, 1, 'No Contestado'),
+(6, 1, 1, 'No Contestado'),
+(6, 8, 12, 'No Contestado'),
+(6, 8, 13, 'No Contestado'),
+(7, 1, 1, 'No Contestado'),
+(7, 8, 12, 'Contestado'),
+(7, 8, 13, 'Contestado'),
+(10, 1, 1, 'No Contestado'),
+(11, 1, 1, 'Contestado'),
+(11, 8, 12, 'No Contestado'),
+(11, 8, 13, 'No Contestado'),
+(12, 8, 12, 'No Contestado'),
+(12, 8, 13, 'Contestado'),
+(15, 8, 12, 'No Contestado'),
+(15, 8, 13, 'No Contestado'),
+(18, 8, 12, 'No Contestado'),
+(18, 8, 13, 'Contestado');
 
 -- --------------------------------------------------------
 
@@ -446,11 +454,13 @@ INSERT INTO `feedback` (`id_feedback`, `calificacion_craft`, `calificacion_perso
 (55, '1.4', '1.4', '1.4', '1.4', 'Siguiendo con las recomendaciones pasadas, recuerda que la limpieza de tu código es importante, si tienes dudas, recuerda apoyarte en tus compañeros de equipo.', 'Recuerda que la comunicación es importante para seguir mejorando las relaciones que tienes con tu equipo.', 'Como señalan tus compañeros, la estrecha comunicación que mantienes con los clientes es buena, solamente recuerda que es importante ocupar algunas de esas oportunidades para aclarar el estado de desarrollo de los proyectos.', 'Mantenerse en el mismo nivel no es malo, significa que tu esfuerzo sigue siendo constante; si en algún momento deseas avanzar en este camino con nosotros, recuerda que estaremos aquí para apoyarte en lo que necesites.', 1, 2, 3),
 (56, '2.0', '2.3', '2.3', '2.2', 'Vemos que la limpieza en tu código ha mejorado; recuerda utilizar nombres de variables que sean más cercanas a lo que representan.', 'Tus habilidades de comunicación han mejorado, tus compañeros han comenzado a notar una mayor iniciativa a la hora de dirigir tus proyectos.', 'La comunicación con los clientes ha sido clara y concisa.', 'Tus frutos han dado resultados, recuerda que, a pesar de que el camino sea laborioso, tanto tus compañeros de equipo como yo estaremos dispuestos a a poyarte en lo que necesites.', 1, 2, 4),
 (57, '2.3', '3.0', '3.0', '2.4', 'Tus habilidades han mejorado, sabemos que las herramientas que has comenzado a utilizar pueden resultar algo confusas, pero nos alegra ver el compromiso que tienes para aprender a utilizarlas.', 'Comenzamos a ver que se te da muy bien participar activamente con tu equipo asumiendo un rol de líder, agradecemos mucho el apoyo que le brindas a todos tus compañeros.', 'Sabemos que muchas veces entender lo que un cliente pide es difícil y es por eso que reconocemos que tus habilidades para elaborar funcionalidades y puntos de mejora.', 'Cada vez estás más cerca de llegar a un nuevo escalón en esta empresa, agradecemos mucho de tu compromiso y de los servicios que nos brindas, sin tí, la empresa no sería lo que es ahora.', 1, 2, 5),
-(58, '3.0', '2.0', '1.0', '2.0', '3234', 'fgdfgdg', 'gertrteter', 'fgbgdg', 1, 1, 4),
 (59, '3.1', '3.2', '3.3', '3.2', 'Predeterminado craft', 'Predeterminado personal', 'Predeterminado business', 'Predeterminado general', 2, 1, 21),
 (60, '3.1', '3.2', '3.3', '3.2', 'Predeterminado craft', 'Predeterminado personal', 'Predeterminado business', 'Predeterminado general', 2, 1, 21),
 (61, '3.1', '3.2', '3.3', '3.2', 'Predeterminado craft', 'Predeterminado personal', 'Predeterminado business', 'Predeterminado general', 11, 1, 21),
-(62, '3.1', '3.2', '3.3', '3.2', 'Predeterminado craft', 'Predeterminado personal', 'Predeterminado business', 'Predeterminado general', 2, 3, 21);
+(62, '3.1', '3.2', '3.3', '3.2', 'Predeterminado craft', 'Predeterminado personal', 'Predeterminado business', 'Predeterminado general', 2, 3, 21),
+(63, '2.2', '1.3', '2.3', '2.2', 'comentario craft registrado2', 'comentario people registrado2', 'comentario business registrado2', 'registrado2', 2, 1, 4),
+(64, '1.0', '1.0', '2.3', '1.0', '', '', '', 'registrado2', 2, 1, 4),
+(65, '5.0', '5.0', '5.0', '5.0', 'lorem ipsum sit dolor amet', 'Tu equipo se expresa muy bien de ti, les gusta trabajar contigo', 'lorem ipsum sit dolor amet', 'Te está yendo muy bien', 22, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -530,7 +540,10 @@ INSERT INTO `periodo` (`id_periodo`, `nombre_periodo`, `fecha_inicio`, `fecha_fi
 (10, 'Mes Abril 2021', '2001-04-21', '2011-04-21', 'Proximo', 1),
 (11, 'Mes Julio 2021', '2001-07-21', '2010-01-21', 'Proximo', 1),
 (12, 'Mes Octubre 2021', '2001-10-21', '2010-10-21', 'Proximo', 1),
-(13, 'Primer mes 2022', '2001-01-22', '2009-01-22', 'Proximo', 1);
+(13, 'Primer mes 2022', '2001-01-22', '2009-01-22', 'Proximo', 1),
+(14, 'Otoño 2022', '2022-09-22', '2022-12-21', 'Proximo', 1),
+(15, 'Julio 2022', '2022-07-01', '2022-07-28', 'Proximo', 1),
+(16, 'Junio 2022', '2022-06-01', '2022-06-28', 'Proximo', 1);
 
 -- --------------------------------------------------------
 
@@ -587,7 +600,184 @@ INSERT INTO `respuesta` (`id_respuesta`, `pregunta`, `descripcion_respuesta`, `t
 (51, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 1, 9, 1, 'craft'),
 (52, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 9, 1, 'craft'),
 (53, '¿Cúal crees que es la mejor habilidad del miembro evaluado?', 'Le echa ganas 2', 'abierta', 1, 9, 1, 'craft'),
-(54, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 9, 1, 'craft');
+(54, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '5', 'numerica', 1, 9, 1, 'craft'),
+(55, 'Del a 1 al 5. ¿Cómo evaluarias la dimension bussines? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '35', 'calificacion', 1, 9, 1, 'business'),
+(56, 'Del a 1 al 5. ¿Qué tanto se comporta de acuerdo a las politicas de la empresa? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '35', 'abierta', 1, 9, 1, 'business'),
+(57, 'Desde tu perspectiva,¿crees que hace un trabajo integral a la visión y misión de la empresa? Describe sí o n y por qué', '35', 'abierta', 1, 9, 1, 'business'),
+(58, '¿Qué le recomendarias al evaluado para mejorar?', '35', 'abierta', 1, 9, 1, 'business'),
+(59, 'Del 1 al 5 donde 5 es excelente y 1 deficiente. ¿Qué tan bien documenta el evaluado?', '3', 'numerica', 1, 9, 1, 'business'),
+(60, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '\n35', 'abierta', 1, 9, 1, 'craft'),
+(61, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '35', 'calificacion', 1, 9, 1, 'craft'),
+(62, 'Del a 1 al 5. ¿Cómo evaluarias la dimension people? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '35', 'calificacion', 1, 9, 1, 'people'),
+(63, 'Del a 1 al 5. ¿Cómo el trato a los demás compañeros de trabajo? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '35', 'abierta', 1, 9, 1, 'people'),
+(64, '¿Crees que la salud del evaluado está en riesgo? ¿Se desvela trabajando? ¿Tiene malos hábitos alimenticios?', '35', 'abierta', 1, 9, 1, 'people'),
+(65, '¿Qué le recomendarias al evaluado para mejorar?', '35', 'abierta', 1, 9, 1, 'people'),
+(66, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '1', 'numerica', 1, 1, 1, 'business'),
+(67, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '1', 'numerica', 1, 1, 1, 'craft'),
+(68, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '1', 'numerica', 1, 1, 1, 'craft'),
+(69, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '1', 'abierta', 1, 1, 1, 'craft'),
+(70, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '1', 'numerica', 1, 1, 1, 'craft'),
+(71, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '1', 'numerica', 1, 1, 1, 'craft'),
+(72, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '1', 'calificacion', 1, 1, 1, 'people'),
+(73, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 1, 1, 1, 'business'),
+(74, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 1, 1, 1, 'craft'),
+(75, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 1, 1, 1, 'craft'),
+(76, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'abierta', 1, 1, 1, 'craft'),
+(77, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 1, 1, 1, 'craft'),
+(78, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 1, 1, 1, 'craft'),
+(79, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'calificacion', 1, 1, 1, 'people'),
+(80, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 3, 1, 1, 'business'),
+(81, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 3, 1, 1, 'craft'),
+(82, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 3, 1, 1, 'craft'),
+(83, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'abierta', 3, 1, 1, 'craft'),
+(84, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 3, 1, 1, 'craft'),
+(85, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'numerica', 3, 1, 1, 'craft'),
+(86, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '', 'calificacion', 3, 1, 1, 'people'),
+(87, 'Del a 1 al 5. ¿Cómo evaluarias la dimension bussines? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '2', 'calificacion', 3, 9, 1, 'business'),
+(88, 'Del a 1 al 5. ¿Qué tanto se comporta de acuerdo a las politicas de la empresa? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '3', 'abierta', 3, 9, 1, 'business'),
+(89, 'Desde tu perspectiva,¿crees que hace un trabajo integral a la visión y misión de la empresa? Describe sí o n y por qué', 'si', 'abierta', 3, 9, 1, 'business'),
+(90, '¿Qué le recomendarias al evaluado para mejorar?', '´mejorar', 'abierta', 3, 9, 1, 'business'),
+(91, 'Del 1 al 5 donde 5 es excelente y 1 deficiente. ¿Qué tan bien documenta el evaluado?', '2', 'numerica', 3, 9, 1, 'business'),
+(92, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 'xd', 'abierta', 3, 9, 1, 'craft'),
+(93, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '2', 'calificacion', 3, 9, 1, 'craft'),
+(94, 'Del a 1 al 5. ¿Cómo evaluarias la dimension people? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '3', 'calificacion', 3, 9, 1, 'people'),
+(95, 'Del a 1 al 5. ¿Cómo el trato a los demás compañeros de trabajo? Siendo 1 que requiere mejorar y 5 que excede las expectativas', 'ola', 'abierta', 3, 9, 1, 'people'),
+(96, '¿Crees que la salud del evaluado está en riesgo? ¿Se desvela trabajando? ¿Tiene malos hábitos alimenticios?', 'como estas', 'abierta', 3, 9, 1, 'people'),
+(97, '¿Qué le recomendarias al evaluado para mejorar?', 'yo bien', 'abierta', 3, 9, 1, 'people'),
+(98, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '4', 'numerica', 11, 1, 1, 'business'),
+(99, 'Describe cómo el evaluado atiende las recomendaciones que le hace sus compañeros. (Menciona 2 ejemplos)', 'Siempre toma la retroalimentación para mejorar', 'abierta', 11, 1, 1, 'craft'),
+(100, '¿En cuantos proyectos colaboraste con el evaluado?', '5', 'numerica', 11, 1, 1, 'craft'),
+(101, 'A que nivel crees que deberia estar en esta categoria', '5', 'calificacion', 11, 1, 1, 'craft'),
+(102, '¿Como te llevaste personalmente con el evaluado en proyectos/iniciativas que coincidieron?', 'Alan Brito trabajó muy bien', 'abierta', 11, 1, 1, 'people'),
+(103, '¿Como calificarias la forma de expresar conceptos el evaluado? (tecnicos a un cliente)', '4', 'calificacion', 11, 1, 1, 'people'),
+(104, '¿En general, cómo es la retroalimentación que da en las revisiones de código?', '1', 'abierta', 1, 6, 1, 'craft'),
+(105, 'Del a 1 al 5. ¿Cómo describiras su conocimiento ténico?(Dominio de JS,SQL y NODE. Siendo 1 que requiere mejorar y 5 que excede las expectativas', '4', 'numerica', 1, 6, 1, 'craft'),
+(106, '¿Qué le recomendarias al evaluado para mejorar?', '1', 'abierta', 1, 6, 1, 'craft'),
+(107, 'Del 1 al 5, ¿Qué tan bueno es para diseñar arquitecturas de microservicios?', '4', 'numerica', 1, 6, 1, 'craft'),
+(108, 'Como calificar al evaluado', '1', 'calificacion', 1, 6, 1, 'craft'),
+(109, '¿Como te llevaste personalmente con el evaluado en proyectos/iniciativas que coincidieron?', '       1', 'abierta', 1, 6, 1, 'people'),
+(110, '¿Como calificarias la forma de expresar conceptos el evaluado? (tecnicos a un cliente)', '1', 'calificacion', 1, 6, 1, 'people'),
+(111, 'Del a 1 al 5. ¿Cómo evaluarias la dimension bussines? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '1', 'calificacion', 1, 6, 1, 'business'),
+(112, 'Del a 1 al 5. ¿Qué tanto se comporta de acuerdo a las politicas de la empresa? Siendo 1 que requiere mejorar y 5 que excede las expectativas', '1', 'abierta', 1, 6, 1, 'business'),
+(113, 'Desde tu perspectiva,¿crees que hace un trabajo integral a la visión y misión de la empresa? Describe sí o n y por qué', '1', 'abierta', 1, 6, 1, 'business'),
+(114, '¿Qué le recomendarias al evaluado para mejorar?', '1', 'abierta', 1, 6, 1, 'business'),
+(115, 'Del 1 al 5 donde 5 es excelente y 1 deficiente. ¿Qué tan bien documenta el evaluado?', '3', 'numerica', 1, 6, 1, 'business'),
+(116, 'Como lo calificarias del 1 al 5 (con decimal)', '1', 'calificacion', 1, 6, 1, 'business'),
+(117, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', 'sg gsdgfd', 'abierta', 1, 7, 1, 'craft'),
+(118, '¿Como calificas las habilidades en base de datos del evaluado?', '0.8', 'calificacion', 1, 7, 1, 'craft'),
+(119, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '1.3', 'calificacion', 1, 7, 1, 'people'),
+(120, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '4', 'numerica', 1, 7, 1, 'people'),
+(121, '¿En qué proyectos/iniciativas pudiste interactuar con el evaluado?', '3', 'numerica', 1, 7, 1, 'people'),
+(122, 'Describe una experencia de negociacion que tuviste con el evaluado.', ' aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'abierta', 1, 7, 1, 'business'),
+(123, 'Si tuvieras que calificar a tu compañero en esta area ¿Cual le darias?', '3.4', 'calificacion', 1, 7, 1, 'business'),
+(124, 'Califiacion craft', '5', 'calificacion', 4, 8, 13, 'craft'),
+(125, 'Califiacion people', '4', 'calificacion', 4, 8, 13, 'people'),
+(126, 'Califiacion business', '2', 'calificacion', 4, 8, 13, 'business'),
+(127, 'Califiacion craft', '2', 'calificacion', 7, 8, 13, 'craft'),
+(128, 'Califiacion people', '3', 'calificacion', 7, 8, 13, 'people'),
+(129, 'Califiacion business', '5', 'calificacion', 7, 8, 13, 'business'),
+(130, 'Califiacion craft', '1', 'calificacion', 12, 8, 13, 'craft'),
+(131, 'Califiacion people', '2', 'calificacion', 12, 8, 13, 'people'),
+(132, 'Califiacion business', '3', 'calificacion', 12, 8, 13, 'business'),
+(133, 'Califiacion craft', '5', 'calificacion', 18, 8, 13, 'craft'),
+(134, 'Califiacion people', '4', 'calificacion', 18, 8, 13, 'people'),
+(135, 'Califiacion business', '2', 'calificacion', 18, 8, 13, 'business'),
+(136, 'Califiacion craft', '5', 'calificacion', 4, 8, 13, 'craft'),
+(137, 'Califiacion people', '4', 'calificacion', 4, 8, 13, 'people'),
+(138, 'Califiacion business', '2', 'calificacion', 4, 8, 13, 'business'),
+(139, 'Califiacion craft', '5', 'calificacion', 2, 8, 13, 'craft'),
+(140, 'Califiacion people', '4', 'calificacion', 2, 8, 13, 'people'),
+(141, 'Califiacion business', '2', 'calificacion', 2, 8, 13, 'business'),
+(142, 'Califiacion craft', '5', 'calificacion', 2, 8, 11, 'craft'),
+(143, 'Califiacion people', '4', 'calificacion', 2, 8, 11, 'people'),
+(144, 'Califiacion business', '2', 'calificacion', 2, 8, 11, 'business'),
+(145, 'Califiacion craft', '5', 'calificacion', 2, 8, 11, 'craft'),
+(146, 'Califiacion people', '4', 'calificacion', 2, 8, 11, 'people'),
+(147, 'Califiacion business', '2', 'calificacion', 2, 8, 11, 'business'),
+(148, 'Califiacion craft', '5', 'calificacion', 3, 8, 11, 'craft'),
+(149, 'Califiacion people', '4', 'calificacion', 3, 8, 11, 'people'),
+(150, 'Califiacion business', '2', 'calificacion', 3, 8, 11, 'business'),
+(151, 'Califiacion craft', '5', 'calificacion', 3, 8, 11, 'craft'),
+(152, 'Califiacion people', '4', 'calificacion', 3, 8, 11, 'people'),
+(153, 'Califiacion business', '2', 'calificacion', 3, 8, 11, 'business'),
+(154, 'Califiacion craft', '5', 'calificacion', 3, 8, 11, 'craft'),
+(155, 'Califiacion people', '4', 'calificacion', 3, 8, 11, 'people'),
+(156, 'Califiacion business', '2', 'calificacion', 3, 8, 11, 'business'),
+(157, 'Califiacion craft', '5', 'calificacion', 4, 8, 11, 'craft'),
+(158, 'Califiacion people', '4', 'calificacion', 4, 8, 11, 'people'),
+(159, 'Califiacion business', '2', 'calificacion', 4, 8, 11, 'business'),
+(160, 'Califiacion craft', '5', 'calificacion', 4, 8, 12, 'craft'),
+(161, 'Califiacion people', '4', 'calificacion', 4, 8, 12, 'people'),
+(162, 'Califiacion business', '2', 'calificacion', 4, 8, 12, 'business'),
+(163, 'Califiacion craft', '5', 'calificacion', 4, 8, 12, 'craft'),
+(164, 'Califiacion people', '4', 'calificacion', 4, 8, 12, 'people'),
+(165, 'Califiacion business', '2', 'calificacion', 4, 8, 12, 'business'),
+(166, 'Califiacion craft', '5', 'calificacion', 5, 8, 12, 'craft'),
+(167, 'Califiacion people', '4', 'calificacion', 5, 8, 12, 'people'),
+(168, 'Califiacion business', '2', 'calificacion', 5, 8, 12, 'business'),
+(169, 'Califiacion craft', '5', 'calificacion', 5, 8, 12, 'craft'),
+(170, 'Califiacion people', '4', 'calificacion', 5, 8, 12, 'people'),
+(171, 'Califiacion business', '2', 'calificacion', 5, 8, 12, 'business'),
+(172, 'Califiacion craft', '5', 'calificacion', 5, 8, 12, 'craft'),
+(173, 'Califiacion people', '4', 'calificacion', 5, 8, 12, 'people'),
+(174, 'Califiacion business', '2', 'calificacion', 5, 8, 12, 'business'),
+(175, 'Califiacion craft', '5', 'calificacion', 5, 8, 12, 'craft'),
+(176, 'Califiacion people', '4', 'calificacion', 5, 8, 12, 'people'),
+(177, 'Califiacion business', '2', 'calificacion', 5, 8, 12, 'business'),
+(178, 'Califiacion craft', '5', 'calificacion', 4, 8, 13, 'craft'),
+(179, 'Califiacion people', '4', 'calificacion', 4, 8, 13, 'people'),
+(180, 'Califiacion business', '2', 'calificacion', 4, 8, 13, 'business'),
+(181, 'Califiacion craft', '5', 'calificacion', 4, 8, 5, 'craft'),
+(182, 'Califiacion people', '4', 'calificacion', 4, 8, 5, 'people'),
+(183, 'Califiacion business', '2', 'calificacion', 4, 8, 5, 'business'),
+(184, 'Califiacion craft', '5', 'calificacion', 4, 8, 13, 'craft'),
+(185, 'Califiacion people', '4', 'calificacion', 4, 8, 13, 'people'),
+(186, 'Califiacion business', '2', 'calificacion', 4, 8, 13, 'business'),
+(187, 'Califiacion craft', '5', 'calificacion', 5, 8, 13, 'craft'),
+(188, 'Califiacion people', '4', 'calificacion', 5, 8, 13, 'people'),
+(189, 'Califiacion business', '2', 'calificacion', 5, 8, 13, 'business'),
+(190, 'Califiacion craft', '5', 'calificacion', 7, 8, 13, 'craft'),
+(191, 'Califiacion people', '4', 'calificacion', 7, 8, 13, 'people'),
+(192, 'Califiacion business', '2', 'calificacion', 7, 8, 13, 'business'),
+(193, 'Califiacion craft', '5', 'calificacion', 7, 8, 13, 'craft'),
+(194, 'Califiacion people', '4', 'calificacion', 7, 8, 13, 'people'),
+(195, 'Califiacion business', '2', 'calificacion', 7, 8, 13, 'business'),
+(196, 'Califiacion craft', '5', 'calificacion', 7, 8, 13, 'craft'),
+(197, 'Califiacion people', '4', 'calificacion', 7, 8, 13, 'people'),
+(198, 'Califiacion business', '2', 'calificacion', 7, 8, 13, 'business'),
+(199, 'Califiacion craft', '5', 'calificacion', 7, 8, 13, 'craft'),
+(200, 'Califiacion people', '4', 'calificacion', 7, 8, 13, 'people'),
+(201, 'Califiacion business', '2', 'calificacion', 7, 8, 13, 'business'),
+(202, 'Califiacion craft', '5', 'calificacion', 7, 8, 13, 'craft'),
+(203, 'Califiacion people', '4', 'calificacion', 7, 8, 13, 'people'),
+(204, 'Califiacion business', '2', 'calificacion', 7, 8, 13, 'business'),
+(205, 'Califiacion craft', '5', 'calificacion', 7, 8, 12, 'craft'),
+(206, 'Califiacion people', '4', 'calificacion', 7, 8, 12, 'people'),
+(207, 'Califiacion business', '2', 'calificacion', 7, 8, 12, 'business'),
+(208, 'Califiacion craft', '5', 'calificacion', 7, 8, 12, 'craft'),
+(209, 'Califiacion people', '4', 'calificacion', 7, 8, 12, 'people'),
+(210, 'Califiacion business', '2', 'calificacion', 7, 8, 12, 'business'),
+(211, 'Califiacion craft', '5', 'calificacion', 7, 8, 12, 'craft'),
+(212, 'Califiacion people', '4', 'calificacion', 7, 8, 12, 'people'),
+(213, 'Califiacion business', '2', 'calificacion', 7, 8, 12, 'business'),
+(214, 'Califiacion craft', '5', 'calificacion', 7, 8, 12, 'craft'),
+(215, 'Califiacion people', '4', 'calificacion', 7, 8, 12, 'people'),
+(216, 'Califiacion business', '2', 'calificacion', 7, 8, 12, 'business'),
+(217, 'Califiacion craft', '5', 'calificacion', 7, 8, 12, 'craft'),
+(218, 'Califiacion people', '4', 'calificacion', 7, 8, 12, 'people'),
+(219, 'Califiacion business', '2', 'calificacion', 7, 8, 12, 'business'),
+(220, 'Califiacion craft', '5', 'calificacion', 4, 8, 12, 'craft'),
+(221, 'Califiacion people', '4', 'calificacion', 4, 8, 12, 'people'),
+(222, 'Califiacion business', '2', 'calificacion', 4, 8, 12, 'business'),
+(223, 'Califiacion craft', '5', 'calificacion', 4, 8, 12, 'craft'),
+(224, 'Califiacion people', '4', 'calificacion', 4, 8, 12, 'people'),
+(225, 'Califiacion business', '2', 'calificacion', 4, 8, 12, 'business'),
+(226, 'Califiacion craft', '5', 'calificacion', 4, 8, 12, 'craft'),
+(227, 'Califiacion people', '4', 'calificacion', 4, 8, 12, 'people'),
+(228, 'Califiacion business', '2', 'calificacion', 4, 8, 12, 'business'),
+(229, 'Califiacion craft', '5', 'calificacion', 4, 8, 12, 'craft'),
+(230, 'Califiacion people', '4', 'calificacion', 4, 8, 12, 'people'),
+(231, 'Califiacion business', '2', 'calificacion', 4, 8, 12, 'business');
 
 -- --------------------------------------------------------
 
@@ -766,7 +956,7 @@ ALTER TABLE `rol_funciones`
 -- AUTO_INCREMENT for table `banco_preguntas`
 --
 ALTER TABLE `banco_preguntas`
-  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `chapter`
@@ -778,13 +968,13 @@ ALTER TABLE `chapter`
 -- AUTO_INCREMENT for table `empleado`
 --
 ALTER TABLE `empleado`
-  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id_feedback` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id_feedback` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `funcion`
@@ -796,13 +986,13 @@ ALTER TABLE `funcion`
 -- AUTO_INCREMENT for table `periodo`
 --
 ALTER TABLE `periodo`
-  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
 
 --
 -- Constraints for dumped tables
