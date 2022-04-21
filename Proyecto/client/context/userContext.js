@@ -34,9 +34,10 @@ export const UserProvider = ({ children }) => {
     const body = { email, password }
     try {
       const data = await getAuth(body);
-      setUser(data.user)
       Cookies.set("token", data.token)
-      if (user.id_rol === 1) {
+      setUser(data.user)
+
+      if (data.user.id_rol === 1) {
         router.push("/lead");
       } else router.push("/user");
     } catch (error) {

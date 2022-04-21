@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
-import Axios from "axios";
 import swal from "sweetalert";
 import Respuesta from "../../components/Respuesta";
 import { useUser } from "../../context/userContext";
 import { useForm } from "../../hooks/useForm";
+import { getEmpleado } from "../../services/empleado";
+import { getPreguntasToEmpleado } from "../../services/preguntas";
+import { enviarRespuestas } from "../../services/respuestas";
 
 export default function Post() {
   const router = useRouter();
 
-  const { user } = useUser();
+  const { user, isAuthenticated } = useUser();
   const [evaluado, setEvaluado] = useState({});
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
 
@@ -27,7 +29,7 @@ export default function Post() {
   function message(tipo) {
     switch (tipo) {
       case "abierta":
-        return "No puede exeder los 255 caracteres";
+        return "No puede exceder los 255 caracteres";
       case "numerica":
         return "Selecciona una opción";
       case "calificacion":
@@ -37,8 +39,7 @@ export default function Post() {
 
   const postRespuestas = async () => {
     try {
-      const res = await Axios.post(
-        `${process.env.HOSTBACK}/respuestas/registrar`,
+      const res = await enviarRespuestas(
         {
           id_empleado_evaluador: user.id_empleado,
           id_empleado_evaluado: evaluado.id_empleado,
@@ -57,6 +58,7 @@ export default function Post() {
       });
     }
   };
+
   const generatorData = (item) => {
     return {
       pregunta: item.pregunta,
@@ -67,70 +69,41 @@ export default function Post() {
     };
   };
 
-  const getPreguntas = async (nivel_business, nivel_craft, nivel_people) => {
-    const peticiones = [
-      `${process.env.HOSTBACK}/preguntas/${Math.trunc(nivel_craft)}/craft`,
-      `${process.env.HOSTBACK}/preguntas/${Math.trunc(nivel_people)}/people`,
-      `${process.env.HOSTBACK}/preguntas/${Math.trunc(
-        nivel_business
-      )}/business`,
-    ];
 
+  const getPreguntas = async (nivel_business, nivel_craft, nivel_people) => {
     try {
-      const res = await Axios.all(peticiones.map((item) => Axios.get(item)));
-      console.log({ res });
-      if (res[0].status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else {
-        res[0].data.preguntas
-          .concat(res[1].data.preguntas)
-          .concat(res[2].data.preguntas)
-          .forEach((item) =>
-            setItem(generatorData(item), expresion(item.tipo_pregunta))
-          );
-      }
-    } catch (err) {
-      console.log(err);
+      const preguntas = await getPreguntasToEmpleado(nivel_business, nivel_craft, nivel_people)
+      preguntas.forEach((item) =>
+        setItem(generatorData(item), expresion(item.tipo_pregunta))
+      );
+    } catch (error) {
+      console.log(error)
     }
   };
 
   const getEvaluado = async (id) => {
     try {
-      const res = await Axios.get(`${process.env.HOSTBACK}/empleado/${id}`);
-      console.log({ res });
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else {
-        setEvaluado(res.data.data_empleado);
-        const { nivel_business, nivel_craft, nivel_people } =
-          res.data.data_empleado;
-        getPreguntas(nivel_business, nivel_craft, nivel_people, id);
-      }
+      const data = await getEmpleado(id);
+      setEvaluado(data.data_empleado);
+      const { nivel_business, nivel_craft, nivel_people } = data.data_empleado;
+      getPreguntas(nivel_business, nivel_craft, nivel_people, id);
     } catch (err) {
       console.log({ err });
     }
   };
 
   useEffect(() => {
-    if (router.isReady) {
+    if (router.isReady && isAuthenticated) {
       const { id } = router.query;
       getEvaluado(id);
     }
-  }, [router.isReady]);
+  }, [router.isReady, isAuthenticated]);
 
   return (
     <Layout>
       <div className=" flex flex-row space-x-4 items-center justify-center mt-10">
         <img className="w-16 h-16 avatar" src={evaluado.imagen_perfil} />
-        <h1 className="title"> Evalua a {evaluado.nombre}!</h1>
+        <h1 className="title"> Evalúa a {evaluado.nombre}!</h1>
       </div>
       <section className="w-9/12 mx-auto">
         <div className="relative flex pt-10 items-center w-9/12 mx-auto">
