@@ -26,6 +26,7 @@ export default function Post() {
         return /^([0-4]{1}([.]([0-5]{1}))?)|[5]{1}$/;
     }
   }
+  
   function message(tipo) {
     switch (tipo) {
       case "abierta":
