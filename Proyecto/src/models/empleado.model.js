@@ -1,5 +1,5 @@
 import pool from "../database/db";
-import { queryUpdatePass } from "../util/query";
+import { queryUpdatePass, pag, orderBy,filter } from "../util/query";
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -59,7 +59,9 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people  
-                FROM empleado WHERE id_empleado = ${this.id_empleado}`
+           FROM empleado WHERE id_empleado = ${this.id_empleado}
+           
+                `
       );
       return rows[0];
     } catch (err) {
@@ -68,10 +70,19 @@ export class Empleado {
   }
 
   async getAllDataEmpleado() {
+    console.log(`SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+    FROM empleado
+    WHERE ${filter("nombre","ermi")}
+
+    ${orderBy("nombre","ASC")}
+    ${pag(1,15)}`)
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
-                FROM empleado LIMIT 0, 8`
+        FROM empleado
+        WHERE ${filter("nombre","ar")}
+        ${orderBy("nombre","ASC")}
+        ${pag(1,15)}`
       );
       return rows;
     } catch (err) {

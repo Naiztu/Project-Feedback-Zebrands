@@ -75,3 +75,26 @@ export function queryPostRespuestas(
   const query = s.slice(0, -1);
   return query;
 }
+
+export function pag(pagina,elementos) {
+  return `LIMIT ${(pagina-1)*elementos}, ${elementos}`
+}
+
+export function orderBy(campo,tipo) {
+  if(campo===""){
+    return ""
+  }
+  else{
+    return `ORDER BY ${campo} ${tipo}`
+}
+  }
+
+  export function filter(campo,value) {
+    if(value===""){
+      return ""
+    }
+    else{
+      return `${campo} LIKE '%${value}%'`
+  }
+    }
+
