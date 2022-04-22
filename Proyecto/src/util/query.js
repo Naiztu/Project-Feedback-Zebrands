@@ -90,11 +90,11 @@ export function orderBy(campo,tipo) {
   }
 
   export function filter(campo,value) {
-    if(value===""){
-      return ""
+    if(value==="0"){
+      return `${campo} LIKE '%'`
     }
     else{
-      return `${campo} LIKE '%${value}%'`
+      return `${campo} LIKE '${value}%'`
   }
     }
 

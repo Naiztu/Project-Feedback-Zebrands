@@ -18,9 +18,20 @@ export async function getCurrentEmpleado(req, res) {
 }
 
 export async function getAllEmpleado(req, res) {
-  const empleado = new Empleado();
   try {
-    const data_empleados = await empleado.getAllDataEmpleado();
+    const data_empleados = await Empleado.getAllDataEmpleado();
+    res.status(200).send({ data_empleados });
+  } catch (err) {
+    console.log({ err })
+    res.status(500).send({ err });
+  }
+}
+
+
+export async function getSearchEmpleado(req, res) {
+  const { page,filterName } = req.params;
+  try {
+    const data_empleados = await Empleado.getSearchDataEmpleado(page,filterName);
     res.status(200).send({ data_empleados });
   } catch (err) {
     console.log({ err })

@@ -60,8 +60,7 @@ export class Empleado {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people  
            FROM empleado WHERE id_empleado = ${this.id_empleado}
-           
-                `
+           `
       );
       return rows[0];
     } catch (err) {
@@ -69,20 +68,29 @@ export class Empleado {
     }
   }
 
-  async getAllDataEmpleado() {
-    console.log(`SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
-    FROM empleado
-    WHERE ${filter("nombre","ermi")}
-
-    ${orderBy("nombre","ASC")}
-    ${pag(1,15)}`)
+  static async getAllDataEmpleado() {
+    
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
         FROM empleado
-        WHERE ${filter("nombre","ar")}
         ${orderBy("nombre","ASC")}
         ${pag(1,15)}`
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
+  static async getSearchDataEmpleado(page,filterName) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+        FROM empleado
+        WHERE ${filter("nombre",filterName)}
+        ${orderBy("nombre","ASC")}
+        ${pag(page,15)}`
       );
       return rows;
     } catch (err) {
