@@ -8,6 +8,8 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loginAuth } = useUser();
+  const [errorMessage, setErrorMessage] = useState('');
+
   return (
     <>
       <Head>
@@ -46,14 +48,15 @@ export default function Home() {
               onClick={async () => {
                 try {
                   await loginAuth(email, password);
-
                 } catch (error) {
+                  setErrorMessage('¡Credenciales inválidas!');
                   console.log({ error })
                 }
               }}
             >
               Entrar
             </button>
+            {errorMessage && <p class="italic text-center text-red-500 text-base mt-2">  {errorMessage} </p>}
           </div>
         </div>
       </div>

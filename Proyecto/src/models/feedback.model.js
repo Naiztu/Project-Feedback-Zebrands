@@ -1,5 +1,5 @@
 import pool from "../database/db";
-
+import {pag,orderBy } from "../util/query";
 export class Feedback {
   constructor(
     _calificacion_craft,
@@ -55,10 +55,13 @@ export class Feedback {
   }
 
   static async getDataAllFeedback() {
+   
     try {
       const [rows, fields] = await pool.execute(
         `SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio 
-                FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado`
+          FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado 
+          ${orderBy("id_periodo","DESC")}
+          ${pag(1,15)}`
       );
       return rows;
     } catch (err) {

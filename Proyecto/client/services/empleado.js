@@ -1,5 +1,6 @@
 import api from "./api"
 import Cookies from "js-cookie"
+import { filter } from "../../src/util/query"
 
 export async function currentEmpleado() {
     const token = Cookies.get("token")
@@ -20,9 +21,35 @@ export async function currentEmpleado() {
         throw { error }
     }
 }
+
+export async function getEmpleado(id) {
+    try {
+        const { data } = await api.get(`/empleado/${id}`);
+        return data;
+    } catch (error) {
+        throw { error }
+    }
+}
+
 export async function getAllEmpleados(page) {
     try {
         const { data } = await api.get(`/empleado/all`)
+        console.log(data)
+        return data;
+    } catch (error) {
+        console.log(error)
+        throw { error }
+    }
+
+}
+
+
+export async function getFilterEmpleados(page,filterName) {
+    if(filterName===""){
+        filterName=0;
+    }
+    try {
+        const { data } = await api.get(`/empleado/search/${page}/${filterName}`)
         console.log(data)
         return data;
     } catch (error) {
