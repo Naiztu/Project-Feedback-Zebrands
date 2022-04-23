@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useUser } from "../context/userContext";
 import Navbar from "./Navbar";
+import { BsHouse } from "react-icons/bs";
 
 export default function Layout({ children }) {
   const router = useRouter();
@@ -25,21 +26,17 @@ export default function Layout({ children }) {
             if (idRol === 1) router.push("/lead");
             else router.push("/user");
           }}
-          className="group bg-black h-20 w-20 fixed right-0 bottom-0 text-white flex items-center justify-center m-3 rounded-full font-bold text-4xl cursor-pointer active:scale-90 transition-all ease-in-out"
+          className="group bg-black h-20 w-20 fixed right-0 bottom-0  flex items-center justify-center mb-5 mr-5 sm:mr-10 rounded-full cursor-pointer active:scale-95 hover:scale-105 transition-all ease-in-out"
         >
           {router.pathname === "/user" || router.pathname === "/lead" ? (
-            <p>4.5</p>
+            <p className="text-white font-bold text-4xl group-hover:text-secondary-50">
+              4.5
+            </p>
           ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="35"
-              height="35"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-              <path d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
-            </svg>
+            <BsHouse
+              size={36}
+              className=" fill-white group-hover:fill-secondary-50"
+            />
           )}
         </div>
         <div
