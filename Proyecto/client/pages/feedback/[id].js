@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import RowFeed from "../../components/RowFeed";
-import Axios from "axios";
+import swal from "sweetalert";
+import api from "../../services/api";
+import { useUser } from "../../context/userContext";
 import PlantillaFeed from "../../components/PlantillaFeed";
 import Layout from "../../components/Layout";
 import Evaluaciones from "../../components/Evaluaciones";
-import swal from "sweetalert";
-import { useUser } from "../../context/userContext";
-import api from "../../services/api";
 
 export default function Post() {
   //Debe ser el numero del periodo al que corresponde el feedback
