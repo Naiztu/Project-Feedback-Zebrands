@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import RowFeed from "./RowFeed";
 import { useUser } from "../context/userContext";
 import api from "../services/api";
+import Loader from "./loader/Loader";
 
 export default function Feedbacks() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -26,7 +27,6 @@ export default function Feedbacks() {
     if (isAuthenticated) {
       getFeedbacks();
     }
-
   }, [isAuthenticated]);
 
   return (
@@ -51,11 +51,17 @@ export default function Feedbacks() {
                   </tr>
                 </thead>
                 <tbody className="text-sm divide-y divide-gray-100">
-                  {feedbacks.map((item, index) => (
-                    <RowFeed key={index} data={item} />
-                  ))}
+                  {feedbacks.length != 0 &&
+                    feedbacks.map((item, index) => (
+                      <RowFeed key={index} data={item} />
+                    ))}
                 </tbody>
               </table>
+              {feedbacks.length === 0 && (
+                <div className=" w-full my-20 flex justify-center items-center">
+                  <Loader hmax={70} hmin={10} w={15} />
+                </div>
+              )}
             </div>
           </div>
         </div>
