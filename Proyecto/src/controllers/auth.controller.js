@@ -5,13 +5,12 @@ require("dotenv").config();
 
 export const loginRouter = async (req, res) => {
   const { email, password } = req.body;
-  let user = null
+  let user = null;
   try {
     user = await Empleado.findEmail(email);
   } catch (error) {
-    console.log({ error })
+    console.log({ error });
   }
-
 
   const passwordCorrect =
     user === null ? false : await bcrypt.compare(password, user.password);
@@ -21,12 +20,23 @@ export const loginRouter = async (req, res) => {
       error: "invalid user or password",
     });
   } else {
-    const { id_empleado, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft,
-      nivel_business, nivel_people, correo_electronico, imagen_perfil, id_rol } = user || {}
+    const {
+      id_empleado,
+      nombre,
+      apellido_paterno,
+      apellido_materno,
+      nivel_general,
+      nivel_craft,
+      nivel_business,
+      nivel_people,
+      correo_electronico,
+      imagen_perfil,
+      id_rol,
+    } = user || {};
 
     const userForToken = {
-      id_empleado, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft,
-      nivel_business, nivel_people, correo_electronico, imagen_perfil, id_rol
+      id_empleado,
+      id_rol,
     };
 
     const token = jwt.sign(userForToken, process.env.SECRET, {
@@ -34,9 +44,20 @@ export const loginRouter = async (req, res) => {
     });
 
     res.send({
-      user: userForToken,
+      user: {
+        id_empleado,
+        nombre,
+        apellido_paterno,
+        apellido_materno,
+        nivel_general,
+        nivel_craft,
+        nivel_business,
+        nivel_people,
+        correo_electronico,
+        imagen_perfil,
+        id_rol,
+      },
       token,
     });
   }
-
 };

@@ -1,11 +1,26 @@
 import pool from "../database/db";
-import { queryUpdatePass, pag, orderBy,filter } from "../util/query";
+import { queryUpdatePass, pag, orderBy, filter } from "../util/query";
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 export class Empleado {
-  constructor(id_empleado, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people,
-    activo, _correo_electronico, password, equipo, id_chapter, imagen_perfil, id_rol) {
+  constructor(
+    id_empleado,
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    nivel_general,
+    nivel_craft,
+    nivel_business,
+    nivel_people,
+    activo,
+    _correo_electronico,
+    password,
+    equipo,
+    id_chapter,
+    imagen_perfil,
+    id_rol
+  ) {
     this.id_empleado = id_empleado;
     this.nombre = nombre;
     this.apellido_paterno = apellido_paterno;
@@ -30,10 +45,25 @@ export class Empleado {
   static async generatorPassNew(pass) {
     const salt = await bcrypt.genSalt(parseInt(process.env.SALT));
     const newPass = await bcrypt.hash(pass, salt);
-    return newPass
+    return newPass;
   }
   static async updatePass(passwords) {
-    const [rows, fields] = await pool.execute(queryUpdatePass(passwords))
+    const [rows, fields] = await pool.execute(queryUpdatePass(passwords));
+  }
+
+  static async findId(id) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
+            e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
+          FROM empleado e
+            e.id_empleado = ${id}
+          LIMIT 1;`
+      );
+      return rows[0] || null;
+    } catch (err) {
+      return null;
+    }
   }
 
   static async findEmail(correo) {
@@ -69,13 +99,12 @@ export class Empleado {
   }
 
   static async getAllDataEmpleado() {
-    
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
         FROM empleado
-        ${orderBy("nombre","ASC")}
-        ${pag(1,15)}`
+        ${orderBy("nombre", "ASC")}
+        ${pag(1, 15)}`
       );
       return rows;
     } catch (err) {
@@ -83,14 +112,14 @@ export class Empleado {
     }
   }
 
-  static async getSearchDataEmpleado(page,filterName) {
+  static async getSearchDataEmpleado(page, filterName) {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
         FROM empleado
-        WHERE ${filter("nombre",filterName)}
-        ${orderBy("nombre","ASC")}
-        ${pag(page,15)}`
+        WHERE ${filter("nombre", filterName)}
+        ${orderBy("nombre", "ASC")}
+        ${pag(page, 15)}`
       );
       return rows;
     } catch (err) {
@@ -185,4 +214,3 @@ export class Empleado {
     }
   }
 }
-

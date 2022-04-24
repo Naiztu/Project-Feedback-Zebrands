@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
+import { Empleado } from "../models/empleado.model";
 require("dotenv").config();
 
 export default function (req, res, next) {
-  const authorization = req.get('authorization');
+  const authorization = req.get("authorization");
   let token = "";
 
   if (authorization && authorization.toLowerCase().startsWith("bearer")) {
@@ -23,16 +24,11 @@ export default function (req, res, next) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
 
-  const {
-    id_empleado, nombre, apellido_paterno,
-    apellido_materno, nivel_general, nivel_craft,
-    nivel_business, nivel_people, correo_electronico, imagen_perfil, id_rol
-  } = decodedToken;
+  const { id_empleado, id_rol } = decodedToken;
 
   req.data = {
-    id_empleado, nombre, apellido_paterno,
-    apellido_materno, nivel_general, nivel_craft,
-    nivel_business, nivel_people, correo_electronico, imagen_perfil, id_rol
+    id_empleado,
+    id_rol,
   };
 
   next();
