@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   getEmpleado,
   getAllEmpleado,
+  getSearchEmpleado,
   postEmpleado,
   updateChapterMember,
   updateCMasCL,
@@ -11,6 +12,7 @@ import {
 const router = Router();
 
 router.get("/all", getAllEmpleado);
+router.get("/search/:page/:filterName", getSearchEmpleado);
 router.get("/me", getCurrentEmpleado);
 router.get("/:id_empleado", getEmpleado);
 router.post("/", postEmpleado)

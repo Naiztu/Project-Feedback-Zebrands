@@ -17,7 +17,9 @@ export default function RowEvaluaciones({ item }) {
 
   const getRespuestas = async () => {
     try {
-      const res = await api.get(`/respuestas/${id_evaluador}/${id_evaluado}/${id_periodo}`);
+      const res = await api.get(
+        `/respuestas/${id_evaluador}/${id_evaluado}/${id_periodo}`
+      );
       console.log({ res });
       setRespuestas(res.data.data_res);
     } catch (err) {
@@ -39,7 +41,7 @@ export default function RowEvaluaciones({ item }) {
             {item.estatus === "Contestado" ? <FaEye /> : <FaEyeSlash />}
           </button>
           <Modal isOpen={isOpenModal} closeModal={closeModal}>
-            <div className=" flex flex-col pt-16">
+            <div className="flex flex-col pt-4">
               {respuestas.map((item, index) => (
                 <Respuesta info={item} key={index} isSaved={true} />
               ))}
