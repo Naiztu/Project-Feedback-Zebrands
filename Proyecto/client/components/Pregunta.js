@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { FaTrashAlt, FaPencilAlt, FaSave } from "react-icons/fa";
 import swal from "sweetalert";
-import Axios from "axios";
+import {
+  deletePregunta,
+  postPregunta,
+  updatePregunta,
+} from "../services/preguntas";
 
-export default function Pregunta({ data, isSaved, update }) {
+export default function Pregunta({ data, isSaved, setPntas, pntas }) {
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [pregunta, setPregunta] = useState(data.pregunta);
@@ -12,6 +16,7 @@ export default function Pregunta({ data, isSaved, update }) {
   const handleEdit = () => {
     setIsEdited(true);
   };
+
   const handleQuestion = () => {
     if (!isSave) {
       createQuestion();
@@ -19,66 +24,50 @@ export default function Pregunta({ data, isSaved, update }) {
     } else updateQuestion();
     setIsEdited(false);
   };
+
   const deleteQuestion = async () => {
     const willDelete = await swal({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this imaginary file!",
+      title: "¿Estas seguro?",
+      text: "Si eliminas esta pregunta, no se podra recuperar",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     });
     if (willDelete) {
       try {
-        const res = await Axios.delete(
-          `${process.env.HOSTBACK}/preguntas/${data.id_pregunta}`
+        const res = await deletePregunta(data.id_pregunta);
+        setPntas(
+          pntas
+            .filter((item) => data.id != item.id)
+            .map((item, index) => ({ ...item, id: index }))
         );
-        console.log({ res });
-        if (res.status != 200) {
-          throw {
-            err: true,
-            status: res.status,
-            statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-          };
-        }
-        swal("Poof! Your imaginary file has been deleted!", {
+        swal("Eliminada satisfactoriamente!", {
           icon: "success",
         });
-        update();
       } catch (err) {
-        swal("Hubo un error", {
+        swal("Hubo un error, la pregunta no se elimino!", {
           icon: "warning",
         });
       }
     } else {
-      swal("Your imaginary file is safe!");
+      swal("Operacion cancelada!");
     }
   };
 
   const createQuestion = async () => {
     try {
-      const res = await Axios.post(
-        `${process.env.HOSTBACK}/preguntas/registra`,
-        {
-          pregunta,
-          nivel_pregunta: data.nivel_pregunta,
-          dimension_pregunta: data.dimension,
-          tipo_pregunta: tipo,
-          id_chapter: 1,
-        }
-      );
-      console.log({ res });
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      }
-      swal("Poof! Your imaginary file has been saved!", {
+      const res = await postPregunta({
+        pregunta,
+        nivel_pregunta: data.nivel_pregunta,
+        dimension_pregunta: data.dimension,
+        tipo_pregunta: tipo,
+        id_chapter: 1,
+      });
+      swal("Pregunta registrada!", {
         icon: "success",
       });
     } catch (err) {
-      swal("Hubo error", {
+      swal("Hubo error, la pregunta no se registro!", {
         icon: "warning",
       });
     }
@@ -86,30 +75,18 @@ export default function Pregunta({ data, isSaved, update }) {
 
   const updateQuestion = async () => {
     try {
-      const res = await Axios.put(
-        `${process.env.HOSTBACK}/preguntas/descripcion`,
-        {
-          id_pregunta: data.id_pregunta,
-          pregunta,
-          tipo_pregunta: tipo,
-        }
-      );
-      console.log({ res });
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      }
-      swal("Poof! Your imaginary file has been saved!", {
+      const res = await updatePregunta({
+        id_pregunta: data.id_pregunta,
+        pregunta,
+        tipo_pregunta: tipo,
+      });
+      swal("Pregunta actualizada!", {
         icon: "success",
       });
     } catch (err) {
-      console.log(err),
-        swal("Hubo error", {
-          icon: "warning",
-        });
+      swal("Hubo error, la pregunta no fue actualizada!", {
+        icon: "warning",
+      });
     }
   };
 

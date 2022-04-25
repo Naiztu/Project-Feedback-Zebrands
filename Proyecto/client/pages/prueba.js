@@ -1,11 +1,13 @@
 import React from "react";
-import DatosEmpleado from "../components/DatosEmpleado";
-import Loader from "../components/loader/Loader";
+import Loader from "../components/loaders/Loader";
+import PageZebrands from "../components/loaders/PageZebrands";
+import Spinner from "../components/loaders/Sppiner";
+import ThreeDotsWave from "../components/loaders/ThreeDotsWave";
 
 export default function Prueba() {
   return (
-    <div className=" w-1/2 h-96 flex justify-center items-center">
-      <Loader hmax={70} hmin={10} w={15} />
+    <div className="flex flex-col h-screen justify-center items-center">
+      <PageZebrands />
     </div>
   );
 }
