@@ -8,7 +8,7 @@ import { RiUserFollowLine, RiUserStarLine } from "react-icons/ri";
 export default function OptionLead() {
   const router = useRouter();
   return (
-    <>
+    <div>
       <ul className="relative px-1">
         <li className="relative">
           <button
@@ -95,6 +95,7 @@ export default function OptionLead() {
           </button>
         </li>
       </ul>
+<<<<<<< HEAD
       <ul className="relative px-1">
         <li className="relative">
           <button
@@ -111,5 +112,8 @@ export default function OptionLead() {
         </li>
       </ul>
     </>
+=======
+    </div>
+>>>>>>> develop
   );
 }

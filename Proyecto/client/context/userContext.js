@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
       if (token) {
         try {
           const data = await currentEmpleado();
-          setUser(data);
+          setUser(data.user);
         } catch (error) {
           console.log(error);
         }

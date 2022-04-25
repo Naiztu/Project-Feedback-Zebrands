@@ -17,7 +17,7 @@ export default function Layout({ children }) {
       <div className="w-full h-screen overflow-y-auto flex flex-row ">
         <Navbar />
 
-        <div className="ml-20 md:ml-60  w-full flex flex-col overflow-auto pb-10 scrollbar-thin scrollbar-thumb-black scrollbar-track-neutral-400">
+        <div className="ml-20 md:ml-60  w-full h-full flex flex-col overflow-auto pb-10 scrollbar-thin scrollbar-thumb-black scrollbar-track-neutral-400">
           {children}
         </div>
         <div
