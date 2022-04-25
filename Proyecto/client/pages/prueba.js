@@ -1,10 +1,10 @@
 import React from "react";
-import DatosEmpleado from "../components/DatosEmpleado";
+import Registro from "../components/Registro";
 
 export default function Prueba() {
   return (
     <>
-      <DatosEmpleado/>
+      <Registro/>
     </>
   );
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import OptionMember from "./OptionMember";
 import OptionAsisstant from "./OptionAsisstant";
+import { AiOutlineUserAdd } from 'react-icons/ai';
 
 export default function OptionLead() {
   const router = useRouter();
@@ -126,6 +127,21 @@ export default function OptionLead() {
             </svg>
             <span className="pt-1 text-sm font-semibold hidden md:inline">
               Evaluar Compañeros
+            </span>
+          </button>
+        </li>
+      </ul>
+      <ul className="relative px-1">
+        <li className="relative">
+          <button
+            className=" link-navbar"
+            onClick={() => {
+              router.push("/lead/register");
+            }}
+          >
+            <AiOutlineUserAdd size={42}/>
+            <span className="pt-1 text-sm font-semibold hidden md:inline">
+              Registrar Member
             </span>
           </button>
         </li>
