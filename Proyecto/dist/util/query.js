@@ -3,6 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.filter = filter;
+exports.orderBy = orderBy;
+exports.pag = pag;
 exports.queryPostRespuestas = queryPostRespuestas;
 exports.queryPostSolicitarEvaluaciones = queryPostSolicitarEvaluaciones;
 exports.queryUpdatePass = queryUpdatePass;
@@ -62,4 +65,24 @@ function queryPostRespuestas(id_empleado_evaluador, id_empleado_evaluado, id_per
 
   var query = s.slice(0, -1);
   return query;
+}
+
+function pag(pagina, elementos) {
+  return "LIMIT ".concat((pagina - 1) * elementos, ", ").concat(elementos);
+}
+
+function orderBy(campo, tipo) {
+  if (campo === "") {
+    return "";
+  } else {
+    return "ORDER BY ".concat(campo, " ").concat(tipo);
+  }
+}
+
+function filter(campo, value) {
+  if (value === "0") {
+    return "".concat(campo, " LIKE '%'");
+  } else {
+    return "".concat(campo, " LIKE '").concat(value, "%'");
+  }
 }

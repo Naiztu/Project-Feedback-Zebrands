@@ -12,6 +12,6 @@ var _periodo = require("../controllers/periodo.controller");
 var router = (0, _express.Router)();
 router.post("/newperiodo", _periodo.postPeriodo);
 router.put("/fechas", _periodo.cambiaPeriodo);
-router.get("/currentperiodo", getPeriodo);
+router.get("/currentperiodo", _periodo.getPeriodo);
 var _default = router;
 exports["default"] = _default;

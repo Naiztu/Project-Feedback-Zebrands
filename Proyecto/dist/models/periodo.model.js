@@ -108,6 +108,48 @@ var Periodo = /*#__PURE__*/function () {
 
       return changeDate;
     }()
+  }, {
+    key: "getPeriodo",
+    value: function () {
+      var _getPeriodo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3() {
+        var _yield$pool$execute5, _yield$pool$execute6, rows, fields;
+
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return _db["default"].execute(" SELECT nombre_periodo, fecha_inicio, fecha_fin, estatus_periodo FROM periodo \n    order BY fecha_fin DESC\n    ");
+
+              case 3:
+                _yield$pool$execute5 = _context3.sent;
+                _yield$pool$execute6 = (0, _slicedToArray2["default"])(_yield$pool$execute5, 2);
+                rows = _yield$pool$execute6[0];
+                fields = _yield$pool$execute6[1];
+                return _context3.abrupt("return", rows);
+
+              case 10:
+                _context3.prev = 10;
+                _context3.t0 = _context3["catch"](0);
+                throw {
+                  err: _context3.t0
+                };
+
+              case 13:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 10]]);
+      }));
+
+      function getPeriodo() {
+        return _getPeriodo.apply(this, arguments);
+      }
+
+      return getPeriodo;
+    }()
   }]);
   return Periodo;
 }();

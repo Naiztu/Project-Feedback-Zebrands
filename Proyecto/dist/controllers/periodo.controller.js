@@ -6,9 +6,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.cambiaPeriodo = cambiaPeriodo;
+exports.getPeriodo = getPeriodo;
 exports.postPeriodo = postPeriodo;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _objectDestructuringEmpty2 = _interopRequireDefault(require("@babel/runtime/helpers/objectDestructuringEmpty"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -93,4 +96,45 @@ function _cambiaPeriodo() {
     }, _callee2);
   }));
   return _cambiaPeriodo.apply(this, arguments);
+}
+
+function getPeriodo(_x5, _x6) {
+  return _getPeriodo.apply(this, arguments);
+}
+
+function _getPeriodo() {
+  _getPeriodo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
+    var data;
+    return _regenerator["default"].wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            (0, _objectDestructuringEmpty2["default"])(req.body);
+            _context3.prev = 1;
+            _context3.next = 4;
+            return _periodo.Periodo.getPeriodo();
+
+          case 4:
+            data = _context3.sent;
+            res.send({
+              data: data
+            });
+            _context3.next = 11;
+            break;
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](1);
+            res.status(500).send({
+              err: _context3.t0
+            });
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[1, 8]]);
+  }));
+  return _getPeriodo.apply(this, arguments);
 }

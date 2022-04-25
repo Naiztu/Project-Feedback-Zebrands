@@ -13,5 +13,6 @@ var router = (0, _express.Router)();
 router.get("/:id_periodo/:id_user", _evaluar.getEvaluarPendiente);
 router.get("/all/:id_periodo/:id_user", _evaluar.getAllEvaluar);
 router.post("/", _evaluar.postAsignarCompaniero);
+router.get("/resumen/:id_periodo/:id_user", _evaluar.getResumen);
 var _default = router;
 exports["default"] = _default;

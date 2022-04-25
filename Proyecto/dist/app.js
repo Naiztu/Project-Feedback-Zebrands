@@ -31,6 +31,8 @@ var _rol = _interopRequireDefault(require("./routes/rol.routes"));
 
 var _perfil = _interopRequireDefault(require("./routes/perfil.routes"));
 
+var _periodo = _interopRequireDefault(require("./routes/periodo.routes"));
+
 var _auth = _interopRequireDefault(require("./routes/auth.routes"));
 
 var _userExtractor = _interopRequireDefault(require("./middlewares/userExtractor"));
@@ -59,5 +61,6 @@ app.use("/api/empleado", _userExtractor["default"], _empleado["default"]);
 app.use("/api/respuestas", _userExtractor["default"], _respuestas["default"]);
 app.use("/api/rol", _userExtractor["default"], _rol["default"]);
 app.use("/api/perfil", _userExtractor["default"], _perfil["default"]);
+app.use("/api/periodo", _userExtractor["default"], _periodo["default"]);
 var _default = app;
 exports["default"] = _default;

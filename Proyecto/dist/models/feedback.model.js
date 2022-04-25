@@ -19,6 +19,8 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 
 var _db = _interopRequireDefault(require("../database/db"));
 
+var _query = require("../util/query");
+
 var Feedback = /*#__PURE__*/function () {
   function Feedback(_calificacion_craft, _calificacion_personal, _calificacion_business, _calificacion_promedio, _comentario_craft, _comentario_personal, _comentario_business, _comentario_general, _id_member, _id_assistant, _id_periodo) {
     (0, _classCallCheck2["default"])(this, Feedback);
@@ -173,7 +175,7 @@ var Feedback = /*#__PURE__*/function () {
               case 0:
                 _context4.prev = 0;
                 _context4.next = 3;
-                return _db["default"].execute("SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio \n                FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado");
+                return _db["default"].execute("SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio \n          FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado \n          ".concat((0, _query.orderBy)("id_periodo", "DESC"), "\n          ").concat((0, _query.pag)(1, 15)));
 
               case 3:
                 _yield$pool$execute7 = _context4.sent;

@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getAllEvaluar = getAllEvaluar;
 exports.getEvaluarPendiente = getEvaluarPendiente;
+exports.getResumen = getResumen;
 exports.postAsignarCompaniero = postAsignarCompaniero;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
@@ -143,4 +144,48 @@ function _postAsignarCompaniero() {
     }, _callee3, null, [[3, 10]]);
   }));
   return _postAsignarCompaniero.apply(this, arguments);
+}
+
+function getResumen(_x7, _x8) {
+  return _getResumen.apply(this, arguments);
+}
+
+function _getResumen() {
+  _getResumen = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
+    var _req$params3, id_user, id_periodo, evalua, data_resumen;
+
+    return _regenerator["default"].wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _req$params3 = req.params, id_user = _req$params3.id_user, id_periodo = _req$params3.id_periodo;
+            evalua = new _evaluar.getEvaluar(id_user, id_periodo);
+            _context4.prev = 2;
+            _context4.next = 5;
+            return evalua.getResumen();
+
+          case 5:
+            data_resumen = _context4.sent;
+            res.send({
+              data_resumen: data_resumen
+            });
+            _context4.next = 13;
+            break;
+
+          case 9:
+            _context4.prev = 9;
+            _context4.t0 = _context4["catch"](2);
+            console.log(_context4.t0);
+            res.status(500).send({
+              err: _context4.t0
+            });
+
+          case 13:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[2, 9]]);
+  }));
+  return _getResumen.apply(this, arguments);
 }
