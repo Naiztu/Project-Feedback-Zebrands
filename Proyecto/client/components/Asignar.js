@@ -4,7 +4,7 @@ import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import CompaneroAsignar from "./CompaneroAsignar";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
-import { getAllEmpleados } from "../services/empleado";
+import { getAllEmpleados, getFilterEmpleados } from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { postAsignados } from "../services/evaluacion";
 
@@ -13,10 +13,13 @@ export default function Asignar() {
   const { isAuthenticated, user } = useUser();
   const [asignados, setAsignados] = useState([]);
   const [companeros, setCompaneros] = useState([]);
+  const [filterName, setFilterName] = useState("");
+  const [page, setPage] = useState(1);
 
+  
   const getCompaneros = async () => {
     try {
-      const { data_empleados } = await getAllEmpleados();
+      const { data_empleados } = await getAllEmpleados(1);
       setCompaneros(data_empleados);
     } catch (err) {
       swal("Hubo un error", {
@@ -50,6 +53,46 @@ export default function Asignar() {
     }
   }, [isAuthenticated]);
 
+
+  const botonSearch = async () => {
+    try {
+      const { data_empleados } = await getFilterEmpleados(page, filterName);
+      setCompaneros(data_empleados);
+
+    } catch (error) {
+      console.log(error)
+      swal("Hubo un error", {
+        icon: "warning",
+      });
+    }
+
+  }
+
+  const changePage = async (num) => {
+    let newPage;
+    if(num+page<=0){
+      newPage=1;
+      setPage(1);
+    }
+    else{
+      newPage=(page+num)
+      setPage(page+num);
+    }
+   
+    try {
+      const { data_empleados } = await getFilterEmpleados(newPage, filterName);
+      setCompaneros(data_empleados);
+
+    } catch (error) {
+      console.log(error)
+      swal("Hubo un error", {
+        icon: "warning",
+      });
+    }
+    console.log("pag"+ page+"\n")
+
+  }
+
   return (
     <>
       <div className="flex flex-col lg:flex-row">
@@ -60,10 +103,13 @@ export default function Asignar() {
               type="text"
               className="input-label w-8/12 lg:w-6/12"
               placeholder="Nombre de tu compañero"
-            />{" "}
-            <span className="btn ml-2 ">
+              value={filterName}
+              onChange={(e) => setFilterName(e.target.value)}
+            />
+
+            <button onClick={botonSearch} className="btn ml-2 inline ">
               <FaSearch />
-            </span>
+            </button>
           </div>
           <div className="flex flex-col justify-center  mt-5 mx-auto w-11/12 sm:w-10/12 ">
             <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
@@ -100,11 +146,11 @@ export default function Asignar() {
             </div>
           </div>
           <div className="flex mx-auto space-x-2 w-3/4 lg:w-10/12  justify-between my-6">
-            <button className="btn-border ">
+            <button onClick={()=>changePage(-1)} className="btn-border ">
               <FaArrowLeft />
               <p className="hidden sm:inline ml-2">Previous page</p>
             </button>
-            <button className="btn">
+            <button onClick={()=>changePage(1)} className="btn">
               <p className="hidden sm:inline mr-2">Next page</p>
               <FaArrowRight />
             </button>
@@ -113,7 +159,7 @@ export default function Asignar() {
         <div className="basis-1/2">
           <h1 className="title my-10">Registrar Compañeros</h1>
           {asignados.length === 0 ? (
-            "no hay asignados..."
+            "No hay asignados..."
           ) : (
             <div className="flex flex-col justify-center  mt-5 mx-auto w-11/12 sm:w-10/12 ">
               <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">

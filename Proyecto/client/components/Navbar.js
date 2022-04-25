@@ -9,7 +9,7 @@ export default function Navbar() {
   const router = useRouter();
 
   const { user } = useUser();
-  const { id_rol } = user || {}
+  const { id_rol } = user || {};
 
   return (
     <>
@@ -32,9 +32,9 @@ export default function Navbar() {
               )}
             </div>
             <div className="grow ml-3">
-              <p className="md:block hidden pt-2 text-xl text-center  font-bold">
+              <button className="md:block hidden pt-2 text-xl text-center  font-bold hover:text-secondary-50 transition duration-300 ease-in-out hover:scale-105 active:scale-90 ">
                 {user && user.nombre + " " + user.apellido_paterno}
-              </p>
+              </button>
             </div>
           </div>
         </div>

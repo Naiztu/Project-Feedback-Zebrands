@@ -8,7 +8,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loginAuth } = useUser();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
     <>
@@ -49,14 +49,19 @@ export default function Home() {
                 try {
                   await loginAuth(email, password);
                 } catch (error) {
-                  setErrorMessage('¡Credenciales inválidas!');
-                  console.log({ error })
+                  setErrorMessage("¡Credenciales inválidas!");
+                  console.log({ error });
                 }
               }}
             >
               Entrar
             </button>
-            {errorMessage && <p class="italic text-center text-red-500 text-base mt-2">  {errorMessage} </p>}
+            {errorMessage && (
+              <p className="italic text-center text-red-500 text-base mt-2">
+                {" "}
+                {errorMessage}{" "}
+              </p>
+            )}
           </div>
         </div>
       </div>

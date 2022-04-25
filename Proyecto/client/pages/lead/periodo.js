@@ -8,6 +8,7 @@ const data = [1, 2, 3, 4, 5];
 export default function Periodo() {
   const [date1, setDate1] = useState(new Date());
   const [date2, setDate2] = useState(new Date());
+  const [descripcion, setDescripcion] = useState("");
 
   return (
     <Layout>
@@ -21,6 +22,17 @@ export default function Periodo() {
           estado={{ e1: date1, e2: date2 }}
           setEstado={{ sE1: setDate1, sE2: setDate2 }}
         />
+
+        <div className="">
+          <label>Descripcion del preiodo</label>
+          <input
+            type={"text"}
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+            placeholder="Ej: Primer trimestre 2022"
+            className=" border-2 border-black rounded px-3"
+          />
+        </div>
       </div>
 
       <section className="w-9/12 mx-auto ">
