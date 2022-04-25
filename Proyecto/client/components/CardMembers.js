@@ -14,6 +14,9 @@ export default function CardMembers({ info }) {
   const redirectRegisterFeed = () => {
     router.push(`/user/asignados/${id_empleado}`);
   };
+  const redirectAdminAsig = () => {
+    router.push(`/lead/adminasig`);
+  };
 
   return (
     <div className="  w-[300px] rounded-xl px-4 py-6 shadow-sm shadow-black text-black md:mx-20 md:my-10 my-5 mx-2">
@@ -105,12 +108,11 @@ export default function CardMembers({ info }) {
 
       {id_rol === 1 &&
         <button
-          onClick={redirectRegisterFeed}
+          onClick={redirectAdminAsig}
           className="btn block mt-10 mx-auto md:text-base text-sm"
         >
           Administrar asignados
         </button>
-
       }
 
 
