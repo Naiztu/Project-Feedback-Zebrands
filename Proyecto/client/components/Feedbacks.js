@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import RowFeed from "./RowFeed";
 import { useUser } from "../context/userContext";
 import api from "../services/api";
-import Loader from "./loader/Loader";
+import Loader from "./loaders/Loader";
 
 export default function Feedbacks() {
   const [feedbacks, setFeedbacks] = useState([]);

@@ -8,9 +8,9 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
 
   const getPreguntas = async () => {
     try {
-      const data = await getPreguntaNivelDimension(Nivel, Dimension)
-      console.log(data.preguntas);
-      setPntas(data.preguntas);
+      const data = await getPreguntaNivelDimension(Nivel, Dimension);
+      setPntas(data.preguntas.map((item, index) => ({ ...item, id: index })));
+      setAddQ([]);
     } catch (err) {
       console.log(err);
     }
@@ -18,7 +18,6 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
 
   useEffect(() => {
     getPreguntas();
-    setAddQ([]);
   }, [Nivel]);
 
   const [addQ, setAddQ] = useState([]);
@@ -47,19 +46,32 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
       </div>
       <div className="w-9/12 mx-auto flex flex-col items-center justify-center">
         {pntas.map((item) => (
-          <Pregunta data={item} key={item.id_pregunta} update={getPreguntas} />
+          <Pregunta
+            data={item}
+            key={item.id_pregunta}
+            setPntas={setPntas}
+            pntas={pntas}
+          />
         ))}
       </div>
       <div className="w-9/12 mx-auto flex flex-col items-center justify-center">
         {addQ.map((item, index) => (
-          <Pregunta data={item} isSaved={false} key={index} />
+          <Pregunta
+            data={item}
+            isSaved={false}
+            key={index}
+            setPntas={setPntas}
+            pntas={pntas}
+          />
         ))}
       </div>
-      <div className="flex justify-center mt-10">
-        <button onClick={addQuestion} className="btn">
-          <FaPlus />
-        </button>
-      </div>
+      {addQ.length === 0 && (
+        <div className="flex justify-center mt-10">
+          <button onClick={addQuestion} className="btn">
+            <FaPlus />
+          </button>
+        </div>
+      )}
     </>
   );
 }

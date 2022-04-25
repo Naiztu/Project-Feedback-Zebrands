@@ -15,10 +15,12 @@ export async function getEmpleado(req, res) {
 }
 export async function getCurrentEmpleado(req, res) {
   const { id_empleado } = req.data;
+  console.log(id_empleado);
   try {
     const user = await Empleado.findId(id_empleado);
     res.status(200).send({ user });
   } catch (error) {
+    console.log(error);
     res.status(401).send(error);
   }
 }
