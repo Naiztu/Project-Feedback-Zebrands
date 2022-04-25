@@ -24,11 +24,10 @@ export default function (req, res, next) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
 
-  const { id_empleado, id_rol } = decodedToken;
+  const { id_empleado } = decodedToken;
 
   req.data = {
     id_empleado,
-    id_rol,
   };
 
   next();
