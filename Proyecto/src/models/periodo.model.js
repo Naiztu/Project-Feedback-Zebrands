@@ -37,12 +37,12 @@ export class Periodo {
     }
   }
 
-  static async getPeriodo() {
+  static async getCurrentPeriodo() {
     try {
     const [rows, fields] = await pool.execute(
 
-    ` SELECT nombre_periodo, fecha_inicio, fecha_fin, estatus_periodo FROM periodo 
-    order BY fecha_fin DESC
+    ` SELECT * FROM periodo WHERE estatus_periodo = "Vigente"
+    LIMIT 1
     `);
         return rows;
     } catch (err) {

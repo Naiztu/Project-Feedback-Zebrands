@@ -109,9 +109,9 @@ var Periodo = /*#__PURE__*/function () {
       return changeDate;
     }()
   }, {
-    key: "getPeriodo",
+    key: "getCurrentPeriodo",
     value: function () {
-      var _getPeriodo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3() {
+      var _getCurrentPeriodo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3() {
         var _yield$pool$execute5, _yield$pool$execute6, rows, fields;
 
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -120,7 +120,7 @@ var Periodo = /*#__PURE__*/function () {
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return _db["default"].execute(" SELECT nombre_periodo, fecha_inicio, fecha_fin, estatus_periodo FROM periodo \n    order BY fecha_fin DESC\n    ");
+                return _db["default"].execute(" SELECT * FROM periodo WHERE estatus_periodo = \"Vigente\"\n    LIMIT 1\n    ");
 
               case 3:
                 _yield$pool$execute5 = _context3.sent;
@@ -144,11 +144,11 @@ var Periodo = /*#__PURE__*/function () {
         }, _callee3, null, [[0, 10]]);
       }));
 
-      function getPeriodo() {
-        return _getPeriodo.apply(this, arguments);
+      function getCurrentPeriodo() {
+        return _getCurrentPeriodo.apply(this, arguments);
       }
 
-      return getPeriodo;
+      return getCurrentPeriodo;
     }()
   }]);
   return Periodo;

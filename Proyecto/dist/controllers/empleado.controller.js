@@ -70,18 +70,37 @@ function getCurrentEmpleado(_x3, _x4) {
 
 function _getCurrentEmpleado() {
   _getCurrentEmpleado = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
+    var id_empleado, user;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            res.status(200).send(req.data);
+            id_empleado = req.data.id_empleado;
+            console.log(id_empleado);
+            _context2.prev = 2;
+            _context2.next = 5;
+            return _empleado.Empleado.findId(id_empleado);
 
-          case 1:
+          case 5:
+            user = _context2.sent;
+            res.status(200).send({
+              user: user
+            });
+            _context2.next = 13;
+            break;
+
+          case 9:
+            _context2.prev = 9;
+            _context2.t0 = _context2["catch"](2);
+            console.log(_context2.t0);
+            res.status(401).send(_context2.t0);
+
+          case 13:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[2, 9]]);
   }));
   return _getCurrentEmpleado.apply(this, arguments);
 }
@@ -106,20 +125,17 @@ function _getAllEmpleado() {
             res.status(200).send({
               data_empleados: data_empleados
             });
-            _context3.next = 11;
+            _context3.next = 10;
             break;
 
           case 7:
             _context3.prev = 7;
             _context3.t0 = _context3["catch"](0);
-            console.log({
-              err: _context3.t0
-            });
             res.status(500).send({
               err: _context3.t0
             });
 
-          case 11:
+          case 10:
           case "end":
             return _context3.stop();
         }

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.cambiaPeriodo = cambiaPeriodo;
-exports.getPeriodo = getPeriodo;
+exports.getCurrentPeriodo = getCurrentPeriodo;
 exports.postPeriodo = postPeriodo;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
@@ -98,12 +98,12 @@ function _cambiaPeriodo() {
   return _cambiaPeriodo.apply(this, arguments);
 }
 
-function getPeriodo(_x5, _x6) {
-  return _getPeriodo.apply(this, arguments);
+function getCurrentPeriodo(_x5, _x6) {
+  return _getCurrentPeriodo.apply(this, arguments);
 }
 
-function _getPeriodo() {
-  _getPeriodo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
+function _getCurrentPeriodo() {
+  _getCurrentPeriodo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
     var data;
     return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) {
@@ -112,7 +112,7 @@ function _getPeriodo() {
             (0, _objectDestructuringEmpty2["default"])(req.body);
             _context3.prev = 1;
             _context3.next = 4;
-            return _periodo.Periodo.getPeriodo();
+            return _periodo.Periodo.getCurrentPeriodo();
 
           case 4:
             data = _context3.sent;
@@ -136,5 +136,5 @@ function _getPeriodo() {
       }
     }, _callee3, null, [[1, 8]]);
   }));
-  return _getPeriodo.apply(this, arguments);
+  return _getCurrentPeriodo.apply(this, arguments);
 }

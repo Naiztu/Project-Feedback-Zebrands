@@ -32,6 +32,7 @@ export const loginRouter = async (req, res) => {
       correo_electronico,
       imagen_perfil,
       id_rol,
+      id_periodo
     } = user || {};
 
     const userForToken = {
@@ -56,6 +57,7 @@ export const loginRouter = async (req, res) => {
         correo_electronico,
         imagen_perfil,
         id_rol,
+        id_periodo
       },
       token,
     });
