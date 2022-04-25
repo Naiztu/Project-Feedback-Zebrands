@@ -1,8 +1,13 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { useUser } from "../context/userContext";
+
 
 export default function CardMembers({ info }) {
   const router = useRouter();
+
+  const { user, logoutAuth } = useUser();
+  const { id_rol } = user || {};
 
   const { imagen_perfil, id_empleado, nombre, apellido_paterno } = info || {};
 
@@ -97,6 +102,22 @@ export default function CardMembers({ info }) {
       >
         Realizar evaluación
       </button>
+
+      {id_rol === 1 &&
+        <button
+          onClick={redirectRegisterFeed}
+          className="btn block mt-10 mx-auto md:text-base text-sm"
+        >
+          Administrar asignados
+        </button>
+
+      }
+
+
+
+
+
+
     </div>
   );
 }
