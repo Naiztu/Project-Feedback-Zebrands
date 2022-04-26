@@ -1,11 +1,11 @@
 import React from "react";
-import Perfil from "../../components/Perfil";
+import Profile from "../../components/Profile";
 import Layout from "../../components/Layout";
 
 export default function Perfil() {
   return (
     <Layout>
-      <Perfil />
+      <Profile />
     </Layout>
   );
 }

@@ -1,0 +1,88 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.filter = filter;
+exports.orderBy = orderBy;
+exports.pag = pag;
+exports.queryPostRespuestas = queryPostRespuestas;
+exports.queryPostSolicitarEvaluaciones = queryPostSolicitarEvaluaciones;
+exports.queryUpdatePass = queryUpdatePass;
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function queryPostSolicitarEvaluaciones(lista_id_empleado_evaluador, id_evaluado, id_periodo) {
+  var s = "INSERT INTO evaluacion (\n        id_empleado_evaluador,\n        id_empleado_evaluado,\n        id_periodo,\n        estatus\n        )\n        VALUES";
+
+  var _iterator = _createForOfIteratorHelper(lista_id_empleado_evaluador),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var i = _step.value;
+      s += "(" + i + "," + id_evaluado + "," + id_periodo + "," + "'No Contestado'),";
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  var query = s.slice(0, -1);
+  return query;
+}
+
+function queryUpdatePass(items) {
+  var s = "";
+  items.forEach(function (element) {
+    s += "UPDATE empleado SET " + "`" + "password" + "`" + " = '".concat(element.password, "' WHERE id_empleado = ").concat(element.id_empleado, ";");
+  });
+  console.log(s);
+  return s;
+}
+
+function queryPostRespuestas(id_empleado_evaluador, id_empleado_evaluado, id_periodo, lista_preguntas) {
+  var s = "INSERT INTO respuesta (\n        pregunta,\n        descripcion_respuesta,\n        tipo_respuesta,\n        id_empleado_evaluador,\n        id_empleado_evaluado,\n        id_periodo,\n        dimension_respuesta        \n        )\n        VALUES";
+
+  var _iterator2 = _createForOfIteratorHelper(lista_preguntas),
+      _step2;
+
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var i = _step2.value;
+      s += "(" + "'" + i.pregunta + "'" + "," + "'" + i.descripcion_respuesta + "'" + "," + "'" + i.tipo_respuesta + "'" + "," + id_empleado_evaluador + "," + id_empleado_evaluado + "," + id_periodo + "," + "'" + i.dimension_respuesta + "'" + "),";
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+
+  var query = s.slice(0, -1);
+  return query;
+}
+
+function pag(pagina, elementos) {
+  return "LIMIT ".concat((pagina - 1) * elementos, ", ").concat(elementos);
+}
+
+function orderBy(campo, tipo) {
+  if (campo === "") {
+    return "";
+  } else {
+    return "ORDER BY ".concat(campo, " ").concat(tipo);
+  }
+}
+
+function filter(campo, value) {
+  if (value === "0") {
+    return "".concat(campo, " LIKE '%'");
+  } else {
+    return "".concat(campo, " LIKE '").concat(value, "%'");
+  }
+}

@@ -31,7 +31,7 @@ export async function getEmpleado(id) {
   }
 }
 
-export async function getAllEmpleados(page) {
+export async function getAllEmpleados(page, id_periodo) {
   try {
     const { data } = await api.get(`/empleado/all`);
     console.log(data);
@@ -42,12 +42,14 @@ export async function getAllEmpleados(page) {
   }
 }
 
-export async function getFilterEmpleados(page, filterName) {
+export async function getFilterEmpleados(page, filterName, id_periodo) {
   if (filterName === "") {
     filterName = 0;
   }
   try {
-    const { data } = await api.get(`/empleado/search/${page}/${filterName}`);
+    const { data } = await api.get(
+      `/empleado/search/${page}/${filterName}/${id_periodo}`
+    );
     console.log(data);
     return data;
   } catch (error) {

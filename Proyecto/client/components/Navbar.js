@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "../context/userContext";
 import OptionMember from "./OptionMember";
 import OptionAsisstant from "./OptionAsisstant";
 import OptionLead from "./OptionLead";
 import { ImExit } from "react-icons/im";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const router = useRouter();
 
   const { user, logoutAuth } = useUser();
   const { id_rol } = user || {};
+  const [isHovered, setIsHovered] = useState(false);
+  const variants = {
+    init: { opacity: 0, x: -100 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.1,
+        type: "spring",
+      },
+    },
+  };
 
   return (
     <>
@@ -18,10 +31,12 @@ export default function Navbar() {
         <div className="h-full relative">
           <div className="pt-4 pb-2 px-6 ">
             <div className="flex flex-col items-center">
-              <div
-                className=" hover:scale-105 shrink-0 w-[3rem] md:w-7/12 cursor-pointer active:scale-90 transition-all ease-in-out"
+              <motion.div
+                className="relative shrink-0 w-[3rem] md:w-7/12 cursor-pointer active:scale-90 transition-all ease-in-out rounded-full overflow-hidden"
+                initial="init"
+                whileHover="show"
                 onClick={() => {
-                  id_rol === 1 ? router.push("/lead") : router.push("/user");
+                  router.push("/user/perfil");
                 }}
               >
                 {user && (
@@ -32,11 +47,17 @@ export default function Navbar() {
                     alt="Avatar"
                   />
                 )}
-              </div>
+                <motion.div
+                  variants={variants}
+                  className=" absolute top-0 left-0 w-full h-full border-2 md:border-4 border-white bg-blue-500/50 rounded-full flex items-center justify-center font-bold"
+                >
+                  <p className=" text-xs sm:text-base">Ir a Perfil</p>
+                </motion.div>
+              </motion.div>
               <div className="grow ml-3">
-                <button className="md:block hidden pt-2 text-xl text-center  font-bold hover:text-secondary-50 transition duration-300 ease-in-out hover:scale-105 active:scale-90 ">
-                  {user && user.nombre + " " + user.apellido_paterno}
-                </button>
+                <div className="flex pt-2 text-xl text-center justify-center  font-bold transition duration-300 ease-in-out active:scale-90 ">
+                  {user && <>{user.nombre + " " + user.apellido_paterno}</>}
+                </div>
               </div>
             </div>
           </div>
@@ -49,7 +70,7 @@ export default function Navbar() {
 
           {id_rol === 1 && <OptionLead />}
 
-          <div className="absolute bottom-0 px-1">
+          <div className="absolute bottom-0 p-1">
             <button className="group link-navbar" onClick={logoutAuth}>
               <div className=" div-navbar">
                 <ImExit size={28} className="group-hover:fill-secondary-50 " />

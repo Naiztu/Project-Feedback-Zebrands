@@ -29,10 +29,10 @@ export async function postPeriodo(req, res) {
     }
   }
 
-  export async function getPeriodo(req, res) {
+  export async function getCurrentPeriodo(req, res) {
     const {} = req.body;
     try {
-      const data = await Periodo.getPeriodo();
+      const data = await Periodo.getCurrentPeriodo();
       res.send({ data });
     } catch (err) {
       res.status(500).send({ err });

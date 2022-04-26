@@ -44,7 +44,7 @@ export default function PageZebrands({ load }) {
   return (
     <div className="w-full h-full relative flex flex-col items-center justify-center mx-auto bg-black overflow-hidden">
       <motion.div
-        className="  w-10/12 sm:w-1/2  flex items-center justify-center"
+        className="  w-3/4 flex items-center justify-center"
         variants={divVariants}
         initial="initial"
         animate={"animate"}

@@ -15,7 +15,6 @@ export async function getEmpleado(req, res) {
 }
 export async function getCurrentEmpleado(req, res) {
   const { id_empleado } = req.data;
-  console.log(id_empleado);
   try {
     const user = await Empleado.findId(id_empleado);
     res.status(200).send({ user });
@@ -34,12 +33,24 @@ export async function getAllEmpleado(req, res) {
   }
 }
 
-export async function getSearchEmpleado(req, res) {
-  const { page, filterName } = req.params;
+export async function getEmpleadoToAsignar(req, res) {
   try {
-    const data_empleados = await Empleado.getSearchDataEmpleado(
+    const data_empleados = await Empleado.getAllDataEmpleado();
+    res.status(200).send({ data_empleados });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
+
+export async function getSearchEmpleado(req, res) {
+  const { page, filterName, id_periodo } = req.params;
+  const { id_empleado } = req.data;
+  try {
+    const data_empleados = await Empleado.getSearchDataEmpleado2(
       page,
-      filterName
+      filterName,
+      id_periodo,
+      id_empleado
     );
     res.status(200).send({ data_empleados });
   } catch (err) {

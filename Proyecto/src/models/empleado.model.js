@@ -73,13 +73,15 @@ export class Empleado {
       const [rows, fields] = await pool.execute(
         `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
         e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
-        e.password, r.id_rol
-        FROM empleado e, empleado_rol r
+        e.password, r.id_rol, p.id_periodo
+        FROM empleado e, empleado_rol r, periodo p
         WHERE e.activo = true AND
           e.correo_electronico = '${correo}' 
+          AND p.estatus_periodo = 'Vigente'
           AND r.id_empleado = e.id_empleado 
         ORDER BY r.fecha_rol DESC
         LIMIT 1;`
+
       );
       return rows[0] || null;
     } catch (err) {
@@ -104,10 +106,36 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
-        FROM empleado
+        FROM empleado 
         ${orderBy("nombre", "ASC")}
         ${pag(1, 15)}`
       );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
+  static async getSearchDataEmpleado2(
+    page,
+    filterName,
+    id_periodo,
+    id_empleado
+  ) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+        FROM empleado
+        WHERE ${filter("nombre", filterName)} AND
+              id_empleado NOT IN 
+                (SELECT id_empleado_evaluador
+                  FROM evaluacion
+                  WHERE id_empleado_evaluado = ${id_empleado} AND
+                        id_periodo = ${id_periodo})
+        ${orderBy("nombre", "ASC")}
+        ${pag(page, 15)}`
+      );
+      console.log(rows);
       return rows;
     } catch (err) {
       throw { err };

@@ -12,8 +12,8 @@ export async function getPreguntaNivelDimension(nivel, dimension) {
 
 export async function postPregunta(body) {
   try {
-    const res = await api.post("/preguntas/registra", body);
-    return res;
+    const { data } = await api.post("/preguntas/registra", body);
+    return data;
   } catch (error) {
     throw { error };
   }

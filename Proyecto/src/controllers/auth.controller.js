@@ -32,11 +32,11 @@ export const loginRouter = async (req, res) => {
       correo_electronico,
       imagen_perfil,
       id_rol,
+      id_periodo
     } = user || {};
 
     const userForToken = {
       id_empleado,
-      id_rol,
     };
 
     const token = jwt.sign(userForToken, process.env.SECRET, {
@@ -56,6 +56,7 @@ export const loginRouter = async (req, res) => {
         correo_electronico,
         imagen_perfil,
         id_rol,
+        id_periodo
       },
       token,
     });

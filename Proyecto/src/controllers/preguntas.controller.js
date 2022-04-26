@@ -44,9 +44,7 @@ export async function registraPregunta(req, res) {
   );
   try {
     const data = await nueva_pregunta.post_pregunta();
-    console.log(data[0]);
-    console.log({ id_pregunta: data[0].insertId });
-    res.status(200).send({ id_pregunta: ResultSetHeader.insertId });
+    res.status(200).send({ id_pregunta: data.insertId });
   } catch (err) {
     res.status(500).send({ err });
   }
