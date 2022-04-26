@@ -37,7 +37,6 @@ export const loginRouter = async (req, res) => {
 
     const userForToken = {
       id_empleado,
-      id_rol,
     };
 
     const token = jwt.sign(userForToken, process.env.SECRET, {

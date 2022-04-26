@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import CompaneroAsignar from "./CompaneroAsignar";
@@ -16,10 +15,14 @@ export default function Asignar() {
   const [filterName, setFilterName] = useState("");
   const [page, setPage] = useState(1);
 
-  
   const getCompaneros = async () => {
     try {
-      const { data_empleados } = await getAllEmpleados(1);
+      const id_periodo = 1;
+      const { data_empleados } = await getFilterEmpleados(
+        page,
+        filterName,
+        id_periodo
+      );
       setCompaneros(data_empleados);
     } catch (err) {
       swal("Hubo un error", {
@@ -33,14 +36,14 @@ export default function Asignar() {
       await postAsignados({
         lista_id_empleado_evaluador: asignados.map((item) => item.id_empleado),
         id_empleado_evaluado: user.id_empleado,
-        id_periodo: 1
+        id_periodo: 1,
       });
       await swal("Asignado correctamente!", {
         icon: "success",
       });
       router.push("/user");
     } catch (err) {
-      console.log(err)
+      console.log(err);
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -53,45 +56,44 @@ export default function Asignar() {
     }
   }, [isAuthenticated]);
 
-
   const botonSearch = async () => {
     try {
-      const { data_empleados } = await getFilterEmpleados(page, filterName);
+      const id_periodo = 1;
+      const { data_empleados } = await getFilterEmpleados(
+        page,
+        filterName,
+        id_periodo
+      );
       setCompaneros(data_empleados);
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
     }
-
-  }
+  };
 
   const changePage = async (num) => {
     let newPage;
-    if(num+page<=0){
-      newPage=1;
+    if (num + page <= 0) {
+      newPage = 1;
       setPage(1);
+    } else {
+      newPage = page + num;
+      setPage(page + num);
     }
-    else{
-      newPage=(page+num)
-      setPage(page+num);
-    }
-   
+
     try {
       const { data_empleados } = await getFilterEmpleados(newPage, filterName);
       setCompaneros(data_empleados);
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
     }
-    console.log("pag"+ page+"\n")
-
-  }
+    console.log("pag" + page + "\n");
+  };
 
   return (
     <>
@@ -126,19 +128,20 @@ export default function Asignar() {
                       </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-100">
-                      {companeros && companeros
-                        .filter((el) => !asignados.includes(el))
-                        .map((item, index) => (
-                          <CompaneroAsignar
-                            select={true}
-                            info={item}
-                            key={index}
-                            objFunction={{
-                              asignados,
-                              setAsignados,
-                            }}
-                          />
-                        ))}
+                      {companeros &&
+                        companeros
+                          .filter((el) => !asignados.includes(el))
+                          .map((item, index) => (
+                            <CompaneroAsignar
+                              select={true}
+                              info={item}
+                              key={index}
+                              objFunction={{
+                                asignados,
+                                setAsignados,
+                              }}
+                            />
+                          ))}
                     </tbody>
                   </table>
                 </div>
@@ -146,11 +149,11 @@ export default function Asignar() {
             </div>
           </div>
           <div className="flex mx-auto space-x-2 w-3/4 lg:w-10/12  justify-between my-6">
-            <button onClick={()=>changePage(-1)} className="btn-border ">
+            <button onClick={() => changePage(-1)} className="btn-border ">
               <FaArrowLeft />
               <p className="hidden sm:inline ml-2">Previous page</p>
             </button>
-            <button onClick={()=>changePage(1)} className="btn">
+            <button onClick={() => changePage(1)} className="btn">
               <p className="hidden sm:inline mr-2">Next page</p>
               <FaArrowRight />
             </button>
