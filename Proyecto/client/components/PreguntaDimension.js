@@ -9,7 +9,7 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
   const getPreguntas = async () => {
     try {
       const data = await getPreguntaNivelDimension(Nivel, Dimension);
-      setPntas(data.preguntas.map((item, index) => ({ ...item, id: index })));
+      setPntas(data.preguntas);
       setAddQ([]);
     } catch (err) {
       console.log(err);
@@ -62,6 +62,7 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
             key={index}
             setPntas={setPntas}
             pntas={pntas}
+            setAddQ={setAddQ}
           />
         ))}
       </div>
