@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   getEmpleado,
   getAllEmpleado,
+  notAsigned,
   getSearchEmpleado,
   postEmpleado,
   updateChapterMember,
@@ -11,8 +12,9 @@ import {
 
 const router = Router();
 
-router.get("/all", getAllEmpleado);
+router.get("/all/:page/:filterName", getAllEmpleado);
 router.get("/search/:page/:filterName", getSearchEmpleado);
+router.get("/notAsigned/:page/:filterName", notAsigned);
 router.get("/me", getCurrentEmpleado);
 router.get("/:id_empleado", getEmpleado);
 router.post("/", postEmpleado)

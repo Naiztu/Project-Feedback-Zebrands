@@ -31,9 +31,23 @@ export async function getEmpleado(id) {
   }
 }
 
-export async function getAllEmpleados(page) {
+export async function getAllEmpleados(page,filterName) {
   try {
-    const { data } = await api.get(`/empleado/all`);
+    const { data } = await api.get(`/empleado/all/${page}/${filterName}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw { error };
+  }
+}
+
+export async function getEmpleadosNotAsigned(page,filterName) {
+  if (filterName === "") {
+    filterName = 0;
+  }
+  try {
+    const { data } = await api.get(`empleado/notAsigned/${page}/${filterName}`);
     console.log(data);
     return data;
   } catch (error) {

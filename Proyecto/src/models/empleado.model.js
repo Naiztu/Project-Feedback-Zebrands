@@ -98,13 +98,29 @@ export class Empleado {
     }
   }
 
-  static async getAllDataEmpleado() {
+  static async getAllDataEmpleado(page, filterName) {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
         FROM empleado
+        WHERE ${filter("nombre", filterName)}
         ${orderBy("nombre", "ASC")}
-        ${pag(1, 10)}`
+        ${pag(page, 10)}`
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
+  static async getEmpleadoNotAssigned(page, filterName) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT id_empleado
+        FROM asignacion
+        AND${filter("nombre", filterName)}
+        ${orderBy("nombre", "ASC")}
+        ${pag(page, 10)}`
       );
       return rows;
     } catch (err) {
@@ -117,6 +133,7 @@ export class Empleado {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
         FROM empleado
+        
         WHERE ${filter("nombre", filterName)}
         ${orderBy("nombre", "ASC")}
         ${pag(page, 10)}`

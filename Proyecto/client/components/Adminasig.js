@@ -4,7 +4,7 @@ import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import CompaneroAsignar from "./CompaneroAsignar";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
-import { getAllEmpleados, getFilterEmpleados } from "../services/empleado";
+import { getEmpleadosNotAsigned, getFilterEmpleados } from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { postAsignados } from "../services/evaluacion";
 
@@ -19,7 +19,8 @@ export default function Adminasig() {
   
   const getCompaneros = async () => {
     try {
-      const { data_empleados } = await getAllEmpleados(1);
+      
+      const { data_empleados } = await getEmpleadosNotAsigned(page, filterName);
       setCompaneros(data_empleados);
     } catch (err) {
       swal("Hubo un error", {

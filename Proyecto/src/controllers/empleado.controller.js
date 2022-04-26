@@ -26,13 +26,27 @@ export async function getCurrentEmpleado(req, res) {
 }
 
 export async function getAllEmpleado(req, res) {
+  const { page, filterName } = req.params;
   try {
-    const data_empleados = await Empleado.getAllDataEmpleado();
+    const data_empleados = await Empleado.getAllDataEmpleado(page,filterName);
     res.status(200).send({ data_empleados });
   } catch (err) {
     res.status(500).send({ err });
   }
 }
+
+
+export async function notAsigned(req, res) {
+  const { page, filterName } = req.params;
+  try {
+    const data_empleados = await Empleado. getEmpleadoNotAssigned( page,filterName);
+    res.status(200).send({ data_empleados });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
+
+
 
 export async function getSearchEmpleado(req, res) {
   const { page, filterName } = req.params;
