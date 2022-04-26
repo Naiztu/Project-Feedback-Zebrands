@@ -7,7 +7,7 @@ import { useUser } from "../../context/userContext";
 import { useForm } from "../../hooks/useForm";
 import { getEmpleado } from "../../services/empleado";
 import { getPreguntasToEmpleado } from "../../services/preguntas";
-import { enviarRespuestas } from "../../services/respuestas";
+import { enviarRespuestas } from "../../services/respuestas"; 
 
 export default function Post() {
   const router = useRouter();

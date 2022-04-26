@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { VscNotebook } from "react-icons/vsc";
-import { AiOutlineCalendar } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineUserAdd } from "react-icons/ai";
 import { BsJournalCheck } from "react-icons/bs";
 import { RiUserFollowLine, RiUserStarLine } from "react-icons/ri";
 
@@ -95,25 +95,24 @@ export default function OptionLead() {
           </button>
         </li>
       </ul>
-<<<<<<< HEAD
       <ul className="relative px-1">
         <li className="relative">
           <button
-            className=" link-navbar"
+            className="group link-navbar"
             onClick={() => {
               router.push("/lead/register");
             }}
           >
-            <AiOutlineUserAdd size={42}/>
-            <span className="pt-1 text-sm font-semibold hidden md:inline">
-              Registrar Member
-            </span>
+            <div className=" div-navbar">
+              <AiOutlineUserAdd
+                size={28}
+                className="group-hover:fill-secondary-50 "
+              />
+              <span className="span-navbar">Registrar Member</span>
+            </div>
           </button>
         </li>
       </ul>
-    </>
-=======
     </div>
->>>>>>> develop
   );
 }

@@ -55,10 +55,12 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
-        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, r.id_rol
-        FROM empleado e, empleado_rol r
+        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, e.id_chapter, p.id_periodo, p.estatus_periodo, r.id_rol
+        FROM empleado e, empleado_rol r, periodo p
         WHERE e.id_empleado = ${id} AND
-              r.id_empleado = e.id_empleado`
+              r.id_empleado = e.id_empleado AND
+              p.id_chapter = e.id_chapter AND
+              p.estatus_periodo = "Vigente"`
       );
       return rows[0] || null;
     } catch (err) {
@@ -159,10 +161,10 @@ export class Empleado {
           ${this.nivel_people},
           1,
           '${this.correo_electronico}',
-          '${this.password}',
+          'Interfectorem-Eros',
           '${this.equipo}',
           ${this.id_chapter},
-          '${this.imagen_perfil}'
+          'http://localhost:8080/img/user_default.png'
       );
         `);
 
