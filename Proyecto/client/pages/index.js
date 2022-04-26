@@ -44,7 +44,7 @@ export default function Home() {
             />
 
             <div
-              className="content-center">
+              className=" flex w-full h-full items-center justify-center ">
               <ReCAPTCHA
                 sitekey="6LfW650fAAAAAG099AsQSGGoZvkkXqr97vgDDFtx"
                 //onChange={onChange}
