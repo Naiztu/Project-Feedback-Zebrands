@@ -7,7 +7,7 @@ import {
   updatePregunta,
 } from "../services/preguntas";
 
-export default function Pregunta({ data, isSaved, setPntas, pntas }) {
+export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [pregunta, setPregunta] = useState(data.pregunta);
@@ -36,11 +36,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas }) {
     if (willDelete) {
       try {
         const res = await deletePregunta(data.id_pregunta);
-        setPntas(
-          pntas
-            .filter((item) => data.id != item.id)
-            .map((item, index) => ({ ...item, id: index }))
-        );
+        setPntas(pntas.filter((item) => data.id_pregunta != item.id_pregunta));
         swal("Eliminada satisfactoriamente!", {
           icon: "success",
         });
@@ -63,10 +59,23 @@ export default function Pregunta({ data, isSaved, setPntas, pntas }) {
         tipo_pregunta: tipo,
         id_chapter: 1,
       });
+      const newP = {
+        id_pregunta: res.id_pregunta,
+        pregunta,
+        nivel_pregunta: data.nivel_pregunta,
+        dimension_pregunta: data.dimension,
+        tipo_pregunta: tipo,
+        id_chapter: 1,
+      };
+
+      setPntas(pntas.concat(newP));
+      setAddQ([]);
+
       swal("Pregunta registrada!", {
         icon: "success",
       });
     } catch (err) {
+      console.log(err);
       swal("Hubo error, la pregunta no se registro!", {
         icon: "warning",
       });

@@ -1,18 +1,16 @@
-import Axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-import api from "../services/api";
 import CardMembers from "./CardMembers";
 import { useUser } from "../context/userContext";
 import { getAsignados } from "../services/asignados";
 
 export default function MemberAsignados() {
   const [info, setInfo] = useState([]);
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, user } = useUser();
 
   const getData = async () => {
     try {
-      const data = await getAsignados();
+      const data = await getAsignados(user.id_empleado);
       console.log(data);
       setInfo(data.data_members);
     } catch (error) {
