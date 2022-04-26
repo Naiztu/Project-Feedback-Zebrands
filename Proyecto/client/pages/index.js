@@ -1,7 +1,7 @@
 import Head from "next/head";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useUser } from "../context/userContext";
 import Spinner from "../components/loaders/Sppiner";
 import PageZebrands from "../components/loaders/PageZebrands";
@@ -13,6 +13,17 @@ export default function Home() {
   const [load, setLoad] = useState(false);
   const [password, setPassword] = useState("");
   const { loginAuth } = useUser();
+  const [captchaValido, cambiarCaptchaValido] = useState(null);
+
+  const captcha = useRef(null);
+
+	const onChange = () => {
+		if(captcha.current.getValue()){
+			console.log('Autenticación Correcta');
+			cambiarCaptchaValido(true);
+		}
+	}
+
   return (
     <>
       <Head>
@@ -43,13 +54,14 @@ export default function Home() {
               type={"password"}
             />
 
-            <div
-              className=" flex w-full h-full items-center justify-center ">
-              <ReCAPTCHA
-                sitekey="6LfW650fAAAAAG099AsQSGGoZvkkXqr97vgDDFtx"
-                //onChange={onChange}
-              />
-            </div>
+
+          <div className=" flex w-full h-full items-center justify-center ">              
+            <ReCAPTCHA
+              ref={captcha}
+              sitekey="6LfW650fAAAAAG099AsQSGGoZvkkXqr97vgDDFtx"
+              onChange={onChange}
+            />
+          </div>
 
             <button
               className="btn mt-5"
@@ -57,11 +69,21 @@ export default function Home() {
               onClick={async () => {
                 setLoad(true);
                 try {
-                  await loginAuth(email, password);
-                  setLoad(false);
+                  if(captchaValido){
+                    await loginAuth(email, password);
+                    setLoad(false);
+                  } else
+                  {
+                    await swal({
+                      title: "Recuerda completar el Captcha",
+                      icon: "warning",
+                    });
+                    setLoad(false);
+                  }
+                  
                 } catch (error) {
                   await swal({
-                    title: "¡Credenciales Invalidas!",
+                    title: "¡Credenciales Inválidas!",
                     text: "Revisa tu correo o contraseña",
                     icon: "warning",
                   });
