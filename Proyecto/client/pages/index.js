@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useUser } from "../context/userContext";
 import Spinner from "../components/loaders/Sppiner";
 import PageZebrands from "../components/loaders/PageZebrands";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Home() {
   const router = useRouter();
@@ -41,6 +42,14 @@ export default function Home() {
               onChange={(e) => setPassword(e.target.value)}
               type={"password"}
             />
+
+            <div
+              className="content-center">
+              <ReCAPTCHA
+                sitekey="6LfW650fAAAAAG099AsQSGGoZvkkXqr97vgDDFtx"
+                //onChange={onChange}
+              />
+            </div>
 
             <button
               className="btn mt-5"
