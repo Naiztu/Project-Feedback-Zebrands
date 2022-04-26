@@ -71,7 +71,7 @@ export class Empleado {
       const [rows, fields] = await pool.execute(
         `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
         e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
-        e.password, r.id_rol, p.estatus_periodo
+        e.password, r.id_rol, p.id_periodo
         FROM empleado e, empleado_rol r, periodo p
         WHERE e.activo = true AND
           e.correo_electronico = '${correo}' 
