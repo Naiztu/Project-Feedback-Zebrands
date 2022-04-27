@@ -205,6 +205,48 @@ var Feedback = /*#__PURE__*/function () {
 
       return getDataAllFeedback;
     }()
+  }, {
+    key: "getDataFeedbackGraph",
+    value: function () {
+      var _getDataFeedbackGraph = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(id_user) {
+        var _yield$pool$execute9, _yield$pool$execute10, rows, fields;
+
+        return _regenerator["default"].wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                _context5.next = 3;
+                return _db["default"].execute("SELECT calificacion_promedio, id_periodo, id_feedback, id_empleado_member\n        FROM feedback\n        WHERE id_empleado_member = ".concat(id_user, "\n        ORDER by id_periodo\n        DESC LIMIT 5\n        "));
+
+              case 3:
+                _yield$pool$execute9 = _context5.sent;
+                _yield$pool$execute10 = (0, _slicedToArray2["default"])(_yield$pool$execute9, 2);
+                rows = _yield$pool$execute10[0];
+                fields = _yield$pool$execute10[1];
+                return _context5.abrupt("return", rows);
+
+              case 10:
+                _context5.prev = 10;
+                _context5.t0 = _context5["catch"](0);
+                throw {
+                  err: _context5.t0
+                };
+
+              case 13:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[0, 10]]);
+      }));
+
+      function getDataFeedbackGraph(_x4) {
+        return _getDataFeedbackGraph.apply(this, arguments);
+      }
+
+      return getDataFeedbackGraph;
+    }()
   }]);
   return Feedback;
 }();
@@ -230,37 +272,37 @@ var post_Feedback = /*#__PURE__*/function () {
   (0, _createClass2["default"])(post_Feedback, [{
     key: "postDataFeedback",
     value: function () {
-      var _postDataFeedback2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5() {
-        var _yield$pool$execute9, _yield$pool$execute10, rows, fields;
+      var _postDataFeedback2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6() {
+        var _yield$pool$execute11, _yield$pool$execute12, rows, fields;
 
-        return _regenerator["default"].wrap(function _callee5$(_context5) {
+        return _regenerator["default"].wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.prev = 0;
-                _context5.next = 3;
+                _context6.prev = 0;
+                _context6.next = 3;
                 return _db["default"].execute("INSERT INTO feedback (\n                calificacion_craft,\n                calificacion_personal,\n                calificacion_business,\n                calificacion_promedio,\n                comentario_craft,\n                comentario_personal,\n                comentario_business,\n                comentario_general,\n                id_empleado_member,\n                id_empleado_assistant,\n                id_periodo\n                )\n                VALUES (\n                    ".concat(this.calificacion_craft, ",\n                    ").concat(this.calificacion_personal, ",\n                    ").concat(this.calificacion_business, ",\n                    ").concat(this.calificacion_promedio, ",\n                    '").concat(this.comentario_craft, "',\n                    '").concat(this.comentario_personal, "',\n                    '").concat(this.comentario_business, "',\n                    '").concat(this.comentario_general, "',\n                    ").concat(this.id_member, ",\n                    ").concat(this.id_assistant, ",\n                    ").concat(this.id_periodo, "        \n                )"));
 
               case 3:
-                _yield$pool$execute9 = _context5.sent;
-                _yield$pool$execute10 = (0, _slicedToArray2["default"])(_yield$pool$execute9, 2);
-                rows = _yield$pool$execute10[0];
-                fields = _yield$pool$execute10[1];
-                return _context5.abrupt("return", rows);
+                _yield$pool$execute11 = _context6.sent;
+                _yield$pool$execute12 = (0, _slicedToArray2["default"])(_yield$pool$execute11, 2);
+                rows = _yield$pool$execute12[0];
+                fields = _yield$pool$execute12[1];
+                return _context6.abrupt("return", rows);
 
               case 10:
-                _context5.prev = 10;
-                _context5.t0 = _context5["catch"](0);
+                _context6.prev = 10;
+                _context6.t0 = _context6["catch"](0);
                 throw {
-                  err: _context5.t0
+                  err: _context6.t0
                 };
 
               case 13:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this, [[0, 10]]);
+        }, _callee6, this, [[0, 10]]);
       }));
 
       function postDataFeedback() {

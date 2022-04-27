@@ -30,13 +30,32 @@ export class Feedback {
   static async getDataFeedback(id_member, id_periodo) {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT * FROM feedback WHERE id_empleado_member = ${id_member} AND id_periodo = ${id_periodo}`
+        `SELECT * FROM feedback 
+        WHERE id_empleado_member = ${id_member} 
+        AND id_periodo = ${id_periodo}`
       );
       return rows[0];
     } catch (err) {
       throw { err };
     }
   }
+
+  static async getDataFeedbackGraph(id_member) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT calificacion_promedio, id_periodo, id_feedback, id_empleado_member
+        FROM feedback
+        WHERE id_empleado_member = ${id_member}
+        ORDER by id_periodo
+        DESC LIMIT 5
+        `
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
 
   static async getDataHistoryFeedback(id_member) {
     try {
@@ -104,6 +123,8 @@ export class Feedback {
       throw { err };
     }
   }
+
+
 }
 
 export class post_Feedback {
