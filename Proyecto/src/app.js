@@ -13,9 +13,9 @@ import rutas_respuestas from "./routes/respuestas.routes";
 import rutas_rol from "./routes/rol.routes";
 import rutas_perfil from "./routes/perfil.routes";
 import rutas_periodo from "./routes/periodo.routes";
-import rutas_auth from "./routes/auth.routes"
+import rutas_auth from "./routes/auth.routes";
+import rutas_img from "./routes/images.routes";
 import userExtractor from "./middlewares/userExtractor";
-
 
 //setings
 const app = express();
@@ -27,7 +27,7 @@ app.use(json());
 app.use(express.static("public"));
 
 //Routes
-app.use("/api/login/auth", rutas_auth)
+app.use("/api/login/auth", rutas_auth);
 app.use("/api/feedback", userExtractor, rutas_feedback);
 app.use("/api/preguntas", userExtractor, rutas_preguntas);
 app.use("/api/assistant_list", userExtractor, rutas_assistant_list);
@@ -37,7 +37,6 @@ app.use("/api/respuestas", userExtractor, rutas_respuestas);
 app.use("/api/rol", userExtractor, rutas_rol);
 app.use("/api/perfil", userExtractor, rutas_perfil);
 app.use("/api/periodo", userExtractor, rutas_periodo);
-
-
+app.use("/api/images", userExtractor, rutas_img);
 
 export default app;

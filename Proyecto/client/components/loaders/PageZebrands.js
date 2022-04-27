@@ -44,7 +44,7 @@ export default function PageZebrands({ load }) {
   return (
     <div className="w-full h-full relative flex flex-col items-center justify-center mx-auto bg-black overflow-hidden">
       <motion.div
-        className="  w-3/4 flex items-center justify-center"
+        className="  w-3/4 flex items-center justify-center z-50"
         variants={divVariants}
         initial="initial"
         animate={"animate"}
@@ -105,7 +105,7 @@ export default function PageZebrands({ load }) {
       <motion.svg
         initial="start"
         animate="end"
-        className="absolute top-0 left-0 z-50 w-[300px] h-auto aspect-square"
+        className="absolute top-0 left-0 z-40 w-[300px] h-auto aspect-square"
         xmlns="http://www.w3.org/2000/svg"
       >
         <motion.g transform="translate(0 0)">
@@ -123,7 +123,7 @@ export default function PageZebrands({ load }) {
       <motion.svg
         initial="start"
         animate="end"
-        className="absolute bottom-0 right-0 z-50 w-[300px] h-auto aspect-square"
+        className="absolute bottom-0 right-0 z-40 w-[300px] h-auto aspect-square"
         xmlns="http://www.w3.org/2000/svg"
       >
         <motion.g transform="translate(300 300)">

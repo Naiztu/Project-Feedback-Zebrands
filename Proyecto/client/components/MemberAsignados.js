@@ -24,7 +24,7 @@ export default function MemberAsignados() {
   }, [isAuthenticated]);
   return (
     <>
-      <h1 className="title w-11/12 mx-auto my-10">Member&apos;s Asignados</h1>
+      <h1 className="title w-11/12 mx-auto my-10">Members Asignados</h1>
       <div className="w-11/12 items-center justify-center mx-auto flex flex-wrap">
         {info.map((item, index) => (
           <CardMembers key={index} info={item} />

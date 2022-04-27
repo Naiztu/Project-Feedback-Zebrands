@@ -21,7 +21,7 @@ export default function OptionAsisstant() {
                 size={28}
                 className="group-hover:fill-secondary-50 "
               />
-              <span className="span-navbar">Member&apos;s Asignados</span>
+              <span className="span-navbar">Members Asignados</span>
             </div>
           </button>
         </li>
