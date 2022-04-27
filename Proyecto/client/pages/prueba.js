@@ -1,5 +1,15 @@
+<<<<<<< HEAD
 import React, { useRef, useState } from "react";
 import api from "../services/api";
+=======
+import React from "react";
+import Layout from "../components/Layout";
+import Loader from "../components/loaders/Loader";
+import PageZebrands from "../components/loaders/PageZebrands";
+import Spinner from "../components/loaders/Sppiner";
+import ThreeDotsWave from "../components/loaders/ThreeDotsWave";
+import Profile from "../components/Profile";
+>>>>>>> eaf6b6b8bf6d513735f4c35443dee3db90269374
 
 export default function Prueba() {
   const [img, setImg] = useState("");

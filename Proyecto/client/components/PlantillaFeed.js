@@ -19,11 +19,8 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   const handleChange = (e) => {
     const newFeed = { ...preFeedback };
     newFeed[e.target.name] = e.target.value;
-    newFeed["calificacion_promedio"] = Math.min(
-      parseFloat(newFeed.calificacion_business) + 1,
-      parseFloat(newFeed.calificacion_personal) + 1,
-      parseFloat(newFeed.calificacion_craft)
-    );
+    newFeed["calificacion_promedio"] = (newFeed.calificacion_business + newFeed.calificacion_personal + newFeed.calificacion_craf)/3;
+  
     setPreFeedback(newFeed);
   };
 

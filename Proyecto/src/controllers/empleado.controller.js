@@ -85,10 +85,10 @@ export async function postEmpleado(req, res) {
     nivel_people,
     1,
     correo_electronico,
-    password,
+    "password",
     equipo,
     id_chapter,
-    imagen_perfil,
+    'http://localhost:8080/img/user_default.png',
     3
   );
 
