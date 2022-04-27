@@ -1,4 +1,11 @@
+import { Empleado } from "../models/empleado.model";
+
 export async function postImages(req, res) {
-  console.log(req.file);
-  res.send(req.file);
+  const { filename } = req.file;
+  const { id_empleado } = req.data;
+  Empleado.updateImageProfile(
+    id_empleado,
+    "http://localhost:8080/img/" + filename
+  );
+  res.send("http://localhost:8080/img/" + filename);
 }

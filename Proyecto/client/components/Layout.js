@@ -36,18 +36,18 @@ export default function Layout({ children }) {
           className="h-20 w-20 fixed right-0 bottom-0  flex items-center justify-center"
         >
           <motion.svg
-            className="absolute bottom-0 right-0 z-50 w-[300px] h-auto aspect-square"
+            className="absolute bottom-0 right-0 z-50 w-[300px] h-auto aspect-square fill-black"
             xmlns="http://www.w3.org/2000/svg"
           >
             <motion.g transform="translate(370 370)">
               <motion.path
+                className="fill-black"
                 variants={pathV2}
                 transition={{
                   duration: 2,
                   yoyo: Infinity,
                   repeat: Infinity,
                 }}
-                fill="#FF595A"
               />
             </motion.g>
           </motion.svg>

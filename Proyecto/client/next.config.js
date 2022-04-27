@@ -2,8 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    HOSTBACK: process.env.HOSTBACK
-  }
+    HOSTBACK: process.env.HOSTBACK,
+    KEY: process.env.KEY,
+  },
 };
 
 module.exports = nextConfig;

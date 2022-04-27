@@ -49,7 +49,7 @@ export default function Navbar() {
                 )}
                 <motion.div
                   variants={variants}
-                  className=" absolute top-0 left-0 w-full h-full border-2 md:border-4 border-white bg-blue-500/50 rounded-full flex items-center justify-center font-bold"
+                  className=" absolute top-0 left-0 w-full h-full border-2 md:border-4 border-white bg-secondary-50/50 rounded-full flex items-center justify-center font-bold"
                 >
                   <p className=" text-xs sm:text-base">Ir a Perfil</p>
                 </motion.div>
