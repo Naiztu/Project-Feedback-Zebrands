@@ -91,57 +91,59 @@ export default function Home() {
                   </p>
                 ))}
 
-            <div className=" flex w-full h-full items-center justify-center ">
+            <div className=" grid grid-cols-2 w-full h-full items-center justify-center ">
               <ReCAPTCHA
                 className="mt-5"
                 ref={captcha}
                 sitekey={process.env.KEY}
                 onChange={onChange}
               />
-            </div>
 
-            <button
-              className="btn mt-5"
-              disabled={load || errors.length > 0}
-              onClick={async () => {
-                if (checkErrors() === 0) {
-                  setLoad(true);
-                  try {
-                    if (captchaValido) {
-                      await loginAuth(
-                        data[0].descripcion_respuesta,
-                        data[1].descripcion_respuesta
-                      );
-                      setLoad(false);
-                    } else {
+              <button
+                className="btn mt-5 h-16"
+                disabled={load || errors.length > 0}
+                onClick={async () => {
+                  if (checkErrors() === 0) {
+                    setLoad(true);
+                    try {
+                      if (captchaValido) {
+                        await loginAuth(
+                          data[0].descripcion_respuesta,
+                          data[1].descripcion_respuesta
+                        );
+                        setLoad(false);
+                      } else {
+                        await swal({
+                          title: "Recuerda completar el Captcha",
+                          icon: "warning",
+                        });
+                        setLoad(false);
+                      }
+                    } catch (error) {
                       await swal({
-                        title: "Recuerda completar el Captcha",
+                        title: "¡Credenciales Inválidas!",
+                        text: "Revisa tu correo o contraseña",
                         icon: "warning",
                       });
                       setLoad(false);
                     }
-                  } catch (error) {
+                  } else
                     await swal({
-                      title: "¡Credenciales Inválidas!",
-                      text: "Revisa tu correo o contraseña",
+                      title: "¡Llena los campos!",
                       icon: "warning",
                     });
-                    setLoad(false);
-                  }
-                } else
-                  await swal({
-                    title: "¡Llena los campos!",
-                    icon: "warning",
-                  });
-              }}
-            >
-              <span className=" flex w-full h-full items-center justify-center ">
-                <span className={`w-4 h-4 ${load ? "inline" : "hidden"}`}>
-                  <Spinner />
+                }}
+              >
+                <span className=" flex w-full h-full items-center justify-center ">
+                  <span className={`w-10 h-10 ${load ? "inline" : "hidden"}`}>
+                    <Spinner pnt={4} />
+                  </span>
+                  <p className={`text-xl ${load ? "hidden" : "inline"}`}>
+                    Entrar
+                  </p>
                 </span>
-                <p className={`h-4 ${load ? "hidden" : "inline"}`}>Entrar</p>
-              </span>
-            </button>
+              </button>
+            </div>
           </div>
         </div>
       </div>

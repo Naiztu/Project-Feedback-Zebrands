@@ -65,6 +65,7 @@ export default function UserIndex() {
           display: false,
         },
         min: 0,
+        max: 5,
       },
     },
     plugins: {

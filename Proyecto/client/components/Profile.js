@@ -202,7 +202,7 @@ export default function Perfil() {
           <Modal isOpen={isOpenModal} closeModal={closeModal}>
             <div className=" w-full h-full flex items-center justify-center space-x-4">
               <img
-                className=" w-72 h-72 rounded-full object-cover border-8 border-secondary-50"
+                className=" w-72 h-72 rounded-full object-cover border-8 border-black"
                 src={
                   "http://ec2-3-89-93-89.compute-1.amazonaws.com:8080/img/user_default.png"
                 }
