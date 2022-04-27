@@ -55,10 +55,13 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
-          e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, r.id_rol
-        FROM empleado e, empleado_rol r
-        WHERE e.id_empleado = ${id} AND
-              r.id_empleado = e.id_empleado`
+        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, r.id_rol, p.id_periodo
+      FROM empleado e, empleado_rol r, periodo p
+      WHERE e.id_empleado = 1 AND
+            r.id_empleado = ${id}
+            AND p.estatus_periodo = 'Vigente'
+            ORDER BY r.fecha_rol DESC
+      LIMIT 1;`
       );
       return rows[0] || null;
     } catch (err) {
