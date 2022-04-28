@@ -169,3 +169,12 @@ export async function updateCMasCL(req, res) {
     res.status(500).send({ err });
   }
 }
+
+export async function getNotAssigned(req, res) {
+  try {
+    const data_empleados = await Empleado.getNotAssigned();
+    res.status(200).send({ data_empleados });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}

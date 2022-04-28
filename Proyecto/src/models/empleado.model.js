@@ -260,4 +260,24 @@ export class Empleado {
       throw { err };
     }
   }
+
+  static async getNotAssigned() {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT empleado.id_empleado, empleado.nombre, empleado.apellido_paterno, empleado.apellido_materno, empleado.imagen_perfil
+        FROM empleado
+        WHERE empleado.id_empleado AND (
+            SELECT MAX(asignacion.fecha_asignacion)
+             FROM asignacion
+             WHERE asignacion.id_empleado_member = empleado.id_empleado
+             AND asignacion.vigente IS NOT TRUE)
+        ${orderBy("empleado.nombre", "ASC")}
+        ${pag(1, 15)}`
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
 }
