@@ -3,11 +3,13 @@ import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import CompaneroAsignar from "./CompaneroAsignar";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
-import { getAllEmpleados, getFilterEmpleados } from "../services/empleado";
+import { getFilterEmpleados, getEmpleadosNotRequested, getAllEmpleados } from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { postAsignados } from "../services/evaluacion";
+import { getAsignados } from "../services/asignados";
+import { filter } from "../../src/util/query";
 
-export default function Adminasig({nombre}) {
+export default function Adminasig({data_assis}) {
   const router = useRouter();
   const { isAuthenticated, user } = useUser();
   const [asignados, setAsignados] = useState([]);
@@ -15,20 +17,35 @@ export default function Adminasig({nombre}) {
   const [filterName, setFilterName] = useState("");
   const [page, setPage] = useState(1);
 
-  const getCompaneros = async () => {
+  const getMembersSinAssistant = async () => {
+    //const { user } = useUser();
+    //console.log("El periodo actual"=user.id_periodo)
     try {
       const id_periodo = 1;
-      const { data_empleados } = await getFilterEmpleados(
-        page,
-        filterName,
-        id_periodo
+      const  data  = await getFilterEmpleados(page,filterName
       );
-      setCompaneros(data_empleados);
+      setCompaneros(data.data_empleados);
     } catch (err) {
       swal("Hubo un error", {
         icon: "warning",
       });
     }
+
+  };
+
+  const getMembersAsignados = async () => {
+    //const { user } = useUser();
+    //console.log("El periodo actual"=user.id_periodo)
+    try {
+      const id_periodo = 1;
+      const data_empleados = await getAsignados(2);
+      setAsignados(data_empleados.data_members);
+    } catch (err) {
+      swal("Hubo un error", {
+        icon: "warning",
+      });
+    }
+
   };
 
   const sendAsignados = async () => {
@@ -51,16 +68,19 @@ export default function Adminasig({nombre}) {
   };
 
   useEffect(() => {
-    console.log(nombre)
+  
     if (isAuthenticated) {
-      getCompaneros();
+      getMembersSinAssistant();
+      getMembersAsignados();
+
+
     }
   }, [isAuthenticated]);
 
   const botonSearch = async () => {
     try {
       const id_periodo = 1;
-      const { data_empleados } = await getFilterEmpleados(
+      const { data_empleados } = await getEmpleadosNotRequested(
         page,
         filterName,
         id_periodo
@@ -98,10 +118,10 @@ export default function Adminasig({nombre}) {
 
   return (
     <>
-     <h1 className="title my-10 mx-auto">Administra los asignados de {nombre}</h1>
+     <h1 className="title my-10 mx-auto">Administra los asignados de {data_assis.nombre}</h1>
       <div className="flex flex-col lg:flex-row">
         <div className="basis-1/2">
-          <h1 className="title my-10">Asignar compañeros</h1>
+          <h1 className="title my-10">Members sin assistant</h1>
           <div className=" flex mt-3 mx-auto w-full items-center justify-center text-sm">
             <input
               type="text"
@@ -132,7 +152,6 @@ export default function Adminasig({nombre}) {
                     <tbody className="text-sm divide-y divide-gray-100">
                       {companeros &&
                         companeros
-                          .filter((el) => !asignados.includes(el))
                           .map((item, index) => (
                             <CompaneroAsignar
                               select={true}
@@ -161,10 +180,12 @@ export default function Adminasig({nombre}) {
             </button>
           </div>
         </div>
+
+
         <div className="basis-1/2">
-          <h1 className="title my-10">Registrar Compañeros</h1>
-          {asignados.length === 0 ? (
-            "No hay asignados..."
+          <h1 className="title my-10">Members de {data_assis.nombre}</h1>
+          {asignados.length === 0  ? (
+            "Este assistant no tiene members"
           ) : (
             <div className="flex flex-col justify-center  mt-5 mx-auto w-11/12 sm:w-10/12 ">
               <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">

@@ -46,7 +46,23 @@ export async function getSearchEmpleado(req, res) {
   const { page, filterName, id_periodo } = req.params;
   const { id_empleado } = req.data;
   try {
-    const data_empleados = await Empleado.getSearchDataEmpleado2(
+    const data_empleados = await Empleado.getSearchDataEmpleado(
+      page,
+      filterName,
+      id_empleado
+    );
+    res.status(200).send({ data_empleados });
+  } catch (err) {
+    console.log({ err });
+    res.status(500).send({ err });
+  }
+}
+
+export async function getNotRequested(req, res) {
+  const { page, filterName, id_periodo } = req.params;
+  const { id_empleado } = req.data;
+  try {
+    const data_empleados = await Empleado.getNotRequested(
       page,
       filterName,
       id_periodo,

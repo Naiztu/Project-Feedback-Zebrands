@@ -45,13 +45,29 @@ export async function getAllEmpleados(page, id_periodo) {
   }
 }
 
-export async function getFilterEmpleados(page, filterName, id_periodo) {
+export async function getEmpleadosNotRequested(page, filterName, id_periodo) {
   if (filterName === "") {
     filterName = 0;
   }
   try {
     const { data } = await api.get(
-      `/empleado/search/${page}/${filterName}/${id_periodo}`
+      `/empleado/notrequested/${page}/${filterName}/${id_periodo}`
+    );
+    ;console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw { error };
+  }
+}
+
+export async function getFilterEmpleados(page, filterName) {
+  if (filterName === "") {
+    filterName = 0;
+  }
+  try {
+    const { data } = await api.get(
+      `/empleado/search/${page}/${filterName}`
     );
     ;console.log(data);
     return data;

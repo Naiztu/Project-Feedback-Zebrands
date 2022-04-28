@@ -4,6 +4,6 @@ import { getAssistantList } from "../controllers/assistant_list.controller";
 
 const router = Router();
 
-router.get("/", getAssistantList);
+router.get("/:id_assistant", getAssistantList);
 
 export default router;
