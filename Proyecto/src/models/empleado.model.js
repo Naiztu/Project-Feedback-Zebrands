@@ -119,7 +119,7 @@ export class Empleado {
     }
   }
 
-  static async getSearchDataEmpleado2(
+  static async getNotRequested(
     page,
     filterName,
     id_periodo,

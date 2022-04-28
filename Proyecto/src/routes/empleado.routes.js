@@ -7,12 +7,14 @@ import {
   updateChapterMember,
   updateCMasCL,
   getCurrentEmpleado,
+  getNotRequested
 } from "../controllers/empleado.controller";
 
 const router = Router();
 
 router.get("/all", getAllEmpleado);
-router.get("/search/:page/:filterName/:id_periodo", getSearchEmpleado);
+router.get("/notrequested/:page/:filterName/:id_periodo", getNotRequested);
+router.get("/search/:page/:filterName", getSearchEmpleado);
 router.get("/me", getCurrentEmpleado);
 router.get("/:id_empleado", getEmpleado);
 router.post("/", postEmpleado);
