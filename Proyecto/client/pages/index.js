@@ -14,7 +14,7 @@ export default function Home() {
   const [load, setLoad] = useState(false);
   const [password, setPassword] = useState("");
   const { loginAuth } = useUser();
-  const [captchaValido, cambiarCaptchaValido] = useState(null);
+  const [captchaValido, cambiarCaptchaValido] = useState(true);
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
 
   const captcha = useRef(null);
@@ -91,13 +91,13 @@ export default function Home() {
                   </p>
                 ))}
 
-            <div className=" grid grid-cols-2 w-full h-full items-center justify-center ">
-              <ReCAPTCHA
+            <div className=" grid grid-cols-1 w-full h-full items-center justify-center ">
+              {/* <ReCAPTCHA
                 className="mt-5"
                 ref={captcha}
                 sitekey={process.env.KEY}
                 onChange={onChange}
-              />
+              /> */}
 
               <button
                 className="btn mt-5 h-16"
