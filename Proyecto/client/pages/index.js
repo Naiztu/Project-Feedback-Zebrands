@@ -27,14 +27,14 @@ export default function Home() {
   useEffect(() => {
     const objMail = {
       descripcion_respuesta: "",
-      message: "Escribe un correo valido",
+      message: "Escribe un Correo Válido",
     };
 
     setItem(objMail, /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/);
 
     const objPass = {
       descripcion_respuesta: "",
-      message: "Contraseña invalida",
+      message: "Contraseña Inválida",
     };
 
     setItem(objPass, /^.{1,255}$/);
@@ -60,7 +60,7 @@ export default function Home() {
               placeholder="Correo"
               id={0}
               name={"descripcion_respuesta"}
-              value={data[0] && data[0].contenido}
+              value={data[0] && data[0].descripcion_respuesta}
               onChange={handleBlur}
               type={"email"}
             />
@@ -78,7 +78,7 @@ export default function Home() {
               placeholder="Contraseña"
               id={1}
               name={"descripcion_respuesta"}
-              value={data[1] && data[1].contenido}
+              value={data[1] && data[1].descripcion_respuesta}
               onChange={handleBlur}
               type={"password"}
             />
