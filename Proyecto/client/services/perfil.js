@@ -8,3 +8,12 @@ export async function getPerfil(id) {
       throw { error };
     }
   }
+
+  export async function updateChapterMember(body) {
+    try {
+      const res = await api.put("/empleado/updateCM", body);
+      return res;
+    } catch (error) {
+      throw { error };
+    }
+  }

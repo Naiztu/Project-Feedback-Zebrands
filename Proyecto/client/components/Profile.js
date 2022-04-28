@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../context/userContext";
 import api from "../services/api";
 import { getPerfil } from "../services/perfil";
+import PassBoton from "./PassBoton";
 
 export default function Perfil() {
   const [perfil, setPerfil] = useState([]);
@@ -16,6 +17,8 @@ export default function Perfil() {
       console.log({ err });
     }
   };
+
+  
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -124,15 +127,13 @@ export default function Perfil() {
                     Cambios a tu Cuenta{" "}
                   </h2>
                   <div className="flex items-center justify-between mt-6">
-                    <div className="w-full md:w-full px-3 mb-6 ">
+                    <div className="w-full md:w-full px-3 mb-2">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Password
                       </label>
-                      <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">
-                        Change Password
-                      </button>
+                      <PassBoton/>
                     </div>
-                    <div className="w-full md:w-full px-3 mb-6 ">
+                    <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Imagen Perfil
                       </label>
@@ -141,7 +142,7 @@ export default function Perfil() {
                       </button>
                     </div>
                   </div>
-                  <div className="mt-6 border-t border-gray-400 pt-4"></div>
+                  <div className="mt-2 border-t border-gray-400 pt-4"></div>
                   <h2 className="text-2xl text-gray-900">
                     {" "}
                     Información de tu Chapter Lead Assistant{" "}

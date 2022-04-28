@@ -104,7 +104,7 @@ export async function postEmpleado(req, res) {
 }
 
 export async function updateChapterMember(req, res) {
-  const { password, imagen_perfil, id_empleado } = req.body;
+  const { password, id_empleado } = req.body;
 
   const nueva_informacion = new Empleado(
     id_empleado,
@@ -120,14 +120,17 @@ export async function updateChapterMember(req, res) {
     password,
     "",
     0,
-    imagen_perfil,
+    "",
     0
   );
 
   try {
-    const data = nueva_informacion.updateChapterMember();
-    console.log(data);
+    await nueva_informacion.generatorPass();
+    console.log(nueva_informacion);
+    const data_update_empleado = await nueva_informacion.updateChapterMember();
+    console.log({ data_update_empleado });
     res.status(200).send({ message: "correct update" });
+    //res.send({ data_update_empleado });
   } catch (err) {
     res.status(500).send({ err });
   }
