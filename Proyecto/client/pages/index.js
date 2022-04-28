@@ -27,14 +27,14 @@ export default function Home() {
   useEffect(() => {
     const objMail = {
       descripcion_respuesta: "",
-      message: "Escribe un correo valido",
+      message: "Escribe un Correo Válido",
     };
 
     setItem(objMail, /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/);
 
     const objPass = {
       descripcion_respuesta: "",
-      message: "Contraseña invalida",
+      message: "Contraseña Inválida",
     };
 
     setItem(objPass, /^.{1,255}$/);
