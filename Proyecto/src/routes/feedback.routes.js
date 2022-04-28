@@ -10,11 +10,11 @@ import {
 
 const router = Router();
 
+router.get("/:id_user/graph", getFeedbackGraph);
 router.get("/:id_user/:id_periodo", getFeedback);
 router.get("/:id_user", getFeedbackHistory);
 router.get("/", getAllFeedbacks);
 router.post("/", postFeedback);
-router.get("/graph/get/:id_user", getFeedbackGraph);
 
 // /feedback/graph/get/${iduser}
 

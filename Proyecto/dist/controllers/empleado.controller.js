@@ -244,7 +244,7 @@ function _postEmpleado() {
         switch (_context6.prev = _context6.next) {
           case 0:
             _req$body = req.body, nombre = _req$body.nombre, apellido_paterno = _req$body.apellido_paterno, apellido_materno = _req$body.apellido_materno, nivel_general = _req$body.nivel_general, nivel_craft = _req$body.nivel_craft, nivel_business = _req$body.nivel_business, nivel_people = _req$body.nivel_people, correo_electronico = _req$body.correo_electronico, equipo = _req$body.equipo, id_chapter = _req$body.id_chapter, imagen_perfil = _req$body.imagen_perfil, password = _req$body.password;
-            empleado = new _empleado.Empleado(0, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people, 1, correo_electronico, password, equipo, id_chapter, imagen_perfil, 3);
+            empleado = new _empleado.Empleado(0, nombre, apellido_paterno, apellido_materno, nivel_general, nivel_craft, nivel_business, nivel_people, 1, correo_electronico, "password", equipo, id_chapter, 'http://localhost:8080/img/user_default.png', 3);
             _context6.prev = 2;
             _context6.next = 5;
             return empleado.generatorPass();

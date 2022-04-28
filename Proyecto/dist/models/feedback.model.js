@@ -22,7 +22,7 @@ var _db = _interopRequireDefault(require("../database/db"));
 var _query = require("../util/query");
 
 var Feedback = /*#__PURE__*/function () {
-  function Feedback(_calificacion_craft, _calificacion_personal, _calificacion_business, _calificacion_promedio, _comentario_craft, _comentario_personal, _comentario_business, _comentario_general, _id_member, _id_assistant, _id_periodo) {
+  function Feedback(_calificacion_craft, _calificacion_personal, _calificacion_business, _calificacion_promedio, _comentario_craft, _comentario_personal, _comentario_business, _comentario_general, _id_member, _id_assistant, _id_periodo, dimension) {
     (0, _classCallCheck2["default"])(this, Feedback);
     this.calificacion_craft = _calificacion_craft;
     this.calificacion_personal = _calificacion_personal;
@@ -91,7 +91,7 @@ var Feedback = /*#__PURE__*/function () {
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return _db["default"].execute("SELECT * FROM feedback WHERE id_empleado_member = ".concat(id_member, " AND id_periodo = ").concat(id_periodo));
+                return _db["default"].execute("SELECT * FROM feedback \n        WHERE id_empleado_member = ".concat(id_member, " \n        AND id_periodo = ").concat(id_periodo));
 
               case 3:
                 _yield$pool$execute3 = _context2.sent;
@@ -122,51 +122,52 @@ var Feedback = /*#__PURE__*/function () {
       return getDataFeedback;
     }()
   }, {
-    key: "getDataHistoryFeedback",
+    key: "getDataFeedbackGraph",
     value: function () {
-      var _getDataHistoryFeedback = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(id_member) {
+      var _getDataFeedbackGraph = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(id_member, dimension) {
         var _yield$pool$execute5, _yield$pool$execute6, rows, fields;
 
         return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
-                return _db["default"].execute("SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, \n                F.id_periodo, F.calificacion_promedio, P.nombre_periodo\n                FROM feedback F, empleado E1, empleado E2, periodo P\n                WHERE F.id_empleado_member = E1.id_empleado AND \n                F.id_empleado_assistant = E2.id_empleado AND \n                F.id_periodo = P.id_periodo AND E1.id_empleado = ".concat(id_member, ";"));
+                calificacion_promedio = 1;
+                _context3.prev = 1;
+                _context3.next = 4;
+                return _db["default"].execute("SELECT calificacion_promedio, id_periodo, id_feedback, id_empleado_member\n        FROM feedback\n        WHERE id_empleado_member = ".concat(id_member, "\n        ORDER by id_periodo\n        DESC LIMIT 5\n\n        \n        "));
 
-              case 3:
+              case 4:
                 _yield$pool$execute5 = _context3.sent;
                 _yield$pool$execute6 = (0, _slicedToArray2["default"])(_yield$pool$execute5, 2);
                 rows = _yield$pool$execute6[0];
                 fields = _yield$pool$execute6[1];
                 return _context3.abrupt("return", rows);
 
-              case 10:
-                _context3.prev = 10;
-                _context3.t0 = _context3["catch"](0);
+              case 11:
+                _context3.prev = 11;
+                _context3.t0 = _context3["catch"](1);
                 throw {
                   err: _context3.t0
                 };
 
-              case 13:
+              case 14:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[0, 10]]);
+        }, _callee3, null, [[1, 11]]);
       }));
 
-      function getDataHistoryFeedback(_x3) {
-        return _getDataHistoryFeedback.apply(this, arguments);
+      function getDataFeedbackGraph(_x3, _x4) {
+        return _getDataFeedbackGraph.apply(this, arguments);
       }
 
-      return getDataHistoryFeedback;
+      return getDataFeedbackGraph;
     }()
   }, {
-    key: "getDataAllFeedback",
+    key: "getDataHistoryFeedback",
     value: function () {
-      var _getDataAllFeedback = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4() {
+      var _getDataHistoryFeedback = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(id_member) {
         var _yield$pool$execute7, _yield$pool$execute8, rows, fields;
 
         return _regenerator["default"].wrap(function _callee4$(_context4) {
@@ -175,7 +176,7 @@ var Feedback = /*#__PURE__*/function () {
               case 0:
                 _context4.prev = 0;
                 _context4.next = 3;
-                return _db["default"].execute("SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio \n          FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado \n          ".concat((0, _query.orderBy)("id_periodo", "DESC"), "\n          ").concat((0, _query.pag)(1, 15)));
+                return _db["default"].execute("SELECT E2.imagen_perfil, E2.nombre, E2.apellido_paterno, \n                F.id_periodo, F.calificacion_promedio, P.nombre_periodo\n                FROM feedback F, empleado E1, empleado E2, periodo P\n                WHERE F.id_empleado_member = E1.id_empleado AND \n                F.id_empleado_assistant = E2.id_empleado AND \n                F.id_periodo = P.id_periodo AND E1.id_empleado = ".concat(id_member, ";"));
 
               case 3:
                 _yield$pool$execute7 = _context4.sent;
@@ -199,16 +200,16 @@ var Feedback = /*#__PURE__*/function () {
         }, _callee4, null, [[0, 10]]);
       }));
 
-      function getDataAllFeedback() {
-        return _getDataAllFeedback.apply(this, arguments);
+      function getDataHistoryFeedback(_x5) {
+        return _getDataHistoryFeedback.apply(this, arguments);
       }
 
-      return getDataAllFeedback;
+      return getDataHistoryFeedback;
     }()
   }, {
-    key: "getDataFeedbackGraph",
+    key: "getDataAllFeedback",
     value: function () {
-      var _getDataFeedbackGraph = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(id_user) {
+      var _getDataAllFeedback = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5() {
         var _yield$pool$execute9, _yield$pool$execute10, rows, fields;
 
         return _regenerator["default"].wrap(function _callee5$(_context5) {
@@ -217,7 +218,7 @@ var Feedback = /*#__PURE__*/function () {
               case 0:
                 _context5.prev = 0;
                 _context5.next = 3;
-                return _db["default"].execute("SELECT calificacion_promedio, id_periodo, id_feedback, id_empleado_member\n        FROM feedback\n        WHERE id_empleado_member = ".concat(id_user, "\n        ORDER by id_periodo\n        DESC LIMIT 5\n        "));
+                return _db["default"].execute("SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio \n          FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado \n          ".concat((0, _query.orderBy)("id_periodo", "DESC"), "\n          ").concat((0, _query.pag)(1, 15)));
 
               case 3:
                 _yield$pool$execute9 = _context5.sent;
@@ -241,11 +242,11 @@ var Feedback = /*#__PURE__*/function () {
         }, _callee5, null, [[0, 10]]);
       }));
 
-      function getDataFeedbackGraph(_x4) {
-        return _getDataFeedbackGraph.apply(this, arguments);
+      function getDataAllFeedback() {
+        return _getDataAllFeedback.apply(this, arguments);
       }
 
-      return getDataFeedbackGraph;
+      return getDataAllFeedback;
     }()
   }]);
   return Feedback;
