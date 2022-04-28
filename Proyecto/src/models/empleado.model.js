@@ -88,14 +88,17 @@ export class Empleado {
   }
 
   async getDataEmpleado() {
+
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people  
            FROM empleado WHERE id_empleado = ${this.id_empleado}
            `
       );
+      console.log(rows)
       return rows[0];
     } catch (err) {
+      console.log(err)
       throw { err };
     }
   }
@@ -133,7 +136,7 @@ export class Empleado {
         ${orderBy("nombre", "ASC")}
         ${pag(page, 15)}`
       );
-      console.log(rows);
+      //console.log(rows);
       return rows;
     } catch (err) {
       throw { err };
