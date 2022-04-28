@@ -1,13 +1,20 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { useUser } from "../context/userContext";
 
 export default function CardMembers({ info }) {
   const router = useRouter();
+
+  const { user } = useUser();
 
   const { imagen_perfil, id_empleado, nombre, apellido_paterno } = info || {};
 
   const redirectRegisterFeed = () => {
     router.push(`/user/asignados/${id_empleado}`);
+  };
+
+  const redirectAdminAsig = () => {
+    router.push(`/lead/adminasig/${id_empleado}`);
   };
 
   return (
@@ -97,6 +104,20 @@ export default function CardMembers({ info }) {
       >
         Realizar evaluación
       </button>
+      
+      {user.id_rol === 1 && (
+                <button
+                onClick={redirectAdminAsig}
+                className="btn block mt-10 mx-auto md:text-base text-sm"
+              >
+                Admin
+              </button>
+
+              )}
+
+
+
+
     </div>
   );
 }
