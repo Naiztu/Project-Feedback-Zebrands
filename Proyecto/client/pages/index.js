@@ -92,12 +92,12 @@ export default function Home() {
                 ))}
 
             <div className=" grid grid-cols-1 w-full h-full items-center justify-center ">
-              {/* <ReCAPTCHA
+              { <ReCAPTCHA
                 className="mt-5"
                 ref={captcha}
                 sitekey={process.env.KEY}
                 onChange={onChange}
-              /> */}
+              /> }
 
               <button
                 className="btn mt-5 h-16"
