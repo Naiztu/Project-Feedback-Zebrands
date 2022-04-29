@@ -10,7 +10,7 @@ export class Perfil {
       const [rows, fields] = await pool.execute(
         `
             SELECT E.nombre as "Nombre_Member", E.apellido_paterno as "Paterno_Member", E.apellido_materno as "Materno_Member", 
-                E.imagen_perfil, E.nivel_general, E.nivel_business, E.nivel_craft, E.nivel_people, E.correo_electronico, E.password, 
+                E.imagen_perfil, E.nivel_general, E.nivel_business, E.nivel_craft, E.nivel_people, E.correo_electronico, 
                 E.equipo, C.nombre_chapter, R.nombre_rol, E1.nombre as "Nombre_Assistant", E1.apellido_paterno as "Paterno_Assistant",
                 E1.apellido_materno as "Materno_Assistant"
             FROM empleado E, empleado E1, asignacion A, empleado_rol ER, chapter C, rol R 

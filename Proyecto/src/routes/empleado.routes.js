@@ -4,7 +4,7 @@ import {
   getAllEmpleado,
   getSearchEmpleado,
   postEmpleado,
-  updateChapterMember,
+  updatePass,
   updateCMasCL,
   getCurrentEmpleado,
   getNotAssigned,
@@ -14,7 +14,7 @@ import {
 const router = Router();
 
 router.post("/", postEmpleado);
-router.put("/updateCM", updateChapterMember);
+router.put("/updatePass", updatePass);
 router.put("/updateCMCL", updateCMasCL);
 router.get("/get/notassigned", getNotAssigned);
 router.get("/all", getAllEmpleado);

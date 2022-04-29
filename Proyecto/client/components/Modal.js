@@ -1,6 +1,6 @@
 import { AiOutlineClose } from "react-icons/ai";
 
-const Modal = ({ children, isOpen, closeModal }) => {
+const Modal = ({ children, isOpen, closeModal, title}) => {
   const handleModalContainerClick = (e) => e.stopPropagation();
 
   return (
@@ -16,8 +16,8 @@ const Modal = ({ children, isOpen, closeModal }) => {
       >
         <div className=" absolute py-5 px-5  flex justify-between items-center flex-col w-full mx-auto bg-white h-full">
           <div className="flex  justify-between w-11/12 mx-auto">
-            <h2 className="title text-center"> Evaluación </h2>
-            <button className="btn" onClick={closeModal}>
+            <h2 className="title text-center"> {title} </h2>
+            <button className="btn-red" onClick={closeModal}>
               <AiOutlineClose size={20} className="fill-white " />
             </button>
           </div>
@@ -26,6 +26,10 @@ const Modal = ({ children, isOpen, closeModal }) => {
       </div>
     </article>
   );
+};
+
+Modal.defaultProps = {
+  title: "Evaluación",
 };
 
 export default Modal;

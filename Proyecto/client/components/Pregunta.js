@@ -110,7 +110,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   };
 
   return (
-    <div className="flex-col w-full mx-auto mt-9 px-6 py-4 bg-slate-500/10 rounded-lg">
+    <div className="flex-col w-fulltipo mx-auto mt-9 px-6 py-4 bg-slate-500/10 rounded-lg">
       <div className=" flex flex-row items-center justify-between space-x-2">
         {isEdited ? (
           <textarea

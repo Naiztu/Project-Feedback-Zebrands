@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useUser } from "../context/userContext";
 import { useModal } from "../hooks/useModal";
 import api from "../services/api";
-import { getPerfil } from "../services/perfil";
+import { getPerfil, updatePass } from "../services/perfil";
+import PassBoton from "./PassBoton";
 import Modal from "./Modal";
 import swal from "sweetalert";
+
 
 export default function Perfil() {
   const [img, setImg] = useState("");
@@ -34,6 +36,50 @@ export default function Perfil() {
     } catch (err) {
       console.log({ err });
     }
+  };
+
+  const [password, setPassword] = useState([]);
+  const [newPassword, setNewpassword] = useState([]);
+  const [confirmPass, setConfirmPass ] = useState([]);
+  const [error, setError] = useState(null);
+
+
+  const updatePassword = async () => {
+    try {
+      const res = await updatePass({
+        password,
+        newPassword
+      });
+      swal("Contraseña actualizada!", {
+        icon: "success",
+      });
+    } catch (err) {
+      console.log(err);
+      swal("Hubo error, la contraseña no fue actualizada!", {
+        icon: "warning",
+      });
+    }
+  };
+
+  const validate = () => {
+    if(newPassword == confirmPass) {
+      updatePassword();
+    } else {
+      swal("No coinciden!", {
+        icon: "warning",
+      });
+    }
+  }
+
+  const handleChange1 = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleChange2 = (e) => {
+    setNewpassword(e.target.value);
+  };
+  const handleChange3 = (e) => {
+    setConfirmPass(e.target.value);
+
   };
 
   useEffect(() => {
@@ -144,7 +190,10 @@ export default function Perfil() {
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Password
                           </label>
-                          <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">
+                          <button
+                            onClick={() => openModal2()}
+                            className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md "
+                          >
                             Change Password
                           </button>
                         </div>
@@ -185,7 +234,7 @@ export default function Perfil() {
                         </div>
                         <div className="w-full md:w-1/2 px-3 mb-6">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            Apellido Materno
+                            Apellidඞ Materno
                           </label>
                           <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                             {perfil.Materno_Assistant}{" "}
@@ -199,7 +248,7 @@ export default function Perfil() {
             </div>
           </div>
 
-          <Modal isOpen={isOpenModal} closeModal={closeModal}>
+          <Modal isOpen={isOpenModal} closeModal={closeModal} title="Cambiar Imagen">
             <div className=" w-full h-full flex items-center justify-center space-x-4">
               <img
                 className=" w-72 h-72 rounded-full object-cover border-8 border-black"
@@ -208,6 +257,7 @@ export default function Perfil() {
                 }
                 ref={imagenPrev}
               />
+              <div className="flex flex-col items-center justify-center space-y-4">
               <label className=" group w-64 flex flex-col items-center px-4 py-6 bg-white  rounded-lg shadow-lg tracking-wide uppercase border border-black hover:border-secondary-50 cursor-pointer">
                 <svg
                   className="w-8 h-8 fill-black group-hover:fill-secondary-50"
@@ -262,9 +312,75 @@ export default function Perfil() {
               >
                 Enviar
               </button>
+              </div>
             </div>
           </Modal>
-          <Modal>sgdgsgds</Modal>
+          <Modal isOpen={isOpenModal2} closeModal={closeModal2} title="Cambiar Contraseña">
+            <div className=" w-full h-full flex items-center justify-center">
+              <>
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="flex w-full min-h-min items-center justify-start bg-grey-lighter">
+                      <label className="group w-128 flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide uppercase border border-black hover:border-interaction-500 cursor-pointer">
+                        <svg
+                          className="w-8 h-8 fill-black group-hover:fill-interaction-700"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        
+                        <span className="mt-2 text-base leading-normal text-black group-hover:text-interaction-500">
+                          Contraseña actual
+                        </span>
+                        <input
+                          onChange={handleChange1}
+                          value={password}
+                          name="password"
+                          className="appearance-none block w-full bg-white border border-gray-400 shadow-inner rounded-md py-1 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                          type="password"
+                        ></input>
+                        <div className="flex flex-row items-center justify-center space-x-4">
+                          <div className="flex flex-col items-center justify-center space-y-1">
+                            <span className="mt-2 text-base leading-normal text-black group-hover:text-interaction-500">
+                              Contraseña nueva
+                            </span>
+                            <input
+                              onChange={handleChange2}
+                              value={newPassword}
+                              name="newPassword"
+                              className="appearance-none block w-full bg-white border border-gray-400 shadow-inner rounded-md py-1 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                              type="password"
+                            ></input>
+                            </div>
+                            <div className="flex flex-col items-center justify-center space-y-1">
+                            <span className="mt-2 text-base leading-normal text-black group-hover:text-interaction-500">
+                              Reingresa Contraseña
+                            </span>
+                            <input
+                              onChange={handleChange3}
+                              value={confirmPass}
+                              name="confirmPass"
+                              className="appearance-none block w-full bg-white border border-gray-400 shadow-inner rounded-md py-1 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                              type="password"
+                            ></input>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                    <div className="px-4 py-6">
+                      <button className="btn" onClick={validate}>Confirmar</button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            </div>
+          </Modal>
         </div>
       )}
     </>
