@@ -363,7 +363,7 @@ var Empleado = /*#__PURE__*/function () {
               case 0:
                 _context8.prev = 0;
                 _context8.next = 3;
-                return _db["default"].execute("SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  \n        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, r.id_rol\n        FROM empleado e, empleado_rol r\n        WHERE e.id_empleado = ".concat(id, " AND\n              r.id_empleado = e.id_empleado"));
+                return _db["default"].execute("SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  \n        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, r.id_rol, p.id_periodo\n      FROM empleado e, empleado_rol r, periodo p\n      WHERE e.id_empleado = 1 AND\n            r.id_empleado = ".concat(id, "\n            AND p.estatus_periodo = 'Vigente'\n            ORDER BY r.fecha_rol DESC\n      LIMIT 1;"));
 
               case 3:
                 _yield$pool$execute9 = _context8.sent;
@@ -403,7 +403,7 @@ var Empleado = /*#__PURE__*/function () {
               case 0:
                 _context9.prev = 0;
                 _context9.next = 3;
-                return _db["default"].execute("SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  \n        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, \n        e.password, r.id_rol, p.estatus_periodo\n        FROM empleado e, empleado_rol r, periodo p\n        WHERE e.activo = true AND\n          e.correo_electronico = '".concat(correo, "' \n          AND p.estatus_periodo = 'Vigente'\n          AND r.id_empleado = e.id_empleado \n        ORDER BY r.fecha_rol DESC\n        LIMIT 1;"));
+                return _db["default"].execute("SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  \n        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, \n        e.password, r.id_rol, p.id_periodo\n        FROM empleado e, empleado_rol r, periodo p\n        WHERE e.activo = true AND\n          e.correo_electronico = '".concat(correo, "' \n          AND p.estatus_periodo = 'Vigente'\n          AND r.id_empleado = e.id_empleado \n        ORDER BY r.fecha_rol DESC\n        LIMIT 1;"));
 
               case 3:
                 _yield$pool$execute11 = _context9.sent;
@@ -443,7 +443,7 @@ var Empleado = /*#__PURE__*/function () {
               case 0:
                 _context10.prev = 0;
                 _context10.next = 3;
-                return _db["default"].execute("SELECT id_empleado, nombre, apellido_paterno, imagen_perfil\n        FROM empleado\n        ".concat((0, _query.orderBy)("nombre", "ASC"), "\n        ").concat((0, _query.pag)(1, 15)));
+                return _db["default"].execute("SELECT id_empleado, nombre, apellido_paterno, imagen_perfil\n        FROM empleado \n        ".concat((0, _query.orderBy)("nombre", "ASC"), "\n        ").concat((0, _query.pag)(1, 15)));
 
               case 3:
                 _yield$pool$execute13 = _context10.sent;
@@ -474,9 +474,9 @@ var Empleado = /*#__PURE__*/function () {
       return getAllDataEmpleado;
     }()
   }, {
-    key: "getSearchDataEmpleado",
+    key: "getSearchDataEmpleado2",
     value: function () {
-      var _getSearchDataEmpleado = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(page, filterName) {
+      var _getSearchDataEmpleado = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(page, filterName, id_periodo, id_empleado) {
         var _yield$pool$execute15, _yield$pool$execute16, rows, fields;
 
         return _regenerator["default"].wrap(function _callee11$(_context11) {
@@ -485,32 +485,75 @@ var Empleado = /*#__PURE__*/function () {
               case 0:
                 _context11.prev = 0;
                 _context11.next = 3;
-                return _db["default"].execute("SELECT id_empleado, nombre, apellido_paterno, imagen_perfil\n        FROM empleado\n        WHERE ".concat((0, _query.filter)("nombre", filterName), "\n        ").concat((0, _query.orderBy)("nombre", "ASC"), "\n        ").concat((0, _query.pag)(page, 15)));
+                return _db["default"].execute("SELECT id_empleado, nombre, apellido_paterno, imagen_perfil\n        FROM empleado\n        WHERE ".concat((0, _query.filter)("nombre", filterName), " AND\n              id_empleado NOT IN \n                (SELECT id_empleado_evaluador\n                  FROM evaluacion\n                  WHERE id_empleado_evaluado = ").concat(id_empleado, " AND\n                        id_periodo = ").concat(id_periodo, ")\n        ").concat((0, _query.orderBy)("nombre", "ASC"), "\n        ").concat((0, _query.pag)(page, 15)));
 
               case 3:
                 _yield$pool$execute15 = _context11.sent;
                 _yield$pool$execute16 = (0, _slicedToArray2["default"])(_yield$pool$execute15, 2);
                 rows = _yield$pool$execute16[0];
                 fields = _yield$pool$execute16[1];
+                console.log(rows);
                 return _context11.abrupt("return", rows);
 
-              case 10:
-                _context11.prev = 10;
+              case 11:
+                _context11.prev = 11;
                 _context11.t0 = _context11["catch"](0);
                 throw {
                   err: _context11.t0
                 };
 
-              case 13:
+              case 14:
               case "end":
                 return _context11.stop();
             }
           }
-        }, _callee11, null, [[0, 10]]);
+        }, _callee11, null, [[0, 11]]);
       }));
 
-      function getSearchDataEmpleado(_x5, _x6) {
+      function getSearchDataEmpleado2(_x5, _x6, _x7, _x8) {
         return _getSearchDataEmpleado.apply(this, arguments);
+      }
+
+      return getSearchDataEmpleado2;
+    }()
+  }, {
+    key: "getSearchDataEmpleado",
+    value: function () {
+      var _getSearchDataEmpleado2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(page, filterName) {
+        var _yield$pool$execute17, _yield$pool$execute18, rows, fields;
+
+        return _regenerator["default"].wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                _context12.prev = 0;
+                _context12.next = 3;
+                return _db["default"].execute("SELECT id_empleado, nombre, apellido_paterno, imagen_perfil\n        FROM empleado\n        WHERE ".concat((0, _query.filter)("nombre", filterName), "\n        ").concat((0, _query.orderBy)("nombre", "ASC"), "\n        ").concat((0, _query.pag)(page, 15)));
+
+              case 3:
+                _yield$pool$execute17 = _context12.sent;
+                _yield$pool$execute18 = (0, _slicedToArray2["default"])(_yield$pool$execute17, 2);
+                rows = _yield$pool$execute18[0];
+                fields = _yield$pool$execute18[1];
+                return _context12.abrupt("return", rows);
+
+              case 10:
+                _context12.prev = 10;
+                _context12.t0 = _context12["catch"](0);
+                throw {
+                  err: _context12.t0
+                };
+
+              case 13:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12, null, [[0, 10]]);
+      }));
+
+      function getSearchDataEmpleado(_x9, _x10) {
+        return _getSearchDataEmpleado2.apply(this, arguments);
       }
 
       return getSearchDataEmpleado;

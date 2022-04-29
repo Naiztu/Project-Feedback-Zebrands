@@ -4,7 +4,7 @@ import {
   getAllEmpleado,
   getSearchEmpleado,
   postEmpleado,
-  updateChapterMember,
+  updatePass,
   updateCMasCL,
   getCurrentEmpleado,
 } from "../controllers/empleado.controller";
@@ -16,7 +16,7 @@ router.get("/search/:page/:filterName/:id_periodo", getSearchEmpleado);
 router.get("/me", getCurrentEmpleado);
 router.get("/:id_empleado", getEmpleado);
 router.post("/", postEmpleado);
-router.put("/updateCM", updateChapterMember);
+router.put("/updatePass", updatePass);
 router.put("/updateCMCL", updateCMasCL);
 
 export default router;

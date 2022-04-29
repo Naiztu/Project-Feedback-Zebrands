@@ -1,4 +1,12 @@
+import { Empleado } from "../models/empleado.model";
+require("dotenv").config();
+
 export async function postImages(req, res) {
-  console.log(req.file);
-  res.send(req.file);
+  const { filename } = req.file;
+  const { id_empleado } = req.data;
+  Empleado.updateImageProfile(
+    id_empleado,
+    process.env.HOST + "/img/" + filename
+  );
+  res.send(process.env.HOST + "/img/" + filename);
 }

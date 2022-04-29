@@ -11,7 +11,7 @@ var _empleado = require("../controllers/empleado.controller");
 
 var router = (0, _express.Router)();
 router.get("/all", _empleado.getAllEmpleado);
-router.get("/search/:page/:filterName", _empleado.getSearchEmpleado);
+router.get("/search/:page/:filterName/:id_periodo", _empleado.getSearchEmpleado);
 router.get("/me", _empleado.getCurrentEmpleado);
 router.get("/:id_empleado", _empleado.getEmpleado);
 router.post("/", _empleado.postEmpleado);

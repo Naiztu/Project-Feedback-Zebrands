@@ -15,18 +15,19 @@ export const UserProvider = ({ children }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    async function loadUserFromCookies() {
-      const token = Cookies.get("token");
-      if (token) {
-        try {
-          const data = await currentEmpleado();
-          setUser(data.user);
-        } catch (error) {
-          console.log(error);
-        }
+  async function loadUserFromCookies() {
+    const token = Cookies.get("token");
+    if (token) {
+      try {
+        const data = await currentEmpleado();
+        setUser(data.user);
+      } catch (error) {
+        console.log(error);
       }
     }
+  }
+
+  useEffect(() => {
     loadUserFromCookies();
   }, []);
 
@@ -56,7 +57,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, loginAuth, logoutAuth, isAuthenticated: !!user }}
+      value={{ user, loginAuth, logoutAuth, setUser, isAuthenticated: !!user }}
     >
       {children}
     </UserContext.Provider>

@@ -32,7 +32,8 @@ export const loginRouter = async (req, res) => {
       correo_electronico,
       imagen_perfil,
       id_rol,
-      id_periodo
+      id_periodo,
+      equipo,
     } = user || {};
 
     const userForToken = {
@@ -55,8 +56,9 @@ export const loginRouter = async (req, res) => {
         nivel_people,
         correo_electronico,
         imagen_perfil,
+        equipo,
         id_rol,
-        id_periodo
+        id_periodo,
       },
       token,
     });

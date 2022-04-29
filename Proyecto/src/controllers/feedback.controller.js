@@ -10,6 +10,17 @@ export async function getFeedback(req, res) {
   }
 }
 
+
+export async function getFeedbackGraph(req, res) {
+  const { id_user } = req.params;
+  try {
+    const data_feedbackGraph = await Feedback.getDataFeedbackGraph(id_user);
+    res.send({ data_feedbackGraph });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
+
 export async function getFeedbackHistory(req, res) {
   const { id_user } = req.params;
   try {
@@ -47,3 +58,5 @@ export async function postFeedback(req, res) {
     res.status(500).send({ err });
   }
 }
+
+

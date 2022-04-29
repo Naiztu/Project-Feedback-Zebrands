@@ -25,19 +25,6 @@ export function queryPostSolicitarEvaluaciones(
   return query;
 }
 
-export function queryUpdatePass(
-  items
-) {
-  let s = ""
-
-  items.forEach(element => {
-    s += `UPDATE empleado SET ` + "`" + `password` + "`" + ` = '${element.password}' WHERE id_empleado = ${element.id_empleado};`
-  });
-  console.log(s)
-  return s;
-}
-
-
 export function queryPostRespuestas(
   id_empleado_evaluador,
   id_empleado_evaluado,
@@ -97,4 +84,3 @@ export function orderBy(campo,tipo) {
       return `${campo} LIKE '${value}%'`
   }
     }
-
