@@ -271,13 +271,19 @@ export class Empleado {
   static async getNotAssigned(page,filterName) {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT empleado.id_empleado, empleado.nombre, empleado.apellido_paterno, empleado.apellido_materno, empleado.imagen_perfil
+        `SELECT empleado.id_empleado, empleado.nombre, empleado.apellido_paterno, empleado.apellido_materno, empleado.imagen_perfil, lastrol.id_rol
         FROM empleado
+         INNER JOIN 
+                (SELECT id_empleado, id_rol ,max(fecha_rol)
+                FROM empleado_rol
+                GROUP BY id_empleado) AS lastrol ON 
+                  lastrol.id_empleado = empleado.id_empleado
         WHERE empleado.id_empleado NOT IN (
             SELECT DISTINCT id_empleado_member
              FROM asignacion
              WHERE vigente=1
              )
+             AND id_rol=3
              AND ${filter("nombre", filterName)}
              ${orderBy("nombre", "ASC")}
              ${pag(page, 15)}`
