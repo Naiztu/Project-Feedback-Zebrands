@@ -10,7 +10,8 @@ export default function RowAsignarMember({
   select,
   info,
   id_assistant,
-  objFunction: { asignados, setAsignados , companeros, setCompaneros },
+  objFunction: { getMembersAsignados,
+    getMembersSinAssistant },
 }) {
   async function addAsignados () {
     const body = {
@@ -25,33 +26,16 @@ export default function RowAsignarMember({
         icon: "warning",
       });
     }
-    try {
-      const data_empleados = await getAsignados(id_assistant);
-      console.log(data_empleados)
-      setAsignados(data_empleados.data_members);
-    } catch (err) {
-      swal("Hubo un error", {
-        icon: "warning",
-      });
-      try {
-        const  data  = await getEmpleadosNotAssigned(page,filterName
-        );
-        setCompaneros(data.data_empleados);
-      } catch (err) {
-        swal("Hubo un error", {
-          icon: "warning",
-        });
-      }
-      
+    getMembersAsignados();
+    getMembersSinAssistant();
 
     };
-  }
+
 
     const deleteAsignados = () => {
-      setAsignados(
-        asignados.filter((item) => item.id_empleado != info.id_empleado)
-      );
-      console.log("Se desasignó al member" + info.id_empleado + " del " + id_assistant)
+      console.log("desasignamos")
+      getMembersAsignados();
+      getMembersSinAssistant();
     };
 
     return (

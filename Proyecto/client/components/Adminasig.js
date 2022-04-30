@@ -139,10 +139,8 @@ export default function Adminasig({data_assis}) {
                               key={index}
                               id_assistant={data_assis.id_empleado}
                               objFunction={{
-                                asignados,
-                                setAsignados,
-                                companeros,
-                                setCompaneros
+                                getMembersAsignados,
+                                getMembersSinAssistant
                               }}
                             />
                           ))}
@@ -191,10 +189,8 @@ export default function Adminasig({data_assis}) {
                             info={item}
                             key={index}
                             objFunction={{
-                              asignados,
-                              setAsignados,
-                              companeros,
-                              setCompaneros
+                              getMembersAsignados,
+                                getMembersSinAssistant
                             }}
                           />
                         ))}
