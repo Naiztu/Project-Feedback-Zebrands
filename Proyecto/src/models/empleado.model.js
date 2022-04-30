@@ -114,7 +114,7 @@ export class Empleado {
 
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people, activo
            FROM empleado WHERE id_empleado = ${this.id_empleado}
            `
       );
@@ -129,7 +129,7 @@ export class Empleado {
   static async getAllDataEmpleado() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, activo
         FROM empleado 
         ${orderBy("nombre", "ASC")}
         ${pag(1, 15)}`
@@ -287,4 +287,18 @@ export class Empleado {
     }
   }
 
+  static async updateNotActivo(id_empleado){
+    try {
+      const [rows, fields] = await pool.execute(
+        `UPDATE empleado 
+        SET activo = 0
+        WHERE id_empleado = ${id_empleado}`
+        );
+      console.log(rows)
+      return rows;
+    } catch (err) {
+      console.log(err)
+      throw { err };
+    }
+  }
 }

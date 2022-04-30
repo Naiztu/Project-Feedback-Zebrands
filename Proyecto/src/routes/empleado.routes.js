@@ -8,7 +8,8 @@ import {
   updateCMasCL,
   getCurrentEmpleado,
   getNotAssigned,
-  getNotRequested
+  getNotRequested,
+  updateActivo
 } from "../controllers/empleado.controller";
 
 const router = Router();
@@ -22,6 +23,7 @@ router.get("/notrequested/:page/:filterName/:id_periodo", getNotRequested);
 router.get("/search/:page/:filterName", getSearchEmpleado);
 router.get("/me", getCurrentEmpleado);
 router.get("/:id_empleado", getEmpleado);
+router.put("/desactivar", updateActivo);
 
 
 export default router;
