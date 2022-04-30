@@ -13,21 +13,23 @@ export default function RowAsignarMember({
   id_assistant,
   objFunction: { getMembersAsignados, getMembersSinAssistant },
 }) {
-  async function addAsignados () {
-    const body = {
-      "id_assistant": id_assistant
-      , "id_member": info.id_empleado
-    }
+
+  const addAsignados = async () => {
     try {
-       await postAsignacion(body);
-    } catch (err) {
-      swal("Hubo un error", {
-        icon: "warning",
+      const data = await postAsignacion({
+        id_assistant,
+        id_member: info.id_empleado
+      });
+      console.log(data)
+        swal("Mentorado Agregado", {
+          icon: "success",
+        });
+    } catch(err) {
+      console.log(err)
+        swal("Hubo un error", {
+          icon: "warning",
       });
     }
-    getMembersAsignados();
-    getMembersSinAssistant();
-
     };
 
     
@@ -51,9 +53,14 @@ export default function RowAsignarMember({
     }
     };
 
+    const handleAdd = async () => {
+      await addAsignados();
+       getMembersAsignados();
+       getMembersSinAssistant();
+    }
 
-    const handleChange = () => {
-      deleteAsignados();
+    const handleDelete = async () => {
+      await deleteAsignados();
       getMembersAsignados();
       getMembersSinAssistant();
     }
@@ -78,13 +85,13 @@ export default function RowAsignarMember({
             <div>
               {select ? (
                 <button
-                  onClick={addAsignados}
+                  onClick={handleAdd}
                   className="btn "
                 >
                   Agregar
                 </button>
               ) : (
-                <button onClick={handleChange} className="btn-red">
+                <button onClick={handleDelete} className="btn-red">
                   <FaTrashAlt />
                 </button>
               )}
