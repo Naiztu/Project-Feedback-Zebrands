@@ -53,8 +53,6 @@ export default function Adminasig({data_assis}) {
     if (isAuthenticated) {
       getMembersSinAssistant();
       getMembersAsignados();
-
-
     }
   }, [isAuthenticated]);
 
@@ -63,7 +61,7 @@ export default function Adminasig({data_assis}) {
       const id_periodo = 1;
       const { data_empleados } = await getEmpleadosNotAssigned(
         page,
-        filterName,
+        filterName
       );
       setCompaneros(data_empleados);
     } catch (error) {
