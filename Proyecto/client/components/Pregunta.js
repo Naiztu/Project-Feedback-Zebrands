@@ -27,8 +27,8 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
 
   const deleteQuestion = async () => {
     const willDelete = await swal({
-      title: "¿Estas seguro?",
-      text: "Si eliminas esta pregunta, no se podra recuperar",
+      title: "¿Estás seguro?",
+      text: "Si eliminas esta pregunta, no se podrá recuperar",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -41,12 +41,12 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
           icon: "success",
         });
       } catch (err) {
-        swal("Hubo un error, la pregunta no se elimino!", {
+        swal("Hubo un error, la pregunta no se eliminó", {
           icon: "warning",
         });
       }
     } else {
-      swal("Operacion cancelada!");
+      swal("Operación cancelada");
     }
   };
 
@@ -71,12 +71,12 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
       setPntas(pntas.concat(newP));
       setAddQ([]);
 
-      swal("Pregunta registrada!", {
+      swal("Pregunta registrada", {
         icon: "success",
       });
     } catch (err) {
       console.log(err);
-      swal("Hubo error, la pregunta no se registro!", {
+      swal("Hubo un error, la pregunta no se registró", {
         icon: "warning",
       });
     }
@@ -89,11 +89,11 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
         pregunta,
         tipo_pregunta: tipo,
       });
-      swal("Pregunta actualizada!", {
+      swal("Pregunta actualizada", {
         icon: "success",
       });
     } catch (err) {
-      swal("Hubo error, la pregunta no fue actualizada!", {
+      swal("Hubo un error, la pregunta no fue actualizada", {
         icon: "warning",
       });
     }
@@ -101,7 +101,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
 
   const options = [
     { label: "Abierta", value: "abierta" },
-    { label: "Numerica", value: "numerica" },
+    { label: "Numérica", value: "numerica" },
     { label: "Calificación", value: "calificacion" },
   ];
 
@@ -110,7 +110,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   };
 
   return (
-    <div className="flex-col w-full mx-auto mt-9 px-6 py-4 bg-slate-500/10 rounded-lg">
+    <div className="flex-col w-fulltipo mx-auto mt-9 px-6 py-4 bg-slate-500/10 rounded-lg">
       <div className=" flex flex-row items-center justify-between space-x-2">
         {isEdited ? (
           <textarea

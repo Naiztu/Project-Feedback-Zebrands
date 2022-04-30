@@ -1,4 +1,5 @@
 import { Empleado } from "../models/empleado.model";
+import bcrypt from "bcrypt";
 
 export async function getEmpleado(req, res) {
   const { id_empleado } = req.params;
@@ -118,36 +119,37 @@ export async function postEmpleado(req, res) {
     res.status(500).send({ err });
   }
 }
-
-export async function updateChapterMember(req, res) {
-  const { password, imagen_perfil, id_empleado } = req.body;
-
-  const nueva_informacion = new Empleado(
-    id_empleado,
-    "",
-    "",
-    "",
-    0,
-    0,
-    0,
-    0,
-    1,
-    "",
-    password,
-    "",
-    0,
-    imagen_perfil,
-    0
-  );
-
+ 
+export async function updatePass(req, res) {
+  const { id_empleado} = req.data;
+  const { password, newPassword } = req.body;
+  let user = null;
   try {
-    const data = nueva_informacion.updateChapterMember();
-    console.log(data);
-    res.status(200).send({ message: "correct update" });
-  } catch (err) {
-    res.status(500).send({ err });
+    user = await Empleado.findPass(id_empleado);
+    console.log(user)
+  } catch (error) {
+    console.log({ error });
   }
-}
+
+  const passwordCorrect =
+    user === null ? false : await bcrypt.compare(password, user.password);
+
+    if (!passwordCorrect) {
+      res.status(401).send({
+        error: "invalid password",
+      });
+    } else {
+      const crypPass =await Empleado.generatorPassNew(newPassword)
+      try {
+        await Empleado.updatePass(crypPass, id_empleado)
+        res.status(200).send({ message: "password update"})
+      } catch (err) {
+        res.status(401).send({
+          error: "password update failure",
+        });
+      }
+    }
+  } 
 
 export async function updateCMasCL(req, res) {
   const {
@@ -182,7 +184,7 @@ export async function updateCMasCL(req, res) {
     console.log(datas);
     res.status(200).send({ message: "correct update" });
   } catch (err) {
-    res.status(500).send({ err });
+    res.status(403).send({ err });
   }
 }
 
@@ -193,5 +195,16 @@ export async function getNotAssigned(req, res) {
     res.status(200).send({ data_empleados });
   } catch (err) {
     res.status(500).send({ err });
+  }
+}
+
+export async function updateActivo(req, res) {
+  const { id_empleado} = req.body;
+  try {
+    const data_activo = await Empleado.updateNotActivo(id_empleado);
+    console.log(data_activo);
+    res.status(200).send({ data_activo});
+  } catch (err) {
+    res.status(403).send({ err });
   }
 }

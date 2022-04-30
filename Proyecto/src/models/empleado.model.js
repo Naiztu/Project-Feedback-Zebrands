@@ -1,5 +1,5 @@
 import pool from "../database/db";
-import { queryUpdatePass, pag, orderBy, filter } from "../util/query";
+import { UpdatePass, pag, orderBy, filter } from "../util/query";
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -47,9 +47,16 @@ export class Empleado {
     const newPass = await bcrypt.hash(pass, salt);
     return newPass;
   }
-  static async updatePass(passwords) {
-    const [rows, fields] = await pool.execute(queryUpdatePass(passwords));
+  static async updatePass(password, id_empleado) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `UPDATE empleado SET ` + "`" + `password` + "`" + ` = '${password}' WHERE id_empleado = ${id_empleado};`
+    );
+    return rows;
+  } catch (err) {
+    throw { err };
   }
+}
 
   static async findId(id) {
     try {
@@ -62,6 +69,20 @@ export class Empleado {
               r.id_empleado = e.id_empleado AND
               p.id_chapter = e.id_chapter AND
               p.estatus_periodo = "Vigente"`
+      );
+      return rows[0] || null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+
+  static async findPass(id) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT e.password
+        FROM empleado e
+        WHERE e.id_empleado = ${id} `
       );
       return rows[0] || null;
     } catch (err) {
@@ -93,7 +114,7 @@ export class Empleado {
 
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people  
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people, activo
            FROM empleado WHERE id_empleado = ${this.id_empleado}
            `
       );
@@ -108,7 +129,7 @@ export class Empleado {
   static async getAllDataEmpleado() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, activo
         FROM empleado 
         ${orderBy("nombre", "ASC")}
         ${pag(1, 15)}`
@@ -218,20 +239,6 @@ export class Empleado {
     }
   }
 
-  async updateChapterMember() {
-    try {
-      const [rows, fields] = await pool.execute(
-        `
-        UPDATE empleado SET empleado.password = '${this.password}', empleado.imagen_perfil = '${this.imagen_perfil}' 
-        WHERE empleado.id_empleado = ${this.id_empleado};
-      `
-      );
-      return rows;
-    } catch (err) {
-      throw { err };
-    }
-  }
-
   static async updateImageProfile(id, urlImage) {
     try {
       const [rows, fields] = await pool.execute(
@@ -281,4 +288,18 @@ export class Empleado {
     }
   }
 
+  static async updateNotActivo(id_empleado){
+    try {
+      const [rows, fields] = await pool.execute(
+        `UPDATE empleado 
+        SET activo = 0
+        WHERE id_empleado = ${id_empleado}`
+        );
+      console.log(rows)
+      return rows;
+    } catch (err) {
+      console.log(err)
+      throw { err };
+    }
+  }
 }

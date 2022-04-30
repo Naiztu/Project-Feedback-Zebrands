@@ -1,4 +1,5 @@
 import { Periodo } from "../models/periodo.model";
+const bcrypt = require("bcrypt");
 
 export async function postPeriodo(req, res) {
     const { nombre_periodo, fecha_inicio, fecha_fin, estatus_periodo, id_chapter } = req.body;
