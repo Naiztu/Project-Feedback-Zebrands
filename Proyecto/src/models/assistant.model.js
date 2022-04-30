@@ -10,10 +10,15 @@ export class Assistant {
     static async getDataListAssitant(id_assistant){
         try {
             const [rows, fields] = await pool.execute(
-                `SELECT id_empleado,nombre, apellido_materno, apellido_paterno, imagen_perfil FROM empleado
-                  WHERE id_empleado IN (SELECT a.id_empleado_member FROM asignacion a
-                  WHERE a.fecha_asignacion IN (SELECT max(a2.fecha_asignacion) 
-                  FROM asignacion a2 WHERE a2.id_empleado_member=a.id_empleado_member) 
+                `SELECT e.id_empleado,e.nombre, e.apellido_materno, e.apellido_paterno, e.imagen_perfil, lastrol.id_rol  FROM empleado e
+                INNER JOIN 
+                (SELECT id_empleado, id_rol ,max(fecha_rol)
+                FROM empleado_rol
+                GROUP BY id_empleado) AS lastrol ON 
+                  lastrol.id_empleado = e.id_empleado
+                 WHERE e.id_empleado IN 
+                 (SELECT a.id_empleado_member FROM asignacion a
+                  WHERE vigente=1
                   AND id_empleado_assistant=${id_assistant});`
               );
               console.log(rows)

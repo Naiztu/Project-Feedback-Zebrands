@@ -16,7 +16,7 @@ const router = Router();
 router.post("/", postEmpleado);
 router.put("/updateCM", updateChapterMember);
 router.put("/updateCMCL", updateCMasCL);
-router.get("/get/notassigned", getNotAssigned);
+router.get("/get/notassigned/:page/:filterName", getNotAssigned);
 router.get("/all", getAllEmpleado);
 router.get("/notrequested/:page/:filterName/:id_periodo", getNotRequested);
 router.get("/search/:page/:filterName", getSearchEmpleado);

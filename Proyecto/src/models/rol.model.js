@@ -37,15 +37,6 @@ export class Rol {
         );
         `);
 
-        if(rol_assistant==1){
-          await conn.query(`
-        INSERT INTO empleado_rol (id_empleado, id_rol) 
-        VALUES ( 
-          ${id_member},
-          ${2}
-          );`
-          );
-        }
        
 
       await conn.commit();
