@@ -3,7 +3,7 @@ import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import RowAsignarMember from "./RowAsignarMember";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
-import { getEmpleadosNotAssigned, getFilterEmpleados} from "../services/empleado";
+import { getEmpleadosNotAssigned} from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { postAsignados } from "../services/evaluacion";
 import { getAsignados } from "../services/asignados";
