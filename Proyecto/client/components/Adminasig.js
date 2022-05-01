@@ -16,8 +16,6 @@ export default function Adminasig({data_assis}) {
   const [page, setPage] = useState(1);
 
   const getMembersSinAssistant = async () => {
-    //const { user } = useUser();
-    //console.log("El periodo actual"=user.id_periodo)
     try {
       const id_periodo = 1;
       const  data  = await getEmpleadosNotAssigned(page,filterName
@@ -41,12 +39,10 @@ export default function Adminasig({data_assis}) {
         icon: "warning",
       });
     }
-
   };
 
 
   useEffect(() => {
-  
     if (isAuthenticated) {
       getMembersSinAssistant();
       getMembersAsignados();

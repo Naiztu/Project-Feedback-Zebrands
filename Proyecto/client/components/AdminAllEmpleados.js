@@ -13,8 +13,6 @@ export default function AdminAllEmpleados() {
 
 
     const getEmpleados = async () => {
-        //const { user } = useUser();
-        //console.log("El periodo actual"=user.id_periodo)
         try {
             const data_empleados = await getFilterEmpleados(page, filterName);
             setEmpleados(data_empleados.data_empleados);

@@ -2,7 +2,6 @@ import api from "./api";
 import Cookies from "js-cookie";
 import { filter } from "../../src/util/query";
 
-
 export async function currentEmpleado() {
   const token = Cookies.get("token");
   if (token) {
@@ -26,10 +25,10 @@ export async function currentEmpleado() {
 export async function getEmpleado(id) {
   try {
     const { data } = await api.get(`/empleado/${id}`);
-    console.log("Services: "+data);
+    console.log("Services: " + data);
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw { error };
   }
 }
@@ -53,7 +52,7 @@ export async function getEmpleadosNotRequested(page, filterName, id_periodo) {
     const { data } = await api.get(
       `/empleado/notrequested/${page}/${filterName}/${id_periodo}`
     );
-    ;console.log(data);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -66,17 +65,15 @@ export async function getFilterEmpleados(page, filterName) {
     filterName = 0;
   }
   try {
-    const { data } = await api.get(
-      `/empleado/search/${page}/${filterName}`
-    );
+    const { data } = await api.get(`/empleado/search/${page}/${filterName}`);
     return data;
   } catch (error) {
     console.log(error);
     throw { error };
   }
 }
-export async function getEmpleadosNotAssigned(page,filterName) {
-  console.log("iawdojijeaodj")
+export async function getEmpleadosNotAssigned(page, filterName) {
+  console.log("iawdojijeaodj");
   if (filterName === "") {
     filterName = 0;
   }
@@ -90,4 +87,15 @@ export async function getEmpleadosNotAssigned(page,filterName) {
     throw { error };
   }
 }
+
+export async function createMember(body) {
+  try {
+    const res = await api.post(`/empleado`, body);
+    return (res.data);
+  } catch (error) {
+    console.log(error);
+    throw { error };
+  }
+}
+
 

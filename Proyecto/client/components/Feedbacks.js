@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import RowFeed from "./RowFeed";
 import { useUser } from "../context/userContext";
-import api from "../services/api";
+import { getFeedbackHistory } from "../services/feedback";
 import Loader from "./loaders/Loader";
 
 export default function Feedbacks() {
@@ -10,14 +10,8 @@ export default function Feedbacks() {
 
   const getFeedbacks = async () => {
     try {
-      const res = await api.get(`/feedback/${user.id_empleado}`);
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else setFeedbacks(res.data.data_feedbackHistory);
+      const data = await getFeedbackHistory(user.id_empleado);
+      setFeedbacks(data.data_feedbackHistory);
     } catch (err) {
       console.log({ err });
     }
