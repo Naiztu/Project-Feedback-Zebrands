@@ -24,7 +24,7 @@ export default function Periodo() {
         />
 
         <div className="">
-          <label>Descripcion del preiodo</label>
+          <label>Descripción del periodo: </label>
           <input
             type={"text"}
             value={descripcion}
