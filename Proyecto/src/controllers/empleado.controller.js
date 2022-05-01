@@ -188,8 +188,9 @@ export async function updateCMasCL(req, res) {
 }
 
 export async function getNotAssigned(req, res) {
+  const { page, filterName } = req.params;
   try {
-    const data_empleados = await Empleado.getNotAssigned();
+    const data_empleados = await Empleado.getNotAssigned(page, filterName );
     res.status(200).send({ data_empleados });
   } catch (err) {
     res.status(500).send({ err });

@@ -305,6 +305,7 @@ export class Empleado {
       );
       return rows;
     } catch (err) {
+      console.log(err)
       throw { err };
     }
   }
