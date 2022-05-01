@@ -21,6 +21,18 @@ export async function getFeedbackGraph(req, res) {
   }
 }
 
+
+export async function getAllGraph(req, res) {
+  const { id_user } = req.params;
+  try {
+    const data_AllGraph = await Feedback.getDataAllGraph(id_user);
+    res.send({ data_AllGraph });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
+
+
 export async function getFeedbackHistory(req, res) {
   const { id_user } = req.params;
   try {

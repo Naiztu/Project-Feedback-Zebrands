@@ -41,7 +41,7 @@ export class Feedback {
     }
   }
 
-  static async getDataFeedbackGraph(id_member, dimension) {
+  static async getDataFeedbackGraph(id_member) {
 
     try {
       const [rows, fields] = await pool.execute(
@@ -59,6 +59,23 @@ export class Feedback {
       throw { err };
     }
   }
+
+  static async getDataAllGraph() {
+
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT AVG(calificacion_craft), AVG(calificacion_personal), AVG(calificacion_business), AVG(calificacion_promedio), id_periodo
+        FROM feedback
+        GROUP BY id_periodo
+                `
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
+
 
 
   static async getDataHistoryFeedback(id_member) {
