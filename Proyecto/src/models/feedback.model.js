@@ -67,6 +67,9 @@ export class Feedback {
         `SELECT AVG(calificacion_craft), AVG(calificacion_personal), AVG(calificacion_business), AVG(calificacion_promedio), id_periodo
         FROM feedback
         GROUP BY id_periodo
+        order by id_periodo
+      
+        desc limit 5
                 `
       );
       return rows;
