@@ -3,7 +3,6 @@ import { useUser } from "../context/userContext";
 import { useModal } from "../hooks/useModal";
 import api from "../services/api";
 import { getPerfil, updatePass } from "../services/perfil";
-import PassBoton from "./PassBoton";
 import Modal from "./Modal";
 import swal from "sweetalert";
 
@@ -40,7 +39,6 @@ export default function Perfil() {
   const [password, setPassword] = useState([]);
   const [newPassword, setNewpassword] = useState([]);
   const [confirmPass, setConfirmPass] = useState([]);
-  const [error, setError] = useState(null);
 
   const updatePassword = async () => {
     try {
