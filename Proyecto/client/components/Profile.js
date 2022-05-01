@@ -144,7 +144,10 @@ export default function Perfil() {
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Password
                           </label>
-                          <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">
+                          <button
+                            onClick={() => openModal2()}
+                            className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md "
+                          >
                             Change Password
                           </button>
                         </div>
@@ -199,7 +202,11 @@ export default function Perfil() {
             </div>
           </div>
 
-          <Modal isOpen={isOpenModal} closeModal={closeModal}>
+          <Modal
+            isOpen={isOpenModal}
+            closeModal={closeModal}
+            title="Cambiar imagen"
+          >
             <div className=" w-full h-full flex items-center justify-center space-x-4">
               <img
                 className=" w-72 h-72 rounded-full object-cover border-8 border-black"
@@ -264,7 +271,16 @@ export default function Perfil() {
               </button>
             </div>
           </Modal>
-          <Modal>sgdgsgds</Modal>
+          {/* isOpenModal2, openModal2, closeModal2 */}
+          <Modal
+            isOpen={isOpenModal2}
+            closeModal={closeModal2}
+            title="Cambiar contraseña"
+          >
+            <div className="w-full h-full flex items-center justify-center">
+              hola
+            </div>
+          </Modal>
         </div>
       )}
     </>

@@ -2,7 +2,6 @@ import api from "./api";
 import Cookies from "js-cookie";
 import { filter } from "../../src/util/query";
 
-
 export async function currentEmpleado() {
   const token = Cookies.get("token");
   if (token) {
@@ -26,10 +25,10 @@ export async function currentEmpleado() {
 export async function getEmpleado(id) {
   try {
     const { data } = await api.get(`/empleado/${id}`);
-    console.log("Services: "+data);
+    console.log("Services: " + data);
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw { error };
   }
 }
@@ -53,7 +52,6 @@ export async function getFilterEmpleados(page, filterName, id_periodo) {
     const { data } = await api.get(
       `/empleado/search/${page}/${filterName}/${id_periodo}`
     );
-    ;console.log(data);
     return data;
   } catch (error) {
     console.log(error);
