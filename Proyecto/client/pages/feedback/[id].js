@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import swal from "sweetalert";
-import api from "../../services/api";
+import { getFeedback } from "../../services/feedback";
 import { useUser } from "../../context/userContext";
 import PlantillaFeed from "../../components/PlantillaFeed";
 import Layout from "../../components/Layout";
@@ -15,20 +15,11 @@ export default function Post() {
   const [feedback, setFeedback] = useState(null);
   const { user } = useUser();
 
-  const getFeedback = async (id_periodo) => {
-    const id_user = user.id_empleado;
+  const getData = async (id_periodo) => {
     try {
-      const res = await api.get(`/feedback/${id_user}/${id_periodo}`);
-      console.log(res);
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else setFeedback(res.data.data_feedback);
+      const data = await getFeedback(user.id_empleado, id_periodo);
+      setFeedback(data.data_feedback);
     } catch (err) {
-      console.log(err);
       swal("Estas intentando acceder a un feedback que no existe", {
         icon: "warning",
       });
@@ -39,7 +30,7 @@ export default function Post() {
   useEffect(() => {
     if (router.isReady) {
       const { id } = router.query;
-      getFeedback(id);
+      getData(id);
     }
   }, [router.isReady]);
 

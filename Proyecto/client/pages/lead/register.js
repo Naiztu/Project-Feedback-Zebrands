@@ -7,7 +7,7 @@ export default function Register() {
     return (
     <>
       <Layout>
-        <Registro/>
+        <Registro isSaved={false}/>
       </Layout>
     </>
   );

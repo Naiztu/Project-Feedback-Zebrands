@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUser } from "../context/userContext";
 import { useModal } from "../hooks/useModal";
-import api from "../services/api";
 import { getPerfil, updatePass } from "../services/perfil";
 import Modal from "./Modal";
 import swal from "sweetalert";
@@ -24,6 +23,7 @@ export default function Perfil() {
     nivel_craft,
     nivel_people,
     nivel_general,
+    id_rol,
   } = user || {};
 
   const getPerfilData = async () => {
@@ -50,7 +50,6 @@ export default function Perfil() {
         icon: "success",
       });
     } catch (err) {
-      console.log(err);
       swal("Hubo error, la contraseña no fue actualizada!", {
         icon: "warning",
       });
@@ -58,7 +57,7 @@ export default function Perfil() {
   };
 
   const validate = () => {
-    if (newPassword == confirmPass) {
+    if (newPassword === confirmPass) {
       updatePassword();
     } else {
       swal("No coinciden!", {
@@ -82,6 +81,25 @@ export default function Perfil() {
       getPerfilData();
     }
   }, [isAuthenticated]);
+
+  const uploadImg = async () => {
+    const formData = new FormData();
+    formData.append("image", img);
+    try {
+      const imagen_perfil = await postImage(formData);
+      setUser({ ...user, imagen_perfil });
+      closeModal();
+      swal("Foto Actualizada", {
+        icon: "success",
+      });
+    } catch (error) {
+      await swal({
+        title: "¡Hubo un Error!",
+        text: "No se pudo modificar tu foto de perfil",
+        icon: "warning",
+      });
+    }
+  };
 
   return (
     <>
@@ -246,7 +264,7 @@ export default function Perfil() {
           <Modal
             isOpen={isOpenModal}
             closeModal={closeModal}
-            title="Cambiar imagen"
+            title="Cambiar Imagen"
           >
             <div className=" w-full h-full flex items-center justify-center space-x-4">
               <img
@@ -266,7 +284,7 @@ export default function Perfil() {
                     <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                   </svg>
                   <span className="mt-2 text-base leading-normal text-black group-hover:text-secondary-50 ">
-                    Select a file
+                    Seleccionar Imagen
                   </span>
                   <input
                     accept="image/png, image/gif, image/jpeg, image/jpg"
@@ -284,31 +302,7 @@ export default function Perfil() {
                     }}
                   />
                 </label>
-                <button
-                  className="btn"
-                  onClick={async () => {
-                    const formData = new FormData();
-                    formData.append("image", img);
-                    try {
-                      const res = await api.post("/images", formData, {
-                        headers: {
-                          "Content-Type": "multipart/form-data",
-                        },
-                      });
-                      setUser({ ...user, imagen_perfil: res.data });
-                      closeModal();
-                      swal("Foto Actualizada", {
-                        icon: "success",
-                      });
-                    } catch (error) {
-                      await swal({
-                        title: "¡Hubo un Error!",
-                        text: "No se pudo modificar tu foto de perfil",
-                        icon: "warning",
-                      });
-                    }
-                  }}
-                >
+                <button className="btn" onClick={uploadImg}>
                   Enviar
                 </button>
               </div>

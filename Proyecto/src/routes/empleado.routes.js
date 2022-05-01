@@ -9,7 +9,8 @@ import {
   getCurrentEmpleado,
   getNotAssigned,
   getNotRequested,
-  updateActivo
+  updateActivo,
+  updateEmpleado
 } from "../controllers/empleado.controller";
 
 const router = Router();
@@ -24,6 +25,7 @@ router.get("/search/:page/:filterName", getSearchEmpleado);
 router.get("/me", getCurrentEmpleado);
 router.get("/:id_empleado", getEmpleado);
 router.put("/desactivar", updateActivo);
+router.put("/update", updateEmpleado);
 
 
 export default router;
