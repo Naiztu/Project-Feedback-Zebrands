@@ -324,4 +324,28 @@ export class Empleado {
       throw { err };
     }
   }
+
+  async updateDataEmpleado(){
+    try {
+      const [rows, fields] = await pool.execute(
+        `UPDATE empleado 
+        SET nombre = '${this.nombre}', 
+        apellido_paterno = '${this.apellido_paterno}', 
+        apellido_materno = '${this.apellido_materno}',
+        nivel_general = ${this.nivel_general}, 
+        nivel_craft = ${this.nivel_craft}, 
+        nivel_business = ${this.nivel_business}, 
+        nivel_people = ${this.nivel_people},
+        correo_electronico = '${this.correo_electronico}',
+        equipo = '${this.equipo}',
+        id_chapter = ${this.id_chapter} 
+        WHERE id_empleado = ${this.id_empleado}`
+        );
+      console.log(rows)
+      return rows;
+    } catch (err) {
+      console.log(err)
+      throw { err };
+    }
+  }
 }
