@@ -5,9 +5,7 @@ import swal from "sweetalert";
 import { useRouter } from "next/router";
 import { getEmpleadosNotAssigned} from "../services/empleado";
 import { useUser } from "../context/userContext";
-import { postAsignados } from "../services/evaluacion";
 import { getAsignados } from "../services/asignados";
-import { filter } from "../../src/util/query";
 
 export default function Adminasig({data_assis}) {
   const router = useRouter();
@@ -36,7 +34,6 @@ export default function Adminasig({data_assis}) {
     //const { user } = useUser();
     //console.log("El periodo actual"=user.id_periodo)
     try {
-      const id_periodo = 1;
       const data_empleados = await getAsignados(data_assis.id_empleado);
       setAsignados(data_empleados.data_members);
     } catch (err) {
@@ -58,7 +55,6 @@ export default function Adminasig({data_assis}) {
 
   const botonSearch = async () => {
     try {
-      const id_periodo = 1;
       const { data_empleados } = await getEmpleadosNotAssigned(
         page,
         filterName
