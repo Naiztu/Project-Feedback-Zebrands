@@ -176,7 +176,9 @@ export class Empleado {
            e.imagen_perfil,
            e.nivel_general,
            e.activo,
+           e.equipo,
            r.id_rol,
+           r.nombre_rol,
            max(er.fecha_rol) 
            FROM empleado e, empleado_rol er, rol r
             WHERE
@@ -184,7 +186,7 @@ export class Empleado {
         AND ${filter("nombre", filterName)}
              GROUP BY id_empleado
              ${orderBy("nombre", "ASC")}
-             ${pag(page, 15)}
+             ${pag(page, 10)}
 
         `
       );
