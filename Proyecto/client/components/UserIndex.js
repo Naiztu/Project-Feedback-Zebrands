@@ -6,10 +6,21 @@ import { useUser } from "../context/userContext";
 
 export default function UserIndex() {
   const [graph, setGraph] = useState([]);
-  const { user, isAuthenticated } = useUser();
+  const { user, isAuthenticated, setUser } = useUser(); 
 
-  useEffect(() => {
-    const getData = async () => {
+  const {
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    correo_electronico,
+    equipo,
+    nivel_business,
+    nivel_craft,
+    nivel_people,
+    nivel_general,
+  } = user || {};
+
+  const getData = async () => {
       try {
         const data = await getDataToGraph(user.id_empleado);
         console.log(data);
@@ -20,7 +31,11 @@ export default function UserIndex() {
         console.log(error);
       }
     };
+
+  useEffect(() => {
+    if (isAuthenticated) {
     getData();
+    }
   }, [isAuthenticated]);
 
   const data = {
@@ -36,7 +51,7 @@ export default function UserIndex() {
         pointBackgroundColor: "#43505c",
         backgroudColor: "#43505c",
         //fillColor: "#43505c",
-        borderWidth: 1,
+        borderWidth: 2,
       },
 
       {
@@ -48,7 +63,7 @@ export default function UserIndex() {
         pointBackgroundColor: "#866398",
         backgroudColor: "#866398",
         //fillColor: "#866398",
-        borderWidth: 1,
+        borderWidth: 2,
       },
 
       {
@@ -60,7 +75,7 @@ export default function UserIndex() {
         borderColor: "#f1657d",
         backgroudColor: "#f1657d",
         //fillColor: "#f1657d",
-        borderWidth: 1,
+        borderWidth: 2,
       },
 
       {
@@ -72,7 +87,7 @@ export default function UserIndex() {
         pointBackgroundColor: "#ffa600",
         backgroudColor: "#ffa600",
         //fillColor: "#ffa600",
-        borderWidth: 1,
+        borderWidth: 2,
       },
 
     ],
@@ -116,6 +131,8 @@ export default function UserIndex() {
 
   return (
     <>
+    {user && (
+      <div flex items-center justify-between>
       <h1 className="title my-10 mx-auto">¡Hola de nuevo!</h1>
       <p className="text text-center w-3/4 mx-auto">
         Aquí está un resumen de tu desempeño en las últimas cuatro evaluaciones.
@@ -126,20 +143,20 @@ export default function UserIndex() {
       <div className="text-base lg:text-xl">
         <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto mt-4 mb-2 py-2 px-6 flex-row flex justify-between">
           <h1 className="font-semibold">Craft</h1> 
-          {/* <p className="italic">{user.nivel_craft}</p> */}
+          <p className="italic">{user.nivel_craft}</p>
         </div>
         <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
           <h1 className="font-semibold">Business</h1>{" "}
-          {/* <p className="italic">{user.nivel_business}</p> */}
+          <p className="italic">{user.nivel_business}</p>
         </div>
         <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
           <h1 className="font-semibold">People</h1>{" "}
-          {/* <p className="italic">{user.nivel_people}</p> */}
+          <p className="italic">{user.nivel_people}</p>
         </div>
       </div>
-      <button className="btn self-center mt-3 w-7/12 lg:w-5/12">
-        Ver último feeback
-      </button>
+ 
+      </div>
+      )}
     </>
   );
 }
