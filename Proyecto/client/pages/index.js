@@ -25,14 +25,14 @@ export default function Home() {
   useEffect(() => {
     const objMail = {
       descripcion_respuesta: "",
-      message: "Escribe un correo valido",
+      message: "Escribe un Correo Válido",
     };
 
     setItem(objMail, /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/);
 
     const objPass = {
       descripcion_respuesta: "",
-      message: "Contraseña invalida",
+      message: "Contraseña Inválida",
     };
 
     setItem(objPass, /^.{1,255}$/);
@@ -90,12 +90,12 @@ export default function Home() {
                 ))}
 
             <div className=" grid grid-cols-1 w-full h-full items-center justify-center ">
-              {/* <ReCAPTCHA
+              { <ReCAPTCHA
                 className="mt-5"
                 ref={captcha}
                 sitekey={process.env.KEY}
                 onChange={onChange}
-              /> */}
+              /> }
 
               <button
                 className="btn mt-5 h-16"

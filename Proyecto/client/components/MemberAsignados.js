@@ -3,10 +3,18 @@ import { useEffect, useState } from "react";
 import CardMembers from "./CardMembers";
 import { useUser } from "../context/userContext";
 import { getAsignados } from "../services/asignados";
+import { FaTrashAlt } from "react-icons/fa";
+import { useRouter } from "next/router";
+
+
+
+
 
 export default function MemberAsignados() {
+  const router = useRouter();
   const [info, setInfo] = useState([]);
   const { isAuthenticated, user } = useUser();
+
 
   const getData = async () => {
     try {
@@ -17,6 +25,12 @@ export default function MemberAsignados() {
       console.log(error);
     }
   };
+  
+  const handleAdd = () => {
+    router.push(`/lead/adminasig/${user.id_empleado}`);
+  };
+
+
   useEffect(() => {
     if (isAuthenticated) {
       getData();
@@ -30,6 +44,14 @@ export default function MemberAsignados() {
           <CardMembers key={index} info={item} />
         ))}
       </div>
+      <div className="w-11/12 items-center justify-center mx-auto flex flex-wrap">
+      {user && user.id_rol === 1 && (
+        <button onClick={handleAdd} className="btn">
+        Auto-asignar CM
+      </button>
+              )}
+      </div>
+     
     </>
   );
 }

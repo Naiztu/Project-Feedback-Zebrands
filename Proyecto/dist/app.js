@@ -35,6 +35,8 @@ var _periodo = _interopRequireDefault(require("./routes/periodo.routes"));
 
 var _auth = _interopRequireDefault(require("./routes/auth.routes"));
 
+var _images = _interopRequireDefault(require("./routes/images.routes"));
+
 var _userExtractor = _interopRequireDefault(require("./middlewares/userExtractor"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -62,5 +64,6 @@ app.use("/api/respuestas", _userExtractor["default"], _respuestas["default"]);
 app.use("/api/rol", _userExtractor["default"], _rol["default"]);
 app.use("/api/perfil", _userExtractor["default"], _perfil["default"]);
 app.use("/api/periodo", _userExtractor["default"], _periodo["default"]);
+app.use("/api/images", _userExtractor["default"], _images["default"]);
 var _default = app;
 exports["default"] = _default;

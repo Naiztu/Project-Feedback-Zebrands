@@ -9,3 +9,12 @@ export async function getPerfil(id) {
     throw { error };
   }
 }
+
+export async function updatePass(body) {
+  try {
+    const res = await api.put("/empleado/updatePass", body);
+    return res;
+  } catch (error) {
+    throw { error };
+  }
+}

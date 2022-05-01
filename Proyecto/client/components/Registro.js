@@ -14,18 +14,33 @@ export default function Registro({ regMember, isSaved }) {
     nivel_people,
     correo_electronico,
     equipo,
+    id_chapter,
+    id_rol,
   } = regMember;
-  
+
   const [preMember, setPreMember] = useState(regMember);
   //const { user, isAuthenticated } = useUser();
 
   const handleChange = (e) => {
     const newMember = { ...preMember };
     newMember[e.target.name] = e.target.value;
-    setPreMember(newMember);
+    newMember["nivel_general"] =
+      (Math.min(parseFloat(newMember.nivel_craft), parseFloat(newMember.nivel_business) + 1, parseFloat(newMember.nivel_people) + 1));
+    
+      setPreMember(newMember);
   };
 
+  const handleChangef = (e) => {
+    const newFeed = { ...preFeedback };
+    newFeed[e.target.name] = e.target.value;
+    newFeed["calificacion_promedio"] = (newFeed.calificacion_business + newFeed.calificacion_personal + newFeed.calificacion_craf)/3;
+  
+    setPreFeedback(newFeed);
+  };
+
+
   const options = [
+    { label: "Elije...", value: 0 },
     { label: "1.1", value: 1.1 },
     { label: "1.2", value: 1.2 },
     { label: "1.3", value: 1.3 },
@@ -43,13 +58,21 @@ export default function Registro({ regMember, isSaved }) {
     { label: "5.3", value: 5.3 },
   ];
 
-  const id_chapter = 1;
+  const optionsChapter = [
+    { label: "Elije...", value: 0}, 
+    { label: "Software", value: 1 }
+  ];
+
+  const optionsRol = [
+    { label: "Elije...", value: 0 },
+    { label: "CM", value: 3 },
+    { label: "CLA", value: 2 },
+  ];
 
   const registerMember = async (e) => {
     try {
       const res = await api.post(`http://localhost:8080/api/empleado/`, {
         ...preMember,
-        id_chapter,
       });
 
       if (res.status != 200) {
@@ -148,30 +171,15 @@ export default function Registro({ regMember, isSaved }) {
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Nivel Chapter
+                        Nivel Overall
                       </label>
                       <div className="flex-shrink w-full inline-block relative">
-                        <select
+                        <div
                           className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
                           value={preMember.nivel_general}
                           name="nivel_general"
-                          onChange={handleChange}
-                        >
-                          {options.map((option, index) => (
-                            <option key={index} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
-                          <svg
-                            className="fill-current h-4 w-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
-                        </div>
+                          type="number"
+                        >{ preMember.nivel_general }</div>
                       </div>
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
@@ -179,11 +187,12 @@ export default function Registro({ regMember, isSaved }) {
                         Nivel Craft
                       </label>
                       <div className="flex-shrink w-full inline-block relative">
-                      <select
+                        <select
                           className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          value={preMember.nivel_craft}
-                          name="nivel_craft"
                           onChange={handleChange}
+                          value={preMember.nivel_craft}
+                          type="number"
+                          name="nivel_craft"
                         >
                           {options.map((option, index) => (
                             <option key={index} value={option.value}>
@@ -207,11 +216,12 @@ export default function Registro({ regMember, isSaved }) {
                         Nivel Business
                       </label>
                       <div className="flex-shrink w-full inline-block relative">
-                      <select
+                        <select
                           className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          value={preMember.nivel_business}
-                          name="nivel_business"
                           onChange={handleChange}
+                          value={preMember.nivel_business}
+                          type="number"
+                          name="nivel_business"
                         >
                           {options.map((option, index) => (
                             <option key={index} value={option.value}>
@@ -235,11 +245,12 @@ export default function Registro({ regMember, isSaved }) {
                         Nivel People
                       </label>
                       <div className="flex-shrink w-full inline-block relative">
-                      <select
+                        <select
                           className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          value={preMember.nivel_people}
-                          name="nivel_people"
                           onChange={handleChange}
+                          value={preMember.nivel_people}
+                          type="number"
+                          name="nivel_people"
                         >
                           {options.map((option, index) => (
                             <option key={index} value={option.value}>
@@ -259,26 +270,81 @@ export default function Registro({ regMember, isSaved }) {
                       </div>
                     </div>
                   </div>
-
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="w-full md:w-full px-3 mb-6">
+                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        Chapter
+                      </label>
+                      <div className="flex-shrink w-full inline-block relative">
+                        <select
+                          className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
+                          value={preMember.id_chapter}
+                          name="id_chapter"
+                          onChange={handleChange}
+                        >
+                          {optionsChapter.map((option, index) => (
+                            <option key={index} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
+                          <svg
+                            className="fill-current h-4 w-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-full md:w-full px-3 mb-6">
+                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        Rol
+                      </label>
+                      <div className="flex-shrink w-full inline-block relative">
+                        <select
+                          className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
+                          value={preMember.id_rol}
+                          name="id_rol"
+                          onChange={handleChange}
+                        >
+                          {optionsRol.map((option, index) => (
+                            <option key={index} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
+                          <svg
+                            className="fill-current h-4 w-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="w-full md:w-full px-3 mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Equipo del Member
+                      Equipo
                     </label>
-                    <div className="flex-shrink w-full inline-block relative">
-                      <input
-                        className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                        onChange={handleChange}
-                        value={preMember.equipo}
-                        type="text"
-                        placeholder="Ingresa el Equipo"
-                        name="equipo"
-                      ></input>
-                    </div>
+                    <input
+                      className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                      onChange={handleChange}
+                      value={preMember.equipo}
+                      type="text"
+                      placeholder="Ingresa el Equipo"
+                      name="equipo"
+                    ></input>
                   </div>
                 </div>
 
                 {isSaved && (
-                  <div className="flex justify-endd">
+                  <div className="flex justify-end">
                     <button
                       className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3"
                       onClick={registerMember}
@@ -307,6 +373,8 @@ Registro.defaultProps = {
     nivel_people: 0,
     correo_electronico: "",
     equipo: "",
+    id_chapter: 0,
+    id_rol: 0,
   },
   isSaved: true,
 };

@@ -12,7 +12,8 @@ export class Feedback {
     _comentario_general,
     _id_member,
     _id_assistant,
-    _id_periodo
+    _id_periodo,
+    dimension,
   ) {
     this.calificacion_craft = _calificacion_craft;
     this.calificacion_personal = _calificacion_personal;
@@ -41,20 +42,43 @@ export class Feedback {
   }
 
   static async getDataFeedbackGraph(id_member) {
+
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT calificacion_promedio, id_periodo, id_feedback, id_empleado_member
+        `SELECT calificacion_promedio,calificacion_business, calificacion_personal, calificacion_craft,  id_periodo, id_feedback, id_empleado_member
         FROM feedback
         WHERE id_empleado_member = ${id_member}
         ORDER by id_periodo
-        DESC LIMIT 5
+        DESC LIMIT 5        
         `
+
+
       );
       return rows;
     } catch (err) {
       throw { err };
     }
   }
+
+  static async getDataAllGraph() {
+
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT AVG(calificacion_craft), AVG(calificacion_personal), AVG(calificacion_business), AVG(calificacion_promedio), id_periodo
+        FROM feedback
+        GROUP BY id_periodo
+        order by id_periodo
+      
+        desc limit 5
+                `
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
+
 
 
   static async getDataHistoryFeedback(id_member) {

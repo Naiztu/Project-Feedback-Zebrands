@@ -44,13 +44,13 @@ export async function getAllEmpleados(page, id_periodo) {
   }
 }
 
-export async function getFilterEmpleados(page, filterName, id_periodo) {
+export async function getEmpleadosNotRequested(page, filterName, id_periodo) {
   if (filterName === "") {
     filterName = 0;
   }
   try {
     const { data } = await api.get(
-      `/empleado/search/${page}/${filterName}/${id_periodo}`
+      `/empleado/notrequested/${page}/${filterName}/${id_periodo}`
     );
     return data;
   } catch (error) {
@@ -58,3 +58,34 @@ export async function getFilterEmpleados(page, filterName, id_periodo) {
     throw { error };
   }
 }
+
+export async function getFilterEmpleados(page, filterName) {
+  if (filterName === "") {
+    filterName = 0;
+  }
+  try {
+    const { data } = await api.get(
+      `/empleado/search/${page}/${filterName}`
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw { error };
+  }
+}
+export async function getEmpleadosNotAssigned(page,filterName) {
+  console.log("iawdojijeaodj")
+  if (filterName === "") {
+    filterName = 0;
+  }
+  try {
+    const { data } = await api.get(
+      `/empleado/get/notassigned/${page}/${filterName}`
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw { error };
+  }
+}
+

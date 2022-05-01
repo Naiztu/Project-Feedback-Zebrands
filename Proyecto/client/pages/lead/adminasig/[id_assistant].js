@@ -15,7 +15,7 @@ export default function Post() {
     } catch (err) {
       console.log({ err });
     }
-    console.log("data: "+dataAssistant.nombre)
+    //console.log(dataAssistant.nombre)
 
   };
 
@@ -28,9 +28,9 @@ export default function Post() {
 
   return (
     <Layout>
-      <Adminasig
-        nombre={dataAssistant.nombre}
-      />
+      {dataAssistant && <Adminasig
+        data_assis={dataAssistant}
+      />}
     </Layout>
   );
 }

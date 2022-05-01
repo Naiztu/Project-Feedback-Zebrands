@@ -1,5 +1,5 @@
 import pool from "../database/db";
-import { queryUpdatePass, pag, orderBy, filter } from "../util/query";
+import { UpdatePass, pag, orderBy, filter } from "../util/query";
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -47,9 +47,16 @@ export class Empleado {
     const newPass = await bcrypt.hash(pass, salt);
     return newPass;
   }
-  static async updatePass(passwords) {
-    const [rows, fields] = await pool.execute(queryUpdatePass(passwords));
+  static async updatePass(password, id_empleado) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `UPDATE empleado SET ` + "`" + `password` + "`" + ` = '${password}' WHERE id_empleado = ${id_empleado};`
+    );
+    return rows;
+  } catch (err) {
+    throw { err };
   }
+}
 
   static async findId(id) {
     try {
@@ -62,6 +69,20 @@ export class Empleado {
               r.id_empleado = e.id_empleado AND
               p.id_chapter = e.id_chapter AND
               p.estatus_periodo = "Vigente"`
+      );
+      return rows[0] || null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+
+  static async findPass(id) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT e.password
+        FROM empleado e
+        WHERE e.id_empleado = ${id} `
       );
       return rows[0] || null;
     } catch (err) {
@@ -93,7 +114,7 @@ export class Empleado {
 
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people  
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people, activo
            FROM empleado WHERE id_empleado = ${this.id_empleado}
            `
       );
@@ -108,7 +129,7 @@ export class Empleado {
   static async getAllDataEmpleado() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
+        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, activo
         FROM empleado 
         ${orderBy("nombre", "ASC")}
         ${pag(1, 15)}`
@@ -119,7 +140,7 @@ export class Empleado {
     }
   }
 
-  static async getSearchDataEmpleado2(
+  static async getNotRequested(
     page,
     filterName,
     id_periodo,
@@ -148,11 +169,26 @@ export class Empleado {
   static async getSearchDataEmpleado(page, filterName) {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
-        FROM empleado
-        WHERE ${filter("nombre", filterName)}
-        ${orderBy("nombre", "ASC")}
-        ${pag(page, 15)}`
+        `SELECT e.id_empleado, 
+        e.nombre,
+        e.apellido_paterno, 
+           e.apellido_materno, 
+           e.imagen_perfil,
+           e.nivel_general,
+           e.activo,
+           e.equipo,
+           r.id_rol,
+           r.nombre_rol,
+           max(er.fecha_rol) 
+           FROM empleado e, empleado_rol er, rol r
+            WHERE
+             er.id_empleado = e.id_empleado AND r.id_rol=er.id_rol
+        AND ${filter("nombre", filterName)}
+             GROUP BY id_empleado
+             ${orderBy("nombre", "ASC")}
+             ${pag(page, 10)}
+
+        `
       );
       return rows;
     } catch (err) {
@@ -203,7 +239,7 @@ export class Empleado {
       INSERT INTO empleado_rol (id_empleado, id_rol) 
       VALUES (
         (SELECT id_empleado from empleado WHERE correo_electronico='${this.correo_electronico}'),
-        3
+        ${this.id_rol}
         );`);
 
       await conn.commit();
@@ -215,20 +251,6 @@ export class Empleado {
         await conn.release();
       }
       throw error;
-    }
-  }
-
-  async updateChapterMember() {
-    try {
-      const [rows, fields] = await pool.execute(
-        `
-        UPDATE empleado SET empleado.password = '${this.password}', empleado.imagen_perfil = '${this.imagen_perfil}' 
-        WHERE empleado.id_empleado = ${this.id_empleado};
-      `
-      );
-      return rows;
-    } catch (err) {
-      throw { err };
     }
   }
 
@@ -257,6 +279,48 @@ export class Empleado {
       );
       return rows;
     } catch (err) {
+      throw { err };
+    }
+  }
+
+  static async getNotAssigned(page,filterName) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT empleado.id_empleado, empleado.nombre, empleado.apellido_paterno, empleado.apellido_materno, empleado.imagen_perfil, lastrol.id_rol
+        FROM empleado
+         INNER JOIN 
+                (SELECT id_empleado, id_rol ,max(fecha_rol)
+                FROM empleado_rol
+                GROUP BY id_empleado) AS lastrol ON 
+                  lastrol.id_empleado = empleado.id_empleado
+        WHERE empleado.id_empleado NOT IN (
+            SELECT DISTINCT id_empleado_member
+             FROM asignacion
+             WHERE vigente=1
+             )
+             AND id_rol=3
+             AND ${filter("nombre", filterName)}
+             ${orderBy("nombre", "ASC")}
+             ${pag(page, 15)}`
+      );
+      return rows;
+    } catch (err) {
+      console.log(err)
+      throw { err };
+    }
+  }
+
+  static async updateNotActivo(id_empleado){
+    try {
+      const [rows, fields] = await pool.execute(
+        `UPDATE empleado 
+        SET activo = 0
+        WHERE id_empleado = ${id_empleado}`
+        );
+      console.log(rows)
+      return rows;
+    } catch (err) {
+      console.log(err)
       throw { err };
     }
   }

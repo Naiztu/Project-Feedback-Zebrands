@@ -72,7 +72,7 @@ export default function OptionLead() {
                 size={28}
                 className="group-hover:fill-secondary-50 "
               />
-              <span className="span-navbar">Assistant&apos;s</span>
+              <span className="span-navbar">Assistants y Mentorados</span>
             </div>
           </button>
         </li>

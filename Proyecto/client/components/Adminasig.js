@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import CompaneroAsignar from "./CompaneroAsignar";
+import RowAsignarMember from "./RowAsignarMember";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
-import { getAllEmpleados, getFilterEmpleados } from "../services/empleado";
+import { getEmpleadosNotAssigned } from "../services/empleado";
 import { useUser } from "../context/userContext";
-import { postAsignados } from "../services/evaluacion";
+import { getAsignados } from "../services/asignados";
 
-export default function Adminasig({nombre}) {
+export default function Adminasig({ data_assis }) {
   const router = useRouter();
   const { isAuthenticated, user } = useUser();
   const [asignados, setAsignados] = useState([]);
@@ -15,15 +15,14 @@ export default function Adminasig({nombre}) {
   const [filterName, setFilterName] = useState("");
   const [page, setPage] = useState(1);
 
-  const getCompaneros = async () => {
+  const getMembersSinAssistant = async () => {
+    //const { user } = useUser();
+    //console.log("El periodo actual"=user.id_periodo)
     try {
       const id_periodo = 1;
-      const { data_empleados } = await getFilterEmpleados(
-        page,
-        filterName,
-        id_periodo
+      const data = await getEmpleadosNotAssigned(page, filterName
       );
-      setCompaneros(data_empleados);
+      setCompaneros(data.data_empleados);
     } catch (err) {
       swal("Hubo un error", {
         icon: "warning",
@@ -31,39 +30,34 @@ export default function Adminasig({nombre}) {
     }
   };
 
-  const sendAsignados = async () => {
+  const getMembersAsignados = async () => {
+    //const { user } = useUser();
+    //console.log("El periodo actual"=user.id_periodo)
     try {
-      await postAsignados({
-        lista_id_empleado_evaluador: asignados.map((item) => item.id_empleado),
-        id_empleado_evaluado: user.id_empleado,
-        id_periodo: 1,
-      });
-      await swal("Asignado correctamente!", {
-        icon: "success",
-      });
-      router.push("/user");
+      const data_empleados = await getAsignados(data_assis.id_empleado);
+      setAsignados(data_empleados.data_members);
     } catch (err) {
-      console.log(err);
       swal("Hubo un error", {
         icon: "warning",
       });
     }
+
   };
+
 
   useEffect(() => {
-    console.log(nombre)
+
     if (isAuthenticated) {
-      getCompaneros();
+      getMembersSinAssistant();
+      getMembersAsignados();
     }
   }, [isAuthenticated]);
 
   const botonSearch = async () => {
     try {
-      const id_periodo = 1;
-      const { data_empleados } = await getFilterEmpleados(
+      const { data_empleados } = await getEmpleadosNotAssigned(
         page,
-        filterName,
-        id_periodo
+        filterName
       );
       setCompaneros(data_empleados);
     } catch (error) {
@@ -85,7 +79,7 @@ export default function Adminasig({nombre}) {
     }
 
     try {
-      const { data_empleados } = await getFilterEmpleados(newPage, filterName);
+      const { data_empleados } = await getEmpleadosNotAssigned(newPage, filterName);
       setCompaneros(data_empleados);
     } catch (error) {
       console.log(error);
@@ -98,10 +92,17 @@ export default function Adminasig({nombre}) {
 
   return (
     <>
-     <h1 className="title my-10 mx-auto">Administra los asignados de {nombre}</h1>
+
+      {user.id_rol === 2 && (
+        <h1 className="title my-10 mx-auto">Administra los asignados de {data_assis.nombre}</h1>
+      )}
+      {user.id_rol === 1 && (
+        <h1 className="title my-10 mx-auto">Auto-asignar CM</h1>
+      )}
+
       <div className="flex flex-col lg:flex-row">
         <div className="basis-1/2">
-          <h1 className="title my-10">Asignar compañeros</h1>
+          <h1 className="title my-10">Members sin Assistant</h1>
           <div className=" flex mt-3 mx-auto w-full items-center justify-center text-sm">
             <input
               type="text"
@@ -124,7 +125,7 @@ export default function Adminasig({nombre}) {
                       <tr>
                         <th className="p-2 whitespace-nowrap">
                           <div className="font-semibold text-left">
-                            Compañero
+                            Members sin Assistant
                           </div>
                         </th>
                       </tr>
@@ -132,15 +133,15 @@ export default function Adminasig({nombre}) {
                     <tbody className="text-sm divide-y divide-gray-100">
                       {companeros &&
                         companeros
-                          .filter((el) => !asignados.includes(el))
                           .map((item, index) => (
-                            <CompaneroAsignar
+                            <RowAsignarMember
                               select={true}
                               info={item}
                               key={index}
+                              id_assistant={data_assis.id_empleado}
                               objFunction={{
-                                asignados,
-                                setAsignados,
+                                getMembersAsignados,
+                                getMembersSinAssistant
                               }}
                             />
                           ))}
@@ -153,18 +154,25 @@ export default function Adminasig({nombre}) {
           <div className="flex mx-auto space-x-2 w-3/4 lg:w-10/12  justify-between my-6">
             <button onClick={() => changePage(-1)} className="btn-border ">
               <FaArrowLeft />
-              <p className="hidden sm:inline ml-2">Previous page</p>
+              <p className="hidden sm:inline ml-2">Página anterior</p>
             </button>
             <button onClick={() => changePage(1)} className="btn">
-              <p className="hidden sm:inline mr-2">Next page</p>
+              <p className="hidden sm:inline mr-2">Siguiente Página</p>
               <FaArrowRight />
             </button>
           </div>
         </div>
+
+
         <div className="basis-1/2">
-          <h1 className="title my-10">Registrar Compañeros</h1>
+        {user.id_rol === 2 && (
+        <h1 className="title my-10 mx-auto">Members de {data_assis.nombre}</h1>
+      )}
+      {user.id_rol === 1 && (
+        <h1 className="title my-10 mx-auto">Mis CM</h1>
+      )}
           {asignados.length === 0 ? (
-            "No hay asignados..."
+            "Este assistant no tiene members"
           ) : (
             <div className="flex flex-col justify-center  mt-5 mx-auto w-11/12 sm:w-10/12 ">
               <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
@@ -181,23 +189,22 @@ export default function Adminasig({nombre}) {
                         </tr>
                       </thead>
                       <tbody className="text-sm divide-y divide-gray-100">
-                        {asignados.map((item, index) => (
-                          <CompaneroAsignar
+                        {asignados && asignados
+                        .filter((el) => el.id_rol!==2)
+                        .map((item, index) => (
+                          <RowAsignarMember
                             select={false}
                             info={item}
                             key={index}
                             objFunction={{
-                              asignados,
-                              setAsignados,
+                              getMembersAsignados,
+                              getMembersSinAssistant
                             }}
                           />
                         ))}
                       </tbody>
                     </table>
                   </div>
-                  <button onClick={sendAsignados} className="btn mx-auto mt-4">
-                    Enviar
-                  </button>
                 </div>
               </div>
             </div>

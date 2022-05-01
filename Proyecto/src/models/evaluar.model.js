@@ -59,6 +59,7 @@ export class getEvaluar {
       WHERE id_empleado_evaluado=${this.id_user} 
       AND id_periodo=${this.id_periodo};
   `);;
+
       const calificaciones_por_evaluador= evaluadores_data.map( (element)=> {
         if(element.estatus==="Contestado"){
           return {

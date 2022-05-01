@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .btn {
-  @apply bg-black hover:bg-black/80 text-white flex flex-row items-center justify-center md:py-3 py-1 px-3 md:px-8 rounded-md border-[1px] border-black ease-in-out active:bg-black/80 transition-all active:scale-90 disabled:bg-dis disabled:text-[#EEEEEE] disabled:cursor-not-allowed text-xs md:text-sm;
+  @apply bg-black hover:bg-black/80 text-white flex flex-row items-center justify-center md:py-3 pb-1 px-3 md:px-8 rounded-md border-[1px] border-black ease-in-out active:bg-black/80 transition-all active:scale-90 disabled:bg-dis disabled:text-[#EEEEEE] disabled:cursor-not-allowed text-xs md:text-sm;
 }
 .btn-option {
   @apply text-white flex flex-row items-center justify-center  py-1 px-3 rounded-md border-[1px] border-black ease-in-out font-bold active:bg-black/80 transition-all active:scale-90;

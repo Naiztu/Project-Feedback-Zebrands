@@ -98,21 +98,23 @@ var Empleado = /*#__PURE__*/function () {
                 _yield$pool$execute2 = (0, _slicedToArray2["default"])(_yield$pool$execute, 2);
                 rows = _yield$pool$execute2[0];
                 fields = _yield$pool$execute2[1];
+                console.log(rows);
                 return _context2.abrupt("return", rows[0]);
 
-              case 10:
-                _context2.prev = 10;
+              case 11:
+                _context2.prev = 11;
                 _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
                 throw {
                   err: _context2.t0
                 };
 
-              case 13:
+              case 15:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 10]]);
+        }, _callee2, this, [[0, 11]]);
       }));
 
       function getDataEmpleado() {
@@ -143,7 +145,7 @@ var Empleado = /*#__PURE__*/function () {
 
               case 7:
                 _context3.next = 9;
-                return conn.query("\n      INSERT INTO empleado (\n              nombre, \n              apellido_paterno, \n              apellido_materno, \n              nivel_general, \n              nivel_craft, \n              nivel_business, \n              nivel_people, \n              activo, \n              correo_electronico, \n              password, \n              equipo, \n              id_chapter, \n              imagen_perfil)\n      VALUES (\n          '".concat(this.nombre, "',\n          '").concat(this.apellido_paterno, "',\n          '").concat(this.apellido_materno, "',\n          ").concat(this.nivel_general, ",\n          ").concat(this.nivel_craft, ",\n          ").concat(this.nivel_business, ",\n          ").concat(this.nivel_people, ",\n          1,\n          '").concat(this.correo_electronico, "',\n          '").concat(this.password, "',\n          '").concat(this.equipo, "',\n          ").concat(this.id_chapter, ",\n          '").concat(this.imagen_perfil, "'\n      );\n        "));
+                return conn.query("\n      INSERT INTO empleado (\n              nombre, \n              apellido_paterno, \n              apellido_materno, \n              nivel_general, \n              nivel_craft, \n              nivel_business, \n              nivel_people, \n              activo, \n              correo_electronico, \n              password, \n              equipo, \n              id_chapter, \n              imagen_perfil)\n      VALUES (\n          '".concat(this.nombre, "',\n          '").concat(this.apellido_paterno, "',\n          '").concat(this.apellido_materno, "',\n          ").concat(this.nivel_general, ",\n          ").concat(this.nivel_craft, ",\n          ").concat(this.nivel_business, ",\n          ").concat(this.nivel_people, ",\n          1,\n          '").concat(this.correo_electronico, "',\n          'Interfectorem-Eros',\n          '").concat(this.equipo, "',\n          ").concat(this.id_chapter, ",\n          'http://localhost:8080/img/user_default.png'\n      );\n        "));
 
               case 9:
                 _yield$conn$query = _context3.sent;
@@ -363,7 +365,7 @@ var Empleado = /*#__PURE__*/function () {
               case 0:
                 _context8.prev = 0;
                 _context8.next = 3;
-                return _db["default"].execute("SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  \n        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, r.id_rol, p.id_periodo\n      FROM empleado e, empleado_rol r, periodo p\n      WHERE e.id_empleado = 1 AND\n            r.id_empleado = ".concat(id, "\n            AND p.estatus_periodo = 'Vigente'\n            ORDER BY r.fecha_rol DESC\n      LIMIT 1;"));
+                return _db["default"].execute("SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  \n        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, e.id_chapter, \n        p.id_periodo, p.estatus_periodo, r.id_rol, e.equipo\n        FROM empleado e, empleado_rol r, periodo p\n        WHERE e.id_empleado = ".concat(id, " AND\n              r.id_empleado = e.id_empleado AND\n              p.id_chapter = e.id_chapter AND\n              p.estatus_periodo = \"Vigente\""));
 
               case 3:
                 _yield$pool$execute9 = _context8.sent;
@@ -403,7 +405,7 @@ var Empleado = /*#__PURE__*/function () {
               case 0:
                 _context9.prev = 0;
                 _context9.next = 3;
-                return _db["default"].execute("SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  \n        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, \n        e.password, r.id_rol, p.id_periodo\n        FROM empleado e, empleado_rol r, periodo p\n        WHERE e.activo = true AND\n          e.correo_electronico = '".concat(correo, "' \n          AND p.estatus_periodo = 'Vigente'\n          AND r.id_empleado = e.id_empleado \n        ORDER BY r.fecha_rol DESC\n        LIMIT 1;"));
+                return _db["default"].execute("SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  \n        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, \n        e.password, r.id_rol, p.id_periodo, e.equipo\n        FROM empleado e, empleado_rol r, periodo p\n        WHERE e.activo = true AND\n          e.correo_electronico = '".concat(correo, "' \n          AND p.estatus_periodo = 'Vigente'\n          AND r.id_empleado = e.id_empleado \n        ORDER BY r.fecha_rol DESC\n        LIMIT 1;"));
 
               case 3:
                 _yield$pool$execute11 = _context9.sent;
@@ -492,22 +494,21 @@ var Empleado = /*#__PURE__*/function () {
                 _yield$pool$execute16 = (0, _slicedToArray2["default"])(_yield$pool$execute15, 2);
                 rows = _yield$pool$execute16[0];
                 fields = _yield$pool$execute16[1];
-                console.log(rows);
                 return _context11.abrupt("return", rows);
 
-              case 11:
-                _context11.prev = 11;
+              case 10:
+                _context11.prev = 10;
                 _context11.t0 = _context11["catch"](0);
                 throw {
                   err: _context11.t0
                 };
 
-              case 14:
+              case 13:
               case "end":
                 return _context11.stop();
             }
           }
-        }, _callee11, null, [[0, 11]]);
+        }, _callee11, null, [[0, 10]]);
       }));
 
       function getSearchDataEmpleado2(_x5, _x6, _x7, _x8) {
@@ -557,6 +558,48 @@ var Empleado = /*#__PURE__*/function () {
       }
 
       return getSearchDataEmpleado;
+    }()
+  }, {
+    key: "updateImageProfile",
+    value: function () {
+      var _updateImageProfile = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(id, urlImage) {
+        var _yield$pool$execute19, _yield$pool$execute20, rows, fields;
+
+        return _regenerator["default"].wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                _context13.prev = 0;
+                _context13.next = 3;
+                return _db["default"].execute("\n        UPDATE empleado SET empleado.imagen_perfil = '".concat(urlImage, "'\n        WHERE empleado.id_empleado = ").concat(id, ";\n      "));
+
+              case 3:
+                _yield$pool$execute19 = _context13.sent;
+                _yield$pool$execute20 = (0, _slicedToArray2["default"])(_yield$pool$execute19, 2);
+                rows = _yield$pool$execute20[0];
+                fields = _yield$pool$execute20[1];
+                return _context13.abrupt("return", rows);
+
+              case 10:
+                _context13.prev = 10;
+                _context13.t0 = _context13["catch"](0);
+                throw {
+                  err: _context13.t0
+                };
+
+              case 13:
+              case "end":
+                return _context13.stop();
+            }
+          }
+        }, _callee13, null, [[0, 10]]);
+      }));
+
+      function updateImageProfile(_x11, _x12) {
+        return _updateImageProfile.apply(this, arguments);
+      }
+
+      return updateImageProfile;
     }()
   }]);
   return Empleado;
