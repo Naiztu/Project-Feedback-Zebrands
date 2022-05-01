@@ -3,11 +3,11 @@ import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import RowAsignarMember from "./RowAsignarMember";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
-import { getEmpleadosNotAssigned} from "../services/empleado";
+import { getEmpleadosNotAssigned } from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { getAsignados } from "../services/asignados";
 
-export default function Adminasig({data_assis}) {
+export default function Adminasig({ data_assis }) {
   const router = useRouter();
   const { isAuthenticated, user } = useUser();
   const [asignados, setAsignados] = useState([]);
@@ -20,7 +20,7 @@ export default function Adminasig({data_assis}) {
     //console.log("El periodo actual"=user.id_periodo)
     try {
       const id_periodo = 1;
-      const  data  = await getEmpleadosNotAssigned(page,filterName
+      const data = await getEmpleadosNotAssigned(page, filterName
       );
       setCompaneros(data.data_empleados);
     } catch (err) {
@@ -46,7 +46,7 @@ export default function Adminasig({data_assis}) {
 
 
   useEffect(() => {
-  
+
     if (isAuthenticated) {
       getMembersSinAssistant();
       getMembersAsignados();
@@ -92,7 +92,14 @@ export default function Adminasig({data_assis}) {
 
   return (
     <>
-     <h1 className="title my-10 mx-auto">Administra los asignados de {data_assis.nombre}</h1>
+
+      {user.id_rol === 2 && (
+        <h1 className="title my-10 mx-auto">Administra los asignados de {data_assis.nombre}</h1>
+      )}
+      {user.id_rol === 1 && (
+        <h1 className="title my-10 mx-auto">Auto-asignar CM</h1>
+      )}
+
       <div className="flex flex-col lg:flex-row">
         <div className="basis-1/2">
           <h1 className="title my-10">Members sin Assistant</h1>
@@ -158,8 +165,13 @@ export default function Adminasig({data_assis}) {
 
 
         <div className="basis-1/2">
-          <h1 className="title my-10">Members de {data_assis.nombre}</h1>
-          {asignados.length === 0  ? (
+        {user.id_rol === 2 && (
+        <h1 className="title my-10 mx-auto">Members de {data_assis.nombre}</h1>
+      )}
+      {user.id_rol === 1 && (
+        <h1 className="title my-10 mx-auto">Mis CM</h1>
+      )}
+          {asignados.length === 0 ? (
             "Este assistant no tiene members"
           ) : (
             <div className="flex flex-col justify-center  mt-5 mx-auto w-11/12 sm:w-10/12 ">
@@ -177,14 +189,16 @@ export default function Adminasig({data_assis}) {
                         </tr>
                       </thead>
                       <tbody className="text-sm divide-y divide-gray-100">
-                        {asignados.map((item, index) => (
+                        {asignados && asignados
+                        .filter((el) => el.id_rol!==2)
+                        .map((item, index) => (
                           <RowAsignarMember
                             select={false}
                             info={item}
                             key={index}
                             objFunction={{
                               getMembersAsignados,
-                                getMembersSinAssistant
+                              getMembersSinAssistant
                             }}
                           />
                         ))}
