@@ -11,7 +11,7 @@ export async function getFeedbackLead() {
 
 export async function getDataToGraph(id) {
   try {
-    const { data } = await api.get(`/feedback/graph/get/${id}`);
+    const { data } = await api.get(`/feedback/${id}/graph`);
     return data;
   } catch (error) {
     throw { error };

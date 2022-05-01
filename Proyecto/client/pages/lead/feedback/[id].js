@@ -29,7 +29,7 @@ export default function Post() {
       } else setFeedback(res.data.data_feedback);
     } catch (err) {
       console.log(err);
-      swal("Estas intentando acceder a un feedback que no existe", {
+      swal("Estás intentando acceder a un feedback que no existe", {
         icon: "warning",
       });
       router.push("/user");
