@@ -45,7 +45,7 @@ export default function MemberAsignados() {
         ))}
       </div>
       <div className="w-11/12 items-center justify-center mx-auto flex flex-wrap">
-      {1 === 1 && (
+      {user && user.id_rol === 1 && (
         <button onClick={handleAdd} className="btn">
         Auto-asignar CM
       </button>
