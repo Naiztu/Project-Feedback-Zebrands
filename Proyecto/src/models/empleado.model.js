@@ -224,7 +224,7 @@ export class Empleado {
       INSERT INTO empleado_rol (id_empleado, id_rol) 
       VALUES (
         (SELECT id_empleado from empleado WHERE correo_electronico='${this.correo_electronico}'),
-        3
+        ${this.id_rol}
         );`);
 
       await conn.commit();

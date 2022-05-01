@@ -19,7 +19,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   const handleChange = (e) => {
     const newFeed = { ...preFeedback };
     newFeed[e.target.name] = e.target.value;
-    newFeed["calificacion_promedio"] = (newFeed.calificacion_business + newFeed.calificacion_personal + newFeed.calificacion_craf)/3;
+    newFeed["calificacion_promedio"] = (parseInt(newFeed.calificacion_business) + parseInt(newFeed.calificacion_personal) + parseInt(newFeed.calificacion_craft))/3;
   
     setPreFeedback(newFeed);
   };
@@ -66,7 +66,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
       </header>
       <div className="text-center italic my-4 font-semibold  flex justify-between w-[290px] mx-auto">
         <p>Dimension</p> <strong>-</strong> <p>Comentario </p>
-        <strong>-</strong> <p>Evaluación</p>
+        <strong>-</strong> <p>Calificación</p>
       </div>
       <div className="w-11/12  mx-auto">
         <div
@@ -180,7 +180,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
             </div>
           ) : (
             <div className="w-full sm:basis-2/12 input-feed flex items-center justify-center font-bold">
-              {preFeedback.calificacion_promedio}
+              {parseInt(preFeedback.calificacion_promedio)}
             </div>
           )}
         </div>

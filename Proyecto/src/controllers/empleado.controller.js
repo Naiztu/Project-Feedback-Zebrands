@@ -44,7 +44,7 @@ export async function getEmpleadoToAsignar(req, res) {
 }
 
 export async function getSearchEmpleado(req, res) {
-  const { page, filterName } = req.params;
+  const { page, filterName, id_periodo } = req.params;
   const { id_empleado } = req.data;
   try {
     const data_empleados = await Empleado.getSearchDataEmpleado(
@@ -90,6 +90,7 @@ export async function postEmpleado(req, res) {
     id_chapter,
     imagen_perfil,
     password,
+    id_rol
   } = req.body;
   const empleado = new Empleado(
     0,
@@ -106,7 +107,7 @@ export async function postEmpleado(req, res) {
     equipo,
     id_chapter,
     'http://localhost:8080/img/user_default.png',
-    3
+    id_rol
   );
 
   try {
@@ -189,9 +190,8 @@ export async function updateCMasCL(req, res) {
 }
 
 export async function getNotAssigned(req, res) {
-  const { page, filterName } = req.params;
   try {
-    const data_empleados = await Empleado.getNotAssigned(page,filterName);
+    const data_empleados = await Empleado.getNotAssigned();
     res.status(200).send({ data_empleados });
   } catch (err) {
     res.status(500).send({ err });
