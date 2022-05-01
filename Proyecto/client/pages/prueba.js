@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import api from "../services/api";
+import React from "react";
+import Layout from "../components/Layout";
+import AdminAllEmpleados from "../components/AdminAllEmpleados";
 
 export default function Prueba() {
   return (
-    <div className="flex flex-col h-screen justify-center items-center"></div>
+    <Layout>
+      <AdminAllEmpleados/>
+    </Layout>
   );
 }

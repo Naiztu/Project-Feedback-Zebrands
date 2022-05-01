@@ -45,12 +45,10 @@ export async function getEmpleadoToAsignar(req, res) {
 
 export async function getSearchEmpleado(req, res) {
   const { page, filterName } = req.params;
-  const { id_empleado } = req.data;
   try {
     const data_empleados = await Empleado.getSearchDataEmpleado(
       page,
-      filterName,
-      id_empleado
+      filterName
     );
     res.status(200).send({ data_empleados });
   } catch (err) {

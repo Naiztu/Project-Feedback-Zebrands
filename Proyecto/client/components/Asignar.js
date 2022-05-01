@@ -84,7 +84,7 @@ export default function Asignar() {
     }
 
     try {
-      const { data_empleados } = await getFilterEmpleados(newPage, filterName);
+      const { data_empleados } = await getEmpleadosNotRequested(newPage, filterName);
       setCompaneros(data_empleados);
     } catch (error) {
       console.log(error);

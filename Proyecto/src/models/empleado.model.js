@@ -169,11 +169,24 @@ export class Empleado {
   static async getSearchDataEmpleado(page, filterName) {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
-        FROM empleado
-        WHERE ${filter("nombre", filterName)}
-        ${orderBy("nombre", "ASC")}
-        ${pag(page, 15)}`
+        `SELECT e.id_empleado, 
+        e.nombre,
+        e.apellido_paterno, 
+           e.apellido_materno, 
+           e.imagen_perfil,
+           e.nivel_general,
+           e.activo,
+           r.id_rol,
+           max(er.fecha_rol) 
+           FROM empleado e, empleado_rol er, rol r
+            WHERE
+             er.id_empleado = e.id_empleado AND r.id_rol=er.id_rol
+        AND ${filter("nombre", filterName)}
+             GROUP BY id_empleado
+             ${orderBy("nombre", "ASC")}
+             ${pag(page, 15)}
+
+        `
       );
       return rows;
     } catch (err) {
