@@ -24,6 +24,7 @@ export default function Home() {
       cambiarCaptchaValido(true);
     }
   };
+
   useEffect(() => {
     const objMail = {
       descripcion_respuesta: "",
@@ -68,7 +69,7 @@ export default function Home() {
               errors
                 .filter((i) => i.id === 0)
                 .map((item) => (
-                  <p className="error" key={item.id}>
+                  <p className="error mt-1" key={item.id}>
                     {item.message}
                   </p>
                 ))}
@@ -86,21 +87,21 @@ export default function Home() {
               errors
                 .filter((i) => i.id === 1)
                 .map((item) => (
-                  <p className="error" key={item.id}>
+                  <p className="error mt-1" key={item.id}>
                     {item.message}
                   </p>
                 ))}
 
-            <div className=" grid grid-cols-1 w-full h-full items-center justify-center ">
-              { <ReCAPTCHA
-                className="mt-5"
+            <div className=" grid grid-col-1 sm:grid-cols-2 w-full h-full items-center justify-center ">
+               <ReCAPTCHA
+                className="mt-5 col-span-1"
                 ref={captcha}
                 sitekey={process.env.KEY}
                 onChange={onChange}
-              /> }
+              /> 
 
               <button
-                className="btn mt-5 h-16"
+                className="btn mt-5 h-16 col-span-1"
                 disabled={load || errors.length > 0}
                 onClick={async () => {
                   if (checkErrors() === 0) {
