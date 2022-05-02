@@ -3,6 +3,7 @@ import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { getFilterEmpleados } from "../services/empleado";
 import RowAllEmpleado from "../components/RowAllEmpleado";
 import { useUser } from "../context/userContext";
+import swal from "sweetalert";
 
 export default function AdminAllEmpleados() {
     const { isAuthenticated, user } = useUser();

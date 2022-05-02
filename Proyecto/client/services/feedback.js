@@ -44,3 +44,13 @@ export async function getAVGLead() {
     throw { error };
   }
 }
+
+export async function postFeedback(body) {
+  try {
+    const res = await api.post("/feedback", body);
+    return res;
+  } catch (error) {
+    throw { error };
+  }
+}
+
