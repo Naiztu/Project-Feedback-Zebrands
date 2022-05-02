@@ -13,22 +13,6 @@ export default function Respuesta({
   // const error = errors.filter((i) => i.id = info.id) || "";
   const options = [1, 2, 3, 4, 5];
 
-  useEffect(() => {
-    const objMail = {
-      descripcion_respuesta: "",
-      message: "Escribe un Correo Válido",
-    };
-
-    setItem(objMail, /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/);
-
-    const objPass = {
-      descripcion_respuesta: "",
-      message: "Contraseña Inválida",
-    };
-
-    setItem(objPass, /^.{1,255}$/);
-  }, []);
-
   return (
     <div className=" w-full mx-auto mt-9 sm:px-6 py-4 bg-slate-500/10 rounded-lg h-auto">
       <p className=" w-full sm:w-10/12 mx-auto text-base sm:text-lg font-bold text-center px-5 sm:p-0">
