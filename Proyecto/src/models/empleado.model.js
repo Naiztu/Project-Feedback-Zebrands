@@ -50,13 +50,17 @@ export class Empleado {
   static async updatePass(password, id_empleado) {
     try {
       const [rows, fields] = await pool.execute(
-        `UPDATE empleado SET ` + "`" + `password` + "`" + ` = '${password}' WHERE id_empleado = ${id_empleado};`
-    );
-    return rows;
-  } catch (err) {
-    throw { err };
+        `UPDATE empleado SET ` +
+          "`" +
+          `password` +
+          "`" +
+          ` = '${password}' WHERE id_empleado = ${id_empleado};`
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
   }
-}
 
   static async findId(id) {
     try {
@@ -75,7 +79,6 @@ export class Empleado {
       return null;
     }
   }
-
 
   static async findPass(id) {
     try {
@@ -111,17 +114,16 @@ export class Empleado {
   }
 
   async getDataEmpleado() {
-
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people, activo
            FROM empleado WHERE id_empleado = ${this.id_empleado}
            `
       );
-      console.log(rows)
+      console.log(rows);
       return rows[0];
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw { err };
     }
   }
@@ -140,12 +142,7 @@ export class Empleado {
     }
   }
 
-  static async getNotRequested(
-    page,
-    filterName,
-    id_periodo,
-    id_empleado
-  ) {
+  static async getNotRequested(page, filterName, id_periodo, id_empleado) {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil
@@ -244,6 +241,7 @@ export class Empleado {
 
       await conn.commit();
       await conn.release();
+      return "user creted correct";
     } catch (error) {
       console.log(error);
       if (conn) {
@@ -283,7 +281,7 @@ export class Empleado {
     }
   }
 
-  static async getNotAssigned(page,filterName) {
+  static async getNotAssigned(page, filterName) {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT empleado.id_empleado, empleado.nombre, empleado.apellido_paterno, empleado.apellido_materno, empleado.imagen_perfil, lastrol.id_rol
@@ -305,27 +303,27 @@ export class Empleado {
       );
       return rows;
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw { err };
     }
   }
 
-  static async updateNotActivo(id_empleado){
+  static async updateNotActivo(id_empleado) {
     try {
       const [rows, fields] = await pool.execute(
         `UPDATE empleado 
         SET activo = 0
         WHERE id_empleado = ${id_empleado}`
-        );
-      console.log(rows)
+      );
+      console.log(rows);
       return rows;
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw { err };
     }
   }
 
-  async updateDataEmpleado(){
+  async updateDataEmpleado() {
     try {
       const [rows, fields] = await pool.execute(
         `UPDATE empleado 
@@ -340,11 +338,11 @@ export class Empleado {
         equipo = '${this.equipo}',
         id_chapter = ${this.id_chapter} 
         WHERE id_empleado = ${this.id_empleado}`
-        );
-      console.log(rows)
+      );
+      console.log(rows);
       return rows;
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw { err };
     }
   }

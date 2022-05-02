@@ -52,7 +52,7 @@ export async function getEmpleadosNotRequested(page, filterName, id_periodo) {
     const { data } = await api.get(
       `/empleado/notrequested/${page}/${filterName}/${id_periodo}`
     );
-    console.log(data);
+    console.log(id_periodo);
     return data;
   } catch (error) {
     console.log(error);
