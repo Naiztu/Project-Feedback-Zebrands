@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { getEmpleadosNotAssigned } from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { getAsignados } from "../services/asignados";
-
+z
 export default function Adminasig({ data_assis }) {
   const router = useRouter();
   const { isAuthenticated, user } = useUser();
