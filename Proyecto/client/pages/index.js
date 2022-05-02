@@ -10,11 +10,9 @@ import { useForm } from "../hooks/useForm";
 
 export default function Home() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
   const [load, setLoad] = useState(false);
-  const [password, setPassword] = useState("");
   const { loginAuth } = useUser();
-  const [captchaValido, cambiarCaptchaValido] = useState(true);
+  const [captchaValido, cambiarCaptchaValido] = useState(null);
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
 
   const captcha = useRef(null);

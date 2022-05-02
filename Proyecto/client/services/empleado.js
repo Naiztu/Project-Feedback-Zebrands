@@ -52,7 +52,7 @@ export async function getEmpleadosNotRequested(page, filterName, id_periodo) {
     const { data } = await api.get(
       `/empleado/notrequested/${page}/${filterName}/${id_periodo}`
     );
-    console.log(data);
+    console.log(id_periodo);
     return data;
   } catch (error) {
     console.log(error);
@@ -91,13 +91,18 @@ export async function getEmpleadosNotAssigned(page, filterName) {
 export async function createMember(body) {
   try {
     const res = await api.post(`/empleado`, body);
-    return (res.data);
+    return res.data;
   } catch (error) {
     console.log(error);
     throw { error };
   }
 }
 
-
-
-
+export async function updateMember(body) {
+  try {
+    const data_up = await api.put("/empleado/update", body);
+    return data_up;
+  } catch (error) {
+    throw { error };
+  }
+}

@@ -1,5 +1,6 @@
 import { Empleado } from "../models/empleado.model";
 import bcrypt from "bcrypt";
+import { Rol } from "../models/rol.model";
 
 export async function getEmpleado(req, res) {
   const { id_empleado } = req.params;
@@ -86,8 +87,6 @@ export async function postEmpleado(req, res) {
     correo_electronico,
     equipo,
     id_chapter,
-    imagen_perfil,
-    password,
     id_rol,
   } = req.body;
   const empleado = new Empleado(
@@ -110,9 +109,7 @@ export async function postEmpleado(req, res) {
 
   try {
     await empleado.generatorPass();
-    console.log(empleado);
     const data_post_empleado = await empleado.postEmpleado();
-    console.log({ data_post_empleado });
     res.send({ data_post_empleado });
   } catch (err) {
     res.status(500).send({ err });

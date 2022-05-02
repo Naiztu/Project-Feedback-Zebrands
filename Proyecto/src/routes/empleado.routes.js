@@ -10,12 +10,13 @@ import {
   getNotAssigned,
   getNotRequested,
   updateActivo,
-  updateEmpleado
+  updateEmpleado,
 } from "../controllers/empleado.controller";
+import onlyLead from "../middlewares/onlyLead";
 
 const router = Router();
 
-router.post("/", postEmpleado);
+router.post("/", onlyLead, postEmpleado);
 router.put("/updatePass", updatePass);
 router.put("/updateCMCL", updateCMasCL);
 router.get("/get/notassigned/:page/:filterName", getNotAssigned);
@@ -26,6 +27,5 @@ router.get("/me", getCurrentEmpleado);
 router.get("/:id_empleado", getEmpleado);
 router.put("/desactivar", updateActivo);
 router.put("/update", updateEmpleado);
-
 
 export default router;

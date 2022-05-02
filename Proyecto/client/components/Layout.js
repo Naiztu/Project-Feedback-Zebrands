@@ -33,13 +33,13 @@ export default function Layout({ children }) {
         <motion.div
           initial="start"
           whileHover="end"
-          className="h-20 w-20 fixed right-0 bottom-0  flex items-center justify-center"
+          className="h-20 w-20 fixed right-0 bottom-0 z-10 flex items-center justify-center "
         >
           <motion.svg
-            className="absolute bottom-0 right-0 z-50 w-[300px] h-auto aspect-square fill-black"
+            className="absolute bottom-0 right-0 z-50 w-[110px] h-auto aspect-square fill-black rounded-tl-full "
             xmlns="http://www.w3.org/2000/svg"
           >
-            <motion.g transform="translate(370 370)">
+            <motion.g transform="translate(190 190)" className="z-50">
               <motion.path
                 className="fill-black"
                 variants={pathV2}

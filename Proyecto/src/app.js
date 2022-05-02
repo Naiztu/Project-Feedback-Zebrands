@@ -3,7 +3,6 @@ import express, { json } from "express";
 import morgan from "morgan";
 import cors from "cors";
 
-
 //importing routes
 import rutas_feedback from "./routes/feedback.routes";
 import rutas_preguntas from "./routes/preguntas.routes";

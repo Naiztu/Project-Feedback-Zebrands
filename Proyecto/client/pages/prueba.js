@@ -17,7 +17,7 @@ export default function Prueba() {
     correo_electronico: "oli@zeb.mx",
     equipo:"Dinamita",
     id_chapter:1,    
-    id_rol:2}} isSaved={false}/>
+    id_rol:2}} isSaved={true}/>
     </Layout>
   );
 }
