@@ -66,13 +66,11 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
-        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, e.id_chapter, 
-        p.id_periodo, p.estatus_periodo, r.id_rol, e.equipo
-        FROM empleado e, empleado_rol r, periodo p
+        e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
+        e.id_chapter, r.id_rol, e.equipo
+        FROM empleado e, empleado_rol r
         WHERE e.id_empleado = ${id} AND
-              r.id_empleado = e.id_empleado AND
-              p.id_chapter = e.id_chapter AND
-              p.estatus_periodo = "Vigente"`
+              r.id_empleado = e.id_empleado`
       );
       return rows[0] || null;
     } catch (err) {
@@ -98,11 +96,10 @@ export class Empleado {
       const [rows, fields] = await pool.execute(
         `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
         e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
-        e.password, r.id_rol, p.id_periodo, e.equipo
-        FROM empleado e, empleado_rol r, periodo p
+        e.password, r.id_rol, e.equipo
+        FROM empleado e, empleado_rol r
         WHERE e.activo = true AND
-          e.correo_electronico = '${correo}' 
-          AND p.estatus_periodo = 'Vigente'
+          e.correo_electronico = '${correo}'
           AND r.id_empleado = e.id_empleado 
         ORDER BY r.fecha_rol DESC
         LIMIT 1;`

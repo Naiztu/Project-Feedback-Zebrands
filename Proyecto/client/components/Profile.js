@@ -4,12 +4,14 @@ import { useModal } from "../hooks/useModal";
 import { getPerfil, updatePass } from "../services/perfil";
 import Modal from "./Modal";
 import swal from "sweetalert";
+import { postImage } from "../services/images";
+import { getMyAssistant } from "../services/assistant";
 
 export default function Perfil() {
   const [img, setImg] = useState("");
   const [isOpenModal, openModal, closeModal] = useModal(false);
   const [isOpenModal2, openModal2, closeModal2] = useModal(false);
-  const [perfil, setPerfil] = useState([]);
+  const [assitant, setAssistant] = useState({});
   const { user, isAuthenticated, setUser } = useUser();
   const imagenPrev = useRef();
 
@@ -28,9 +30,8 @@ export default function Perfil() {
 
   const getPerfilData = async () => {
     try {
-      const data = await getPerfil(user.id_empleado);
-      setPerfil(data.data_perfil);
-      console.log(data);
+      const data = await getMyAssistant(user.id_empleado);
+      setAssistant(data.info_assistant);
     } catch (err) {
       console.log({ err });
     }
@@ -232,7 +233,7 @@ export default function Perfil() {
                           Nombre(s)
                         </label>
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {perfil.nombre_Assistant}
+                          {assitant && assitant.nombre}
                         </p>
                       </div>
                       <div className="flex items-center justify-between mt-4">
@@ -241,18 +242,25 @@ export default function Perfil() {
                             Apellido Paterno
                           </label>
                           <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                            {" "}
-                            {perfil.Paterno_Assistant}{" "}
+                            {assitant && assitant.apellido_paterno}
                           </p>
                         </div>
                         <div className="w-full md:w-1/2 px-3 mb-6">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            Apellidඞ Materno
+                            Apellido Materno
                           </label>
                           <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                            {perfil.Materno_Assistant}{" "}
+                            {assitant && assitant.apellido_materno}{" "}
                           </p>
                         </div>
+                      </div>
+                      <div className="w-full md:w-full px-3 mb-6">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Correo
+                        </label>
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {assitant && assitant.correo_electronico}
+                        </p>
                       </div>
                     </div>
                   </div>

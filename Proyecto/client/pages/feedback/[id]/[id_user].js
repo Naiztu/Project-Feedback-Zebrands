@@ -13,7 +13,6 @@ export default function Post() {
   const router = useRouter();
 
   const [feedback, setFeedback] = useState(null);
-  const { user } = useUser();
 
   const getData = async (id_periodo, id_user) => {
     try {

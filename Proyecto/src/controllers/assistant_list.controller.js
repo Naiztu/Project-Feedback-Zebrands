@@ -34,6 +34,17 @@ export async function getVigente(req, res) {
   }
 }
 
+export async function getMyAssistant(req, res) {
+  const { id_member } = req.params;
+  try {
+    const info_assistant = await Assistant.getAssistantVigente(id_member);
+    res.send({ info_assistant });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ err });
+  }
+}
+
 export async function getMyAssistantID(req, res) {
   const { id_member } = req.params;
   try {

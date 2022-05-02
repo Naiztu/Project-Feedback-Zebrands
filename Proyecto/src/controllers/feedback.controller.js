@@ -44,6 +44,16 @@ export async function getFeedbackHistory(req, res) {
   }
 }
 
+export async function getLastFeedback(req, res) {
+  const { id_empleado } = req.data;
+  try {
+    const data_last_feedback = await Feedback.getDataLastFeedback(id_empleado);
+    res.send({ data_last_feedback });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+}
+
 export async function getAllFeedbacks(req, res) {
   const {
     id_empleado,
