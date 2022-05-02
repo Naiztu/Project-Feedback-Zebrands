@@ -60,7 +60,7 @@ export class Feedback {
   static async getDataAllGraph() {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT AVG(calificacion_craft), AVG(calificacion_personal), AVG(calificacion_business), AVG(calificacion_promedio), id_periodo
+        `SELECT AVG(calificacion_craft) 'avgc', AVG(calificacion_personal) 'avgpe', AVG(calificacion_business) 'avgb', AVG(calificacion_promedio) 'avgp', id_periodo
         FROM feedback
         GROUP BY id_periodo
         order by id_periodo
