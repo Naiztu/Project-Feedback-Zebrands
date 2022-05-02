@@ -2,7 +2,7 @@ import api from "./api";
 
 export async function getFeedbackLead() {
   try {
-    const { data } = await api.get("/feedback");
+    const { data } = await api.get(`/feedback/`);
     return data;
   } catch (error) {
     throw { error };
@@ -30,6 +30,15 @@ export async function getFeedback(id_user, id_periodo) {
 export async function getDataToGraph(id) {
   try {
     const { data } = await api.get(`/feedback/${id}/graph`);
+    return data;
+  } catch (error) {
+    throw { error };
+  }
+}
+
+export async function getAVGLead() {
+  try {
+    const { data } = await api.get(`/feedback/generalgraph`);
     return data;
   } catch (error) {
     throw { error };
