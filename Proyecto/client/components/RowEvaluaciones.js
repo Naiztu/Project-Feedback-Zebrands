@@ -4,7 +4,7 @@ import Respuesta from "./Respuesta";
 import { useModal } from "../hooks/useModal";
 import Modal from "./Modal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import api from "../services/api";
+import { getRespuestas } from "../services/respuestas";
 
 export default function RowEvaluaciones({ item }) {
   const { id_evaluado, id_evaluador, id_periodo } = item;
@@ -12,18 +12,15 @@ export default function RowEvaluaciones({ item }) {
   const [respuestas, setRespuestas] = useState([]);
 
   useEffect(() => {
-    item.estatus === "Contestado" && getRespuestas();
+    item.estatus === "Contestado" && getData();
   }, []);
 
-  const getRespuestas = async () => {
+  const getData = async () => {
     try {
-      const res = await api.get(
-        `/respuestas/${id_evaluador}/${id_evaluado}/${id_periodo}`
-      );
-      console.log({ res });
-      setRespuestas(res.data.data_res);
+      const data = await getRespuestas(id_evaluador, id_evaluado, id_periodo);
+      setRespuestas(data.data_res);
     } catch (err) {
-      alert(err);
+      consolo.log(err)
     }
   };
 

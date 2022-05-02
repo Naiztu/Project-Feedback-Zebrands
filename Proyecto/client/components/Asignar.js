@@ -3,7 +3,10 @@ import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import CompaneroAsignar from "./CompaneroAsignar";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
-import { getFilterEmpleados,getEmpleadosNotRequested } from "../services/empleado";
+import {
+  getFilterEmpleados,
+  getEmpleadosNotRequested,
+} from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { postAsignados } from "../services/evaluacion";
 
@@ -59,6 +62,7 @@ export default function Asignar() {
   const botonSearch = async () => {
     try {
       const id_periodo = 1;
+      console.log({ id_periodo });
       const { data_empleados } = await getEmpleadosNotRequested(
         page,
         filterName,
@@ -84,7 +88,11 @@ export default function Asignar() {
     }
 
     try {
-      const { data_empleados } = await getEmpleadosNotRequested(newPage, filterName);
+      const { data_empleados } = await getEmpleadosNotRequested(
+        newPage,
+        filterName,
+        1
+      );
       setCompaneros(data_empleados);
     } catch (error) {
       console.log(error);
@@ -205,4 +213,3 @@ export default function Asignar() {
     </>
   );
 }
- 

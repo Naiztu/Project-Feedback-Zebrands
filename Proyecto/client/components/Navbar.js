@@ -69,8 +69,9 @@ export default function Navbar() {
           {id_rol === 2 && <OptionAsisstant />}
 
           {id_rol === 1 && <OptionLead />}
+          <div className="mt-20"></div>
 
-          <div className="absolute bottom-0 p-1">
+          <div className="absolute bottom-0 right-0 px-1">
             <button className="group link-navbar" onClick={logoutAuth}>
               <div className=" div-navbar">
                 <ImExit size={28} className="group-hover:fill-secondary-50 " />

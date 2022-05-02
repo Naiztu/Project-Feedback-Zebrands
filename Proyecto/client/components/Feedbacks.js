@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import RowFeed from "./RowFeed";
+<<<<<<< HEAD
 import { UserContext, useUser } from "../context/userContext";
 import api from "../services/api";
+=======
+import { useUser } from "../context/userContext";
+import { getFeedbackHistory } from "../services/feedback";
+>>>>>>> 4943438131343e7323f372c9592f74f29469e633
 import Loader from "./loaders/Loader";
 import { useRouter } from "next/router";
 
+<<<<<<< HEAD
 export default function Feedbacks({id_empleado}) {
   const [feedbacks, setFeedbacks] = useState([]);
   const { isAuthenticated, user } = useUser();
@@ -20,6 +26,15 @@ export default function Feedbacks({id_empleado}) {
           statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
         };
       } else setFeedbacks(res.data.data_feedbackHistory);
+=======
+export default function Feedbacks({ id_user }) {
+  const [feedbacks, setFeedbacks] = useState([]);
+
+  const getFeedbacks = async () => {
+    try {
+      const data = await getFeedbackHistory(id_user);
+      setFeedbacks(data.data_feedbackHistory);
+>>>>>>> 4943438131343e7323f372c9592f74f29469e633
     } catch (err) {
       console.log({ err });
     }
@@ -33,11 +48,16 @@ export default function Feedbacks({id_empleado}) {
 }, [user])
 
   useEffect(() => {
+<<<<<<< HEAD
     if (isAuthenticated) {
      validAcces();
       getFeedbacks();
     }
   }, [isAuthenticated]);
+=======
+    getFeedbacks();
+  }, []);
+>>>>>>> 4943438131343e7323f372c9592f74f29469e633
 
   return (
     <>

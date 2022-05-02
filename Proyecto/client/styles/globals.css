@@ -52,7 +52,7 @@
 }
 
 .dimesion {
-  @apply py-5 bg-slate-400/10 uppercase text-3xl font-bold flex items-center justify-center  ;
+  @apply py-5 bg-slate-400/10 uppercase text-3xl font-bold flex items-center justify-center basis-3/12;
 }
 
 .coment {

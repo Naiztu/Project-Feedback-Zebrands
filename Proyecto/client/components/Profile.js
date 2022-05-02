@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUser } from "../context/userContext";
 import { useModal } from "../hooks/useModal";
-import api from "../services/api";
 import { getPerfil, updatePass } from "../services/perfil";
-import PassBoton from "./PassBoton";
 import Modal from "./Modal";
 import swal from "sweetalert";
-
 
 export default function Perfil() {
   const [img, setImg] = useState("");
@@ -26,6 +23,7 @@ export default function Perfil() {
     nivel_craft,
     nivel_people,
     nivel_general,
+    id_rol,
   } = user || {};
 
   const getPerfilData = async () => {
@@ -40,21 +38,18 @@ export default function Perfil() {
 
   const [password, setPassword] = useState([]);
   const [newPassword, setNewpassword] = useState([]);
-  const [confirmPass, setConfirmPass ] = useState([]);
-  const [error, setError] = useState(null);
-
+  const [confirmPass, setConfirmPass] = useState([]);
 
   const updatePassword = async () => {
     try {
       const res = await updatePass({
         password,
-        newPassword
+        newPassword,
       });
       swal("Contraseña actualizada!", {
         icon: "success",
       });
     } catch (err) {
-      console.log(err);
       swal("Hubo error, la contraseña no fue actualizada!", {
         icon: "warning",
       });
@@ -62,14 +57,14 @@ export default function Perfil() {
   };
 
   const validate = () => {
-    if(newPassword == confirmPass) {
+    if (newPassword === confirmPass) {
       updatePassword();
     } else {
       swal("No coinciden!", {
         icon: "warning",
       });
     }
-  }
+  };
 
   const handleChange1 = (e) => {
     setPassword(e.target.value);
@@ -79,7 +74,6 @@ export default function Perfil() {
   };
   const handleChange3 = (e) => {
     setConfirmPass(e.target.value);
-
   };
 
   useEffect(() => {
@@ -87,6 +81,25 @@ export default function Perfil() {
       getPerfilData();
     }
   }, [isAuthenticated]);
+
+  const uploadImg = async () => {
+    const formData = new FormData();
+    formData.append("image", img);
+    try {
+      const imagen_perfil = await postImage(formData);
+      setUser({ ...user, imagen_perfil });
+      closeModal();
+      swal("Foto Actualizada", {
+        icon: "success",
+      });
+    } catch (error) {
+      await swal({
+        title: "¡Hubo un Error!",
+        text: "No se pudo modificar tu foto de perfil",
+        icon: "warning",
+      });
+    }
+  };
 
   return (
     <>
@@ -248,7 +261,11 @@ export default function Perfil() {
             </div>
           </div>
 
-          <Modal isOpen={isOpenModal} closeModal={closeModal} title="Cambiar Imagen">
+          <Modal
+            isOpen={isOpenModal}
+            closeModal={closeModal}
+            title="Cambiar Imagen"
+          >
             <div className=" w-full h-full flex items-center justify-center space-x-4">
               <img
                 className=" w-72 h-72 rounded-full object-cover border-8 border-black"
@@ -258,64 +275,44 @@ export default function Perfil() {
                 ref={imagenPrev}
               />
               <div className="flex flex-col items-center justify-center space-y-4">
-              <label className=" group w-64 flex flex-col items-center px-4 py-6 bg-white  rounded-lg shadow-lg tracking-wide uppercase border border-black hover:border-secondary-50 cursor-pointer">
-                <svg
-                  className="w-8 h-8 fill-black group-hover:fill-secondary-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                </svg>
-                <span className="mt-2 text-base leading-normal text-black group-hover:text-secondary-50 ">
-                  Select a file
-                </span>
-                <input
-                  accept="image/png, image/gif, image/jpeg, image/jpg"
-                  type="file"
-                  className="hidden"
-                  onChange={(e) => {
-                    if (e.target.files[0]) {
-                      setImg(e.target.files[0]);
-                      imagenPrev.current.src = URL.createObjectURL(
-                        e.target.files[0]
-                      );
-                    } else
-                      imagenPrev.current.src =
-                        "http://ec2-3-89-93-89.compute-1.amazonaws.com:8080/img/user_default.png";
-                  }}
-                />
-              </label>
-              <button
-                className="btn"
-                onClick={async () => {
-                  const formData = new FormData();
-                  formData.append("image", img);
-                  try {
-                    const res = await api.post("/images", formData, {
-                      headers: {
-                        "Content-Type": "multipart/form-data",
-                      },
-                    });
-                    setUser({ ...user, imagen_perfil: res.data });
-                    closeModal();
-                    swal("Foto Actualizada", {
-                      icon: "success",
-                    });
-                  } catch (error) {
-                    await swal({
-                      title: "¡Hubo un Error!",
-                      text: "No se pudo modificar tu foto de perfil",
-                      icon: "warning",
-                    });
-                  }
-                }}
-              >
-                Enviar
-              </button>
+                <label className=" group w-64 flex flex-col items-center px-4 py-6 bg-white  rounded-lg shadow-lg tracking-wide uppercase border border-black hover:border-secondary-50 cursor-pointer">
+                  <svg
+                    className="w-8 h-8 fill-black group-hover:fill-secondary-50"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                  </svg>
+                  <span className="mt-2 text-base leading-normal text-black group-hover:text-secondary-50 ">
+                    Seleccionar Imagen
+                  </span>
+                  <input
+                    accept="image/png, image/gif, image/jpeg, image/jpg"
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => {
+                      if (e.target.files[0]) {
+                        setImg(e.target.files[0]);
+                        imagenPrev.current.src = URL.createObjectURL(
+                          e.target.files[0]
+                        );
+                      } else
+                        imagenPrev.current.src =
+                          "http://ec2-3-89-93-89.compute-1.amazonaws.com:8080/img/user_default.png";
+                    }}
+                  />
+                </label>
+                <button className="btn" onClick={uploadImg}>
+                  Enviar
+                </button>
               </div>
             </div>
           </Modal>
-          <Modal isOpen={isOpenModal2} closeModal={closeModal2} title="Cambiar Contraseña">
+          <Modal
+            isOpen={isOpenModal2}
+            closeModal={closeModal2}
+            title="Cambiar Contraseña"
+          >
             <div className=" w-full h-full flex items-center justify-center">
               <>
                 <div className="flex items-center justify-between">
@@ -334,7 +331,7 @@ export default function Perfil() {
                             clipRule="evenodd"
                           />
                         </svg>
-                        
+
                         <span className="mt-2 text-base leading-normal text-black group-hover:text-interaction-500">
                           Contraseña actual
                         </span>
@@ -357,8 +354,8 @@ export default function Perfil() {
                               className="appearance-none block w-full bg-white border border-gray-400 shadow-inner rounded-md py-1 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                               type="password"
                             ></input>
-                            </div>
-                            <div className="flex flex-col items-center justify-center space-y-1">
+                          </div>
+                          <div className="flex flex-col items-center justify-center space-y-1">
                             <span className="mt-2 text-base leading-normal text-black group-hover:text-interaction-500">
                               Reingresa Contraseña
                             </span>
@@ -374,7 +371,9 @@ export default function Perfil() {
                       </label>
                     </div>
                     <div className="px-4 py-6">
-                      <button className="btn" onClick={validate}>Confirmar</button>
+                      <button className="btn" onClick={validate}>
+                        Confirmar
+                      </button>
                     </div>
                   </div>
                 </div>

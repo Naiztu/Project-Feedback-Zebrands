@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { useUser } from "../context/userContext";
-import api from "../services/api";
+import { updateMember, createMember } from "../services/empleado";
 
 export default function Registro({ regMember, isSaved }) {
+  const [isSave, setIsSave] = useState(isSaved);
+    const [isEdited, setIsEdited] = useState(!isSaved);
   const {
     nombre,
     apellido_paterno,
@@ -24,23 +26,32 @@ export default function Registro({ regMember, isSaved }) {
   const handleChange = (e) => {
     const newMember = { ...preMember };
     newMember[e.target.name] = e.target.value;
-    newMember["nivel_general"] =
-      (Math.min(parseFloat(newMember.nivel_craft), parseFloat(newMember.nivel_business) + 1, parseFloat(newMember.nivel_people) + 1));
-    
-      setPreMember(newMember);
+    newMember["nivel_general"] = Math.min(
+      parseFloat(newMember.nivel_craft),
+      parseFloat(newMember.nivel_business) + 1,
+      parseFloat(newMember.nivel_people) + 1
+    );
+
+    setPreMember(newMember);
   };
 
-  const handleChangef = (e) => {
-    const newFeed = { ...preFeedback };
-    newFeed[e.target.name] = e.target.value;
-    newFeed["calificacion_promedio"] = (newFeed.calificacion_business + newFeed.calificacion_personal + newFeed.calificacion_craf)/3;
-  
-    setPreFeedback(newFeed);
+  const handleEdit = () => {
+    setIsEdited(true);
+  };
+
+  const handleSave = () => {
+    if (isSave) {
+      //alert("actualiza");
+      updateEmpleado();
+    } else
+    //
+    registerMember();
+    setIsEdited(true);
   };
 
 
   const options = [
-    { label: "Elije...", value: 0 },
+    { label: "Elige...", value: 0 },
     { label: "1.1", value: 1.1 },
     { label: "1.2", value: 1.2 },
     { label: "1.3", value: 1.3 },
@@ -59,38 +70,41 @@ export default function Registro({ regMember, isSaved }) {
   ];
 
   const optionsChapter = [
-    { label: "Elije...", value: 0}, 
-    { label: "Software", value: 1 }
+    { label: "Elige...", value: 0 },
+    { label: "Software", value: 1 },
   ];
 
   const optionsRol = [
-    { label: "Elije...", value: 0 },
+    { label: "Elige...", value: 0 },
     { label: "CM", value: 3 },
     { label: "CLA", value: 2 },
   ];
 
-  const registerMember = async (e) => {
+  const registerMember = async () => {
     try {
-      const res = await api.post(`http://localhost:8080/api/empleado/`, {
-        ...preMember,
+      const data = await createMember(preMember);
+      swal("Nuevo member registrado", {
+        icon: "success",
       });
-
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else
-        swal("Nuevo member registrado", {
-          icon: "success",
-        });
+      setPreMember(regMember)
     } catch (error) {
-      console.log(error);
+      console.log(error)
       swal("Hubo un error, member no regustrado", {
         icon: "warning",
       });
-      console.log(error);
+    }
+  };
+
+  const updateEmpleado = async () => {
+    try {
+      const data = await updateMember(preMember);
+      swal("Member actualizado", {
+        icon: "success",
+      });
+    } catch (error) {
+      swal("Hubo un error, no se actualizo el member", {
+        icon: "warning",
+      });
     }
   };
 
@@ -118,54 +132,78 @@ export default function Registro({ regMember, isSaved }) {
                     >
                       Dirección de Correo
                     </label>
-                    <input
-                      className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                      onChange={handleChange}
-                      value={preMember.correo_electronico}
-                      type="text"
-                      placeholder="Ingresa el correo"
-                      name="correo_electronico"
-                    ></input>
+                    {isEdited ? (
+                      <input
+                        className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                        onChange={handleChange}
+                        value={preMember.correo_electronico}
+                        type="text"
+                        placeholder="Ingresa el correo"
+                        name="correo_electronico"
+                      />
+                    ) : (
+                      <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                        {correo_electronico}
+                      </p>
+                    )}
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nombre(s)
                     </label>
-                    <input
-                      className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                      onChange={handleChange}
-                      value={preMember.nombre}
-                      type="text"
-                      placeholder="Ingresa el Nombre"
-                      name="nombre"
-                    ></input>
+                    {isEdited ? (
+                      <input
+                        className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                        onChange={handleChange}
+                        value={preMember.nombre}
+                        type="text"
+                        placeholder="Ingresa el Nombre"
+                        name="nombre"
+                      />
+                    ) : (
+                      <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                        {nombre}
+                      </p>
+                    )}
                   </div>
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-1/2 px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Apellido Paterno
                       </label>
-                      <input
-                        className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                        onChange={handleChange}
-                        value={preMember.apellido_paterno}
-                        type="text"
-                        placeholder="Ingresa el Apellido Paterno"
-                        name="apellido_paterno"
-                      ></input>
+                      {isEdited ? (
+                        <input
+                          className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                          onChange={handleChange}
+                          value={preMember.apellido_paterno}
+                          type="text"
+                          placeholder="Ingresa el Apellido Paterno"
+                          name="apellido_paterno"
+                        />
+                      ) : (
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {apellido_paterno}
+                        </p>
+                      )}
                     </div>
                     <div className="w-full md:w-1/2 px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Apellido Materno
                       </label>
-                      <input
-                        className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                        onChange={handleChange}
-                        value={preMember.apellido_materno}
-                        type="text"
-                        placeholder="Ingresa el Apellido Materno"
-                        name="apellido_materno"
-                      ></input>
+                      {isEdited ? (
+                        <input
+                          className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                          onChange={handleChange}
+                          value={preMember.apellido_materno}
+                          type="text"
+                          placeholder="Ingresa el Apellido Materno"
+                          name="apellido_materno"
+                        />
+                      ) : (
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {apellido_materno}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-4">
@@ -174,100 +212,128 @@ export default function Registro({ regMember, isSaved }) {
                         Nivel Overall
                       </label>
                       <div className="flex-shrink w-full inline-block relative">
-                        <div
-                          className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          value={preMember.nivel_general}
-                          name="nivel_general"
-                          type="number"
-                        >{ preMember.nivel_general }</div>
+                        {isEdited ? (
+                          <div
+                            className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
+                            value={preMember.nivel_general}
+                            name="nivel_general"
+                            type="number"
+                          >
+                            {preMember.nivel_general}
+                          </div>
+                        ) : (
+                          <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                            {nivel_general}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Nivel Craft
                       </label>
-                      <div className="flex-shrink w-full inline-block relative">
-                        <select
-                          className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          onChange={handleChange}
-                          value={preMember.nivel_craft}
-                          type="number"
-                          name="nivel_craft"
-                        >
-                          {options.map((option, index) => (
-                            <option key={index} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
-                          <svg
-                            className="fill-current h-4 w-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
+
+                      {isEdited ? (
+                        <div className="flex-shrink w-full inline-block relative">
+                          <select
+                            className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
+                            onChange={handleChange}
+                            value={preMember.nivel_craft}
+                            type="number"
+                            name="nivel_craft"
                           >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
+                            {options.map((option, index) => (
+                              <option key={index} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
+                            <svg
+                              className="fill-current h-4 w-4"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {nivel_craft}
+                        </p>
+                      )}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Nivel Business
                       </label>
-                      <div className="flex-shrink w-full inline-block relative">
-                        <select
-                          className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          onChange={handleChange}
-                          value={preMember.nivel_business}
-                          type="number"
-                          name="nivel_business"
-                        >
-                          {options.map((option, index) => (
-                            <option key={index} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
-                          <svg
-                            className="fill-current h-4 w-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
+
+                      {isEdited ? (
+                        <div className="flex-shrink w-full inline-block relative">
+                          <select
+                            className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
+                            onChange={handleChange}
+                            value={preMember.nivel_business}
+                            type="number"
+                            name="nivel_business"
                           >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
+                            {options.map((option, index) => (
+                              <option key={index} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
+                            <svg
+                              className="fill-current h-4 w-4"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {nivel_business}
+                        </p>
+                      )}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Nivel People
                       </label>
-                      <div className="flex-shrink w-full inline-block relative">
-                        <select
-                          className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          onChange={handleChange}
-                          value={preMember.nivel_people}
-                          type="number"
-                          name="nivel_people"
-                        >
-                          {options.map((option, index) => (
-                            <option key={index} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
-                          <svg
-                            className="fill-current h-4 w-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
+                      {isEdited ? (
+                        <div className="flex-shrink w-full inline-block relative">
+                          <select
+                            className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
+                            onChange={handleChange}
+                            value={preMember.nivel_people}
+                            type="number"
+                            name="nivel_people"
                           >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
+                            {options.map((option, index) => (
+                              <option key={index} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
+                            <svg
+                              className="fill-current h-4 w-4"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {nivel_people}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-4">
@@ -275,84 +341,99 @@ export default function Registro({ regMember, isSaved }) {
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Chapter
                       </label>
-                      <div className="flex-shrink w-full inline-block relative">
-                        <select
-                          className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          value={preMember.id_chapter}
-                          name="id_chapter"
-                          onChange={handleChange}
-                        >
-                          {optionsChapter.map((option, index) => (
-                            <option key={index} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
-                          <svg
-                            className="fill-current h-4 w-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
+                      {isEdited ? (
+                        <div className="flex-shrink w-full inline-block relative">
+                          <select
+                            className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
+                            value={preMember.id_chapter}
+                            name="id_chapter"
+                            onChange={handleChange}
                           >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
+                            {optionsChapter.map((option, index) => (
+                              <option key={index} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
+                            <svg
+                              className="fill-current h-4 w-4"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {id_chapter}
+                        </p>
+                      )}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Rol
                       </label>
-                      <div className="flex-shrink w-full inline-block relative">
-                        <select
-                          className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                          value={preMember.id_rol}
-                          name="id_rol"
-                          onChange={handleChange}
-                        >
-                          {optionsRol.map((option, index) => (
-                            <option key={index} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
-                          <svg
-                            className="fill-current h-4 w-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
+                      {isEdited? (
+                        <div className="flex-shrink w-full inline-block relative">
+                          <select
+                            className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
+                            value={preMember.id_rol}
+                            name="id_rol"
+                            onChange={handleChange}
                           >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
+                            {optionsRol.map((option, index) => (
+                              <option key={index} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
+                            <svg
+                              className="fill-current h-4 w-4"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {id_rol}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Equipo
                     </label>
-                    <input
-                      className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                      onChange={handleChange}
-                      value={preMember.equipo}
-                      type="text"
-                      placeholder="Ingresa el Equipo"
-                      name="equipo"
-                    ></input>
+                    {isEdited ? (
+                      <input
+                        className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                        onChange={handleChange}
+                        value={preMember.equipo}
+                        type="text"
+                        placeholder="Ingresa el Equipo"
+                        name="equipo"
+                      />
+                    ) : (
+                      <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                        {equipo}
+                      </p>
+                    )}
                   </div>
                 </div>
-
-                {isSaved && (
                   <div className="flex justify-end">
                     <button
-                      className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3"
-                      onClick={registerMember}
+                      className="btn"
+                      onClick={isEdited ? handleSave : handleEdit }
                     >
-                      Terminar con el Registro
+                      {isEdited ?  "Terminar Registro" :   "Actualiza Datos"}
                     </button>
                   </div>
-                )}
               </div>
             </div>
           </div>
@@ -373,8 +454,8 @@ Registro.defaultProps = {
     nivel_people: 0,
     correo_electronico: "",
     equipo: "",
-    id_chapter: 0,
+    id_chapter: 1,
     id_rol: 0,
   },
-  isSaved: true,
+  isSaved: false,
 };

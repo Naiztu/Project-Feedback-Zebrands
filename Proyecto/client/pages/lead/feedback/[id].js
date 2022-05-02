@@ -5,29 +5,22 @@ import { useUser } from "../../../context/userContext";
 import PlantillaFeed from "../../../components/PlantillaFeed";
 import Layout from "../../../components/Layout";
 import Evaluaciones from "../../../components/Evaluaciones";
-import api from "../../../services/api";
+import { getFeedback } from "../../../services/feedback";
 
 export default function Post() {
-  //Debe ser el numero del periodo al que corresponde el feedback
-
   const router = useRouter();
-
   const [feedback, setFeedback] = useState(null);
   const { user } = useUser();
 
+<<<<<<< HEAD
   const getFeedback = async (id_periodo) => {
+=======
+  const getData = async (id_periodo) => {
+>>>>>>> 4943438131343e7323f372c9592f74f29469e633
     try {
-      const res = await api.get(`/feedback/${id_user}/${id_periodo}`);
-      console.log(res);
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else setFeedback(res.data.data_feedback);
+      const data = await getFeedback(user.id_empleado, id_periodo);
+      setFeedback(data.data_feedback);
     } catch (err) {
-      console.log(err);
       swal("Estás intentando acceder a un feedback que no existe", {
         icon: "warning",
       });
@@ -43,7 +36,7 @@ export default function Post() {
     setuser();
     if (router.isReady) {
       const { id } = router.query;
-      getFeedback(id);
+      getData(id);
     }
   }, [router.isReady]);
 

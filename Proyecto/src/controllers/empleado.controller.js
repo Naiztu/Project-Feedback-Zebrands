@@ -1,5 +1,6 @@
 import { Empleado } from "../models/empleado.model";
 import bcrypt from "bcrypt";
+import { Rol } from "../models/rol.model";
 
 export async function getEmpleado(req, res) {
   const { id_empleado } = req.params;
@@ -86,9 +87,7 @@ export async function postEmpleado(req, res) {
     correo_electronico,
     equipo,
     id_chapter,
-    imagen_perfil,
-    password,
-    id_rol
+    id_rol,
   } = req.body;
   const empleado = new Empleado(
     0,
@@ -104,28 +103,26 @@ export async function postEmpleado(req, res) {
     "password",
     equipo,
     id_chapter,
-    'http://localhost:8080/img/user_default.png',
+    "http://localhost:8080/img/user_default.png",
     id_rol
   );
 
   try {
     await empleado.generatorPass();
-    console.log(empleado);
     const data_post_empleado = await empleado.postEmpleado();
-    console.log({ data_post_empleado });
     res.send({ data_post_empleado });
   } catch (err) {
     res.status(500).send({ err });
   }
 }
- 
+
 export async function updatePass(req, res) {
-  const { id_empleado} = req.data;
+  const { id_empleado } = req.data;
   const { password, newPassword } = req.body;
   let user = null;
   try {
     user = await Empleado.findPass(id_empleado);
-    console.log(user)
+    console.log(user);
   } catch (error) {
     console.log({ error });
   }
@@ -133,22 +130,22 @@ export async function updatePass(req, res) {
   const passwordCorrect =
     user === null ? false : await bcrypt.compare(password, user.password);
 
-    if (!passwordCorrect) {
+  if (!passwordCorrect) {
+    res.status(401).send({
+      error: "invalid password",
+    });
+  } else {
+    const crypPass = await Empleado.generatorPassNew(newPassword);
+    try {
+      await Empleado.updatePass(crypPass, id_empleado);
+      res.status(200).send({ message: "password update" });
+    } catch (err) {
       res.status(401).send({
-        error: "invalid password",
+        error: "password update failure",
       });
-    } else {
-      const crypPass =await Empleado.generatorPassNew(newPassword)
-      try {
-        await Empleado.updatePass(crypPass, id_empleado)
-        res.status(200).send({ message: "password update"})
-      } catch (err) {
-        res.status(401).send({
-          error: "password update failure",
-        });
-      }
     }
-  } 
+  }
+}
 
 export async function updateCMasCL(req, res) {
   const {
@@ -190,7 +187,7 @@ export async function updateCMasCL(req, res) {
 export async function getNotAssigned(req, res) {
   const { page, filterName } = req.params;
   try {
-    const data_empleados = await Empleado.getNotAssigned(page, filterName );
+    const data_empleados = await Empleado.getNotAssigned(page, filterName);
     res.status(200).send({ data_empleados });
   } catch (err) {
     res.status(500).send({ err });
@@ -198,12 +195,54 @@ export async function getNotAssigned(req, res) {
 }
 
 export async function updateActivo(req, res) {
-  const { id_empleado} = req.body;
+  const { id_empleado } = req.body;
   try {
     const data_activo = await Empleado.updateNotActivo(id_empleado);
     console.log(data_activo);
-    res.status(200).send({ data_activo});
+    res.status(200).send({ data_activo });
   } catch (err) {
+    res.status(403).send({ err });
+  }
+}
+
+export async function updateEmpleado(req, res) {
+  const {
+    id_empleado,
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    nivel_general,
+    nivel_craft,
+    nivel_business,
+    nivel_people,
+    equipo,
+    correo_electronico,
+    id_chapter,
+  } = req.body;
+
+  const info_actualizada = new Empleado(
+    id_empleado,
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    nivel_general,
+    nivel_craft,
+    nivel_business,
+    nivel_people,
+    0,
+    correo_electronico,
+    "",
+    equipo,
+    id_chapter,
+    "",
+    0
+  );
+  try {
+    const data_act = await info_actualizada.updateDataEmpleado();
+    console.log(data_act);
+    res.status(200).send({ data_act });
+  } catch (err) {
+    console.log(err);
     res.status(403).send({ err });
   }
 }

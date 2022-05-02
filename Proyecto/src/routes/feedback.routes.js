@@ -1,4 +1,5 @@
 import { Router } from "express";
+import leadAssistantMe from "../middlewares/leadAssistantMe";
 
 import {
   getFeedback,
@@ -6,15 +7,15 @@ import {
   postFeedback,
   getAllFeedbacks,
   getFeedbackGraph,
-  getAllGraph
+  getAllGraph,
 } from "../controllers/feedback.controller";
 
 const router = Router();
 
-router.get("/generalgraph", getAllGraph)
+router.get("/generalgraph", getAllGraph);
 router.get("/:id_user/graph", getFeedbackGraph);
 router.get("/:id_user/:id_periodo", getFeedback);
-router.get("/:id_user", getFeedbackHistory);
+router.get("/:id_user", leadAssistantMe, getFeedbackHistory);
 router.get("/", getAllFeedbacks);
 router.post("/", postFeedback);
 
