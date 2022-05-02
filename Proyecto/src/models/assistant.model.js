@@ -59,6 +59,26 @@ export class Assistant {
     }
   }
 
+  static async getAssistantVigente(id_member) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `
+        SELECT  nombre, apellido_paterno, apellido_materno, correo_electronico
+        from empleado
+        Where id_empleado IN(
+          SELECT id_empleado_assistant
+          from asignacion 
+          WHERE 
+          vigente=1 AND
+          id_empleado_member = ${id_member})`
+      );
+      return rows[0];
+    } catch (err) {
+      console.log(err);
+      throw { err };
+    }
+  }
+
   static async getMyAssistantID(id_member) {
     try {
       const [rows, fields] = await pool.execute(
