@@ -27,7 +27,7 @@ export default function MemberAsignados() {
   };
   
   const handleAdd = () => {
-    router.push(`/lead/adminasig/${user.id_empleado}`);
+    router.push(`/lead/adminasig/autoasigCM/${user.id_empleado}`);
   };
 
 

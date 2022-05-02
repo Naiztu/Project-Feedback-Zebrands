@@ -7,7 +7,7 @@ import { getEmpleadosNotAssigned } from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { getAsignados } from "../services/asignados";
 
-export default function Adminasig({ data_assis }) {
+export default function Adminasig({ data_assis, auto_asig }) {
   const router = useRouter();
   const { isAuthenticated, user } = useUser();
   const [asignados, setAsignados] = useState([]);
@@ -89,10 +89,10 @@ export default function Adminasig({ data_assis }) {
   return (
     <>
 
-      {user.id_rol === 2 && (
+      {(user.id_rol === 2|| user.id_rol === 1 )&& !auto_asig && (
         <h1 className="title my-10 mx-auto">Administra los asignados de {data_assis.nombre}</h1>
       )}
-      {user.id_rol === 1 && (
+      {user.id_rol === 1 && auto_asig && (
         <h1 className="title my-10 mx-auto">Auto-asignar CM</h1>
       )}
 
@@ -161,10 +161,10 @@ export default function Adminasig({ data_assis }) {
 
 
         <div className="basis-1/2">
-        {user.id_rol === 2 && (
+        {(user.id_rol === 2|| user.id_rol === 1 )&& !auto_asig && (
         <h1 className="title my-10 mx-auto">Members de {data_assis.nombre}</h1>
       )}
-      {user.id_rol === 1 && (
+      {user.id_rol === 1 && auto_asig && (
         <h1 className="title my-10 mx-auto">Mis CM</h1>
       )}
           {asignados.length === 0 ? (
@@ -210,3 +210,8 @@ export default function Adminasig({ data_assis }) {
     </>
   );
 }
+
+
+Adminasig.defaultProps = {
+  auto_asig: false
+};
