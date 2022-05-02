@@ -57,7 +57,7 @@ export default function CardMembers({ info }) {
         onClick={redirectRegisterFeed}
         className="btn block mt-10 mx-auto md:text-base text-sm"
       >
-        Realizar evaluación
+       Registrar Feedback
       </button>
       
       {id_rol === 2 && (
