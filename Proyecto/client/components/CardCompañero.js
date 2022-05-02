@@ -20,7 +20,7 @@ export default function CardCompañero({ pendientes }) {
         onClick={() => router.push(`/evalua/${id_empleado}`)}
         className=" btn mt-8 mb-2 mx-auto md:mx-auto md:text-base text-sm text-center"
       >
-        Realizar evaluación
+        Registrar feedback
       </button>
     </div>
   );
