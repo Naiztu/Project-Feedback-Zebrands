@@ -12,11 +12,7 @@ export default function Post() {
   const [feedback, setFeedback] = useState(null);
   const { user } = useUser();
 
-<<<<<<< HEAD
-  const getFeedback = async (id_periodo) => {
-=======
   const getData = async (id_periodo) => {
->>>>>>> 4943438131343e7323f372c9592f74f29469e633
     try {
       const data = await getFeedback(user.id_empleado, id_periodo);
       setFeedback(data.data_feedback);
@@ -28,9 +24,11 @@ export default function Post() {
     }
   };
 
-  const setuser = (() => {
-    const id_user = user.id_empleado;
-  }, [user])
+  const setuser =
+    (() => {
+      const id_user = user.id_empleado;
+    },
+    [user]);
 
   useEffect(() => {
     setuser();

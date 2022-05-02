@@ -5,6 +5,7 @@ export default function RowFeed({ data }) {
   const router = useRouter();
 
   const {
+    id_user,
     imagen_perfil,
     nombre,
     apellido_paterno,
@@ -13,7 +14,7 @@ export default function RowFeed({ data }) {
   } = data || {};
 
   const redirectFeedback = () => {
-    router.push(`/feedback/${id_periodo}`);
+    router.push(`/feedback/${id_periodo}/${id_user}`);
   };
 
   return (

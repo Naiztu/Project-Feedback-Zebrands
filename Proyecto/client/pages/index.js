@@ -1,6 +1,5 @@
 import Head from "next/head";
 import swal from "sweetalert";
-import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
 import { useUser } from "../context/userContext";
 import Spinner from "../components/loaders/Sppiner";
@@ -9,7 +8,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "../hooks/useForm";
 
 export default function Home() {
-  const router = useRouter();
   const [load, setLoad] = useState(false);
   const { loginAuth } = useUser();
   const [captchaValido, cambiarCaptchaValido] = useState(true);
@@ -25,6 +23,7 @@ export default function Home() {
 
   useEffect(() => {
     const objMail = {
+      name: "email",
       descripcion_respuesta: "",
       message: "Escribe un Correo Válido",
     };
@@ -32,6 +31,7 @@ export default function Home() {
     setItem(objMail, /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/);
 
     const objPass = {
+      name: "password",
       descripcion_respuesta: "",
       message: "Contraseña Inválida",
     };
@@ -91,12 +91,12 @@ export default function Home() {
                 ))}
 
             <div className=" grid grid-col-1 sm:grid-cols-2 w-full h-full items-center justify-center ">
-               <ReCAPTCHA
+              <ReCAPTCHA
                 className="mt-5 col-span-1"
                 ref={captcha}
                 sitekey={process.env.KEY}
                 onChange={onChange}
-              /> 
+              />
 
               <button
                 className="btn mt-5 h-16 col-span-1"
@@ -107,8 +107,10 @@ export default function Home() {
                     try {
                       if (captchaValido) {
                         await loginAuth(
-                          data[0].descripcion_respuesta,
-                          data[1].descripcion_respuesta
+                          data.filter((item) => item.name === "email")[0]
+                            .descripcion_respuesta,
+                          data.filter((item) => item.name === "password")[0]
+                            .descripcion_respuesta
                         );
                         setLoad(false);
                       } else {

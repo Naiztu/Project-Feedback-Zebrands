@@ -7,7 +7,7 @@ import { useUser } from "../context/userContext";
 
 export default function OptionMember() {
   const { user, isAuthenticated } = useUser();
-  
+
   const router = useRouter();
   return (
     <>
@@ -16,7 +16,7 @@ export default function OptionMember() {
           <button
             className="group link-navbar"
             onClick={() => {
-              router.push(`/user/feedback/${user.id_empleado}`);
+              router.push(`/user/feedback`);
             }}
           >
             <div className=" div-navbar">

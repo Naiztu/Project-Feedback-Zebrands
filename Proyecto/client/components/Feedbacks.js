@@ -1,32 +1,10 @@
 import React, { useEffect, useState } from "react";
 import RowFeed from "./RowFeed";
-<<<<<<< HEAD
-import { UserContext, useUser } from "../context/userContext";
-import api from "../services/api";
-=======
 import { useUser } from "../context/userContext";
 import { getFeedbackHistory } from "../services/feedback";
->>>>>>> 4943438131343e7323f372c9592f74f29469e633
 import Loader from "./loaders/Loader";
 import { useRouter } from "next/router";
 
-<<<<<<< HEAD
-export default function Feedbacks({id_empleado}) {
-  const [feedbacks, setFeedbacks] = useState([]);
-  const { isAuthenticated, user } = useUser();
-  const router = useRouter();
-
-  const getFeedbacks = async () => {
-    try {
-      const res = await api.get(`/feedback/${id_empleado}`);
-      if (res.status != 200) {
-        throw {
-          err: true,
-          status: res.status,
-          statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
-        };
-      } else setFeedbacks(res.data.data_feedbackHistory);
-=======
 export default function Feedbacks({ id_user }) {
   const [feedbacks, setFeedbacks] = useState([]);
 
@@ -34,30 +12,14 @@ export default function Feedbacks({ id_user }) {
     try {
       const data = await getFeedbackHistory(id_user);
       setFeedbacks(data.data_feedbackHistory);
->>>>>>> 4943438131343e7323f372c9592f74f29469e633
     } catch (err) {
       console.log({ err });
     }
   };
 
- 
-  const validAcces =(() => {
-    if(user.rol!==1 && user.id_empleado!==id_empleado){
-      router.push(`/user/feedback/${user.id_empleado}`);
-    }
-}, [user])
-
   useEffect(() => {
-<<<<<<< HEAD
-    if (isAuthenticated) {
-     validAcces();
-      getFeedbacks();
-    }
-  }, [isAuthenticated]);
-=======
     getFeedbacks();
   }, []);
->>>>>>> 4943438131343e7323f372c9592f74f29469e633
 
   return (
     <>
