@@ -3,8 +3,11 @@ import { useRouter } from "next/router";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { BsJournalCheck } from "react-icons/bs";
 import { RiUserFollowLine } from "react-icons/ri";
+import { useUser } from "../context/userContext";
 
 export default function OptionMember() {
+  const { user, isAuthenticated } = useUser();
+  
   const router = useRouter();
   return (
     <>
@@ -13,7 +16,7 @@ export default function OptionMember() {
           <button
             className="group link-navbar"
             onClick={() => {
-              router.push("/user/feedback");
+              router.push(`/user/feedback/${user.id_empleado}`);
             }}
           >
             <div className=" div-navbar">

@@ -108,9 +108,7 @@ export default function AdminAllEmpleados() {
                                             </th>
                                             <th >
                                                 Equipo                                            </th>
-                                            <th >
-                                                -
-                                            </th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody className="text-sm divide-y divide-gray-100">

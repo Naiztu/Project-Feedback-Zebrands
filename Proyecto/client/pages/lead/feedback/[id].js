@@ -16,7 +16,6 @@ export default function Post() {
   const { user } = useUser();
 
   const getFeedback = async (id_periodo) => {
-    const id_user = user.id_empleado;
     try {
       const res = await api.get(`/feedback/${id_user}/${id_periodo}`);
       console.log(res);
@@ -36,7 +35,12 @@ export default function Post() {
     }
   };
 
+  const setuser = (() => {
+    const id_user = user.id_empleado;
+  }, [user])
+
   useEffect(() => {
+    setuser();
     if (router.isReady) {
       const { id } = router.query;
       getFeedback(id);

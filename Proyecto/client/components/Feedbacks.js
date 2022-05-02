@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import RowFeed from "./RowFeed";
-import { useUser } from "../context/userContext";
+import { UserContext, useUser } from "../context/userContext";
 import api from "../services/api";
 import Loader from "./loaders/Loader";
+import { useRouter } from "next/router";
 
-export default function Feedbacks() {
+export default function Feedbacks({id_empleado}) {
   const [feedbacks, setFeedbacks] = useState([]);
-  const { user, isAuthenticated } = useUser();
+  const { isAuthenticated, user } = useUser();
+  const router = useRouter();
 
   const getFeedbacks = async () => {
     try {
-      const res = await api.get(`/feedback/${user.id_empleado}`);
+      const res = await api.get(`/feedback/${id_empleado}`);
       if (res.status != 200) {
         throw {
           err: true,
@@ -23,8 +25,16 @@ export default function Feedbacks() {
     }
   };
 
+ 
+  const validAcces =(() => {
+    if(user.rol!==1 && user.id_empleado!==id_empleado){
+      router.push(`/user/feedback/${user.id_empleado}`);
+    }
+}, [user])
+
   useEffect(() => {
     if (isAuthenticated) {
+     validAcces();
       getFeedbacks();
     }
   }, [isAuthenticated]);

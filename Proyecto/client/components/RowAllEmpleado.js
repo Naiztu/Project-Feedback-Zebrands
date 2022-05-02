@@ -8,7 +8,13 @@ import swal from "sweetalert";
 
 
 export default function RowAllEmpleado({ info }) {
+  const botonPerfil = () => {
+    router.push(`/lead/adminasig/${id_empleado}`);
+  };
 
+  const botonFeedbacks = () => {
+    router.push(`/lead/adminasig/${id_empleado}`);
+  };
 
   return (
     <>
@@ -49,7 +55,12 @@ export default function RowAllEmpleado({ info }) {
         <td>
 
           <button className="btn ">
-            Ver perfil
+            Perfil
+          </button>
+        </td>
+        <td>
+          <button className="btn ">
+            Feedbacks
           </button>
         </td>
       </tr>
