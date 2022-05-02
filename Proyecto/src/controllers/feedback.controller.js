@@ -10,7 +10,6 @@ export async function getFeedback(req, res) {
   }
 }
 
-
 export async function getFeedbackGraph(req, res) {
   const { id_user } = req.params;
   try {
@@ -20,7 +19,6 @@ export async function getFeedbackGraph(req, res) {
     res.status(500).send({ err });
   }
 }
-
 
 export async function getAllGraph(req, res) {
   const { id_user } = req.params;
@@ -32,11 +30,14 @@ export async function getAllGraph(req, res) {
   }
 }
 
-
 export async function getFeedbackHistory(req, res) {
   const { id_user } = req.params;
   try {
-    const data_feedbackHistory = await Feedback.getDataHistoryFeedback(id_user);
+    const data_feedbacks = await Feedback.getDataHistoryFeedback(id_user);
+    const data_feedbackHistory = data_feedbacks.map((item) => ({
+      ...item,
+      id_user,
+    }));
     res.send({ data_feedbackHistory });
   } catch (err) {
     res.status(500).send({ err });
@@ -50,19 +51,43 @@ export async function getAllFeedbacks(req, res) {
     nivel_business,
     nivel_craft,
     nivel_people,
-  } = req.data
+  } = req.data;
   try {
     const data_feedbackAll = await Feedback.getDataAllFeedback();
     res.send({ data_feedbackAll });
   } catch (err) {
+    console.log(err);
     res.status(500).send({ err });
   }
-
 }
 
 export async function postFeedback(req, res) {
-  const { calificacion_craft, calificacion_personal, calificacion_business, calificacion_promedio, comentario_craft, comentario_personal, comentario_business, comentario_general, id_member, id_assistant, id_periodo } = req.body;
-  const feedback = new Feedback(calificacion_craft, calificacion_personal, calificacion_business, calificacion_promedio, comentario_craft, comentario_personal, comentario_business, comentario_general, id_member, id_assistant, id_periodo);
+  const {
+    calificacion_craft,
+    calificacion_personal,
+    calificacion_business,
+    calificacion_promedio,
+    comentario_craft,
+    comentario_personal,
+    comentario_business,
+    comentario_general,
+    id_member,
+    id_assistant,
+    id_periodo,
+  } = req.body;
+  const feedback = new Feedback(
+    calificacion_craft,
+    calificacion_personal,
+    calificacion_business,
+    calificacion_promedio,
+    comentario_craft,
+    comentario_personal,
+    comentario_business,
+    comentario_general,
+    id_member,
+    id_assistant,
+    id_periodo
+  );
   try {
     const data_post_feedback = await feedback.postDataFeedback();
     res.send({ data_post_feedback });
@@ -70,5 +95,3 @@ export async function postFeedback(req, res) {
     res.status(500).send({ err });
   }
 }
-
-
