@@ -99,5 +99,12 @@ export async function createMember(body) {
 }
 
 
-
+export async function updateMember(body) {
+  try {
+    const data_up = await api.put("/empleado/update", body);
+    return data_up;
+  } catch (error) {
+    throw { error };
+  }
+}
 

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { useUser } from "../context/userContext";
+import { updateMember, createMember } from "../services/empleado";
 
 export default function Registro({ regMember, isSaved }) {
   const [isSave, setIsSave] = useState(isSaved);
+    const [isEdited, setIsEdited] = useState(!isSaved);
   const {
     nombre,
     apellido_paterno,
@@ -33,16 +35,23 @@ export default function Registro({ regMember, isSaved }) {
     setPreMember(newMember);
   };
 
-  const handleSave = () => {
-    if (!isSave) {
-      registerMember();
-      setIsSave(true);
-    } else
-    setIsEdited(false);
+  const handleEdit = () => {
+    setIsEdited(true);
   };
 
+  const handleSave = () => {
+    if (isSave) {
+      //alert("actualiza");
+      updateEmpleado();
+    } else
+    //
+    registerMember();
+    setIsEdited(true);
+  };
+
+
   const options = [
-    { label: "Elije...", value: 0 },
+    { label: "Elige...", value: 0 },
     { label: "1.1", value: 1.1 },
     { label: "1.2", value: 1.2 },
     { label: "1.3", value: 1.3 },
@@ -61,12 +70,12 @@ export default function Registro({ regMember, isSaved }) {
   ];
 
   const optionsChapter = [
-    { label: "Elije...", value: 0 },
+    { label: "Elige...", value: 0 },
     { label: "Software", value: 1 },
   ];
 
   const optionsRol = [
-    { label: "Elije...", value: 0 },
+    { label: "Elige...", value: 0 },
     { label: "CM", value: 3 },
     { label: "CLA", value: 2 },
   ];
@@ -77,8 +86,23 @@ export default function Registro({ regMember, isSaved }) {
       swal("Nuevo member registrado", {
         icon: "success",
       });
+      setPreMember(regMember)
     } catch (error) {
+      console.log(error)
       swal("Hubo un error, member no regustrado", {
+        icon: "warning",
+      });
+    }
+  };
+
+  const updateEmpleado = async () => {
+    try {
+      const data = await updateMember(preMember);
+      swal("Member actualizado", {
+        icon: "success",
+      });
+    } catch (error) {
+      swal("Hubo un error, no se actualizo el member", {
         icon: "warning",
       });
     }
@@ -108,7 +132,7 @@ export default function Registro({ regMember, isSaved }) {
                     >
                       Dirección de Correo
                     </label>
-                    {!isSaved ? (
+                    {isEdited ? (
                       <input
                         className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                         onChange={handleChange}
@@ -127,7 +151,7 @@ export default function Registro({ regMember, isSaved }) {
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Nombre(s)
                     </label>
-                    {!isSaved ? (
+                    {isEdited ? (
                       <input
                         className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                         onChange={handleChange}
@@ -147,7 +171,7 @@ export default function Registro({ regMember, isSaved }) {
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Apellido Paterno
                       </label>
-                      {!isSaved ? (
+                      {isEdited ? (
                         <input
                           className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                           onChange={handleChange}
@@ -166,7 +190,7 @@ export default function Registro({ regMember, isSaved }) {
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Apellido Materno
                       </label>
-                      {!isSaved ? (
+                      {isEdited ? (
                         <input
                           className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                           onChange={handleChange}
@@ -188,7 +212,7 @@ export default function Registro({ regMember, isSaved }) {
                         Nivel Overall
                       </label>
                       <div className="flex-shrink w-full inline-block relative">
-                        {!isSaved ? (
+                        {isEdited ? (
                           <div
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
                             value={preMember.nivel_general}
@@ -209,7 +233,7 @@ export default function Registro({ regMember, isSaved }) {
                         Nivel Craft
                       </label>
 
-                      {!isSaved ? (
+                      {isEdited ? (
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
@@ -245,7 +269,7 @@ export default function Registro({ regMember, isSaved }) {
                         Nivel Business
                       </label>
 
-                      {!isSaved ? (
+                      {isEdited ? (
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
@@ -280,7 +304,7 @@ export default function Registro({ regMember, isSaved }) {
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Nivel People
                       </label>
-                      {!isSaved ? (
+                      {isEdited ? (
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
@@ -317,7 +341,7 @@ export default function Registro({ regMember, isSaved }) {
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Chapter
                       </label>
-                      {!isSaved ? (
+                      {isEdited ? (
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
@@ -351,7 +375,7 @@ export default function Registro({ regMember, isSaved }) {
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Rol
                       </label>
-                      {!isSaved ? (
+                      {isEdited? (
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
@@ -386,7 +410,7 @@ export default function Registro({ regMember, isSaved }) {
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Equipo
                     </label>
-                    {!isSaved ? (
+                    {isEdited ? (
                       <input
                         className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                         onChange={handleChange}
@@ -402,17 +426,14 @@ export default function Registro({ regMember, isSaved }) {
                     )}
                   </div>
                 </div>
-
-                {!isSaved && (
                   <div className="flex justify-end">
                     <button
-                      className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3"
-                      onClick={handleSave}
+                      className="btn"
+                      onClick={isEdited ? handleSave : handleEdit }
                     >
-                      Terminar con el Registro
+                      {isEdited ?  "Terminar Registro" :   "Actualiza Datos"}
                     </button>
                   </div>
-                )}
               </div>
             </div>
           </div>
@@ -436,5 +457,5 @@ Registro.defaultProps = {
     id_chapter: 1,
     id_rol: 0,
   },
-  isSaved: true,
+  isSaved: false,
 };
