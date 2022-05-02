@@ -1,5 +1,5 @@
 import pool from "../database/db";
-import {pag,orderBy } from "../util/query";
+import { pag, orderBy } from "../util/query";
 export class Feedback {
   constructor(
     _calificacion_craft,
@@ -13,7 +13,7 @@ export class Feedback {
     _id_member,
     _id_assistant,
     _id_periodo,
-    dimension,
+    dimension
   ) {
     this.calificacion_craft = _calificacion_craft;
     this.calificacion_personal = _calificacion_personal;
@@ -42,7 +42,6 @@ export class Feedback {
   }
 
   static async getDataFeedbackGraph(id_member) {
-
     try {
       const [rows, fields] = await pool.execute(
         `SELECT calificacion_promedio,calificacion_business, calificacion_personal, calificacion_craft,  id_periodo, id_feedback, id_empleado_member
@@ -51,8 +50,6 @@ export class Feedback {
         ORDER by id_periodo
         DESC LIMIT 5        
         `
-
-
       );
       return rows;
     } catch (err) {
@@ -61,7 +58,6 @@ export class Feedback {
   }
 
   static async getDataAllGraph() {
-
     try {
       const [rows, fields] = await pool.execute(
         `SELECT AVG(calificacion_craft), AVG(calificacion_personal), AVG(calificacion_business), AVG(calificacion_promedio), id_periodo
@@ -77,9 +73,6 @@ export class Feedback {
       throw { err };
     }
   }
-
-
-
 
   static async getDataHistoryFeedback(id_member) {
     try {
@@ -98,13 +91,12 @@ export class Feedback {
   }
 
   static async getDataAllFeedback() {
-   
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT imagen_perfil, nombre, apellido_paterno, id_periodo, calificacion_promedio 
-          FROM feedback F INNER JOIN empleado E ON F.id_empleado_member = E.id_empleado 
-          ${orderBy("id_periodo","DESC")}
-          ${pag(1,15)}`
+        `SELECT e.id_empleado AS id_user, e.imagen_perfil, e.nombre, e.apellido_paterno, f.id_periodo, f.calificacion_promedio 
+          FROM feedback f INNER JOIN empleado e ON f.id_empleado_member = e.id_empleado 
+          ${orderBy("f.id_periodo", "DESC")}
+          ${pag(1, 15)}`
       );
       return rows;
     } catch (err) {
@@ -147,8 +139,6 @@ export class Feedback {
       throw { err };
     }
   }
-
-
 }
 
 export class post_Feedback {
