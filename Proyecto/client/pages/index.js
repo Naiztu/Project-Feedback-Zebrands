@@ -12,7 +12,7 @@ export default function Home() {
   const router = useRouter();
   const [load, setLoad] = useState(false);
   const { loginAuth } = useUser();
-  const [captchaValido, cambiarCaptchaValido] = useState(true);
+  const [captchaValido, cambiarCaptchaValido] = useState(null);
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
 
   const captcha = useRef(null);
