@@ -247,7 +247,7 @@ export default function Perfil() {
                         </div>
                         <div className="w-full md:w-1/2 px-3 mb-6">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            Apellidඞ Materno
+                            Apellido Materno
                           </label>
                           <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                             {perfil.Materno_Assistant}{" "}

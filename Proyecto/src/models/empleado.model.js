@@ -225,7 +225,7 @@ export class Empleado {
           ${this.nivel_people},
           1,
           '${this.correo_electronico}',
-          'Interfectorem-Eros',
+          '${this.password}',
           '${this.equipo}',
           ${this.id_chapter},
           'http://localhost:8080/img/user_default.png'
