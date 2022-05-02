@@ -23,9 +23,9 @@ export async function getFeedbackGraph(req, res) {
 
 
 export async function getAllGraph(req, res) {
-  const { id_user } = req.params;
+  //const { id_user } = req.params;
   try {
-    const data_AllGraph = await Feedback.getDataAllGraph(id_user);
+    const data_AllGraph = await Feedback.getDataAllGraph();
     res.send({ data_AllGraph });
   } catch (err) {
     res.status(500).send({ err });
