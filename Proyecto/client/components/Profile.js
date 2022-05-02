@@ -4,6 +4,7 @@ import { useModal } from "../hooks/useModal";
 import { getPerfil, updatePass } from "../services/perfil";
 import Modal from "./Modal";
 import swal from "sweetalert";
+import {useRouter} from "next/router"
 
 export default function Perfil() {
   const [img, setImg] = useState("");
@@ -12,6 +13,8 @@ export default function Perfil() {
   const [perfil, setPerfil] = useState([]);
   const { user, isAuthenticated, setUser } = useUser();
   const imagenPrev = useRef();
+  const router=useRouter();
+
 
   const {
     nombre,
@@ -49,6 +52,10 @@ export default function Perfil() {
       swal("Contraseña actualizada!", {
         icon: "success",
       });
+      router.push("/user");
+
+      
+
     } catch (err) {
       swal("Hubo error, la contraseña no fue actualizada!", {
         icon: "warning",
