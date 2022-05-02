@@ -1,10 +1,9 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import RowEvaluaciones from "./RowEvaluaciones";
-import { getEvaluaciones} from "../services/evaluacion";
+import { getEvaluaciones } from "../services/evaluacion";
 
 export default function Evaluaciones({ id_periodo, id_user }) {
-
   const [evaluaciones, setEvaluaciones] = useState([]);
   const getData = async () => {
     try {

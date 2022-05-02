@@ -4,13 +4,12 @@ import { useUser } from "../context/userContext";
 import { getFeedbackHistory } from "../services/feedback";
 import Loader from "./loaders/Loader";
 
-export default function Feedbacks() {
+export default function Feedbacks({ id_user }) {
   const [feedbacks, setFeedbacks] = useState([]);
-  const { user, isAuthenticated } = useUser();
 
   const getFeedbacks = async () => {
     try {
-      const data = await getFeedbackHistory(user.id_empleado);
+      const data = await getFeedbackHistory(id_user);
       setFeedbacks(data.data_feedbackHistory);
     } catch (err) {
       console.log({ err });
@@ -18,10 +17,8 @@ export default function Feedbacks() {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      getFeedbacks();
-    }
-  }, [isAuthenticated]);
+    getFeedbacks();
+  }, []);
 
   return (
     <>
