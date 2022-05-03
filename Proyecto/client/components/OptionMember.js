@@ -6,7 +6,7 @@ import { RiUserFollowLine } from "react-icons/ri";
 import { useUser } from "../context/userContext";
 
 export default function OptionMember() {
-  const { id_periodo } = useUser();
+  const { isPeriodo } = useUser();
   const router = useRouter();
   return (
     <>
@@ -19,51 +19,43 @@ export default function OptionMember() {
             }}
           >
             <div className=" div-navbar">
-              <BsJournalCheck
-                size={28}
-                className="group-hover:fill-secondary-50"
-              />
+              <BsJournalCheck size={28} className="svg-option" />
               <span className="span-navbar">Mis Feedback</span>
             </div>
           </button>
         </li>
-        {id_periodo && (
-          <li className="relative">
-            <button
-              className="group link-navbar"
-              onClick={() => {
-                router.push("/user/asignar");
-              }}
-            >
-              <div className=" div-navbar">
-                <AiOutlineUserAdd
-                  size={28}
-                  className="group-hover:fill-secondary-50 "
-                />
-                <span className="span-navbar">Asignar compañeros</span>
-              </div>
-            </button>
-          </li>
-        )}
+        <li className="relative">
+          <button
+            className="group link-navbar"
+            disabled={!isPeriodo}
+            onClick={() => {
+              router.push("/user/asignar");
+            }}
+          >
+            <div className=" div-navbar">
+              <AiOutlineUserAdd size={28} className="svg-option " />
+              <span className="span-navbar">Asignar compañeros</span>
+            </div>
+          </button>
+        </li>
 
-        {id_periodo && (
-          <li className="relative">
-            <button
-              className="group link-navbar"
-              onClick={() => {
-                router.push("/user/evalua");
-              }}
-            >
-              <div className=" div-navbar">
-                <RiUserFollowLine
-                  size={28}
-                  className="group-hover:fill-secondary-50 "
-                />
-                <span className="span-navbar">Evaluar compañeros</span>
-              </div>
-            </button>
-          </li>
-        )}
+        <li className="relative">
+          <button
+            className="group link-navbar"
+            disabled={!isPeriodo}
+            onClick={() => {
+              router.push("/user/evalua");
+            }}
+          >
+            <div className=" div-navbar">
+              <RiUserFollowLine
+                size={28}
+                className="group-hover:fill-secondary-50 group-disabled:fill-secondary-50/30"
+              />
+              <span className="span-navbar">Evaluar compañeros</span>
+            </div>
+          </button>
+        </li>
       </ul>
     </>
   );

@@ -7,7 +7,7 @@ import { RiUserFollowLine, RiUserStarLine } from "react-icons/ri";
 import { useUser } from "../context/userContext";
 
 export default function OptionLead() {
-  const { id_periodo } = useUser();
+  const { isPeriodo } = useUser();
   const router = useRouter();
   return (
     <div>
@@ -80,24 +80,20 @@ export default function OptionLead() {
         </li>
       </ul>
       <ul className="relative px-1">
-        {id_periodo && (
-          <li className="relative">
-            <button
-              className="group link-navbar"
-              onClick={() => {
-                router.push("/user/evalua");
-              }}
-            >
-              <div className=" div-navbar">
-                <RiUserFollowLine
-                  size={28}
-                  className="group-hover:fill-secondary-50 "
-                />
-                <span className="span-navbar">Evaluar Compañeros</span>
-              </div>
-            </button>
-          </li>
-        )}
+        <li className="relative">
+          <button
+            disabled={!isPeriodo}
+            className="group link-navbar"
+            onClick={() => {
+              router.push("/user/evalua");
+            }}
+          >
+            <div className=" div-navbar">
+              <RiUserFollowLine size={28} className=" svg-option " />
+              <span className="span-navbar">Evaluar Compañeros</span>
+            </div>
+          </button>
+        </li>
       </ul>
       <ul className="relative px-1">
         <li className="relative">

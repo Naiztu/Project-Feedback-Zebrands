@@ -63,7 +63,7 @@ export class Assistant {
     try {
       const [rows, fields] = await pool.execute(
         `
-        SELECT  nombre, apellido_paterno, apellido_materno, correo_electronico
+        SELECT id_empleado, nombre, apellido_paterno, apellido_materno, correo_electronico
         from empleado
         Where id_empleado IN(
           SELECT id_empleado_assistant

@@ -57,3 +57,12 @@ export async function getPreguntasToEmpleado(
     throw { err };
   }
 }
+
+export async function indexCambio(body) {
+  try {
+    const res = await api.put("/preguntas/index", body);
+    return res;
+  } catch (error) {
+    throw { error };
+  }
+}
