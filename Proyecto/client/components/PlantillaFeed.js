@@ -14,6 +14,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
     comentario_personal,
     comentario_craft,
     comentario_general,
+    
   } = feedback;
 
   const [preFeedback, setPreFeedback] = useState(feedback);
