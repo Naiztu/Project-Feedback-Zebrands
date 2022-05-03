@@ -185,7 +185,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
             </div>
           ) : (
             <div className="w-full sm:basis-2/12 input-feed flex items-center justify-center font-bold rounded-r-3xl">
-              {parseInt(preFeedback.calificacion_promedio)}
+              {parseFloat(preFeedback.calificacion_promedio).toFixed(1)}
             </div>
           )}
         </div>
