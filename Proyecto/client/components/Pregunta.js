@@ -12,15 +12,14 @@ import { useForm } from "../hooks/useForm";
 export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
-  const [pregunta, setPregunta] = useState(data.pregunta);
   const [tipo, setTipo] = useState(data.tipo_pregunta);
   const [datas, errors, handle, handleBlur, setItem, checkErrors] = useForm();
   const [load, setLoad] = useState(false);
 
   useEffect(() => {
     const objQues = {
-      descripcion_respuesta: "",
-      message: "Escribe una pregunta válida",
+      descripcion_respuesta: data.pregunta,
+      message: "Has llegado al límite de caracteres",
     };
 
     setItem(objQues, /^.{1,255}$/);
@@ -68,7 +67,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   const createQuestion = async () => {
     try {
       const res = await postPregunta({
-        pregunta,
+        pregunta: datas[0].descripcion_respuesta,
         nivel_pregunta: data.nivel_pregunta,
         dimension_pregunta: data.dimension,
         tipo_pregunta: tipo,
@@ -76,7 +75,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
       });
       const newP = {
         id_pregunta: res.id_pregunta,
-        pregunta,
+        pregunta: datas[0].descripcion_respuesta,
         nivel_pregunta: data.nivel_pregunta,
         dimension_pregunta: data.dimension,
         tipo_pregunta: tipo,
@@ -101,7 +100,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
     try {
       const res = await updatePregunta({
         id_pregunta: data.id_pregunta,
-        pregunta,
+        pregunta: datas[0].descripcion_respuesta,
         tipo_pregunta: tipo,
       });
       swal("Pregunta actualizada", {
@@ -137,11 +136,11 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
             onChange={handleBlur}
           />
       
-              
+          
 
           
         ) : (
-          <p>{pregunta}</p>
+          <p>{datas[0]&&datas[0].descripcion_respuesta}</p>
         )}
 
           {errors &&
