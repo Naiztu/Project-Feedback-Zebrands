@@ -60,8 +60,6 @@ export default function Asignar() {
 
   const botonSearch = async () => {
     try {
-      const id_periodo = 1;
-      console.log({ id_periodo });
       const { data_empleados } = await getEmpleadosNotRequested(
         page,
         filterName,

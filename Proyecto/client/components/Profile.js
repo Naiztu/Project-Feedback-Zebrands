@@ -4,7 +4,7 @@ import { useModal } from "../hooks/useModal";
 import { updatePass } from "../services/perfil";
 import Modal from "./Modal";
 import swal from "sweetalert";
-import { postImage } from "../services/images";
+import { postDefault, postImage } from "../services/images";
 import { getMyAssistant } from "../services/assistant";
 import { useRouter } from "next/router";
 
@@ -87,21 +87,36 @@ export default function Perfil() {
   }, [isAuthenticated]);
 
   const uploadImg = async () => {
-    const formData = new FormData();
-    formData.append("image", img);
-    try {
-      const imagen_perfil = await postImage(formData);
-      setUser({ ...user, imagen_perfil });
-      closeModal();
-      swal("Foto Actualizada", {
-        icon: "success",
-      });
-    } catch (error) {
-      await swal({
-        title: "¡Hubo un Error!",
-        text: "No se pudo modificar tu foto de perfil",
-        icon: "warning",
-      });
+    if (img === "") {
+      try {
+        await postDefault();
+        swal("Foto Actualizada por la Default", {
+          icon: "success",
+        });
+      } catch (error) {
+        await swal({
+          title: "¡Hubo un Error!",
+          text: "No se pudo modificar tu foto de perfil",
+          icon: "warning",
+        });
+      }
+    } else {
+      const formData = new FormData();
+      formData.append("image", img);
+      try {
+        const imagen_perfil = await postImage(formData);
+        setUser({ ...user, imagen_perfil });
+        closeModal();
+        swal("Foto Actualizada", {
+          icon: "success",
+        });
+      } catch (error) {
+        await swal({
+          title: "¡Hubo un Error!",
+          text: "No se pudo modificar tu foto de perfil",
+          icon: "warning",
+        });
+      }
     }
   };
 
@@ -308,9 +323,11 @@ export default function Perfil() {
                         imagenPrev.current.src = URL.createObjectURL(
                           e.target.files[0]
                         );
-                      } else
+                      } else {
+                        setImg("");
                         imagenPrev.current.src =
                           "http://ec2-3-89-93-89.compute-1.amazonaws.com:8080/img/user_default.png";
+                      }
                     }}
                   />
                 </label>

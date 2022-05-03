@@ -15,7 +15,7 @@ export async function postImage(formData) {
 
 export async function postDefault() {
   try {
-    const res = await api.post("/default");
+    const res = await api.post("/images/default");
     return res;
   } catch (error) {
     throw error;
