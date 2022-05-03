@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { FaTrashAlt, FaPencilAlt, FaSave } from "react-icons/fa";
 import { BsFillArrowUpCircleFill, BsArrowDownCircleFill } from "react-icons/bs";
 
@@ -9,12 +9,26 @@ import {
   updatePregunta,
   indexCambio
 } from "../services/preguntas";
+import { useForm } from "../hooks/useForm";
+
 
 export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
-  const [pregunta, setPregunta] = useState(data.pregunta);
   const [tipo, setTipo] = useState(data.tipo_pregunta);
+  const [datas, errors, handle, handleBlur, setItem, checkErrors] = useForm();
+  const [load, setLoad] = useState(false);
+
+  useEffect(() => {
+    const objQues = {
+      descripcion_respuesta: data.pregunta,
+      message: "Has llegado al límite de caracteres",
+    };
+
+    setItem(objQues, /^.{1,255}$/);
+
+
+  }, []);
 
   const handleEdit = () => {
     setIsEdited(true);
@@ -40,7 +54,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
       try {
         const res = await deletePregunta(data.id_pregunta);
         setPntas(pntas.filter((item) => data.id_pregunta != item.id_pregunta));
-        swal("Eliminada satisfactoriamente!", {
+        swal("Eliminada satisfactoriamente", {
           icon: "success",
         });
       } catch (err) {
@@ -56,7 +70,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   const createQuestion = async () => {
     try {
       const res = await postPregunta({
-        pregunta,
+        pregunta: datas[0].descripcion_respuesta,
         nivel_pregunta: data.nivel_pregunta,
         dimension_pregunta: data.dimension,
         tipo_pregunta: tipo,
@@ -64,7 +78,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
       });
       const newP = {
         id_pregunta: res.id_pregunta,
-        pregunta,
+        pregunta: datas[0].descripcion_respuesta,
         nivel_pregunta: data.nivel_pregunta,
         dimension_pregunta: data.dimension,
         tipo_pregunta: tipo,
@@ -89,7 +103,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
     try {
       const res = await updatePregunta({
         id_pregunta: data.id_pregunta,
-        pregunta,
+        pregunta: datas[0].descripcion_respuesta,
         tipo_pregunta: tipo,
       });
       swal("Pregunta actualizada", {
@@ -135,17 +149,31 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
           <textarea
             type="text"
             className="w-full h-full appearance-none bg-white border-none text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none rounded-md"
-            name="pregunta"
-            id={data.id_pregunta}
-            value={pregunta}
-            onChange={(e) => setPregunta(e.target.value)}
+            name={"descripcion_respuesta"}
+            id={0}
+            value={datas[0] && datas[0].descripcion_respuesta}
+            onChange={handleBlur}
           />
+      
+          
+
+          
         ) : (
-          <p>{pregunta}</p>
+          <p>{datas[0]&&datas[0].descripcion_respuesta}</p>
         )}
+
+          {errors &&
+            errors
+              .filter((i) => i.id === 0)
+              .map((item) => (
+                <p className="error mt-1" key={item.id}>
+                  {item.message}
+                </p>
+              ))}
         <div className=" flex flex-col space-y-3">
           <button
             className="btn"
+            disabled = {load || errors.length > 0}
             onClick={isEdited ? handleQuestion : handleEdit}
           >
             {isEdited ? <FaSave /> : <FaPencilAlt />}

@@ -42,7 +42,7 @@ export const useForm = () => {
 
     if (!descripcion_respuesta.trim()) {
       errs = errs.concat([
-        { id, message: "No puedes dejar en blanco el campo" },
+        { id, message: "No puedes dejar el campo en blanco" },
       ]);
     } else if (!expresion.test(descripcion_respuesta.trim())) {
       errs = errs.concat([{ id, message }]);

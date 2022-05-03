@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { useUser } from "../context/userContext";
 import { updateMember, createMember } from "../services/empleado";
+import { useForm } from "../hooks/useForm";
 
 export default function Registro({ regMember, isSaved }) {
   const [isSave, setIsSave] = useState(isSaved);
@@ -23,6 +24,7 @@ export default function Registro({ regMember, isSaved }) {
     id_chapter,
     id_rol,
   } = regMember;
+  
 
   const random = (length = 8) => {
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$%*¿?@-_';
@@ -63,6 +65,7 @@ export default function Registro({ regMember, isSaved }) {
   };
   
   const handleChange = (e) => {
+    //handleBlur(e)
     const newMember = { ...preMember };
     newMember[e.target.name] = e.target.value;
     newMember["nivel_general"] = Math.min(
@@ -149,17 +152,26 @@ export default function Registro({ regMember, isSaved }) {
                     {isEdited ? (
                       <input
                         className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                        onChange={handleChange}
-                        value={preMember.correo_electronico}
-                        type="text"
-                        placeholder="Ingresa el correo"
-                        name="correo_electronico"
+                        onChange={handleBlur}
+                        id={0}
+                        value={data[0] && data[0].descripcion_respuesta}
+                        type={"email"}
+                        placeholder="Ingresa el correo electrónico"
+                        name={"descripcion_respuesta"}
                       />
                     ) : (
                       <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                         {correo_electronico}
                       </p>
                     )}
+                    {errors &&
+                      errors
+                        .filter((i) => i.id === 0)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                        ))}
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -168,17 +180,27 @@ export default function Registro({ regMember, isSaved }) {
                     {isEdited ? (
                       <input
                         className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                        onChange={handleChange}
-                        value={preMember.nombre}
-                        type="text"
-                        placeholder="Ingresa el Nombre"
-                        name="nombre"
+                        onChange={handleBlur}
+                        value={data[1] && data[1].descripcion_respuesta}
+                        type={"name"}
+                        id={1}
+                        placeholder="Ingresa el nombre"
+                        name={"descripcion_respuesta"}
                       />
                     ) : (
                       <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                         {nombre}
                       </p>
                     )}
+
+                    {errors &&
+                      errors
+                        .filter((i) => i.id === 1)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                        ))}
                   </div>
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-1/2 px-3 mb-6">
@@ -188,17 +210,26 @@ export default function Registro({ regMember, isSaved }) {
                       {isEdited ? (
                         <input
                           className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                          onChange={handleChange}
-                          value={preMember.apellido_paterno}
-                          type="text"
-                          placeholder="Ingresa el Apellido Paterno"
-                          name="apellido_paterno"
+                          onChange={handleBlur}
+                          id={2}
+                          value={data[2] && data[2].descripcion_respuesta}
+                          type={"lastn"}
+                          placeholder="Ingresa el apellido paterno"
+                          name={"descripcion_respuesta"}
                         />
                       ) : (
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                           {apellido_paterno}
                         </p>
                       )}
+                      {errors &&
+                        errors
+                          .filter((i) => i.id === 2)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                     <div className="w-full md:w-1/2 px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -207,17 +238,26 @@ export default function Registro({ regMember, isSaved }) {
                       {isEdited ? (
                         <input
                           className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                          onChange={handleChange}
-                          value={preMember.apellido_materno}
-                          type="text"
-                          placeholder="Ingresa el Apellido Materno"
-                          name="apellido_materno"
+                          onChange={handle}
+                          id={3}
+                          value={data[3] && data[3].descripcion_respuesta}
+                          type={"lastnm"}
+                          placeholder="Ingresa el apellido materno"
+                          name={"descripcion_respuesta"}
                         />
                       ) : (
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                           {apellido_materno}
                         </p>
                       )}
+                      {errors &&
+                        errors
+                          .filter((i) => i.id === 3)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-4">
@@ -251,10 +291,11 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleChange}
-                            value={preMember.nivel_craft}
-                            type="number"
-                            name="nivel_craft"
+                            onChange={handleBlur}
+                            value={data[4] && data[4].descripcion_respuesta}
+                            type="craft"
+                            id = {4}
+                            name={"descripcion_respuesta"}
                           >
                             {options.map((option, index) => (
                               <option key={index} value={option.value}>
@@ -277,6 +318,15 @@ export default function Registro({ regMember, isSaved }) {
                           {nivel_craft}
                         </p>
                       )}
+                      {errors &&
+                      errors
+                        .filter((i) => i.id === 4)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                ))}
+
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -287,10 +337,11 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleChange}
-                            value={preMember.nivel_business}
+                            onChange={handleBlur}
+                            id= {5}
+                            value={data[5] && data[5].descripcion_respuesta}
                             type="number"
-                            name="nivel_business"
+                            name={"descripcion_respuesta"}
                           >
                             {options.map((option, index) => (
                               <option key={index} value={option.value}>
@@ -312,7 +363,16 @@ export default function Registro({ regMember, isSaved }) {
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                           {nivel_business}
                         </p>
+                        
                       )}
+                      {errors &&
+                      errors
+                        .filter((i) => i.id === 5)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                ))}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -322,10 +382,11 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleChange}
-                            value={preMember.nivel_people}
+                            onChange={handleBlur}
+                            id = {6}
+                            value={data[6] && data[6].descripcion_respuesta}
                             type="number"
-                            name="nivel_people"
+                            name={"descripcion_respuesta"}
                           >
                             {options.map((option, index) => (
                               <option key={index} value={option.value}>
@@ -348,7 +409,17 @@ export default function Registro({ regMember, isSaved }) {
                           {nivel_people}
                         </p>
                       )}
+                      {errors &&
+                      errors
+                        .filter((i) => i.id === 6)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                                          ))}
+
                     </div>
+                    
                   </div>
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-full px-3 mb-6">
@@ -359,10 +430,13 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            value={preMember.id_chapter}
-                            name="id_chapter"
-                            onChange={handleChange}
+                            id={7}
+                            type = "chapter"
+                            value={data[7] && data[7].descripcion_respuesta}
+                            name={"descripcion_respuesta"}
+                            onChange={handleBlur}
                           >
+                            
                             {optionsChapter.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.label}
@@ -384,24 +458,38 @@ export default function Registro({ regMember, isSaved }) {
                           {id_chapter}
                         </p>
                       )}
+
+                            {errors &&
+                            errors
+                              .filter((i) => i.id === 7)
+                              .map((item) => (
+                                <p className="error mt-1" key={item.id}>
+                                  {item.message}
+                                </p>
+                              ))}
+
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Rol
                       </label>
-                      {isEdited? (
+                      {isEdited ? (
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            value={preMember.id_rol}
-                            name="id_rol"
-                            onChange={handleChange}
+                            value={data [8] && data[8].descripcion_respuesta}
+                            name= {"descripcion_respuesta"}
+                            type = {"rol"}
+                            id = {8}
+                            onChange={handleBlur}
                           >
                             {optionsRol.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.label}
                               </option>
                             ))}
+                            
+                
                           </select>
                           <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
                             <svg
@@ -418,6 +506,14 @@ export default function Registro({ regMember, isSaved }) {
                           {id_rol}
                         </p>
                       )}
+                      {errors &&
+                      errors
+                        .filter((i) => i.id === 8)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                ))}
                     </div>
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
@@ -427,17 +523,26 @@ export default function Registro({ regMember, isSaved }) {
                     {isEdited ? (
                       <input
                         className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
-                        onChange={handleChange}
-                        value={preMember.equipo}
-                        type="text"
+                        id={9}
+                        name={"descripcion_respuesta"}
+                        value={data[9] && data[9].descripcion_respuesta}
+                        onChange={handleBlur}
+                        type={"team"}
                         placeholder="Ingresa el Equipo"
-                        name="equipo"
-                      />
+                                              />
                     ) : (
                       <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                         {equipo}
                       </p>
                     )}
+                    {errors &&
+                      errors
+                        .filter((i) => i.id === 9)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                        ))}
                   </div>
                 </div>
                   <div className="flex justify-end">
