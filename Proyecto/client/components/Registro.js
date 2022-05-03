@@ -6,6 +6,8 @@ import { useForm } from "../hooks/useForm";
 
 export default function Registro({ regMember, isSaved }) {
   const [isSave, setIsSave] = useState(isSaved);
+  const [load, setLoad] = useState(false);
+
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
 
@@ -85,12 +87,12 @@ export default function Registro({ regMember, isSaved }) {
     setItem(objPpl, /([1-5]+\.?[1-3]*)$/);
 
     const objChp= {
-      name: "rol",
+      name: "chapter",
       descripcion_respuesta: "",
       message: "Selecciona un Chapter válido",
     };
 
-    setItem(objChp, /^[A-Za-z ]+$/);
+    setItem(objChp, /([1-5]+\.?[1-3]*)$/);
 
 
     const objRol = {
@@ -99,7 +101,7 @@ export default function Registro({ regMember, isSaved }) {
       message: "Selecciona un rol válido",
     };
   
-    setItem(objRol, /^[A-Za-z ]+$/);
+    setItem(objRol, /([1-5]+\.?[1-3]*)$/);
 
     const objTeam = {
       name: "team",
@@ -362,8 +364,8 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleChange}
-                            value={preMember.nivel_craft && data[4] && data[4].descripcion_respuesta}
+                            onChange={handleBlur}
+                            value={data[4] && data[4].descripcion_respuesta}
                             type="craft"
                             id = {4}
                             name={"descripcion_respuesta"}
@@ -408,11 +410,11 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleChange}
+                            onChange={handleBlur}
                             id= {5}
-                            value={preMember.nivel_business && data[5] && data[5].descripcion_respuesta}
+                            value={data[5] && data[5].descripcion_respuesta}
                             type="number"
-                            name={"nivel_business"}
+                            name={"descripcion_respuesta"}
                           >
                             {options.map((option, index) => (
                               <option key={index} value={option.value}>
@@ -453,11 +455,11 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleChange}
+                            onChange={handleBlur}
                             id = {6}
-                            value={preMember.nivel_people && data[6] && data[6].descripcion_respuesta}
+                            value={data[6] && data[6].descripcion_respuesta}
                             type="number"
-                            name={"nivel_people"}
+                            name={"descripcion_respuesta"}
                           >
                             {options.map((option, index) => (
                               <option key={index} value={option.value}>
@@ -502,18 +504,12 @@ export default function Registro({ regMember, isSaved }) {
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
                             id={7}
+                            type = "chapter"
                             value={data[7] && data[7].descripcion_respuesta}
                             name={"descripcion_respuesta"}
-                            onChange={handleChange}
+                            onChange={handleBlur}
                           >
-                            {errors &&
-                            errors
-                              .filter((i) => i.id === 7)
-                              .map((item) => (
-                                <p className="error mt-1" key={item.id}>
-                                  {item.message}
-                                </p>
-                              ))}
+                            
                             {optionsChapter.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.label}
@@ -535,6 +531,16 @@ export default function Registro({ regMember, isSaved }) {
                           {id_chapter}
                         </p>
                       )}
+
+                            {errors &&
+                            errors
+                              .filter((i) => i.id === 7)
+                              .map((item) => (
+                                <p className="error mt-1" key={item.id}>
+                                  {item.message}
+                                </p>
+                              ))}
+
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -555,14 +561,7 @@ export default function Registro({ regMember, isSaved }) {
                                 {option.label}
                               </option>
                             ))}
-                            {errors &&
-                      errors
-                        .filter((i) => i.id === 8)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                ))}
+                            
                 
                           </select>
                           <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
@@ -580,6 +579,14 @@ export default function Registro({ regMember, isSaved }) {
                           {id_rol}
                         </p>
                       )}
+                      {errors &&
+                      errors
+                        .filter((i) => i.id === 8)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                ))}
                     </div>
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
@@ -615,8 +622,51 @@ export default function Registro({ regMember, isSaved }) {
                 <div className="flex justify-end">
                   <button
                     className="btn"
+                    disabled={load || errors.length > 0}
                     onClick={isEdited ? handleSave : handleEdit}
-                  >
+                    onMouseDown={async () => {
+                      if (checkErrors() === 0) {
+                        setLoad(true);
+                        try {
+                          if (isEdited) {
+                            
+                              data.filter((item) => item.name === "email")[0]
+                                .descripcion_respuesta,
+                              data.filter((item) => item.name === "name")[0]
+                                .descripcion_respuesta
+                                data.filter((item) => item.name === "lastn")[0]
+                                .descripcion_respuesta,
+                              data.filter((item) => item.name === "lastnm")[0]
+                                .descripcion_respuesta
+                                data.filter((item) => item.name === "craft")[0]
+                                .descripcion_respuesta,
+                              data.filter((item) => item.name === "buss")[0]
+                                .descripcion_respuesta
+                                data.filter((item) => item.name === "ppl")[0]
+                                .descripcion_respuesta,
+                              data.filter((item) => item.name === "chapter")[0]
+                                .descripcion_respuesta
+                                data.filter((item) => item.name === "rol")[0]
+                                .descripcion_respuesta,
+                              data.filter((item) => item.name === "team")[0]
+                                .descripcion_respuesta
+                            ;
+                            setLoad(false);
+                          } 
+                        } catch (error) {
+                          await swal({
+                            title: "Datos inválidos",
+                            text: "Revisa los datos",
+                            icon: "warning",
+                          });
+                          setLoad(false);
+                        }
+                      } else
+                        await swal({
+                          title: "¡Llena los campos!",
+                          icon: "warning",
+                        });
+                    }}                  >
                     {isEdited ? "Terminar Registro" : "Actualiza Datos"}
                   </button>
                 </div>
