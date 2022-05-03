@@ -1,10 +1,12 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import RowEvaluaciones from "./RowEvaluaciones";
-import { getEvaluaciones } from "../services/evaluacion";
-
+import { getEvaluaciones, getResumenData } from "../services/evaluacion";
+ 
 export default function Evaluaciones({ id_periodo, id_user }) {
   const [evaluaciones, setEvaluaciones] = useState([]);
+  const [resumen, setResumen] = useState([]);
+
   const getData = async () => {
     try {
       const data = await getEvaluaciones(id_periodo, id_user);
@@ -21,10 +23,25 @@ export default function Evaluaciones({ id_periodo, id_user }) {
     } catch (err) {
       console.log(err);
     }
+
+  };
+
+  const getResumen = async () => {
+    try {
+      const data = await getResumenData(id_periodo, id_user);
+      const { data_resumen } = data;
+      setResumen(data);
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("Resumen:");
+    console.log(resumen);
+
   };
 
   useEffect(() => {
     getData();
+    getResumen();
   }, []);
 
   return (

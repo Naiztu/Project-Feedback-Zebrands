@@ -20,7 +20,7 @@ export default function RowEvaluaciones({ item }) {
       const data = await getRespuestas(id_evaluador, id_evaluado, id_periodo);
       setRespuestas(data.data_res);
     } catch (err) {
-      consolo.log(err)
+      console.log(err)
     }
   };
 

@@ -25,3 +25,13 @@ export async function getEvaluaciones(id_periodo, id_user) {
     throw { error };
   }
 }
+
+export async function getResumenData (id_periodo, id_user) {
+  try {
+    const {data_resumen} = await api.get(`/evaluar/resumen/${id_periodo}/${id_user}`);
+    console.log(data_resumen)
+    return data_resumen;
+  } catch (error) {
+    throw { error };
+  }
+}

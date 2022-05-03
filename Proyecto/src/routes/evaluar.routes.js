@@ -15,3 +15,4 @@ router.post("/", postAsignarCompaniero);
 router.get("/resumen/:id_periodo/:id_user", getResumen);
 
 export default router;
+ 
