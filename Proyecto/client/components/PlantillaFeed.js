@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { postFeedback } from "../services/feedback";
 import swal from "sweetalert";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router"
+import { useUser } from "../context/userContext";
 
 export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   } = feedback;
 
   const [preFeedback, setPreFeedback] = useState(feedback);
+  const { user, id_periodo } = useUser();
 
   const handleChange = (e) => {
     const newFeed = { ...preFeedback };
@@ -34,7 +36,8 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   const registerFeed = async () => {
     const res = await postFeedback({
       ...preFeedback,
-      id_assistant,
+      id_periodo,
+      id_assistant:user.id_empleado,
       id_member,
     });
     if (res.status != 200) {
@@ -51,7 +54,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
     }
   };
 
-  const id_assistant = 1;
+
 
   return (
     <>
@@ -209,7 +212,6 @@ PlantillaFeed.defaultProps = {
     comentario_personal: "",
     comentario_craft: "",
     comentario_general: "",
-    id_periodo: 3,
   },
   isSaved: true,
 };
