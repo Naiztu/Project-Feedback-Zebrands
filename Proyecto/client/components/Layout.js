@@ -4,6 +4,7 @@ import { useUser } from "../context/userContext";
 import Navbar from "./Navbar";
 import { BsHouse } from "react-icons/bs";
 import { motion } from "framer-motion";
+import { getLastFeedback } from "../services/feedback";
 
 export default function Layout({ children }) {
   const router = useRouter();
@@ -36,10 +37,10 @@ export default function Layout({ children }) {
           className="h-20 w-20 fixed right-0 bottom-0 z-10 flex items-center justify-center "
         >
           <motion.svg
-            className="absolute bottom-0 right-0 z-50 w-[110px] h-auto aspect-square fill-black rounded-tl-full "
+            className="absolute bottom-0 right-0 z-50 w-[110px] h-auto aspect-square fill-black rounded-tl-full"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <motion.g transform="translate(190 190)" className="z-50">
+            <motion.g transform="translate(190 200)" className="z-50">
               <motion.path
                 className="fill-black"
                 variants={pathV2}
@@ -52,8 +53,23 @@ export default function Layout({ children }) {
             </motion.g>
           </motion.svg>
           {router.pathname === "/user" || router.pathname === "/lead" ? (
-            <div className="z-50 text-white font-bold text-4xl active:scale-95 hover:scale-110  transition-all ease-in-out cursor-pointer m-4">
-              4.5
+            <div
+              onClick={async () => {
+                try {
+                  const { data_last_feedback } = await getLastFeedback(
+                    user.id_empleado
+                  );
+
+                  router.push(
+                    `/feedback/${data_last_feedback.id_periodo}/${user.id_empleado}`
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+              className="z-50 text-white font-bold text-4xl active:scale-95 hover:scale-110  transition-all ease-in-out cursor-pointer m-4"
+            >
+              {user && user.nivel_general}
             </div>
           ) : (
             <BsHouse

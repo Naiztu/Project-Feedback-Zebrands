@@ -10,3 +10,12 @@ export async function postImages(req, res) {
   );
   res.send(process.env.HOST + "/img/" + filename);
 }
+
+export async function postDefault(req, res) {
+  const { id_empleado } = req.data;
+  Empleado.updateImageProfile(
+    id_empleado,
+    process.env.HOST + "/img/user_default.png"
+  );
+  res.send(process.env.HOST + "/img/user_default.png");
+}

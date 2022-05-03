@@ -8,6 +8,14 @@ export async function getFeedbackLead() {
     throw { error };
   }
 }
+export async function getLastFeedback() {
+  try {
+    const { data } = await api.get(`/feedback/last`);
+    return data;
+  } catch (error) {
+    throw { error };
+  }
+}
 
 export async function getFeedbackHistory(id) {
   try {
@@ -21,7 +29,7 @@ export async function getFeedbackHistory(id) {
 export async function getFeedback(id_user, id_periodo) {
   try {
     const res = await api.get(`/feedback/${id_user}/${id_periodo}`);
-    return res.data
+    return res.data;
   } catch (error) {
     throw { error };
   }
@@ -44,3 +52,13 @@ export async function getAVGLead() {
     throw { error };
   }
 }
+
+export async function postFeedback(body) {
+  try {
+    const res = await api.post("/feedback", body);
+    return res;
+  } catch (error) {
+    throw { error };
+  }
+}
+

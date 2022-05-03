@@ -3,11 +3,13 @@ import Evaluaciones from "../../../components/Evaluaciones";
 import Layout from "../../../components/Layout";
 import PlantillaFeed from "../../../components/PlantillaFeed";
 import { useRouter } from "next/router";
+import { useUser } from "../context/userContext";
 
 export default function Post() {
   const router = useRouter();
   const [id_mem, setId_mem] = useState(null);
-  const id_periodo = 1;
+  const { id_periodo } = useUser();
+
   useEffect(() => {
     if (router.isReady) {
       const { id_member } = router.query;

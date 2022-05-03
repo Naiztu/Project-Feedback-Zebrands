@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import api from "../services/api";
 import { currentEmpleado } from "../services/empleado";
 import { getAuth } from "../services/login";
+import { getIdPeriodo } from "../services/periodo";
 
 export const UserContext = createContext();
 
@@ -14,6 +15,7 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const [id_periodo, setId_Periodo] = useState(null);
 
   async function loadUserFromCookies() {
     const token = Cookies.get("token");
@@ -21,6 +23,7 @@ export const UserProvider = ({ children }) => {
       try {
         const data = await currentEmpleado();
         setUser(data.user);
+        getPeriodo(data.user.id_chapter);
       } catch (error) {
         console.log(error);
       }
@@ -31,6 +34,16 @@ export const UserProvider = ({ children }) => {
     loadUserFromCookies();
   }, []);
 
+  async function getPeriodo(id_chapter) {
+    try {
+      const data = await getIdPeriodo(id_chapter);
+      console.log(data);
+      setId_Periodo(data.id_periodo);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function loginAuth(email, password) {
     const body = { email, password };
     try {
@@ -38,6 +51,7 @@ export const UserProvider = ({ children }) => {
       Cookies.set("token", data.token);
       api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
       setUser(data.user);
+      getPeriodo(data.user.id_chapter);
 
       if (data.user.id_rol === 1) {
         router.push("/lead");
@@ -50,6 +64,7 @@ export const UserProvider = ({ children }) => {
 
   async function logoutAuth() {
     setUser(null);
+    setId_Periodo(null);
     Cookies.remove("token");
     delete api.defaults.headers.Authorization;
     router.push("/");
@@ -57,7 +72,14 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, loginAuth, logoutAuth, setUser, isAuthenticated: !!user }}
+      value={{
+        user,
+        id_periodo,
+        loginAuth,
+        logoutAuth,
+        setUser,
+        isAuthenticated: !!user,
+      }}
     >
       {children}
     </UserContext.Provider>

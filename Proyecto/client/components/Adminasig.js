@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { getEmpleadosNotAssigned } from "../services/empleado";
 import { useUser } from "../context/userContext";
 import { getAsignados } from "../services/asignados";
-z
-export default function Adminasig({ data_assis }) {
+
+export default function Adminasig({ data_assis, auto_asig }) {
   const router = useRouter();
   const { isAuthenticated, user } = useUser();
   const [asignados, setAsignados] = useState([]);
@@ -17,9 +17,7 @@ export default function Adminasig({ data_assis }) {
 
   const getMembersSinAssistant = async () => {
     try {
-      const id_periodo = 1;
-      const data = await getEmpleadosNotAssigned(page, filterName
-      );
+      const data = await getEmpleadosNotAssigned(page, filterName);
       setCompaneros(data.data_empleados);
     } catch (err) {
       swal("Hubo un error", {
@@ -29,8 +27,6 @@ export default function Adminasig({ data_assis }) {
   };
 
   const getMembersAsignados = async () => {
-    //const { user } = useUser();
-    //console.log("El periodo actual"=user.id_periodo)
     try {
       const data_empleados = await getAsignados(data_assis.id_empleado);
       setAsignados(data_empleados.data_members);
@@ -40,7 +36,6 @@ export default function Adminasig({ data_assis }) {
       });
     }
   };
-
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -75,7 +70,10 @@ export default function Adminasig({ data_assis }) {
     }
 
     try {
-      const { data_empleados } = await getEmpleadosNotAssigned(newPage, filterName);
+      const { data_empleados } = await getEmpleadosNotAssigned(
+        newPage,
+        filterName
+      );
       setCompaneros(data_empleados);
     } catch (error) {
       console.log(error);
@@ -88,11 +86,12 @@ export default function Adminasig({ data_assis }) {
 
   return (
     <>
-
-      {user.id_rol === 2 && (
-        <h1 className="title my-10 mx-auto">Administra los asignados de {data_assis.nombre}</h1>
+      {(user.id_rol === 2 || user.id_rol === 1) && !auto_asig && (
+        <h1 className="title my-10 mx-auto">
+          Administra los asignados de {data_assis.nombre}
+        </h1>
       )}
-      {user.id_rol === 1 && (
+      {user.id_rol === 1 && auto_asig && (
         <h1 className="title my-10 mx-auto">Auto-asignar CM</h1>
       )}
 
@@ -128,19 +127,18 @@ export default function Adminasig({ data_assis }) {
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-100">
                       {companeros &&
-                        companeros
-                          .map((item, index) => (
-                            <RowAsignarMember
-                              select={true}
-                              info={item}
-                              key={index}
-                              id_assistant={data_assis.id_empleado}
-                              objFunction={{
-                                getMembersAsignados,
-                                getMembersSinAssistant
-                              }}
-                            />
-                          ))}
+                        companeros.map((item, index) => (
+                          <RowAsignarMember
+                            select={true}
+                            info={item}
+                            key={index}
+                            id_assistant={data_assis.id_empleado}
+                            objFunction={{
+                              getMembersAsignados,
+                              getMembersSinAssistant,
+                            }}
+                          />
+                        ))}
                     </tbody>
                   </table>
                 </div>
@@ -159,14 +157,15 @@ export default function Adminasig({ data_assis }) {
           </div>
         </div>
 
-
         <div className="basis-1/2">
-        {user.id_rol === 2 && (
-        <h1 className="title my-10 mx-auto">Members de {data_assis.nombre}</h1>
-      )}
-      {user.id_rol === 1 && (
-        <h1 className="title my-10 mx-auto">Mis CM</h1>
-      )}
+          {(user.id_rol === 2 || user.id_rol === 1) && !auto_asig && (
+            <h1 className="title my-10 mx-auto">
+              Members de {data_assis.nombre}
+            </h1>
+          )}
+          {user.id_rol === 1 && auto_asig && (
+            <h1 className="title my-10 mx-auto">Mis CM</h1>
+          )}
           {asignados.length === 0 ? (
             "Este assistant no tiene members"
           ) : (
@@ -185,19 +184,20 @@ export default function Adminasig({ data_assis }) {
                         </tr>
                       </thead>
                       <tbody className="text-sm divide-y divide-gray-100">
-                        {asignados && asignados
-                        .filter((el) => el.id_rol!==2)
-                        .map((item, index) => (
-                          <RowAsignarMember
-                            select={false}
-                            info={item}
-                            key={index}
-                            objFunction={{
-                              getMembersAsignados,
-                              getMembersSinAssistant
-                            }}
-                          />
-                        ))}
+                        {asignados &&
+                          asignados
+                            .filter((el) => el.id_rol !== 2)
+                            .map((item, index) => (
+                              <RowAsignarMember
+                                select={false}
+                                info={item}
+                                key={index}
+                                objFunction={{
+                                  getMembersAsignados,
+                                  getMembersSinAssistant,
+                                }}
+                              />
+                            ))}
                       </tbody>
                     </table>
                   </div>
@@ -210,3 +210,7 @@ export default function Adminasig({ data_assis }) {
     </>
   );
 }
+
+Adminasig.defaultProps = {
+  auto_asig: false,
+};

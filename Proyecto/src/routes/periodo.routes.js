@@ -9,7 +9,5 @@ const router = Router();
 
 router.post("/newperiodo", postPeriodo);
 router.put("/fechas", cambiaPeriodo);
-router.get("/currentperiodo", getCurrentPeriodo);
+router.get("/currentperiodo/:id_chapter", getCurrentPeriodo);
 export default router;
-
-

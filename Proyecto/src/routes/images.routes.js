@@ -2,7 +2,7 @@ import { Router } from "express";
 import path from "path";
 import { randomUUID } from "crypto";
 import multer from "multer";
-import { postImages } from "../controllers/images.controller";
+import { postDefault, postImages } from "../controllers/images.controller";
 
 const router = Router();
 
@@ -33,5 +33,7 @@ router.post(
   }).single("image"),
   postImages
 );
+
+router.post("/default", postDefault);
 
 export default router;

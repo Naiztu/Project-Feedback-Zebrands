@@ -1,17 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUser } from "../context/userContext";
 import { useModal } from "../hooks/useModal";
-import { getPerfil, updatePass } from "../services/perfil";
+import { updatePass } from "../services/perfil";
 import Modal from "./Modal";
 import swal from "sweetalert";
+import { postDefault, postImage } from "../services/images";
+import { getMyAssistant } from "../services/assistant";
+import { useRouter } from "next/router";
 
 export default function Perfil() {
   const [img, setImg] = useState("");
   const [isOpenModal, openModal, closeModal] = useModal(false);
   const [isOpenModal2, openModal2, closeModal2] = useModal(false);
-  const [perfil, setPerfil] = useState([]);
+  const [assitant, setAssistant] = useState({});
   const { user, isAuthenticated, setUser } = useUser();
   const imagenPrev = useRef();
+  const router = useRouter();
 
   const {
     nombre,
@@ -28,9 +32,8 @@ export default function Perfil() {
 
   const getPerfilData = async () => {
     try {
-      const data = await getPerfil(user.id_empleado);
-      setPerfil(data.data_perfil);
-      console.log(data);
+      const data = await getMyAssistant(user.id_empleado);
+      setAssistant(data.info_assistant);
     } catch (err) {
       console.log({ err });
     }
@@ -49,6 +52,7 @@ export default function Perfil() {
       swal("Contraseña actualizada!", {
         icon: "success",
       });
+      router.push("/user");
     } catch (err) {
       swal("Hubo error, la contraseña no fue actualizada!", {
         icon: "warning",
@@ -83,21 +87,36 @@ export default function Perfil() {
   }, [isAuthenticated]);
 
   const uploadImg = async () => {
-    const formData = new FormData();
-    formData.append("image", img);
-    try {
-      const imagen_perfil = await postImage(formData);
-      setUser({ ...user, imagen_perfil });
-      closeModal();
-      swal("Foto Actualizada", {
-        icon: "success",
-      });
-    } catch (error) {
-      await swal({
-        title: "¡Hubo un Error!",
-        text: "No se pudo modificar tu foto de perfil",
-        icon: "warning",
-      });
+    if (img === "") {
+      try {
+        await postDefault();
+        swal("Foto Actualizada por la Default", {
+          icon: "success",
+        });
+      } catch (error) {
+        await swal({
+          title: "¡Hubo un Error!",
+          text: "No se pudo modificar tu foto de perfil",
+          icon: "warning",
+        });
+      }
+    } else {
+      const formData = new FormData();
+      formData.append("image", img);
+      try {
+        const imagen_perfil = await postImage(formData);
+        setUser({ ...user, imagen_perfil });
+        closeModal();
+        swal("Foto Actualizada", {
+          icon: "success",
+        });
+      } catch (error) {
+        await swal({
+          title: "¡Hubo un Error!",
+          text: "No se pudo modificar tu foto de perfil",
+          icon: "warning",
+        });
+      }
     }
   };
 
@@ -227,12 +246,13 @@ export default function Perfil() {
                         Información de tu Chapter Lead Assistant
                       </h2>
                       <br></br>
+
                       <div className="w-full md:w-full px-3 mb-6">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                           Nombre(s)
                         </label>
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {perfil.nombre_Assistant}
+                          {assitant && assitant.nombre}
                         </p>
                       </div>
                       <div className="flex items-center justify-between mt-4">
@@ -241,18 +261,25 @@ export default function Perfil() {
                             Apellido Paterno
                           </label>
                           <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                            {" "}
-                            {perfil.Paterno_Assistant}{" "}
+                            {assitant && assitant.apellido_paterno}
                           </p>
                         </div>
                         <div className="w-full md:w-1/2 px-3 mb-6">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            Apellidඞ Materno
+                            Apellido Materno
                           </label>
                           <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                            {perfil.Materno_Assistant}{" "}
+                            {assitant && assitant.apellido_materno}{" "}
                           </p>
                         </div>
+                      </div>
+                      <div className="w-full md:w-full px-3 mb-6">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Correo
+                        </label>
+                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                          {assitant && assitant.correo_electronico}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -296,9 +323,11 @@ export default function Perfil() {
                         imagenPrev.current.src = URL.createObjectURL(
                           e.target.files[0]
                         );
-                      } else
+                      } else {
+                        setImg("");
                         imagenPrev.current.src =
                           "http://ec2-3-89-93-89.compute-1.amazonaws.com:8080/img/user_default.png";
+                      }
                     }}
                   />
                 </label>

@@ -44,10 +44,12 @@ export class Feedback {
   static async getDataFeedbackGraph(id_member) {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT calificacion_promedio,calificacion_business, calificacion_personal, calificacion_craft,  id_periodo, id_feedback, id_empleado_member
-        FROM feedback
-        WHERE id_empleado_member = ${id_member}
-        ORDER by id_periodo
+        `SELECT f.calificacion_promedio, f.calificacion_business, f.calificacion_personal, 
+        f.calificacion_craft, p.nombre_periodo,  f.id_periodo, f.id_feedback, f.id_empleado_member
+        FROM feedback f, periodo p
+        WHERE f.id_empleado_member = ${id_member} AND
+              f.id_periodo = p.id_periodo
+        ORDER by f.id_periodo
         DESC LIMIT 5        
         `
       );
@@ -85,6 +87,21 @@ export class Feedback {
                 F.id_periodo = P.id_periodo AND E1.id_empleado = ${id_member};`
       );
       return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
+  static async getDataLastFeedback(id_member) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT F.id_periodo
+                FROM feedback F, empleado E1, empleado E2, periodo P
+                WHERE  F.id_empleado_member = ${id_member}
+                order by id_periodo desc
+                limit 1;`
+      );
+      return rows[0];
     } catch (err) {
       throw { err };
     }
