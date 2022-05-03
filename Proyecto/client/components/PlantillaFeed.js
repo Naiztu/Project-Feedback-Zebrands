@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { postFeedback } from "../services/feedback";
 import swal from "sweetalert";
-import {useRouter} from "next/router"
+import { useRouter } from "next/router";
 
 export default function PlantillaFeed({ feedback, isSaved, id_member }) {
-  const router=useRouter();
+  const router = useRouter();
   const {
     calificacion_craft,
     calificacion_personal,
@@ -30,12 +30,12 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
     setPreFeedback(newFeed);
   };
 
- const registerFeed = async() => {
-    const res=await postFeedback({
+  const registerFeed = async () => {
+    const res = await postFeedback({
       ...preFeedback,
       id_assistant,
       id_member,
-    })
+    });
     if (res.status != 200) {
       throw {
         err: true,
@@ -48,12 +48,9 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
       });
       router.push("/user/asignados");
     }
-      
   };
 
   const id_assistant = 1;
-
-  
 
   return (
     <>
@@ -162,14 +159,15 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
         <h2 className=" text-3xl font-bold mb-2 ml-6">Comentario General</h2>
         <div
           className="flex
-        flex-col md:flex-row space-x-0 md:space-x-2
-        rounded-3xl overflow-hidden mb-4 w-11/12 md:w-9/12 mx-auto"
+        flex-col md:flex-row space-x-0 md:space-x-2 mb-4 w-11/12 md:w-9/12 mx-auto"
         >
           {isSaved ? (
-            <div className="basis-10/12 coment">{comentario_general}</div>
+            <div className="basis-10/12 rounded-l-3xl coment">
+              {comentario_general}
+            </div>
           ) : (
             <textarea
-              className=" text-area-feed basis-10/12"
+              className=" text-area-feed basis-10/12 rounded-l-3xl "
               value={preFeedback.comentario_general}
               name="comentario_general"
               placeholder="Comentario General"
@@ -178,11 +176,11 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
           )}
 
           {isSaved ? (
-            <div className="w-full sm:basis-2/12 calif">
+            <div className="w-full sm:basis-2/12 calif rounded-r-3xl">
               {calificacion_promedio}
             </div>
           ) : (
-            <div className="w-full sm:basis-2/12 input-feed flex items-center justify-center font-bold">
+            <div className="w-full sm:basis-2/12 input-feed flex items-center justify-center font-bold rounded-r-3xl">
               {parseInt(preFeedback.calificacion_promedio)}
             </div>
           )}
