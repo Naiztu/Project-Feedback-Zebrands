@@ -4,7 +4,7 @@ import swal from "sweetalert";
 import {useRouter} from "next/router"
 import { useUser } from "../context/userContext";
 
-export default function PlantillaFeed({ feedback, isSaved, id_member }) {
+export default function PlantillaFeed({ feedback, isSaved, id_member, id_assistant, id_periodo }) {
   const router = useRouter();
   const {
     calificacion_craft,
@@ -19,7 +19,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
   } = feedback;
 
   const [preFeedback, setPreFeedback] = useState(feedback);
-  const { user, id_periodo } = useUser();
+  
 
   const handleChange = (e) => {
     const newFeed = { ...preFeedback };
@@ -37,7 +37,7 @@ export default function PlantillaFeed({ feedback, isSaved, id_member }) {
     const res = await postFeedback({
       ...preFeedback,
       id_periodo,
-      id_assistant:user.id_empleado,
+      id_assistant,
       id_member,
     });
     if (res.status != 200) {
