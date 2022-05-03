@@ -3,7 +3,7 @@ import Evaluaciones from "../../../components/Evaluaciones";
 import Layout from "../../../components/Layout";
 import PlantillaFeed from "../../../components/PlantillaFeed";
 import { useRouter } from "next/router";
-import { useUser } from "../context/userContext";
+import { useUser } from "../../../context/userContext";
 
 export default function Post() {
   const router = useRouter();
