@@ -12,3 +12,12 @@ export async function postImage(formData) {
     throw error;
   }
 }
+
+export async function postDefault() {
+  try {
+    const res = await api.post("/default");
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}

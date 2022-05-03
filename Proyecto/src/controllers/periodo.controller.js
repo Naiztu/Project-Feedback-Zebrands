@@ -40,9 +40,9 @@ export async function cambiaPeriodo(req, res) {
 export async function getCurrentPeriodo(req, res) {
   const { id_chapter } = req.params;
   try {
-    const data = await Periodo.getCurrentPeriodo(id_chapter);
-    res.send({ data });
+    const { id_periodo } = await Periodo.getCurrentPeriodo(id_chapter);
+    res.send({ id_periodo });
   } catch (err) {
-    res.status(500).send({ err });
+    res.status(403).send({ err });
   }
 }

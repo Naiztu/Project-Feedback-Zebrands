@@ -105,31 +105,34 @@ export default function UserIndex() {
         borderWidth: 2,
       },
     ],
-    labels: graph.map((item) => item.nombre_periodo),
+    labels: graph.map((item) => item.id_periodo),
   };
 
   return (
     <>
       {user && (
-        <div flex items-center justify-between>
+        <div className="flex flex-col items-center justify-between w-full">
           <h1 className="title my-10 mx-auto">¡Hola de nuevo!</h1>
           <p className="text text-center w-3/4 mx-auto">
             Aquí está un resumen de tu desempeño en las últimas cuatro
             evaluaciones.
           </p>
-          <div className=" w-11/12 lg:w-7/12 mx-auto mt-2">
-            <Line data={data} options={options}></Line>
-          </div>
-          <div className="text-base lg:text-xl">
-            <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto mt-4 mb-2 py-2 px-6 flex-row flex justify-between">
+          <Line
+            data={data}
+            options={options}
+            className="w-11/12 sm:w-8/12 mx-auto"
+          ></Line>
+
+          <div className="text-base lg:text-xl flex flex-col sm:flex-row space-x-0 sm:space-x-4 space-y-4 sm:space-y-0 w-7/12 mt-10">
+            <div className=" label-main">
               <h1 className="font-semibold">Craft</h1>
               <p className="italic">{user.nivel_craft}</p>
             </div>
-            <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
+            <div className="label-main">
               <h1 className="font-semibold">Business</h1>{" "}
               <p className="italic">{user.nivel_business}</p>
             </div>
-            <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
+            <div className=" label-main">
               <h1 className="font-semibold">People</h1>{" "}
               <p className="italic">{user.nivel_people}</p>
             </div>

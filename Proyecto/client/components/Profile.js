@@ -231,6 +231,7 @@ export default function Perfil() {
                         Información de tu Chapter Lead Assistant
                       </h2>
                       <br></br>
+
                       <div className="w-full md:w-full px-3 mb-6">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                           Nombre(s)

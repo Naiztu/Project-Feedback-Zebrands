@@ -4,7 +4,6 @@ import { useUser } from "../context/userContext";
 import Navbar from "./Navbar";
 import { BsHouse } from "react-icons/bs";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { getLastFeedback } from "../services/feedback";
 
 export default function Layout({ children }) {
@@ -70,7 +69,7 @@ export default function Layout({ children }) {
               }}
               className="z-50 text-white font-bold text-4xl active:scale-95 hover:scale-110  transition-all ease-in-out cursor-pointer m-4"
             >
-              {user.nivel_general}
+              {user && user.nivel_general}
             </div>
           ) : (
             <BsHouse

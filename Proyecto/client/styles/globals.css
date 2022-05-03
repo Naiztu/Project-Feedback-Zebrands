@@ -81,3 +81,7 @@
 .error {
   @apply text-xs italic text-center text-red-500;
 }
+
+.label-main {
+  @apply w-full sm:w-1/3 shadow-lg rounded-xl  border mx-auto flex-row flex justify-between px-4 py-2 cursor-pointer ease-in-out delay-300 transition-all hover:scale-105 active:scale-95;
+}
