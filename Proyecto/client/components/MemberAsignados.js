@@ -6,30 +6,23 @@ import { getAsignados } from "../services/asignados";
 import { FaTrashAlt } from "react-icons/fa";
 import { useRouter } from "next/router";
 
-
-
-
-
 export default function MemberAsignados() {
   const router = useRouter();
   const [info, setInfo] = useState([]);
   const { isAuthenticated, user } = useUser();
 
-
   const getData = async () => {
     try {
       const data = await getAsignados(user.id_empleado);
-      console.log(data);
       setInfo(data.data_members);
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   const handleAdd = () => {
     router.push(`/lead/adminasig/autoasigCM/${user.id_empleado}`);
   };
-
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -45,13 +38,12 @@ export default function MemberAsignados() {
         ))}
       </div>
       <div className="w-11/12 items-center justify-center mx-auto flex flex-wrap">
-      {user && user.id_rol === 1 && (
-        <button onClick={handleAdd} className="btn">
-        Auto-asignar CM
-      </button>
-              )}
+        {user && user.id_rol === 1 && (
+          <button onClick={handleAdd} className="btn">
+            Auto-asignar CM
+          </button>
+        )}
       </div>
-     
     </>
   );
 }
