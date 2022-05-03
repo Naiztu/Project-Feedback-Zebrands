@@ -8,6 +8,7 @@ export default function Registro({ regMember, isSaved }) {
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [preMember, setPreMember] = useState(regMember);
+  const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
   //const { user, isAuthenticated } = useUser();
   
   const {

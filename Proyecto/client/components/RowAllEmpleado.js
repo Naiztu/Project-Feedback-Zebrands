@@ -4,6 +4,7 @@ import { postAsignacion } from "../services/asignados";
 import { getEmpleadosNotAssigned } from "../services/empleado";
 import { desasignar } from "../services/assistant";
 import swal from "sweetalert";
+import { useRouter } from "next/router";
 
 
 
@@ -14,6 +15,10 @@ export default function RowAllEmpleado({ info }) {
 
   const botonFeedbacks = () => {
     router.push(`/lead/adminasig/${id_empleado}`);
+  const router = useRouter();
+  }
+  const redirectInfo = () => {
+    router.push("/lead/info");
   };
 
   return (
@@ -21,7 +26,7 @@ export default function RowAllEmpleado({ info }) {
       <tr className="hover:bg-blue-400/20">
         <td className=" items-center p-2 whitespace-nowrap  flex justify-between">
           <div className="flex items-center">
-            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3 font-medium">
               <img
                 className="rounded-full aspect-square object-cover"
                 src={info.imagen_perfil}
@@ -53,14 +58,10 @@ export default function RowAllEmpleado({ info }) {
           </div>
         </td>
         <td>
-
-          <button className="btn ">
-            Perfil
-          </button>
-        </td>
-        <td>
-          <button className="btn ">
-            Feedbacks
+          <button 
+          className="btn"
+          onClick={redirectInfo} >
+            Ver perfil
           </button>
         </td>
       </tr>
