@@ -5,7 +5,10 @@ import { updateMember, createMember } from "../services/empleado";
 
 export default function Registro({ regMember, isSaved }) {
   const [isSave, setIsSave] = useState(isSaved);
-    const [isEdited, setIsEdited] = useState(!isSaved);
+  const [isEdited, setIsEdited] = useState(!isSaved);
+  const [preMember, setPreMember] = useState(regMember);
+  //const { user, isAuthenticated } = useUser();
+  
   const {
     nombre,
     apellido_paterno,
@@ -16,13 +19,49 @@ export default function Registro({ regMember, isSaved }) {
     nivel_people,
     correo_electronico,
     equipo,
+    password,
     id_chapter,
     id_rol,
   } = regMember;
 
-  const [preMember, setPreMember] = useState(regMember);
-  //const { user, isAuthenticated } = useUser();
+  const random = (length = 8) => {
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$%*¿?@-_';
+    let str = '';
+    for (let i = 0; i < length; i++) {
+        str += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
 
+    return str;
+};
+
+  const registerMember = async () => {
+    try {
+      const data = await createMember(preMember);
+      swal("Registraste un member con la contraseña: " + preMember.password + " mandalsela por correo.", {
+        icon: "success",
+      });
+      setPreMember(regMember)
+    } catch (error) {
+      console.log(error)
+      swal("Hubo un error, member no registrado", {
+        icon: "warning",
+      });
+    }
+  };
+
+  const updateEmpleado = async () => {
+    try {
+      const data = await updateMember(preMember);
+      swal("Member actualizado", {
+        icon: "success",
+      });
+    } catch (error) {
+      swal("Hubo un error, no se actualizo el member", {
+        icon: "warning",
+      });
+    }
+  };
+  
   const handleChange = (e) => {
     const newMember = { ...preMember };
     newMember[e.target.name] = e.target.value;
@@ -32,23 +71,10 @@ export default function Registro({ regMember, isSaved }) {
       parseFloat(newMember.nivel_people) + 1
     );
 
+    newMember.password = random(12);
+    console.log(newMember)
     setPreMember(newMember);
   };
-
-  const handleEdit = () => {
-    setIsEdited(true);
-  };
-
-  const handleSave = () => {
-    if (isSave) {
-      //alert("actualiza");
-      updateEmpleado();
-    } else
-    //
-    registerMember();
-    setIsEdited(true);
-  };
-
 
   const options = [
     { label: "Elige...", value: 0 },
@@ -80,39 +106,26 @@ export default function Registro({ regMember, isSaved }) {
     { label: "CLA", value: 2 },
   ];
 
-  const registerMember = async () => {
-    try {
-      const data = await createMember(preMember);
-      swal("Nuevo member registrado", {
-        icon: "success",
-      });
-      setPreMember(regMember)
-    } catch (error) {
-      console.log(error)
-      swal("Hubo un error, member no regustrado", {
-        icon: "warning",
-      });
-    }
+  const handleEdit = () => {
+    setIsEdited(true);
   };
 
-  const updateEmpleado = async () => {
-    try {
-      const data = await updateMember(preMember);
-      swal("Member actualizado", {
-        icon: "success",
-      });
-    } catch (error) {
-      swal("Hubo un error, no se actualizo el member", {
-        icon: "warning",
-      });
-    }
+  const handleSave = () => {
+    if (isSave) {
+      alert("funcion actualiza");
+      //updateEmpleado();
+      setIsEdited(false);
+    } else {
+    registerMember();
+    setIsEdited(true);
+  }
   };
 
   return (
     <>
       <header className="w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
-          <h1 className=" title">Registrar Nuevo Member</h1>
+          <h1 className=" title">{!isSaved ? "Registra a un nuevo Member" : "Información del Member"}</h1>
         </div>
       </header>
       <div className="min-h-screen pt-2 my-16">
@@ -120,7 +133,8 @@ export default function Registro({ regMember, isSaved }) {
           <div className="inputs w-full max-w-2xl p-6 mx-auto">
             <h2 className="text-2xl text-gray-900">
               {" "}
-              Información del nuevo Member:{" "}
+              {" "}
+              {!isSaved ? "Información del nuevo Member:" : "Información del Member:"}
             </h2>
             <div className="mt-6 border-t border-gray-400 pt-4">
               <div className="personal w-full">
@@ -431,7 +445,7 @@ export default function Registro({ regMember, isSaved }) {
                       className="btn"
                       onClick={isEdited ? handleSave : handleEdit }
                     >
-                      {isEdited ?  "Terminar Registro" :   "Actualiza Datos"}
+                      {isEdited ?  "Guardar Registro" :   "Actualiza Datos"}
                     </button>
                   </div>
               </div>
@@ -454,8 +468,9 @@ Registro.defaultProps = {
     nivel_people: 0,
     correo_electronico: "",
     equipo: "",
+    password: "",
     id_chapter: 1,
     id_rol: 0,
   },
   isSaved: false,
-};
+}

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { FaTrashAlt, FaPencilAlt, FaSave } from "react-icons/fa";
+import { BsFillArrowUpCircleFill, BsArrowDownCircleFill } from "react-icons/bs";
+
 import swal from "sweetalert";
 import {
   deletePregunta,
   postPregunta,
   updatePregunta,
+  indexCambio
 } from "../services/preguntas";
 
 export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
@@ -94,6 +97,22 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
       });
     } catch (err) {
       swal("Hubo un error, la pregunta no fue actualizada", {
+        icon: "warning",
+      });
+    }
+  };
+
+  const changeIndex = async () => {
+    try {
+      const res = await indexCamb({
+        id_pregunta_origen: data.id_pregunta,
+        id_pregunta_destino: data.id_pregunta+1,
+      });
+      swal("Cambio exitoso", {
+        icon: "success",
+      });
+    } catch (err) {
+      swal("Hubo un error, la pregunta no cambió de lugar", {
         icon: "warning",
       });
     }
