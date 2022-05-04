@@ -2,9 +2,14 @@ import React from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { BsJournalCheck } from "react-icons/bs";
 import { useRouter } from "next/router";
+import { useModal } from "../hooks/useModal";
+import Modal from "./Modal";
+import Feedbacks from "../components/Feedbacks";
+
 
 export default function RowAllEmpleado({ info }) {
   const router = useRouter();
+  const [isOpenModal, openModal, closeModal] = useModal(false);
 
   const botonPerfil = () => {
     router.push(`/lead/adminasig/${id_empleado}`);
@@ -17,6 +22,7 @@ export default function RowAllEmpleado({ info }) {
   const redirectInfo = () => {
     router.push("/lead/info");
   };
+
 
   return (
     <>
@@ -64,7 +70,7 @@ export default function RowAllEmpleado({ info }) {
 
             <button
               className=" rounded-md bg-secondary-50 ml-2 "
-              onClick={redirectInfo}
+              onClick={openModal}
             >
               <div className="w-10 h-10 md:w-auto flex items-center justify-center">
                 <BsJournalCheck size={25} className="fill-white" />
@@ -73,6 +79,11 @@ export default function RowAllEmpleado({ info }) {
                 </p>
               </div>
             </button>
+            <Modal isOpen={isOpenModal} closeModal={closeModal}>
+            <div className="flex flex-col pt-4">
+            <Feedbacks id_user={15} />
+            </div>
+          </Modal>
           </div>
         </td>
       </tr>
