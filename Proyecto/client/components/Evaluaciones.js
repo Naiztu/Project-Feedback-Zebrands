@@ -18,7 +18,6 @@ export default function Evaluaciones({ id_periodo, id_user }) {
   };
 
   useEffect(() => {
-    getData();
     getResumen();
   }, []);
 
