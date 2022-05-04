@@ -10,7 +10,11 @@ export class Assistant {
   static async getDataListAssitant(id_assistant) {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT e.id_empleado,e.nombre, e.apellido_materno, e.apellido_paterno, e.imagen_perfil, lastrol.id_rol  FROM empleado e
+        `SELECT e.id_empleado,e.nombre, e.apellido_materno, e.apellido_paterno, 
+        e.imagen_perfil,
+        e.equipo,
+        e.nivel_general,e.nivel_craft , e.nivel_business, e.nivel_people,
+        lastrol.id_rol  FROM empleado e
                 INNER JOIN 
                 (SELECT id_empleado, id_rol ,max(fecha_rol)
                 FROM empleado_rol

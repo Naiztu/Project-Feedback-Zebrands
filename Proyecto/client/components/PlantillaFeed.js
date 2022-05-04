@@ -18,7 +18,8 @@ export default function PlantillaFeed({
   const router = useRouter();
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
   const [load, setLoad] = useState(false);
-
+    console.log("data")
+    console.log(data)
   const {
     comentario_personal = data[0].descripcion_respuesta,
     calificacion_personal = data[1].descripcion_respuesta,
@@ -50,6 +51,9 @@ export default function PlantillaFeed({
   };
 
   const registerFeed = async () => {
+    console.log("El prefeedback") 
+
+    console.log(preFeedback) 
     const res = await postFeedback({
       ...preFeedback,
       id_periodo,
