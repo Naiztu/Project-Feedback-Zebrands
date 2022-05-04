@@ -15,17 +15,17 @@ export default function Registro({ regMember, isSaved }) {
   //const { user, isAuthenticated } = useUser();
 
   const {
-    correo_electronico = data[0].descripcion_respuesta,
-    nombre = data[1].descripcion_respuesta,
-    apellido_paterno = data[2].descripcion_respuesta,
-    apellido_materno = data[3].descripcion_respuesta,
+    correo_electronico ,
+    nombre,
+    apellido_paterno,
+    apellido_materno,
     nivel_general,
-    nivel_craft = data[4].descripcion_respuesta,
-    nivel_business = data[5].descripcion_respuesta,
-    nivel_people = data[6].descripcion_respuesta,
-    id_chapter = data[7].descripcion_respuesta,
-    id_rol = data[8].descripcion_respuesta,
-    equipo = data[9].descripcion_respuesta,
+    nivel_craft,
+    nivel_business ,
+    nivel_people,
+    id_chapter,
+    id_rol ,
+    equipo,
     password,
     activo,
     id_empleado,
@@ -43,7 +43,7 @@ export default function Registro({ regMember, isSaved }) {
   };
 
   useEffect(() => {
-    objects(data).forEach((item, i) => setItem(item, reg[i]));
+    objects(regMember).forEach((item, i) => setItem(item, reg[i]));
   }, []);
 
   const registerMember = async () => {
@@ -145,11 +145,11 @@ export default function Registro({ regMember, isSaved }) {
       //updateEmpleado();
       setIsEdited(false);
     } else {
-      if (checkErrors === 0) {
+      if (checkErrors() === 0) {
         registerMember();
         setIsEdited(true);
       } else {
-        swal("Hubo un error, por favor revisa tu registro.", {
+        swal("Tienes campos faltantes!", {
           icon: "error",
         });
       }
@@ -607,15 +607,15 @@ Registro.defaultProps = {
     nombre: "",
     apellido_paterno: "",
     apellido_materno: "",
-    nivel_general: 0,
-    nivel_craft: 0,
-    nivel_business: 0,
-    nivel_people: 0,
+    nivel_general: "0",
+    nivel_craft: "0",
+    nivel_business:" 0",
+    nivel_people: "0",
     correo_electronico: "",
     equipo: "",
     password: "",
-    id_chapter: 1,
-    id_rol: 0,
+    id_chapter: "1",
+    id_rol: "3",
   },
   isSaved: false,
 };
