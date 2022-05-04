@@ -72,9 +72,9 @@ export default function Evaluaciones({ id_periodo, id_user }) {
                   <tr className=" text-black/80">
                     <td></td>
                     <td></td>
-                    <td className="p-2 whitespace-nowrap">{isNaN(prom.prom_craft) ? "-":prom.prom_craft}</td>
-                    <td className="p-2 whitespace-nowrap">{isNaN(prom.prom_people) ? "-":prom.prom_people}</td>
-                    <td className="p-2 whitespace-nowrap">{isNaN(prom.prom_business) ? "-":prom.prom_business}</td>
+                    <td className="p-2 whitespace-nowrap">{prom.prom_craft ? prom.prom_craft:"-"}</td>
+                    <td className="p-2 whitespace-nowrap">{prom.prom_people ? prom.prom_people:"-"}</td>
+                    <td className="p-2 whitespace-nowrap">{prom.prom_business ? prom.prom_business:"-"}</td>
                     <td className="p-2 whitespace-nowrap">{prom.prom_gen ? prom.prom_gen: "-" }</td>
                   </tr>)}
               </tbody>

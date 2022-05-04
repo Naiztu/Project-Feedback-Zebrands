@@ -116,15 +116,15 @@ export class getEvaluar {
       })
 
       const promedios=[
-        arrAvg(contestados.map((ob)=>{
+        parseFloat(arrAvg(contestados.map((ob)=>{
           return ob.cal_craft;
-        })).toFixed(1), 
-        arrAvg(contestados.map((ob)=>{
+        })).toFixed(1)), 
+        parseFloat(arrAvg(contestados.map((ob)=>{
           return ob.cal_people;
-        })).toFixed(1), 
-        arrAvg(contestados.map((ob)=>{
+        })).toFixed(1)), 
+        parseFloat(arrAvg(contestados.map((ob)=>{
           return ob.cal_business;
-        })).toFixed(1)
+        })).toFixed(1))
       ]
 
       const resumen={
