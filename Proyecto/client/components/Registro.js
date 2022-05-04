@@ -3,48 +3,63 @@ import swal from "sweetalert";
 import { useUser } from "../context/userContext";
 import { updateMember, createMember } from "../services/empleado";
 import { useForm } from "../hooks/useForm";
+import { objects, reg } from "../util/objectsInputs";
 
 export default function Registro({ regMember, isSaved }) {
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [preMember, setPreMember] = useState(regMember);
+  const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
+  const [load, setLoad] = useState(false);
+
+
+
   //const { user, isAuthenticated } = useUser();
-  
+
   const {
-    nombre,
-    apellido_paterno,
-    apellido_materno,
+    correo_electronico = data[0].descripcion_respuesta,
+    nombre = data[1].descripcion_respuesta,
+    apellido_paterno = data[2].descripcion_respuesta,
+    apellido_materno = data[3].descripcion_respuesta,
     nivel_general,
-    nivel_craft,
-    nivel_business,
-    nivel_people,
-    correo_electronico,
-    equipo,
+    nivel_craft = data[4].descripcion_respuesta,
+    nivel_business = data[5].descripcion_respuesta,
+    nivel_people = data[6].descripcion_respuesta,
+    id_chapter = data[7].descripcion_respuesta,
+    id_rol = data[8].descripcion_respuesta,
+    equipo = data[9].descripcion_respuesta,
     password,
-    id_chapter,
-    id_rol,
   } = regMember;
-  
 
   const random = (length = 8) => {
-    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$%*¿?@-_';
-    let str = '';
+    let chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$%*¿?@-_";
+    let str = "";
     for (let i = 0; i < length; i++) {
-        str += chars.charAt(Math.floor(Math.random() * chars.length));
+      str += chars.charAt(Math.floor(Math.random() * chars.length));
     }
 
     return str;
-};
+  };
+
+  useEffect(() => {
+    objects(data).forEach((item, i) => setItem(item, reg[i]));
+  }, []);
 
   const registerMember = async () => {
     try {
       const data = await createMember(preMember);
-      swal("Registraste un member con la contraseña: " + preMember.password + " mandalsela por correo.", {
-        icon: "success",
-      });
-      setPreMember(regMember)
+      swal(
+        "Registraste un member con la contraseña: " +
+          preMember.password +
+          " mándasela por correo.",
+        {
+          icon: "success",
+        }
+      );
+      setPreMember(regMember);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       swal("Hubo un error, member no registrado", {
         icon: "warning",
       });
@@ -53,30 +68,29 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateEmpleado = async () => {
     try {
-      const data = await updateMember(preMember);
+      const data = await updateMember(data.preMember);
       swal("Member actualizado", {
         icon: "success",
       });
     } catch (error) {
-      swal("Hubo un error, no se actualizo el member", {
+      swal("Hubo un error, no se actualizó el member", {
         icon: "warning",
       });
     }
   };
-  
+
   const handleChange = (e) => {
-    //handleBlur(e)
+    handleBlur(e);
     const newMember = { ...preMember };
-    newMember[e.target.name] = e.target.value;
     newMember["nivel_general"] = Math.min(
-      parseFloat(newMember.nivel_craft),
-      parseFloat(newMember.nivel_business) + 1,
-      parseFloat(newMember.nivel_people) + 1
+      parseFloat(data[4].descripcion_respuesta),
+      parseFloat(data[5].descripcion_respuesta) + 1,
+      parseFloat(data[6].descripcion_respuesta) + 1
     );
 
     newMember.password = random(12);
-    console.log(newMember)
     setPreMember(newMember);
+    
   };
 
   const options = [
@@ -119,16 +133,20 @@ export default function Registro({ regMember, isSaved }) {
       //updateEmpleado();
       setIsEdited(false);
     } else {
-    registerMember();
-    setIsEdited(true);
-  }
+      if (checkErrors === 0) {
+        registerMember();
+        setIsEdited(true);
+      }
+    }
   };
 
   return (
     <>
       <header className="w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
-          <h1 className=" title">{!isSaved ? "Registra a un nuevo Member" : "Información del Member"}</h1>
+          <h1 className=" title">
+            {!isSaved ? "Registra a un nuevo Member" : "Información del Member"}
+          </h1>
         </div>
       </header>
       <div className="min-h-screen pt-2 my-16">
@@ -136,8 +154,9 @@ export default function Registro({ regMember, isSaved }) {
           <div className="inputs w-full max-w-2xl p-6 mx-auto">
             <h2 className="text-2xl text-gray-900">
               {" "}
-              {" "}
-              {!isSaved ? "Información del nuevo Member:" : "Información del Member:"}
+              {!isSaved
+                ? "Información del nuevo Member:"
+                : "Información del Member:"}
             </h2>
             <div className="mt-6 border-t border-gray-400 pt-4">
               <div className="personal w-full">
@@ -277,7 +296,7 @@ export default function Registro({ regMember, isSaved }) {
                           </div>
                         ) : (
                           <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                            {nivel_general}
+                            {preMember.nivel_general}
                           </p>
                         )}
                       </div>
@@ -291,10 +310,10 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleBlur}
+                            onChange={handleChange}
                             value={data[4] && data[4].descripcion_respuesta}
                             type="craft"
-                            id = {4}
+                            id={4}
                             name={"descripcion_respuesta"}
                           >
                             {options.map((option, index) => (
@@ -315,18 +334,17 @@ export default function Registro({ regMember, isSaved }) {
                         </div>
                       ) : (
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {nivel_craft}
+                          {data[0] && data[0].descripcion_respuesta}
                         </p>
                       )}
                       {errors &&
-                      errors
-                        .filter((i) => i.id === 4)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                ))}
-
+                        errors
+                          .filter((i) => i.id === 4)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -337,8 +355,8 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleBlur}
-                            id= {5}
+                            onChange={handleChange}
+                            id={5}
                             value={data[5] && data[5].descripcion_respuesta}
                             type="number"
                             name={"descripcion_respuesta"}
@@ -361,29 +379,28 @@ export default function Registro({ regMember, isSaved }) {
                         </div>
                       ) : (
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {nivel_business}
+                          {data[0] && data[0].descripcion_respuesta}
                         </p>
-                        
                       )}
                       {errors &&
-                      errors
-                        .filter((i) => i.id === 5)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                ))}
+                        errors
+                          .filter((i) => i.id === 5)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
-                    <div className="w-full md:w-full px-3 mb-6">
+                    <div className="w-full md:w-full px-3 mb-6 flex flex-col">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                         Nivel People
                       </label>
                       {isEdited ? (
-                        <div className="flex-shrink w-full inline-block relative">
+                        <div className="flex-shrink w-full inline-block relative f">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            onChange={handleBlur}
-                            id = {6}
+                            onChange={handleChange}
+                            id={6}
                             value={data[6] && data[6].descripcion_respuesta}
                             type="number"
                             name={"descripcion_respuesta"}
@@ -406,20 +423,20 @@ export default function Registro({ regMember, isSaved }) {
                         </div>
                       ) : (
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {nivel_people}
+                          {data[0] && data[0].descripcion_respuesta}
                         </p>
                       )}
-                      {errors &&
-                      errors
-                        .filter((i) => i.id === 6)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                                          ))}
-
+                     
                     </div>
-                    
+                    {errors &&
+                        errors
+                          .filter((i) => i.id === 6)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
+
                   </div>
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-full px-3 mb-6">
@@ -431,12 +448,11 @@ export default function Registro({ regMember, isSaved }) {
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
                             id={7}
-                            type = "chapter"
+                            type="chapter"
                             value={data[7] && data[7].descripcion_respuesta}
                             name={"descripcion_respuesta"}
                             onChange={handleBlur}
                           >
-                            
                             {optionsChapter.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.label}
@@ -459,15 +475,14 @@ export default function Registro({ regMember, isSaved }) {
                         </p>
                       )}
 
-                            {errors &&
-                            errors
-                              .filter((i) => i.id === 7)
-                              .map((item) => (
-                                <p className="error mt-1" key={item.id}>
-                                  {item.message}
-                                </p>
-                              ))}
-
+                      {errors &&
+                        errors
+                          .filter((i) => i.id === 7)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -477,10 +492,10 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            value={data [8] && data[8].descripcion_respuesta}
-                            name= {"descripcion_respuesta"}
-                            type = {"rol"}
-                            id = {8}
+                            value={data[8] && data[8].descripcion_respuesta}
+                            name={"descripcion_respuesta"}
+                            type={"rol"}
+                            id={8}
                             onChange={handleBlur}
                           >
                             {optionsRol.map((option, index) => (
@@ -488,8 +503,6 @@ export default function Registro({ regMember, isSaved }) {
                                 {option.label}
                               </option>
                             ))}
-                            
-                
                           </select>
                           <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
                             <svg
@@ -507,13 +520,13 @@ export default function Registro({ regMember, isSaved }) {
                         </p>
                       )}
                       {errors &&
-                      errors
-                        .filter((i) => i.id === 8)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                ))}
+                        errors
+                          .filter((i) => i.id === 8)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
@@ -529,7 +542,7 @@ export default function Registro({ regMember, isSaved }) {
                         onChange={handleBlur}
                         type={"team"}
                         placeholder="Ingresa el Equipo"
-                                              />
+                      />
                     ) : (
                       <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                         {equipo}
@@ -545,14 +558,15 @@ export default function Registro({ regMember, isSaved }) {
                         ))}
                   </div>
                 </div>
-                  <div className="flex justify-end">
-                    <button
-                      className="btn"
-                      onClick={isEdited ? handleSave : handleEdit }
-                    >
-                      {isEdited ?  "Guardar Registro" :   "Actualiza Datos"}
-                    </button>
-                  </div>
+                <div className="flex justify-end">
+                  <button
+                    disabled = {load || errors.length > 0}
+                    className="btn"
+                    onClick={isEdited ? handleSave : handleEdit}
+                  >
+                    {isEdited ? "Guardar Registro" : "Actualiza Datos"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -578,4 +592,4 @@ Registro.defaultProps = {
     id_rol: 0,
   },
   isSaved: false,
-}
+};
