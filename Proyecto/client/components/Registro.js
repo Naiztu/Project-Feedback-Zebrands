@@ -12,8 +12,6 @@ export default function Registro({ regMember, isSaved }) {
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
   const [load, setLoad] = useState(false);
 
-
-
   //const { user, isAuthenticated } = useUser();
 
   const {
@@ -90,7 +88,6 @@ export default function Registro({ regMember, isSaved }) {
 
     newMember.password = random(12);
     setPreMember(newMember);
-    
   };
 
   const options = [
@@ -142,23 +139,23 @@ export default function Registro({ regMember, isSaved }) {
 
   return (
     <>
-      <header className="w-full pt-10 rounded-b-3xl">
+      {/* <header className="w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
           <h1 className=" title">
             {!isSaved ? "Registra a un nuevo Member" : "Información del Member"}
           </h1>
         </div>
-      </header>
-      <div className="min-h-screen pt-2 my-16">
+      </header> */}
+      <div className="min-h-screen mb-16">
         <div className="container mx-auto">
-          <div className="inputs w-full max-w-2xl p-6 mx-auto">
-            <h2 className="text-2xl text-gray-900">
-              {" "}
+          <div className="inputs w-full max-w-2xl pb-6 px-6 mx-auto">
+            {/* <h2 className="text-2xl text-gray-900">
+              
               {!isSaved
                 ? "Información del nuevo Member:"
                 : "Información del Member:"}
-            </h2>
-            <div className="mt-6 border-t border-gray-400 pt-4">
+            </h2> */}
+            <div className="mt-6 ">
               <div className="personal w-full">
                 <div className="w-full md:w-full px-3 mb-6">
                   <div className="w-full md:w-full px-3 mb-6">
@@ -426,17 +423,15 @@ export default function Registro({ regMember, isSaved }) {
                           {data[0] && data[0].descripcion_respuesta}
                         </p>
                       )}
-                     
                     </div>
                     {errors &&
-                        errors
-                          .filter((i) => i.id === 6)
-                          .map((item) => (
-                            <p className="error mt-1" key={item.id}>
-                              {item.message}
-                            </p>
-                          ))}
-
+                      errors
+                        .filter((i) => i.id === 6)
+                        .map((item) => (
+                          <p className="error mt-1" key={item.id}>
+                            {item.message}
+                          </p>
+                        ))}
                   </div>
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-full px-3 mb-6">
@@ -560,7 +555,7 @@ export default function Registro({ regMember, isSaved }) {
                 </div>
                 <div className="flex justify-end">
                   <button
-                    disabled = {load || errors.length > 0}
+                    disabled={load || errors.length > 0}
                     className="btn"
                     onClick={isEdited ? handleSave : handleEdit}
                   >
