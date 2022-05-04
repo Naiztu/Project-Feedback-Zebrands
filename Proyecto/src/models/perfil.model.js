@@ -20,7 +20,7 @@ export class Perfil {
             `
       );
 
-      return rows;
+      return rows[0] || null;
     } catch (err) {
       throw { err };
     }
