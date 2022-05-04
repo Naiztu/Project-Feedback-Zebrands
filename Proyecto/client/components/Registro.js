@@ -86,7 +86,7 @@ export default function Registro({ regMember, isSaved }) {
         icon: "success",
       });
     } catch (error) {
-      swal("Hubo un error, no se desactivo el member", {
+      swal("Hubo un error, el Member no se desactivó", {
         icon: "warning",
       });
     }
