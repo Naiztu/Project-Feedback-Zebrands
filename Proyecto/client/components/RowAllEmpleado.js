@@ -64,7 +64,7 @@ export default function RowAllEmpleado({ info }) {
           <button 
           className="btn"
           onClick={redirectInfo} >
-            Ver perfil
+            Modificar
           </button>
         </td>
       </tr>

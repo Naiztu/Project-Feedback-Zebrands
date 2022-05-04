@@ -4,13 +4,14 @@ import { getFilterEmpleados } from "../services/empleado";
 import RowAllEmpleado from "../components/RowAllEmpleado";
 import { useUser } from "../context/userContext";
 import swal from "sweetalert";
+import { useRouter } from "next/router";
 
 export default function AdminAllEmpleados() {
   const { isAuthenticated, user } = useUser();
-
   const [empleados, setEmpleados] = useState([]);
   const [filterName, setFilterName] = useState("");
   const [page, setPage] = useState(1);
+  const router = useRouter();
 
   const getEmpleados = async () => {
     try {
@@ -57,6 +58,10 @@ export default function AdminAllEmpleados() {
         icon: "warning",
       });
     }
+  };
+
+  const redirectRegister= () => {
+    router.push("/lead/register");
   };
 
   useEffect(() => {
@@ -117,7 +122,7 @@ export default function AdminAllEmpleados() {
               </button>
               <div className="items-center justify-center mx-auto">
                 <div className="flex flex-col items-center justify-center">
-                  <button className="btn my-3">
+                  <button onClick={redirectRegister} className="btn my-3">
                     <FaPlus />
                   </button>
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold text-center">

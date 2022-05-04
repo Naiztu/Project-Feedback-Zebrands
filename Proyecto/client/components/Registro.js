@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { useUser } from "../context/userContext";
-import { updateMember, createMember } from "../services/empleado";
+import { updateMember, createMember, desactivar } from "../services/empleado";
 import { useForm } from "../hooks/useForm";
 import { objects, reg } from "../util/objectsInputs";
 
@@ -29,6 +29,8 @@ export default function Registro({ regMember, isSaved }) {
     id_rol = data[8].descripcion_respuesta,
     equipo = data[9].descripcion_respuesta,
     password,
+    activo,
+    id_empleado,
   } = regMember;
 
   const random = (length = 8) => {
@@ -74,6 +76,19 @@ export default function Registro({ regMember, isSaved }) {
       });
     } catch (error) {
       swal("Hubo un error, no se actualizó el member", {
+        icon: "warning",
+      });
+    }
+  };
+
+  const updateDesactivar = async () => {
+    try {
+      const data = await desactivar(data.preMember);
+      swal("Member desactivado", {
+        icon: "success",
+      });
+    } catch (error) {
+      swal("Hubo un error, no se desactivo el member", {
         icon: "warning",
       });
     }
@@ -136,6 +151,10 @@ export default function Registro({ regMember, isSaved }) {
       if (checkErrors === 0) {
         registerMember();
         setIsEdited(true);
+      } else {
+        swal("Hubo un error, por favor revisa tu registro.", {
+          icon: "error",
+        });
       }
     }
   };
@@ -166,7 +185,7 @@ export default function Registro({ regMember, isSaved }) {
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       //for="grid-text-1"
                     >
-                      Dirección de Correo
+                      *Dirección de Correo
                     </label>
                     {isEdited ? (
                       <input
@@ -194,7 +213,7 @@ export default function Registro({ regMember, isSaved }) {
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Nombre(s)
+                      *Nombre(s)
                     </label>
                     {isEdited ? (
                       <input
@@ -224,7 +243,7 @@ export default function Registro({ regMember, isSaved }) {
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-1/2 px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Apellido Paterno
+                        *Apellido Paterno
                       </label>
                       {isEdited ? (
                         <input
@@ -303,7 +322,7 @@ export default function Registro({ regMember, isSaved }) {
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Nivel Craft
+                        *Nivel Craft
                       </label>
 
                       {isEdited ? (
@@ -348,7 +367,7 @@ export default function Registro({ regMember, isSaved }) {
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Nivel Business
+                        *Nivel Business
                       </label>
 
                       {isEdited ? (
@@ -393,7 +412,7 @@ export default function Registro({ regMember, isSaved }) {
                     </div>
                     <div className="w-full md:w-full px-3 mb-6 flex flex-col">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Nivel People
+                        *Nivel People
                       </label>
                       {isEdited ? (
                         <div className="flex-shrink w-full inline-block relative f">
@@ -441,7 +460,7 @@ export default function Registro({ regMember, isSaved }) {
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Chapter
+                        *Chapter
                       </label>
                       {isEdited ? (
                         <div className="flex-shrink w-full inline-block relative">
@@ -486,7 +505,7 @@ export default function Registro({ regMember, isSaved }) {
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Rol
+                        *Rol
                       </label>
                       {isEdited ? (
                         <div className="flex-shrink w-full inline-block relative">
@@ -531,7 +550,7 @@ export default function Registro({ regMember, isSaved }) {
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Equipo
+                      *Equipo
                     </label>
                     {isEdited ? (
                       <input
@@ -558,7 +577,17 @@ export default function Registro({ regMember, isSaved }) {
                         ))}
                   </div>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex flex-row space-x-64 items-center justify-center">
+                
+                  <button
+                    disabled = {isEdited ? true : false} 
+                    className="btn"
+                    onClick= {updateDesactivar}
+                  >
+                    Desactivar Member
+                  </button>
+                 
+                  
                   <button
                     disabled = {load || errors.length > 0}
                     className="btn"
@@ -566,6 +595,8 @@ export default function Registro({ regMember, isSaved }) {
                   >
                     {isEdited ? "Guardar Registro" : "Actualiza Datos"}
                   </button>
+                  
+        
                 </div>
               </div>
             </div>

@@ -106,3 +106,15 @@ export async function updateMember(body) {
     throw { error };
   }
 }
+
+
+export async function desactivar(body) {
+  try {
+    const data_up = await api.put("/empleado/desactivar", body);
+    return data_up;
+  } catch (error) {
+    throw { error };
+  }
+}
+
+
