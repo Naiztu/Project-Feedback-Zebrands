@@ -4,29 +4,8 @@ import RowEvaluaciones from "./RowEvaluaciones";
 import { getEvaluaciones, getResumenData } from "../services/evaluacion";
 
 export default function Evaluaciones({ id_periodo, id_user }) {
-  const [evaluaciones, setEvaluaciones] = useState([]);
   const [resumen, setResumen] = useState([]);
   const [prom, setProm] = useState([]);
-
-
-  const getData = async () => {
-    try {
-      const data = await getEvaluaciones(id_periodo, id_user);
-      const { data_evalua } = data;
-      setEvaluaciones(
-        data_evalua.map((item, index) => ({
-          ...item,
-          id_evaluador: item.id_empleado,
-          index,
-          id_evaluado: id_user,
-          id_periodo,
-        }))
-      );
-    } catch (err) {
-      console.log(err);
-    }
-
-  };
 
   const getResumen = async () => {
     try {
