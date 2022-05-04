@@ -35,7 +35,7 @@ export default function Post() {
 
   return (
     <Layout>
-      {feedback && <PlantillaFeed feedback={feedback} />}
+      {feedback && <PlantillaFeed feedback={feedback} isSaved={true} />}
 
       {feedback && (
         <Evaluaciones
