@@ -5,20 +5,25 @@ import { useRouter } from "next/router";
 import { useModal } from "../hooks/useModal";
 import Modal from "./Modal";
 import Feedbacks from "../components/Feedbacks";
-import { UserContext } from "../context/userContext";
 
 
 export default function RowAllEmpleado({ info }) {
   const router = useRouter();
   const [isOpenModal, openModal, closeModal] = useModal(false);
+  console.log("hueaih")
+
+  console.log(info)
+  console.log(info.id_empleado)
 
   const botonPerfil = () => {
     router.push(`/lead/adminasig/${id_empleado}`);
   };
 
   const botonFeedbacks = () => {
-    router.push(`/lead/adminasig/${id_empleado}`);
-    const router = useRouter();
+    
+
+
+    
   };
   const redirectInfo = () => {
     router.push("/lead/info");
@@ -80,11 +85,11 @@ export default function RowAllEmpleado({ info }) {
                 </p>
               </div>
             </button>
-            <Modal isOpen={isOpenModal} closeModal={closeModal}>
+            {isOpenModal &&(<Modal isOpen={isOpenModal} closeModal={closeModal}>
             <div className="flex flex-col pt-4">
-            <Feedbacks id_user={info.id_empleado} />
+            {info && (<Feedbacks id_user={info.id_empleado}/>)}
             </div>
-          </Modal>
+          </Modal>)}
           </div>
         </td>
       </tr>
