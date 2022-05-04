@@ -34,6 +34,7 @@ export default function Perfil() {
     try {
       const data = await getMyAssistant(user.id_empleado);
       setAssistant(data.info_assistant);
+      console.log(data.info_assistant);
     } catch (err) {
       console.log({ err });
     }

@@ -23,7 +23,7 @@ export const UserProvider = ({ children }) => {
       try {
         const data = await currentEmpleado();
         setUser(data.user);
-        getPeriodo(data.user.id_chapter);
+        await getPeriodo(data.user.id_chapter);
       } catch (error) {
         console.log(error);
       }
@@ -37,7 +37,6 @@ export const UserProvider = ({ children }) => {
   async function getPeriodo(id_chapter) {
     try {
       const data = await getIdPeriodo(id_chapter);
-      console.log(data);
       setId_Periodo(data.id_periodo);
     } catch (err) {
       console.log(err);
@@ -51,11 +50,10 @@ export const UserProvider = ({ children }) => {
       Cookies.set("token", data.token);
       api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
       setUser(data.user);
-      getPeriodo(data.user.id_chapter);
+      await getPeriodo(data.user.id_chapter);
 
-      if (data.user.id_rol === 1) {
-        router.push("/lead");
-      } else router.push("/user");
+      if (data.user.id_rol === 1) router.push("/lead");
+      else router.push("/user");
     } catch (error) {
       console.log(error);
       throw { error };
@@ -79,6 +77,7 @@ export const UserProvider = ({ children }) => {
         logoutAuth,
         setUser,
         isAuthenticated: !!user,
+        isPeriodo: !!id_periodo,
       }}
     >
       {children}

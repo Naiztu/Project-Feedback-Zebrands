@@ -94,7 +94,7 @@ export class Empleado {
   static async findEmail(correo) {
     try {
       const [rows, fields] = await pool.execute(
-        `SELECT e.id_empleado, e.nombre,  e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
+        `SELECT e.id_empleado, e.nombre, e.id_chapter, e.apellido_paterno,  e.apellido_materno, e.imagen_perfil,  
         e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
         e.password, r.id_rol, e.equipo
         FROM empleado e, empleado_rol r

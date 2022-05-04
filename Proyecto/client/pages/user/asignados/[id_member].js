@@ -8,7 +8,7 @@ import { useUser } from "../../../context/userContext";
 export default function Post() {
   const router = useRouter();
   const [id_mem, setId_mem] = useState(null);
-  const { id_periodo } = useUser();
+  const { id_periodo, user, isAuthenticated } = useUser();
 
   useEffect(() => {
     if (router.isReady) {
@@ -22,7 +22,7 @@ export default function Post() {
       {id_mem != null && (
         <Evaluaciones id_user={id_mem} id_periodo={id_periodo} />
       )}
-      {id_mem != null && <PlantillaFeed isSaved={false} id_member={id_mem} />}
+      {id_mem != null && isAuthenticated && <PlantillaFeed isSaved={false} id_member={id_mem} id_assistant={user.id_empleado} id_periodo={id_periodo} />}
     </Layout>
   );
 }

@@ -27,7 +27,6 @@ export default function Layout({ children }) {
       </Head>
       <div className="w-full h-screen overflow-y-auto flex flex-row ">
         <Navbar />
-
         <div className="ml-20 md:ml-60  w-full h-full flex flex-col overflow-auto pb-10 scrollbar-thin scrollbar-thumb-black scrollbar-track-neutral-400">
           {children}
         </div>
@@ -81,24 +80,7 @@ export default function Layout({ children }) {
               className=" z-50 fill-white active:scale-95 hover:scale-110  transition-all ease-in-out cursor-pointer"
             />
           )}
-        </motion.div>
-
-        <div
-          className="fixed top-0 right-0 w-5 m-4 cursor-pointer"
-          onClick={() => {
-            if (user.id_rol === 1) router.push("/lead");
-            else router.push("/user");
-          }}
-        >
-          <span className="  flex h-3 w-3 z-50 ">
-            <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-sky-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-          </span>
-          <img
-            className="w-full -translate-y-2 z-10 active:scale-90 transition-all ease-in-out"
-            src="https://img.icons8.com/ios-glyphs/30/000000/appointment-reminders--v2.png"
-          />
-        </div>
+        </motion.div>{" "}
       </div>
     </>
   );

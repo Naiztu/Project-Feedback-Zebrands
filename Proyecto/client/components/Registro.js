@@ -9,8 +9,6 @@ export default function Registro({ regMember, isSaved }) {
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [preMember, setPreMember] = useState(regMember);
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
-  //const { user, isAuthenticated } = useUser();
-  
   const {
     nombre,
     apellido_paterno,
@@ -25,27 +23,32 @@ export default function Registro({ regMember, isSaved }) {
     id_chapter,
     id_rol,
   } = regMember;
-  
 
   const random = (length = 8) => {
-    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$%*¿?@-_';
-    let str = '';
+    let chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$%*¿?@-_";
+    let str = "";
     for (let i = 0; i < length; i++) {
-        str += chars.charAt(Math.floor(Math.random() * chars.length));
+      str += chars.charAt(Math.floor(Math.random() * chars.length));
     }
 
     return str;
-};
+  };
 
   const registerMember = async () => {
     try {
       const data = await createMember(preMember);
-      swal("Registraste un member con la contraseña: " + preMember.password + " mandalsela por correo.", {
-        icon: "success",
-      });
-      setPreMember(regMember)
+      swal(
+        "Registraste un member con la contraseña: " +
+          preMember.password +
+          " mandalsela por correo.",
+        {
+          icon: "success",
+        }
+      );
+      setPreMember(regMember);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       swal("Hubo un error, member no registrado", {
         icon: "warning",
       });
@@ -64,7 +67,7 @@ export default function Registro({ regMember, isSaved }) {
       });
     }
   };
-  
+
   const handleChange = (e) => {
     //handleBlur(e)
     const newMember = { ...preMember };
@@ -76,7 +79,7 @@ export default function Registro({ regMember, isSaved }) {
     );
 
     newMember.password = random(12);
-    console.log(newMember)
+    console.log(newMember);
     setPreMember(newMember);
   };
 
@@ -120,16 +123,18 @@ export default function Registro({ regMember, isSaved }) {
       //updateEmpleado();
       setIsEdited(false);
     } else {
-    registerMember();
-    setIsEdited(true);
-  }
+      registerMember();
+      setIsEdited(true);
+    }
   };
 
   return (
     <>
       <header className="w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
-          <h1 className=" title">{!isSaved ? "Registra a un nuevo Member" : "Información del Member"}</h1>
+          <h1 className=" title">
+            {!isSaved ? "Registra a un nuevo Member" : "Información del Member"}
+          </h1>
         </div>
       </header>
       <div className="min-h-screen pt-2 my-16">
@@ -137,8 +142,9 @@ export default function Registro({ regMember, isSaved }) {
           <div className="inputs w-full max-w-2xl p-6 mx-auto">
             <h2 className="text-2xl text-gray-900">
               {" "}
-              {" "}
-              {!isSaved ? "Información del nuevo Member:" : "Información del Member:"}
+              {!isSaved
+                ? "Información del nuevo Member:"
+                : "Información del Member:"}
             </h2>
             <div className="mt-6 border-t border-gray-400 pt-4">
               <div className="personal w-full">
@@ -295,7 +301,7 @@ export default function Registro({ regMember, isSaved }) {
                             onChange={handleBlur}
                             value={data[4] && data[4].descripcion_respuesta}
                             type="craft"
-                            id = {4}
+                            id={4}
                             name={"descripcion_respuesta"}
                           >
                             {options.map((option, index) => (
@@ -320,14 +326,13 @@ export default function Registro({ regMember, isSaved }) {
                         </p>
                       )}
                       {errors &&
-                      errors
-                        .filter((i) => i.id === 4)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                ))}
-
+                        errors
+                          .filter((i) => i.id === 4)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -339,7 +344,7 @@ export default function Registro({ regMember, isSaved }) {
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
                             onChange={handleBlur}
-                            id= {5}
+                            id={5}
                             value={data[5] && data[5].descripcion_respuesta}
                             type="number"
                             name={"descripcion_respuesta"}
@@ -364,16 +369,15 @@ export default function Registro({ regMember, isSaved }) {
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                           {nivel_business}
                         </p>
-                        
                       )}
                       {errors &&
-                      errors
-                        .filter((i) => i.id === 5)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                ))}
+                        errors
+                          .filter((i) => i.id === 5)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -384,7 +388,7 @@ export default function Registro({ regMember, isSaved }) {
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
                             onChange={handleBlur}
-                            id = {6}
+                            id={6}
                             value={data[6] && data[6].descripcion_respuesta}
                             type="number"
                             name={"descripcion_respuesta"}
@@ -411,16 +415,14 @@ export default function Registro({ regMember, isSaved }) {
                         </p>
                       )}
                       {errors &&
-                      errors
-                        .filter((i) => i.id === 6)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                                          ))}
-
+                        errors
+                          .filter((i) => i.id === 6)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
-                    
                   </div>
                   <div className="flex items-center justify-between mt-4">
                     <div className="w-full md:w-full px-3 mb-6">
@@ -432,12 +434,11 @@ export default function Registro({ regMember, isSaved }) {
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
                             id={7}
-                            type = "chapter"
+                            type="chapter"
                             value={data[7] && data[7].descripcion_respuesta}
                             name={"descripcion_respuesta"}
                             onChange={handleBlur}
                           >
-                            
                             {optionsChapter.map((option, index) => (
                               <option key={index} value={option.value}>
                                 {option.label}
@@ -460,15 +461,14 @@ export default function Registro({ regMember, isSaved }) {
                         </p>
                       )}
 
-                            {errors &&
-                            errors
-                              .filter((i) => i.id === 7)
-                              .map((item) => (
-                                <p className="error mt-1" key={item.id}>
-                                  {item.message}
-                                </p>
-                              ))}
-
+                      {errors &&
+                        errors
+                          .filter((i) => i.id === 7)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                     <div className="w-full md:w-full px-3 mb-6">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -478,10 +478,10 @@ export default function Registro({ regMember, isSaved }) {
                         <div className="flex-shrink w-full inline-block relative">
                           <select
                             className="block appearance-none text-gray-600 w-full bg-white border border-gray-400 shadow-inner px-4 py-2 pr-8 rounded"
-                            value={data [8] && data[8].descripcion_respuesta}
-                            name= {"descripcion_respuesta"}
-                            type = {"rol"}
-                            id = {8}
+                            value={data[8] && data[8].descripcion_respuesta}
+                            name={"descripcion_respuesta"}
+                            type={"rol"}
+                            id={8}
                             onChange={handleBlur}
                           >
                             {optionsRol.map((option, index) => (
@@ -489,8 +489,6 @@ export default function Registro({ regMember, isSaved }) {
                                 {option.label}
                               </option>
                             ))}
-                            
-                
                           </select>
                           <div className="pointer-events-none absolute top-0 mt-3  right-0 flex items-center px-2 text-gray-600">
                             <svg
@@ -508,13 +506,13 @@ export default function Registro({ regMember, isSaved }) {
                         </p>
                       )}
                       {errors &&
-                      errors
-                        .filter((i) => i.id === 8)
-                        .map((item) => (
-                          <p className="error mt-1" key={item.id}>
-                            {item.message}
-                          </p>
-                ))}
+                        errors
+                          .filter((i) => i.id === 8)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
                     </div>
                   </div>
                   <div className="w-full md:w-full px-3 mb-6">
@@ -530,7 +528,7 @@ export default function Registro({ regMember, isSaved }) {
                         onChange={handleBlur}
                         type={"team"}
                         placeholder="Ingresa el Equipo"
-                                              />
+                      />
                     ) : (
                       <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
                         {equipo}
@@ -546,14 +544,14 @@ export default function Registro({ regMember, isSaved }) {
                         ))}
                   </div>
                 </div>
-                  <div className="flex justify-end">
-                    <button
-                      className="btn"
-                      onClick={isEdited ? handleSave : handleEdit }
-                    >
-                      {isEdited ?  "Guardar Registro" :   "Actualiza Datos"}
-                    </button>
-                  </div>
+                <div className="flex justify-end">
+                  <button
+                    className="btn"
+                    onClick={isEdited ? handleSave : handleEdit}
+                  >
+                    {isEdited ? "Guardar Registro" : "Actualiza Datos"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -579,4 +577,4 @@ Registro.defaultProps = {
     id_rol: 0,
   },
   isSaved: false,
-}
+};

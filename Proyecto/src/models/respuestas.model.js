@@ -36,7 +36,6 @@ export class pstRespuesta {
     try {
       conn = await pool.getConnection();
       await conn.beginTransaction();
-
       const [rows, fields] = await conn.query(`
         ${queryPostRespuestas(
           this.id_empleado_evaluador,
@@ -53,6 +52,7 @@ export class pstRespuesta {
 
       await conn.commit();
       await conn.release();
+      return rows;
     } catch (error) {
       if (conn) {
         await conn.rollback();
