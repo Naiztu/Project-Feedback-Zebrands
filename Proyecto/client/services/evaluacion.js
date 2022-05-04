@@ -28,9 +28,8 @@ export async function getEvaluaciones(id_periodo, id_user) {
 
 export async function getResumenData (id_periodo, id_user) {
   try {
-    const {data_resumen} = await api.get(`/evaluar/resumen/${id_periodo}/${id_user}`);
-    console.log(data_resumen)
-    return data_resumen;
+    const {data} = await api.get(`/evaluar/resumen/${id_periodo}/${id_user}`);
+    return data;
   } catch (error) {
     throw { error };
   }

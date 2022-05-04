@@ -1,35 +1,29 @@
 import React from "react";
-import { FaTrashAlt } from "react-icons/fa";
-import { postAsignacion } from "../services/asignados";
-import { getEmpleadosNotAssigned } from "../services/empleado";
-import { desasignar } from "../services/assistant";
-import swal from "sweetalert";
+import { BiUserCircle } from "react-icons/bi";
+import { BsJournalCheck } from "react-icons/bs";
 import { useRouter } from "next/router";
 
-
-
 export default function RowAllEmpleado({ info }) {
-
   const router = useRouter();
-  
+
   const botonPerfil = () => {
     router.push(`/lead/adminasig/${id_empleado}`);
   };
 
   const botonFeedbacks = () => {
     router.push(`/lead/adminasig/${id_empleado}`);
-  const router = useRouter();
-  }
+    const router = useRouter();
+  };
   const redirectInfo = () => {
     router.push("/lead/info");
   };
 
   return (
     <>
-      <tr className="hover:bg-blue-400/20">
-        <td className=" items-center p-2 whitespace-nowrap  flex justify-between">
-          <div className="flex items-center">
-            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3 font-medium">
+      <tr className="">
+        <td className=" p-2 ">
+          <div className="items-stretch flex">
+            <div className="w-10 h-10 mr-2 sm:mr-3 flex items-center">
               <img
                 className="rounded-full aspect-square object-cover"
                 src={info.imagen_perfil}
@@ -37,35 +31,49 @@ export default function RowAllEmpleado({ info }) {
                 height={40}
               />
             </div>
-            <div className="font-medium text-gray-800">
-              {info.nombre + " " + info.apellido_paterno}
+            <div className=" flex items-center font-medium text-gray-800">
+              {info.nombre}
             </div>
           </div>
         </td>
 
-        <td>
-          <div className="font-medium text-gray-800">
-            {info.nombre_rol}
-          </div>
+        <td className="p-2">
+          <div className="font-medium text-gray-800">{info.nombre_rol}</div>
         </td>
 
-        <td>
-          <div className="font-medium text-gray-800">
-            {info.nivel_general}
-          </div>
+        <td className="p-2">
+          <div className="font-medium text-gray-800">{info.nivel_general}</div>
         </td>
 
-        <td>
-          <div className="font-medium text-gray-800">
-            {info.equipo}
-          </div>
+        <td className="p-2">
+          <div className="font-medium text-gray-800">{info.equipo}</div>
         </td>
-        <td>
-          <button 
-          className="btn"
-          onClick={redirectInfo} >
-            Modificar
-          </button>
+        <td className="p-2">
+          <div className="grid grid-cols-2 ">
+            <button
+              className=" rounded-md bg-primary-50"
+              onClick={redirectInfo}
+            >
+              <div className="w-10 h-10 md:w-auto flex items-center justify-center">
+                <BiUserCircle size={25} className="fill-white" />
+                <p className="md:ml-2 md:inline hidden text-white">
+                  Ver perfil
+                </p>
+              </div>
+            </button>
+
+            <button
+              className=" rounded-md bg-secondary-50 ml-2 "
+              onClick={redirectInfo}
+            >
+              <div className="w-10 h-10 md:w-auto flex items-center justify-center">
+                <BsJournalCheck size={25} className="fill-white" />
+                <p className="md:ml-2 md:inline hidden text-white">
+                  Ver Feedbacks
+                </p>
+              </div>
+            </button>
+          </div>
         </td>
       </tr>
     </>

@@ -48,7 +48,7 @@ export class getEvaluar {
       const arrAvg = arr => arr.reduce((a,b) => a + b, 0) / arr.length;
 
       const [evaluadores_data] = await conn.query(`
-      SELECT nombre, apellido_paterno,id_empleado_evaluador, imagen_perfil, estatus FROM	empleado em, evaluacion ev
+      SELECT CONCAT(nombre,' ',apellido_paterno) as nombre,id_empleado_evaluador, imagen_perfil, estatus FROM	empleado em, evaluacion ev
       WHERE ev.id_empleado_evaluador=em.id_empleado 
       AND id_periodo=${this.id_periodo}
       AND id_empleado_evaluado=${this.id_user};
@@ -57,11 +57,14 @@ export class getEvaluar {
       SELECT  id_empleado_evaluador, dimension_respuesta, descripcion_respuesta 
       FROM respuesta 
       WHERE id_empleado_evaluado=${this.id_user} 
+      AND tipo_respuesta='calificacion'
       AND id_periodo=${this.id_periodo};
   `);;
+ 
 
       const calificaciones_por_evaluador= evaluadores_data.map( (element)=> {
         if(element.estatus==="Contestado"){
+         
           return {
             "id_evaluador":element.id_empleado_evaluador,
             "nombre":element.nombre,
@@ -69,20 +72,25 @@ export class getEvaluar {
             "imagen":element.imagen_perfil,
             "estatus":element.estatus,
             "cal_business": arrAvg(calif.filter((cal)=>{
-              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              return cal.id_empleado_evaluador===element.id_empleado_evaluador &&
               cal.dimension_respuesta==="business";
             }).map((ob)=>{
               return parseInt(ob.descripcion_respuesta);
             })),
             "cal_craft": arrAvg(calif.filter((cal)=>{
-              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              return cal.id_empleado_evaluador===element.id_empleado_evaluador &&
               cal.dimension_respuesta==="craft";
             }).map((ob)=>{
               return parseInt(ob.descripcion_respuesta);
             })),
             "cal_people":  arrAvg(calif.filter((cal)=>{
-              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              return cal.id_empleado_evaluador===element.id_empleado_evaluador &&
               cal.dimension_respuesta==="people";
+            }).map((ob)=>{
+              return parseInt(ob.descripcion_respuesta);
+            })),
+            "cal_prom":  arrAvg(calif.filter((cal)=>{
+              return cal.id_empleado_evaluador===element.id_empleado_evaluador;
             }).map((ob)=>{
               return parseInt(ob.descripcion_respuesta);
             }))
@@ -120,10 +128,10 @@ export class getEvaluar {
 
       const resumen={
         "calificaciones": calificaciones_por_evaluador,
-        "prom_craft": promedios[0],
+        "prom":{"prom_craft": promedios[0],
         "prom_people":promedios[1],
         "prom_business": promedios[2],
-        "prom_gen":arrAvg(promedios)
+        "prom_gen":arrAvg(promedios)}
       }
   
       return resumen;

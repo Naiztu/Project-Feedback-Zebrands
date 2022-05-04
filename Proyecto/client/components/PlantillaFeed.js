@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { postFeedback } from "../services/feedback";
 import swal from "sweetalert";
-import {useRouter} from "next/router"
+import { useRouter } from "next/router";
 import { useUser } from "../context/userContext";
 
-export default function PlantillaFeed({ feedback, isSaved, id_member, id_assistant, id_periodo }) {
+export default function PlantillaFeed({
+  feedback,
+  isSaved,
+  id_member,
+  id_assistant,
+  id_periodo,
+}) {
   const router = useRouter();
   const {
     calificacion_craft,
@@ -15,11 +21,9 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
     comentario_personal,
     comentario_craft,
     comentario_general,
-    
   } = feedback;
 
   const [preFeedback, setPreFeedback] = useState(feedback);
-  
 
   const handleChange = (e) => {
     const newFeed = { ...preFeedback };
@@ -53,8 +57,6 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
       router.push("/user/asignados");
     }
   };
-
-
 
   return (
     <>
@@ -166,12 +168,12 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
         flex-col md:flex-row space-x-0 md:space-x-2 mb-4 w-11/12 md:w-9/12 mx-auto"
         >
           {isSaved ? (
-            <div className="basis-10/12 rounded-l-3xl coment">
+            <div className="basis-10/12 rounded-t-3xl md:rounded-l-3xl coment">
               {comentario_general}
             </div>
           ) : (
             <textarea
-              className=" text-area-feed basis-10/12 rounded-l-3xl "
+              className=" text-area-feed basis-10/12 rounded-t-3xl md:rounded-l-3xl "
               value={preFeedback.comentario_general}
               name="comentario_general"
               placeholder="Comentario General"
@@ -180,11 +182,11 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
           )}
 
           {isSaved ? (
-            <div className="w-full sm:basis-2/12 calif rounded-r-3xl">
+            <div className="w-full sm:basis-2/12 calif rounded-b-3xl md:rounded-r-3xl">
               {calificacion_promedio}
             </div>
           ) : (
-            <div className="w-full sm:basis-2/12 input-feed flex items-center justify-center font-bold rounded-r-3xl">
+            <div className="w-full sm:basis-2/12 input-feed flex items-center justify-center font-bold rounded-b-3xl md:rounded-r-3xl">
               {parseFloat(preFeedback.calificacion_promedio).toFixed(1)}
             </div>
           )}
