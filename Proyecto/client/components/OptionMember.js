@@ -34,7 +34,7 @@ export default function OptionMember() {
           >
             <div className=" div-navbar">
               <AiOutlineUserAdd size={28} className="svg-option " />
-              <span className="span-navbar">Asignar compañeros</span>
+              <span className="span-navbar">Pedir evaluación</span>
             </div>
           </button>
         </li>

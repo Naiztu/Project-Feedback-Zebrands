@@ -104,7 +104,7 @@ export default function Asignar() {
     <>
       <div className="flex flex-col lg:flex-row">
         <div className="basis-1/2">
-          <h1 className="title my-10">Asignar compañeros</h1>
+          <h1 className="title my-10">Pedir evaluación</h1>
           <div className=" flex mt-3 mx-auto w-full items-center justify-center text-sm">
             <input
               type="text"
