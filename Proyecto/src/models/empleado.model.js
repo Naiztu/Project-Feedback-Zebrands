@@ -150,6 +150,7 @@ export class Empleado {
                   FROM evaluacion
                   WHERE id_empleado_evaluado = ${id_empleado} AND
                         id_periodo = ${id_periodo})
+                AND id_empleado <> ${id_empleado}
         ${orderBy("nombre", "ASC")}
         ${pag(page, 15)}`
       );
