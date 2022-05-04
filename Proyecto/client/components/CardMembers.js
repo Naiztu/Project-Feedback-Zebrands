@@ -47,9 +47,7 @@ export default function CardMembers({ info }) {
             </p>
           )}
         </div>
-        <div className="">
-          {equipo}
-        </div>
+      
       </div>
 
 
