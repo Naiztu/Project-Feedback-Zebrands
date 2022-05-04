@@ -14,7 +14,7 @@ export default function Respuesta({
   const options = [1, 2, 3, 4, 5];
 
   return (
-    <div className=" w-full mx-auto mt-9 sm:px-6 py-4 bg-slate-500/10 rounded-lg h-auto">
+    <div className=" w-full mx-auto mt-8 sm:px-6 py-4 bg-slate-500/10 rounded-lg h-auto">
       <p className=" w-full sm:w-10/12 mx-auto text-base sm:text-lg font-bold text-center px-5 sm:p-0">
         {info.pregunta}
       </p>
