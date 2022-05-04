@@ -11,6 +11,7 @@ export default function RowFeed({ data }) {
     apellido_paterno,
     id_periodo,
     calificacion_promedio,
+    nombre_periodo
   } = data || {};
 
   const redirectFeedback = () => {
@@ -39,7 +40,7 @@ export default function RowFeed({ data }) {
         </div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <div className="text-left">{id_periodo}</div>
+        <div className="text-left">{nombre_periodo}</div>
       </td>
       <td className=" p-2 whitespace-nowrap hidden sm:flex items-center">
         <div className="h-10  font-medium text-green-500 flex items-center">
