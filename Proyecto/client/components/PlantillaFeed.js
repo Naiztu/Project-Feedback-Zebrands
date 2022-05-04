@@ -1,35 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { postFeedback } from "../services/feedback";
 import swal from "sweetalert";
 import {useRouter} from "next/router"
 import { useUser } from "../context/userContext";
+import { useForm } from "../hooks/useForm";
+import { objectsFeed, regFeed } from "../util/objectsInputs";
+
+
 
 export default function PlantillaFeed({ feedback, isSaved, id_member, id_assistant, id_periodo }) {
   const router = useRouter();
+  const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
+  const [load, setLoad] = useState(false);
+
   const {
-    calificacion_craft,
-    calificacion_personal,
-    calificacion_business,
-    calificacion_promedio,
-    comentario_business,
-    comentario_personal,
-    comentario_craft,
-    comentario_general,
-    
+    comentario_personal = data[0].descripcion_respuesta,
+    calificacion_personal = data[1].descripcion_respuesta,
+    comentario_craft = data[2].descripcion_respuesta,
+    calificacion_craft = data[3].descripcion_respuesta,
+    comentario_business = data[4].descripcion_respuesta,
+    calificacion_business = data[5].descripcion_respuesta,
+    comentario_general = data[6].descripcion_respuesta,
+    calificacion_promedio   
   } = feedback;
 
   const [preFeedback, setPreFeedback] = useState(feedback);
   
+  useEffect(() => {
+    objectsFeed(data).forEach((item, i) => setItem(item, regFeed[i]));
+  }, []);
 
   const handleChange = (e) => {
+    handleBlur(e);
     const newFeed = { ...preFeedback };
-    newFeed[e.target.name] = e.target.value;
+    //newFeed[e.target.name] = e.target.value;
     newFeed["calificacion_promedio"] =
-      (parseInt(newFeed.calificacion_business) +
-        parseInt(newFeed.calificacion_personal) +
-        parseInt(newFeed.calificacion_craft)) /
+      (parseInt(data[1].descripcion_respuesta) +
+        parseInt(data[3].descripcion_respuesta) +
+        parseInt(data[5].descripcion_respuesta)) /
       3;
-
+  
     setPreFeedback(newFeed);
   };
 
@@ -84,10 +94,12 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
             ) : (
               <textarea
                 className=" text-area-feed basis-6/12"
-                value={preFeedback.comentario_personal}
-                name="comentario_personal"
-                placeholder="Comentario People"
-                onChange={handleChange}
+                onChange={handleBlur}
+                id={0}
+                // value={preFeedback.comentario_personal}
+                value={data[0] && data[0].descripcion_respuesta}
+                name={"descripcion_respuesta"}
+                placeholder="Comentario general de Dimensión People"
               ></textarea>
             )}
             {isSaved ? (
@@ -95,13 +107,16 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
             ) : (
               <input
                 onChange={handleChange}
-                value={preFeedback.calificacion_personal}
+                id={1}
+                value={data[1] && data[1].descripcion_respuesta}
                 type="number"
                 className="input-feed"
                 placeholder="Calificación People"
-                name="calificacion_personal"
+                name={"descripcion_respuesta"}
               />
             )}
+        
+
           </div>
           <div className="rowDimension">
             <div className="dimesion ">craft</div>
@@ -109,25 +124,29 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
               <div className=" coment basis-6/12">{comentario_craft}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
-                value={preFeedback.comentario_craft}
-                name="comentario_craft"
-                placeholder="Comentario Craft"
-                onChange={handleChange}
+              className=" text-area-feed basis-6/12"
+              onChange={handleBlur}
+              id={2}
+              // value={preFeedback.comentario_personal}
+              value={data[2] && data[2].descripcion_respuesta}
+              name={"descripcion_respuesta"}
+              placeholder="Comentario general de Dimensión Craft"
               ></textarea>
             )}
             {isSaved ? (
               <div className=" calif"> {calificacion_craft}</div>
             ) : (
               <input
-                onChange={handleChange}
-                value={preFeedback.calificacion_craft}
-                type="number"
-                className="input-feed"
-                placeholder="Calificación Craft"
-                name="calificacion_craft"
+              onChange={handleChange}
+              id={3}
+              value={data[3] && data[3].descripcion_respuesta}
+              type="number"
+              className="input-feed"
+              placeholder="Calificación Craft"
+              name={"descripcion_respuesta"}
               />
             )}
+
           </div>
           <div className="rowDimension">
             <div className="dimesion">business</div>
@@ -135,28 +154,89 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
               <div className=" coment basis-6/12">{comentario_business}</div>
             ) : (
               <textarea
-                className=" text-area-feed basis-6/12"
-                value={preFeedback.comentario_business}
-                name="comentario_business"
-                placeholder="Comentario Business"
-                onChange={handleChange}
+              className=" text-area-feed basis-6/12"
+
+              onChange={handleBlur}
+              id={4}
+              // value={preFeedback.comentario_personal}
+              value={data[4] && data[4].descripcion_respuesta}
+              name={"descripcion_respuesta"}
+              placeholder="Comentario general de Dimensión Business"
               ></textarea>
             )}
             {isSaved ? (
               <div className=" calif"> {calificacion_business}</div>
             ) : (
               <input
-                onChange={handleChange}
-                value={preFeedback.calificacion_business}
-                type="number"
-                className="input-feed"
-                placeholder="Calificación Business"
-                name="calificacion_business"
+              onChange={handleChange}
+              id={5}
+              value={data[5] && data[5].descripcion_respuesta}
+              type="number"
+              className="input-feed"
+              placeholder="Calificación Business"
+              name={"descripcion_respuesta"}
               />
             )}
+              
           </div>
         </div>
       </div>
+      {errors &&
+                        errors
+                          .filter((i) => i.id === 0)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
+                          
+  {errors &&
+                        errors
+                          .filter((i) => i.id === 2)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
+
+
+      {errors &&
+                        errors
+                          .filter((i) => i.id === 4)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
+
+<div 
+className="flex flex-col justify-center items-end w-8/12 mx-auto">
+{errors &&
+                        errors
+                          .filter((i) => i.id === 1)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))} 
+       {errors &&
+                        errors
+                          .filter((i) => i.id === 3 )
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
+         {errors &&
+                        errors
+                          .filter((i) => i.id === 5)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
+
+</div>
 
       {/* comentario general */}
       <div className="w-full mx-auto my-6">
@@ -172,12 +252,14 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
           ) : (
             <textarea
               className=" text-area-feed basis-10/12 rounded-l-3xl "
-              value={preFeedback.comentario_general}
-              name="comentario_general"
+              onChange={handleBlur}
+              id = {6}
+              value={data[6] && data[6].descripcion_respuesta}
+              name={"descripcion_respuesta"}
               placeholder="Comentario General"
-              onChange={handleChange}
             ></textarea>
           )}
+
 
           {isSaved ? (
             <div className="w-full sm:basis-2/12 calif rounded-r-3xl">
@@ -189,11 +271,22 @@ export default function PlantillaFeed({ feedback, isSaved, id_member, id_assista
             </div>
           )}
         </div>
+        {errors &&
+                        errors
+                          .filter((i) => i.id === 6)
+                          .map((item) => (
+                            <p className="error mt-1" key={item.id}>
+                              {item.message}
+                            </p>
+                          ))}
+
       </div>
+
 
       {!isSaved && (
         <div className="w-9/12 flex items-center justify-center font-bold">
-          <button className="btn" onClick={registerFeed}>
+          <button className="btn" onClick={registerFeed}
+          disabled = { load || errors.length > 0}>
             Guardar
           </button>
         </div>

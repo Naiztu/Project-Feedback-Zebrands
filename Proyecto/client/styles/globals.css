@@ -3,7 +3,10 @@
 @tailwind utilities;
 
 .btn {
-  @apply bg-black hover:bg-black/80 text-white flex flex-row items-center justify-center md:py-3 pb-1 px-3 md:px-8 rounded-md border-[1px] border-black ease-in-out active:bg-black/80 transition-all active:scale-90 disabled:bg-dis disabled:text-[#EEEEEE] disabled:cursor-not-allowed text-xs md:text-sm;
+  @apply bg-primary-50 hover:bg-primary-50/80 text-white flex flex-row items-center justify-center md:py-3 pb-1 px-3 md:px-8 rounded-md border-[1px] border-black ease-in-out active:bg-black/80 transition-all active:scale-90 disabled:bg-dis disabled:text-[#EEEEEE] disabled:cursor-not-allowed text-xs md:text-sm;
+}
+.btn-search {
+  @apply bg-primary-50 hover:bg-primary-50/80 text-white flex flex-row items-center justify-center w-full h-full border-[1px] border-black ease-in-out active:bg-black/80 transition-all active:scale-90 disabled:bg-dis disabled:text-[#EEEEEE] disabled:cursor-not-allowed text-xs md:text-sm;
 }
 .btn-option {
   @apply text-white flex flex-row items-center justify-center  py-1 px-3 rounded-md border-[1px] border-black ease-in-out font-bold active:bg-black/80 transition-all active:scale-90;
@@ -12,7 +15,7 @@
   @apply text-white flex flex-row items-center justify-center  py-1 px-3 rounded-md border-[1px] border-black ease-in-out font-bold active:bg-black/80 transition-all active:scale-90;
 }
 .btn-red {
-  @apply bg-red-500  hover:bg-red-500/80 md:py-3 py-1 px-3 md:px-8 rounded-md justify-center items-center text-white active:scale-95 transition-all ease-in-out;
+  @apply bg-secondary-50  hover:bg-secondary-50/80 md:py-3 py-1 px-3 md:px-8 rounded-md justify-center items-center text-white active:scale-95 transition-all ease-in-out;
 }
 
 .btn-border {
@@ -20,7 +23,7 @@
 }
 
 .input-label {
-  @apply rounded-lg border-neutral-400 py-3 pl-4 shadow outline-none focus:ring border active:ring-blue-500/60;
+  @apply rounded-lg border-neutral-400 py-3 pl-4 h-full shadow outline-none focus:ring border active:ring-blue-500/60;
 }
 
 .link {
@@ -34,7 +37,7 @@
   @apply flex items-center justify-start flex-row space-x-2 text-sm py-4 px-6  text-ellipsis whitespace-nowrap rounded-full transition duration-300 ease-in-out active:scale-90 w-56 mx-auto;
 }
 .span-navbar {
-  @apply pt-1 pl-1 text-xs font-semibold hidden md:inline  group-hover:text-red-500 transition ease-in-out group-disabled:text-secondary-50/30;
+  @apply pt-1 pl-1 text-xs font-semibold opacity-0 md:opacity-100  group-hover:text-red-500 transition ease-in-out group-disabled:text-secondary-50/30;
 }
 .div-navbar {
   @apply group-hover:-translate-y-1 group-hover:scale-105 group-hover:active:scale-95 flex items-center transition ease-in-out;
