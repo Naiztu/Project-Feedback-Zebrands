@@ -60,9 +60,11 @@ export class getEvaluar {
       AND tipo_respuesta='calificacion'
       AND id_periodo=${this.id_periodo};
   `);;
+ 
 
       const calificaciones_por_evaluador= evaluadores_data.map( (element)=> {
         if(element.estatus==="Contestado"){
+         
           return {
             "id_evaluador":element.id_empleado_evaluador,
             "nombre":element.nombre,
@@ -70,25 +72,25 @@ export class getEvaluar {
             "imagen":element.imagen_perfil,
             "estatus":element.estatus,
             "cal_business": arrAvg(calif.filter((cal)=>{
-              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              return cal.id_empleado_evaluador===element.id_empleado_evaluador &&
               cal.dimension_respuesta==="business";
             }).map((ob)=>{
               return parseInt(ob.descripcion_respuesta);
             })),
             "cal_craft": arrAvg(calif.filter((cal)=>{
-              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              return cal.id_empleado_evaluador===element.id_empleado_evaluador &&
               cal.dimension_respuesta==="craft";
             }).map((ob)=>{
               return parseInt(ob.descripcion_respuesta);
             })),
             "cal_people":  arrAvg(calif.filter((cal)=>{
-              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador &&
+              return cal.id_empleado_evaluador===element.id_empleado_evaluador &&
               cal.dimension_respuesta==="people";
             }).map((ob)=>{
               return parseInt(ob.descripcion_respuesta);
             })),
             "cal_prom":  arrAvg(calif.filter((cal)=>{
-              return cal.lista_id_empleado_evaluador===element.lista_id_empleado_evaluador;
+              return cal.id_empleado_evaluador===element.id_empleado_evaluador;
             }).map((ob)=>{
               return parseInt(ob.descripcion_respuesta);
             }))
