@@ -34,7 +34,7 @@ export default function Evaluaciones({ id_periodo, id_user }) {
       </div>
 
       <div className="w-9/12 mx-auto mb-5">
-      <div className=" bg-white shadow-lg border border-gray-200 rounded-lg mb-10">
+      <div className="bg-white shadow-lg border border-gray-200 rounded-lg mb-10">
         <div className="p-3">
           <div className="overflow-x-auto">
             <table className=" table-auto w-full">
