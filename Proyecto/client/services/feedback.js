@@ -56,7 +56,7 @@ export async function getAVGLead() {
 export async function postFeedback(body) {
   try {
     const res = await api.post("/feedback", body);
-    return res;
+    return res.data;
   } catch (error) {
     throw { error };
   }

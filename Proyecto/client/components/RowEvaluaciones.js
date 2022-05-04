@@ -47,12 +47,12 @@ export default function RowEvaluaciones({ item, id_evaluado, id_periodo }) {
           {cal_business ? cal_business : "NA"}
         </td>
         <td className="p-2 whitespace-nowrap">
-          {cal_craft ? cal_craft : "NA"}
-        </td>
-        <td className="p-2 whitespace-nowrap">
           {cal_people ? cal_people : "NA"}
         </td>
-        <td className="p-2 whitespace-nowrap">{cal_prom ? cal_prom : "NA"}</td>
+        <td className="p-2 whitespace-nowrap">
+          {cal_craft ? cal_craft : "NA"}
+        </td>
+        <td className="p-2 whitespace-nowrap">{cal_prom ? cal_prom.toFixed(1) : "NA"}</td>
         <td className="p-2 whitespace-nowrap">
           <button
             onClick={openModal}
