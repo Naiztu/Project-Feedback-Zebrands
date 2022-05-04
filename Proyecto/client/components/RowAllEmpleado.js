@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useModal } from "../hooks/useModal";
 import Modal from "./Modal";
 import Feedbacks from "../components/Feedbacks";
+import { UserContext } from "../context/userContext";
 
 
 export default function RowAllEmpleado({ info }) {
@@ -38,7 +39,7 @@ export default function RowAllEmpleado({ info }) {
               />
             </div>
             <div className=" flex items-center font-medium text-gray-800">
-              {info.nombre}
+              {info.nombre+" "+info.apellido_paterno}
             </div>
           </div>
         </td>
@@ -81,7 +82,7 @@ export default function RowAllEmpleado({ info }) {
             </button>
             <Modal isOpen={isOpenModal} closeModal={closeModal}>
             <div className="flex flex-col pt-4">
-            <Feedbacks id_user={15} />
+            <Feedbacks id_user={info.id_empleado} />
             </div>
           </Modal>
           </div>
