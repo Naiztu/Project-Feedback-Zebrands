@@ -114,9 +114,14 @@ export default function Asignar() {
               onChange={(e) => setFilterName(e.target.value)}
             />
 
-            <button onClick={botonSearch} className="btn ml-2 inline ">
-              <FaSearch />
-            </button>
+            <div className="w-10 h-10">
+              <button
+                onClick={botonSearch}
+                className="btn-search  rounded-md ml-3 "
+              >
+                <FaSearch />
+              </button>
+            </div>
           </div>
           <div className="flex flex-col justify-center  mt-5 mx-auto w-11/12 sm:w-10/12 ">
             <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
@@ -167,7 +172,15 @@ export default function Asignar() {
         <div className="basis-1/2">
           <h1 className="title my-10">Registrar Compañeros</h1>
           {asignados.length === 0 ? (
-            "No hay asignados..."
+            <div className="w-11/12 h-auto mx-auto flex flex-col items-center justify-center">
+              <p className="w-10/12 text-center">
+                ¡Asigna a tus compañeros con los que has trabajado en el periodo
+                actual para que tu Assistant pueda hacerte una evaluación más
+                significativa!
+              </p>
+
+              <img src="/friend.svg" className="w-10/12" alt="friends" />
+            </div>
           ) : (
             <div className="flex flex-col justify-center  mt-5 mx-auto w-11/12 sm:w-10/12 ">
               <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
