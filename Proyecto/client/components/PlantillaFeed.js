@@ -162,10 +162,10 @@ export default function PlantillaFeed({
 
       {/* comentario general */}
       <div className="w-full mx-auto my-6">
-        <h2 className=" text-3xl font-bold mb-2 ml-6">Comentario General</h2>
+        <h2 className="text-3xl font-bold text-center">Comentario General</h2>
         <div
           className="flex
-        flex-col md:flex-row space-x-0 md:space-x-2 mb-4 w-11/12 md:w-9/12 mx-auto"
+        flex-col md:flex-row space-x-0 md:space-x-2 mb-4 w-11/12 md:w-9/12 mx-auto my-4"
         >
           {isSaved ? (
             <div className="basis-10/12 rounded-t-3xl md:rounded-l-3xl coment">
