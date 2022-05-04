@@ -9,6 +9,9 @@ import { useRouter } from "next/router";
 
 
 export default function RowAllEmpleado({ info }) {
+
+  const router = useRouter();
+  
   const botonPerfil = () => {
     router.push(`/lead/adminasig/${id_empleado}`);
   };

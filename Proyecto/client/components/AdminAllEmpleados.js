@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaSearch, FaArrowLeft, FaArrowRight, FaPlus } from "react-icons/fa";
 import { getFilterEmpleados } from "../services/empleado";
 import RowAllEmpleado from "../components/RowAllEmpleado";
 import { useUser } from "../context/userContext";
@@ -86,7 +86,7 @@ export default function AdminAllEmpleados() {
         </div>
 
         <div className="flex flex-col justify-center  mt-5 mx-auto w-11/12 sm:w-10/12 ">
-          <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+          <div className="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
             <div className="p-3">
               <div className="overflow-x-auto">
                 <table className="table-auto w-full">
@@ -107,19 +107,29 @@ export default function AdminAllEmpleados() {
                 </table>
               </div>
             </div>
+          </div>
 
-            <div className="flex mx-auto space-x-2 w-3/4 lg:w-10/12  justify-between my-6">
+        </div>
+        <div className="flex mx-auto space-x-2 w-3/4 lg:w-10/12  justify-between my-6">
               <button onClick={() => changePage(-1)} className="btn-border ">
                 <FaArrowLeft />
                 <p className="hidden sm:inline ml-2">Página anterior</p>
               </button>
+              <div className="items-center justify-center mx-auto">
+                <div className="flex flex-col items-center justify-center">
+                  <button className="btn my-3">
+                    <FaPlus />
+                  </button>
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold text-center">
+                    Añadir Member
+                  </label>
+                </div>
+              </div>
               <button onClick={() => changePage(1)} className="btn">
                 <p className="hidden sm:inline mr-2">Siguiente Página</p>
                 <FaArrowRight />
               </button>
             </div>
-          </div>
-        </div>
       </div>
     </>
   );
