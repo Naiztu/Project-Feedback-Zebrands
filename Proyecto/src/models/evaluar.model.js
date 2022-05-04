@@ -118,13 +118,14 @@ export class getEvaluar {
       const promedios=[
         arrAvg(contestados.map((ob)=>{
           return ob.cal_craft;
-        })), 
+        })).toFixed(1), 
         arrAvg(contestados.map((ob)=>{
           return ob.cal_people;
-        })), 
+        })).toFixed(1), 
         arrAvg(contestados.map((ob)=>{
           return ob.cal_business;
-        }))]
+        })).toFixed(1)
+      ]
 
       const resumen={
         "calificaciones": calificaciones_por_evaluador,
