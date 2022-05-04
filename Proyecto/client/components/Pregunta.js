@@ -1,6 +1,8 @@
 import React, { useState, useEffect} from "react";
 import { FaTrashAlt, FaPencilAlt, FaSave } from "react-icons/fa";
 import { BsFillArrowUpCircleFill, BsArrowDownCircleFill } from "react-icons/bs";
+import { useForm } from "../hooks/useForm";
+
 
 import swal from "sweetalert";
 import {
@@ -153,11 +155,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
             id={0}
             value={datas[0] && datas[0].descripcion_respuesta}
             onChange={handleBlur}
-          />
-      
-          
-
-          
+          />  
         ) : (
           <p>{datas[0]&&datas[0].descripcion_respuesta}</p>
         )}
