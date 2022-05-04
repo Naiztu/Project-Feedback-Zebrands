@@ -1,18 +1,14 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrashAlt, FaPencilAlt, FaSave } from "react-icons/fa";
 import { BsFillArrowUpCircleFill, BsArrowDownCircleFill } from "react-icons/bs";
 import { useForm } from "../hooks/useForm";
-
-
 import swal from "sweetalert";
 import {
   deletePregunta,
   postPregunta,
   updatePregunta,
-  indexCambio
+  indexCambio,
 } from "../services/preguntas";
-import { useForm } from "../hooks/useForm";
-
 
 export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   const [isSave, setIsSave] = useState(isSaved);
@@ -28,8 +24,6 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
     };
 
     setItem(objQues, /^.{1,255}$/);
-
-
   }, []);
 
   const handleEdit = () => {
@@ -122,7 +116,7 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
     try {
       const res = await indexCamb({
         id_pregunta_origen: data.id_pregunta,
-        id_pregunta_destino: data.id_pregunta+1,
+        id_pregunta_destino: data.id_pregunta + 1,
       });
       swal("Cambio exitoso", {
         icon: "success",
@@ -155,23 +149,23 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
             id={0}
             value={datas[0] && datas[0].descripcion_respuesta}
             onChange={handleBlur}
-          />  
+          />
         ) : (
-          <p>{datas[0]&&datas[0].descripcion_respuesta}</p>
+          <p>{datas[0] && datas[0].descripcion_respuesta}</p>
         )}
 
-          {errors &&
-            errors
-              .filter((i) => i.id === 0)
-              .map((item) => (
-                <p className="error mt-1" key={item.id}>
-                  {item.message}
-                </p>
-              ))}
+        {errors &&
+          errors
+            .filter((i) => i.id === 0)
+            .map((item) => (
+              <p className="error mt-1" key={item.id}>
+                {item.message}
+              </p>
+            ))}
         <div className=" flex flex-col space-y-3">
           <button
             className="btn"
-            disabled = {load || errors.length > 0}
+            disabled={load || errors.length > 0}
             onClick={isEdited ? handleQuestion : handleEdit}
           >
             {isEdited ? <FaSave /> : <FaPencilAlt />}

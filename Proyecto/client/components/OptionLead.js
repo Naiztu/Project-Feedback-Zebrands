@@ -100,7 +100,7 @@ export default function OptionLead() {
           <button
             className="group link-navbar"
             onClick={() => {
-              router.push("/lead/register");
+              router.push("/lead/member");
             }}
           >
             <div className=" div-navbar">
@@ -108,7 +108,7 @@ export default function OptionLead() {
                 size={28}
                 className="group-hover:fill-secondary-50 "
               />
-              <span className="span-navbar">Registrar Member</span>
+              <span className="span-navbar">Administrar Members</span>
             </div>
           </button>
         </li>
