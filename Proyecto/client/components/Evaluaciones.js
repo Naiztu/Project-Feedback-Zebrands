@@ -32,7 +32,9 @@ export default function Evaluaciones({ id_periodo, id_user }) {
           mejorar en alguna área de oportunidad ¡Aquí están las Evaluaciones!
         </p>
       </div>
-      <div className="w-full max-w-2xl mx-auto bg-white shadow-lg border border-gray-200 rounded-lg mb-10">
+
+      <div className="w-9/12 mx-auto mb-5">
+      <div className=" bg-white shadow-lg border border-gray-200 rounded-lg mb-10">
         <div className="p-3">
           <div className="overflow-x-auto">
             <table className=" table-auto w-full">
@@ -78,6 +80,7 @@ export default function Evaluaciones({ id_periodo, id_user }) {
               </tbody>
             </table>
           </div>
+        </div>
         </div>
       </div>
     </>
