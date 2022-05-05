@@ -176,7 +176,7 @@ export default function Registro({ regMember, isSaved }) {
 
   const handleSave = () => {
     if (isSave) {
-      //alert("funcion actualiza");
+      //alert("funcion actualizada");
       updateEmpleado();
       setIsEdited(false);
     } else {

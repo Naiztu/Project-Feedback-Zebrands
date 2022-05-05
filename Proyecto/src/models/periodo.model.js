@@ -75,9 +75,10 @@ export class Periodo {
     try {
       const [rows, fields] = await pool.execute(
         `
-        SELECT *
+        SELECT * 
         FROM periodo 
-        WHERE id_chapter = ${id_chapter};
+        WHERE id_chapter = ${id_chapter}
+        ORDER by fecha_fin DESC;
         `
       );
       return rows;
