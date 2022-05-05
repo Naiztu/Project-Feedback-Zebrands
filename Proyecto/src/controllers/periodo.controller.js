@@ -1,5 +1,4 @@
 import { Periodo } from "../models/periodo.model";
-const bcrypt = require("bcrypt");
 
 export async function postPeriodo(req, res) {
   const {
@@ -22,6 +21,7 @@ export async function postPeriodo(req, res) {
     //   ? res.status(403).send({ err: "No hay ese empleado" })
     //   : res.status(200).send({ empleado: rows[0] });
   } catch (err) {
+    console.log({ err });
     res.status(500).send({ err });
   }
 }
@@ -30,7 +30,7 @@ export async function cambiaPeriodo(req, res) {
   const { id_periodo, fecha_inicio, fecha_fin } = req.body;
 
   try {
-    Periodo.changeDate(id_periodo, fecha_inicio, fecha_fin);
+    await Periodo.changeDate(id_periodo, fecha_inicio, fecha_fin);
     res.status(200).send({ message: "correct update date" });
   } catch (err) {
     res.status(403).send({ err });
@@ -40,9 +40,10 @@ export async function cambiaPeriodo(req, res) {
 export async function cambiaEstatus(req, res) {
   const { id_periodo, estatus_periodo } = req.body;
   try {
-    Periodo.changeStatus(estatus_periodo, id_periodo);
+    await Periodo.changeStatus(estatus_periodo, id_periodo);
     res.status(200).send({ message: "correct update status" });
   } catch (err) {
+    console.log(err);
     res.status(403).send({ err });
   }
 }

@@ -30,9 +30,6 @@ export default function RowAsignarMember({
   };
 
   const deleteAsignados = async () => {
-    console.log("shabadabada");
-    console.log(info);
-
     try {
       const res = await desasignar({
         id_member: info.id_empleado,

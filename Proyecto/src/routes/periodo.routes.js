@@ -14,6 +14,6 @@ router.put("/fechas", cambiaPeriodo);
 router.get("/currentperiodo/:id_chapter", getCurrentPeriodo);
 router.get("/nextperiodo/:id_chapter", getPeriodos);
 router.get("/periodos/:id_chapter", getPeriodos);
-router.get("/updadate_estatus", cambiaEstatus);
+router.put("/update_estatus", cambiaEstatus);
 
 export default router;
