@@ -8,3 +8,7 @@ export async function getIdPeriodo(id_chapter) {
     throw { error };
   }
 }
+export async function postPeriodo(id_chapter) {
+  try {
+  } catch (error) {}
+}

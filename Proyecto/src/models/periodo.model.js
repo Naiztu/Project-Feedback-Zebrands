@@ -44,10 +44,12 @@ export class Periodo {
   static async getCurrentPeriodo(id_chapter) {
     try {
       const [rows, fields] = await pool.execute(
-        ` SELECT id_periodo 
-          FROM periodo 
-          WHERE estatus_periodo = 'Vigente' AND
-                id_chapter = ${id_chapter}`
+        ` SELECT id_periodo    
+        FROM periodo 
+        WHERE estatus_periodo = 'Vigente' 
+        OR estatus_periodo='Proximo' 
+        AND id_chapter = ${id_chapter};
+        `
       );
       return rows[0] || null;
     } catch (err) {

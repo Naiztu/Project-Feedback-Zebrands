@@ -12,7 +12,6 @@ export default function OptionLead() {
   return (
     <div>
       <ul className="relative px-1">
-
         <li className="relative">
           <button
             className="group link-navbar"
@@ -41,7 +40,7 @@ export default function OptionLead() {
                 size={28}
                 className="group-hover:fill-secondary-50 "
               />
-              <span className="span-navbar">Gestionar Periodos</span>
+              <span className="span-navbar">Administrar Periodos</span>
             </div>
           </button>
         </li>

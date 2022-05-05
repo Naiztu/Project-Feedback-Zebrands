@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "../context/userContext";
-
+import { getFeedback } from "../services/feedback";
+ 
 export default function CardMembers({ info }) {
   const router = useRouter();
+  const [feedbackExist, setFeedbackExist] = useState(0);
 
-  const { user } = useUser();
+  const { id_periodo,isAuthenticated } = useUser();
+  console.log(info)
 
   const {
     imagen_perfil,
@@ -20,6 +23,11 @@ export default function CardMembers({ info }) {
     nivel_people,
   } = info || {};
 
+  const redirectConsultarFeed = () => {
+    console.log("Amos a consultar")
+    router.push(`/feedback/${id_periodo}/${id_empleado}`);
+  };
+
   const redirectRegisterFeed = () => {
     router.push(`/user/asignados/${id_empleado}`);
   };
@@ -27,6 +35,25 @@ export default function CardMembers({ info }) {
   const redirectAdminAsig = () => {
     router.push(`/lead/adminasig/${id_empleado}`);
   };
+
+  const updateFeedbackExist = async () => {
+    try {
+      const data = await getFeedback(id_empleado, id_periodo);
+      if (data.data_feedback) {
+        setFeedbackExist(1)
+      }
+      console.log("hola")
+
+      console.log(data.data_feedback)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+
+    updateFeedbackExist();
+  }, [isAuthenticated])
 
   return (
     <div className="  w-[300px] rounded-xl px-4 py-6 shadow-sm shadow-black text-black md:mx-20 md:my-10 my-5 mx-2">
@@ -43,19 +70,25 @@ export default function CardMembers({ info }) {
           {equipo}
           </p>
         </div>
+
       </div>
-      <div>
-        {id_rol === 1 && <p className="text-lg md:text-tiny mx-5">- CL -</p>}
-        {id_rol === 2 && <p className="text-lg md:text-tiny mx-5">- CLA -</p>}
-        {id_rol === 3 && <p className="text-lg md:text-tiny mx-5">- CM -</p>}
-      </div>
-      <div></div>
-      <button
-        onClick={redirectRegisterFeed}
+
+
+      {feedbackExist ?
+      (<button
+        onClick={redirectConsultarFeed}
         className="btn block mt-10 mx-auto md:text-base text-sm"
       >
-        Registrar Feedback
-      </button>
+        Consultar Feedback
+      </button>):
+
+        (<button
+          onClick={redirectRegisterFeed}
+          className="btn block mt-10 mx-auto md:text-base text-sm"
+        >
+          Registrar Feedback
+        </button>)
+      }
 
       {id_rol === 2 && (
         <button
