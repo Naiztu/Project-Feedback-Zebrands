@@ -45,7 +45,7 @@ export default function UserIndex() {
           <p className="text text-center w-3/4 mx-auto">
             {graph.length > 1
               ? "Aquí está un resumen de tu desempeño en las últimas evaluaciones."
-              : "Todavía no tienes muchos feedbacks ¡Sigue trabajando en ello! y ¡pronto veras información valiosa!"}
+              : "Todavía no tienes muchos feedbacks, ¡Sigue trabajando en ello y pronto verás información valiosa!"}
           </p>
           {graph.length > 1 ? (
             <GraphLinear graph={graph} />
