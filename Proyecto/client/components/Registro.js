@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { useUser } from "../context/userContext";
 import { updateMember, createMember, desactivar } from "../services/empleado";
+import { getPerfil } from "../services/perfil";
 import { useForm } from "../hooks/useForm";
 import { objects, reg } from "../util/objectsInputs";
 
@@ -23,6 +24,7 @@ export default function Registro({ regMember, isSaved }) {
     id_empleado,
   } = regMember;
 
+  const { isAuthenticated, user } = useUser();
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [newApellido, setNewApellido] = useState("");
@@ -30,8 +32,6 @@ export default function Registro({ regMember, isSaved }) {
   const [data, errors, handle, handleBlur, setItem, checkErrors, setData] =
     useForm();
   const [load, setLoad] = useState(false);
-
-  //const { user, isAuthenticated } = useUser();
 
   const random = (length = 8) => {
     let chars =
@@ -90,7 +90,7 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateEmpleado = async () => {
     try {
-      const data = await updateMember(data);
+      const data = await updateMember(id.id_empleado);
       swal("Member actualizado", {
         icon: "success",
       });
@@ -103,7 +103,7 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateDesactivar = async () => {
     try {
-      const data = await desactivar(data);
+      const data = await desactivar(id.id_empleado);
       swal("Member desactivado", {
         icon: "success",
       });
@@ -114,6 +114,21 @@ export default function Registro({ regMember, isSaved }) {
     }
   };
 
+
+  const [dataPerfil, setDataPerfil] = useState(null);
+
+  const getDataPerfil = async () => {
+    try {
+      const dataP = await getPerfil(id.id_empleado);
+      setDataPerfil(dataP.data_perfil);
+      console.log(dataP.data_perfil)
+      console.log("funcion");
+    } catch (err) {
+      console.log({ err });
+      console.log("error get data perfil");
+    }
+
+  };
   const handleChange = (e) => {
     handleBlur(e);
     setNewNivel_general(
@@ -161,8 +176,8 @@ export default function Registro({ regMember, isSaved }) {
 
   const handleSave = () => {
     if (isSave) {
-      alert("funcion actualiza");
-      //updateEmpleado();
+      //alert("funcion actualiza");
+      updateEmpleado();
       setIsEdited(false);
     } else {
       if (checkErrors() === 0) {
@@ -176,12 +191,19 @@ export default function Registro({ regMember, isSaved }) {
     }
   };
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      getDataPerfil();
+    }
+  }, [isAuthenticated]);
+
   return (
     <>
-      {/* <header className="w-full pt-10 rounded-b-3xl">
+     
+      {/*<header className="w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
           <h1 className=" title">
-            {!isSaved ? "Registra a un nuevo Member" : "Información del Member"}
+            {!isSaved ? "" : "Información del Member"}
           </h1>
         </div>
       </header> */}

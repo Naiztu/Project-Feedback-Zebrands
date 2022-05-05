@@ -59,7 +59,7 @@
 }
 
 .coment {
-  @apply bg-slate-500/10 uppercase p-6 font-semibold flex items-center;
+  @apply bg-slate-500/10 p-6 flex items-center;
 }
 
 .calif {

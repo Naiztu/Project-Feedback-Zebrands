@@ -133,7 +133,7 @@ export default function UserIndex() {
         <div className="text-base lg:text-xl">
           <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto mt-4 mb-2 py-2 px-6 flex-row flex justify-between">
             <h1 className="font-semibold">Craft</h1>{" "}
-            <p className="italic"></p>
+            <p className="italic">3.2</p>
           </div>
           <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
             <h1 className="font-semibold">Business</h1>{" "}
