@@ -65,7 +65,7 @@ export default function Asignar() {
         filterName,
         id_periodo
       );
-      setCompaneros(data_empleados);
+      setCompaneros(data_empleados );
     } catch (error) {
       console.log(error);
       swal("Hubo un error", {
@@ -90,6 +90,7 @@ export default function Asignar() {
         filterName,
         1
       );
+
       setCompaneros(data_empleados);
     } catch (error) {
       console.log(error);
@@ -138,9 +139,13 @@ export default function Asignar() {
                       </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-100">
+        
                       {companeros &&
                         companeros
-                          .filter((el) => !asignados.includes(el))
+                          .filter((el) => !asignados.map((ob)=>{
+                            return ob.id_empleado;
+                          })
+                          .includes(el.id_empleado))
                           .map((item, index) => (
                             <CompaneroAsignar
                               select={true}
