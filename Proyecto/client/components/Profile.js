@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import { postDefault, postImage } from "../services/images";
 import { getMyAssistant } from "../services/assistant";
 import { useRouter } from "next/router";
+import GraphPolar from "./graph/GraphPolar";
 
 export default function Perfil() {
   const [img, setImg] = useState("");
@@ -216,6 +217,13 @@ export default function Perfil() {
                       </div>
                       <div className="mt-6 border-t border-gray-400 pt-4"></div>
                       <h2 className="text-2xl text-gray-900">
+                        Niveles
+                      </h2>
+                      <div className="flex items-center justify-between mt-6">
+                       <GraphPolar/>
+                      </div>
+                      <div className="mt-6 border-t border-gray-400 pt-4"></div>
+                      <h2 className="text-2xl text-gray-900">
                         Cambios a tu Cuenta
                       </h2>
                       <div className="flex items-center justify-between mt-6">
@@ -225,7 +233,7 @@ export default function Perfil() {
                           </label>
                           <button
                             onClick={() => openModal2()}
-                            className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md "
+                            className="btn"
                           >
                             Change Password
                           </button>
@@ -236,7 +244,7 @@ export default function Perfil() {
                           </label>
                           <button
                             onClick={() => openModal()}
-                            className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md "
+                            className="btn"
                           >
                             Change Profile Picture
                           </button>
