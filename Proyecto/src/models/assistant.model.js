@@ -25,10 +25,8 @@ export class Assistant {
                   WHERE vigente=1
                   AND id_empleado_assistant=${id_assistant});`
       );
-      console.log(rows);
       return rows;
     } catch (err) {
-      console.log(err);
       throw { err };
     }
   }
@@ -40,10 +38,8 @@ export class Assistant {
           SET vigente = 0
           WHERE id_empleado_member = ${id_member}`
       );
-      console.log(rows);
       return rows;
     } catch (err) {
-      console.log(err);
       throw { err };
     }
   }
@@ -55,10 +51,8 @@ export class Assistant {
             FROM asignacion
             WHERE id_empleado_member = ${id_member} `
       );
-      console.log(rows);
       return rows;
     } catch (err) {
-      console.log(err);
       throw { err };
     }
   }
@@ -78,7 +72,6 @@ export class Assistant {
       );
       return rows[0];
     } catch (err) {
-      console.log(err);
       throw { err };
     }
   }
@@ -94,7 +87,6 @@ export class Assistant {
       );
       return rows[0];
     } catch (err) {
-      console.log(err);
       throw { err };
     }
   }

@@ -16,37 +16,32 @@ export const objects = (data) => {
       message: "Escribe un apellido válido",
     },
     {
-      //name: "lastnm"3,
-      descripcion_respuesta: data.apellido_materno,
-      message: "Escribe un apellido válido",
-    },
-    {
-      //name: "craft"4,
+      //name: "craft"3,
       descripcion_respuesta: data.nivel_craft,
       message: "*",
     },
     {
-      //name: "buss"5,
+      //name: "buss"4,
       descripcion_respuesta: data.nivel_business,
       message: "*",
     },
     {
-      //name: "ppl"6,
+      //name: "ppl"5,
       descripcion_respuesta: data.nivel_people,
       message: "*",
     },
     {
-      //name: "chapter"7,
+      //name: "chapter"6,
       descripcion_respuesta: data.id_chapter,
       message: "Selecciona un Chapter válido",
     },
     {
-      //name: "rol"8,
+      //name: "rol"7,
       descripcion_respuesta: data.id_rol,
       message: "Selecciona un rol válido",
     },
     {
-      //name: "equipo"9,
+      //name: "equipo"8,
       descripcion_respuesta: data.equipo,
       message: "Escribe un equipo válido",
     },
@@ -57,7 +52,6 @@ export const reg = [
   /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/,
   /^.{1,45}$/,
   /^.{1,45}$/,
-  /^.{0,45}$/,
   /([1-5]+\.?[1-3]*)$/,
   /([1-5]+\.?[1-3]*)$/,
   /([1-5]+\.?[1-3]*)$/,
@@ -67,8 +61,7 @@ export const reg = [
 ];
 
 export const objectsFeed = (data) => {
-  return[
-
+  return [
     {
       //name: "comentario people"0,
       descripcion_respuesta: data.comentario_personal,
@@ -105,18 +98,16 @@ export const objectsFeed = (data) => {
       //name: "comentario general"6,
       descripcion_respuesta: data.comentario_general,
       message: "Escribe un comentario válido",
-    }
+    },
   ];
 };
 
 export const regFeed = [
-
   /^.{1,1000}$/,
   /^([1-5]{0,1})$/,
   /^.{1,1000}$/,
   /^([1-5]{0,1})$/,
   /^.{1,1000}$/,
   /^([1-5]{0,1})$/,
-  /^.{1,1000}$/
-  
+  /^.{1,1000}$/,
 ];

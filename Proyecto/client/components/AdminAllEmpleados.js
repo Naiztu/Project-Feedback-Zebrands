@@ -64,7 +64,7 @@ export default function AdminAllEmpleados() {
     }
   };
 
-  const redirectRegister= () => {
+  const redirectRegister = () => {
     router.push("/lead/register");
   };
 
@@ -150,7 +150,9 @@ export default function AdminAllEmpleados() {
         isOpen={isOpen}
         title="Registra Nuevo Member"
       >
-        <Registro isSaved={false} />
+        <div className=" py-5">
+          <Registro isSaved={false} />
+        </div>
       </Modal>
     </>
   );

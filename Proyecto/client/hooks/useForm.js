@@ -37,7 +37,7 @@ export const useForm = () => {
   }
 
   const validateForm = (index, errores) => {
-    const { expresion, descripcion_respuesta, id, message } = data[index]
+    const { expresion, descripcion_respuesta, id, message } = data[index];
     let errs = errores.filter((item) => item.id != id);
 
     if (!descripcion_respuesta.trim()) {
@@ -50,5 +50,5 @@ export const useForm = () => {
     return errs;
   };
 
-  return [data, errors, handle, handleBlur, setItem, checkErrors];
+  return [data, errors, handle, handleBlur, setItem, checkErrors, setData];
 };

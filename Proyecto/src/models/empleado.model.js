@@ -239,14 +239,13 @@ export class Empleado {
 
       await conn.commit();
       await conn.release();
-      return "user creted correct";
+      return rows;
     } catch (error) {
-      console.log(error);
       if (conn) {
         await conn.rollback();
         await conn.release();
       }
-      throw error;
+      throw { error };
     }
   }
 

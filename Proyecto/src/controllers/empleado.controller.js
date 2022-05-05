@@ -90,30 +90,34 @@ export async function postEmpleado(req, res) {
     id_chapter,
     id_rol,
   } = req.body;
-  const empleado = new Empleado(
-    0,
-    nombre,
-    apellido_paterno,
-    apellido_materno,
-    nivel_general,
-    nivel_craft,
-    nivel_business,
-    nivel_people,
-    1,
-    correo_electronico,
-    password,
-    equipo,
-    id_chapter,
-    "http://ec2-52-24-74-180.us-west-2.compute.amazonaws.com:8080/img/user_default.png",
-    id_rol
-  );
 
   try {
+    const validate = await Empleado.findEmail(correo_electronico);
+    if (validate) return res.status(300).send({ error: "Correo ya asignado" });
+
+    const empleado = new Empleado(
+      0,
+      nombre,
+      apellido_paterno,
+      apellido_materno,
+      nivel_general,
+      nivel_craft,
+      nivel_business,
+      nivel_people,
+      1,
+      correo_electronico,
+      password,
+      equipo,
+      id_chapter,
+      "http://ec2-52-24-74-180.us-west-2.compute.amazonaws.com:8080/img/user_default.png",
+      id_rol
+    );
+
     await empleado.generatorPass();
     const data_post_empleado = await empleado.postEmpleado();
-    res.send({ data_post_empleado });
+    res.send({ data_post_empleado }).end();
   } catch (err) {
-    res.status(500).send({ err });
+    res.status(300).send({ err }).end();
   }
 }
 

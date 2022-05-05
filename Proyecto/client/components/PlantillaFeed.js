@@ -14,10 +14,11 @@ export default function PlantillaFeed({
   id_periodo,
 }) {
   const router = useRouter();
-  const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
+  const [data, errors, handle, handleBlur, setItem, checkErrors, setData] =
+    useForm();
   const [load, setLoad] = useState(false);
-    console.log("data")
-    console.log(data)
+  console.log("data");
+  console.log(data);
   const {
     comentario_personal,
     calificacion_personal,
