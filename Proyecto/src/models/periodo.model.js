@@ -41,17 +41,46 @@ export class Periodo {
     }
   }
 
+  static async changeStatus(status, id_periodo) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `
+        UPDATE periodo
+        SET estatus_periodo = '${status}' 
+        WHERE id_periodo = ${id_periodo}
+                `
+      );
+      return rows;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
   static async getCurrentPeriodo(id_chapter) {
     try {
       const [rows, fields] = await pool.execute(
         ` SELECT id_periodo    
         FROM periodo 
         WHERE estatus_periodo = 'Vigente' 
-        OR estatus_periodo='Proximo' 
         AND id_chapter = ${id_chapter};
         `
       );
       return rows[0] || null;
+    } catch (err) {
+      throw { err };
+    }
+  }
+
+  static async getPeriodos(id_chapter) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `
+        SELECT *
+        FROM periodo 
+        WHERE id_chapter = ${id_chapter};
+        `
+      );
+      return rows;
     } catch (err) {
       throw { err };
     }
