@@ -131,7 +131,7 @@ export class Empleado {
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, activo
         FROM empleado 
         ${orderBy("nombre", "ASC")}
-        ${pag(1, 15)}`
+        ${pag(1, 10)}`
       );
       return rows;
     } catch (err) {
@@ -152,7 +152,7 @@ export class Empleado {
                         id_periodo = ${id_periodo})
                 AND id_empleado <> ${id_empleado}
         ${orderBy("nombre", "ASC")}
-        ${pag(page, 15)}`
+        ${pag(page, 10)}`
       );
       //console.log(rows);
       return rows;
@@ -226,14 +226,14 @@ export class Empleado {
           '${this.password}',
           '${this.equipo}',
           ${this.id_chapter},
-          'http://localhost:8080/img/user_default.png'
+          'http://ec2-52-24-74-180.us-west-2.compute.amazonaws.com:8080/img/user_default.png'
       );
         `);
 
       await conn.query(`
       INSERT INTO empleado_rol (id_empleado, id_rol) 
       VALUES (
-        (SELECT id_empleado from empleado WHERE correo_electronico='${this.correo_electronico}'),
+        (${rows.insertId}),
         ${this.id_rol}
         );`);
 
@@ -297,7 +297,7 @@ export class Empleado {
              AND id_rol=3
              AND ${filter("nombre", filterName)}
              ${orderBy("nombre", "ASC")}
-             ${pag(page, 15)}`
+             ${pag(page, 10)}`
       );
       return rows;
     } catch (err) {

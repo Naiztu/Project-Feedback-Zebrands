@@ -113,7 +113,7 @@ export class Feedback {
         `SELECT e.id_empleado AS id_user, e.imagen_perfil, e.nombre, e.apellido_paterno, f.id_periodo, f.calificacion_promedio 
           FROM feedback f INNER JOIN empleado e ON f.id_empleado_member = e.id_empleado 
           ${orderBy("f.id_periodo", "DESC")}
-          ${pag(1, 15)}`
+          ${pag(1, 10)}`
       );
       return rows;
     } catch (err) {

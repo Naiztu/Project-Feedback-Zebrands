@@ -8,7 +8,8 @@ export default function CardMembers({ info }) {
   const { user } = useUser();
   console.log(info)
 
-  const { imagen_perfil, id_empleado, nombre, apellido_paterno, id_rol } = info || {};
+  const { imagen_perfil, id_empleado, nombre, apellido_paterno, id_rol, equipo, nivel_general, nivel_craft, nivel_business, nivel_people
+  } = info || {};
 
   const redirectRegisterFeed = () => {
     router.push(`/user/asignados/${id_empleado}`);
@@ -30,45 +31,49 @@ export default function CardMembers({ info }) {
             {nombre + " " + apellido_paterno}
           </p>
           {id_rol === 1 && (
-        <p className="text-lg md:text-tiny italic text-center">
-                - CL -
-          </p>
-              )}
+            <p className="text-lg md:text-tiny italic text-center">
+              - CL -
+            </p>
+          )}
 
-      {id_rol === 2 && (
-        <p className="text-lg md:text-tiny italic text-center">
-                - CLA -
-          </p>
-              )}
-      {id_rol === 3 && (
-        <p className="text-lg md:text-tiny italic text-center">
-                - CM -
-          </p>
-              )}
+          {id_rol === 2 && (
+            <p className="text-lg md:text-tiny italic text-center">
+              - CLA -
+            </p>
+          )}
+          {id_rol === 3 && (
+            <p className="text-lg md:text-tiny italic text-center">
+              - CM -
+            </p>
+          )}
         </div>
+      
       </div>
 
-      
-        
 
       
+
+
+
+
+
 
       <button
         onClick={redirectRegisterFeed}
         className="btn block mt-10 mx-auto md:text-base text-sm"
       >
-       Registrar Feedback
+        Registrar Feedback
       </button>
-      
-      {id_rol === 2 && (
-                <button
-                onClick={redirectAdminAsig}
-                className="btn block mt-10 mx-auto md:text-base text-sm"
-              >
-                Administrar asignados
-              </button>
 
-              )}
+      {id_rol === 2 && (
+        <button
+          onClick={redirectAdminAsig}
+          className="btn block mt-10 mx-auto md:text-base text-sm"
+        >
+          Administrar asignados
+        </button>
+
+      )}
 
     </div>
   );
