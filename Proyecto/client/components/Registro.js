@@ -195,22 +195,22 @@ export default function Registro({ regMember, isSaved }) {
 
   return (
     <>
-      {/* <header className="w-full pt-10 rounded-b-3xl">
+      <header className="w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
           <h1 className=" title">
-            {!isSaved ? "Registra a un nuevo Member" : "Información del Member"}
+            {!isSaved ? "" : "Información del Member"}
           </h1>
         </div>
-      </header> */}
+      </header> 
       <div className="min-h-screen mb-16">
         <div className="container mx-auto">
           <div className="inputs w-full max-w-2xl pb-6 px-6 mx-auto">
-            {/* <h2 className="text-2xl text-gray-900">
+             <h2 className="text-2xl text-gray-900">
               
               {!isSaved
                 ? "Información del nuevo Member:"
-                : "Información del Member:"}
-            </h2> */}
+                : ""}
+            </h2> 
             <div className="mt-6 ">
               <div className="personal w-full">
                 <div className="w-full md:w-full px-3 mb-6">

@@ -6,7 +6,6 @@ export default function CardMembers({ info }) {
   const router = useRouter();
 
   const { user } = useUser();
-  console.log(info);
 
   const {
     imagen_perfil,
