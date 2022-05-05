@@ -8,6 +8,7 @@ export async function getIdPeriodo(id_chapter) {
     throw { error };
   }
 }
+
 export async function postPeriodo(body) {
   try {
     const res = await api.post("/periodo/newperiodo", body);

@@ -20,7 +20,6 @@ export default function Periodo() {
   async function getPeriodo() {
     try {
       const data = await getAllPeriodos(1);
-      console.log(data);
       setPeriodos(data.periodos);
     } catch (error) {
       console.log(error);
@@ -28,11 +27,15 @@ export default function Periodo() {
   }
 
   async function createPeriodo() {
+    console.log({
+      fecha_inicio: date1.toISOString().split("T")[0],
+      fecha_fin: date2.toISOString().split("T")[0],
+    });
     try {
       const data = postPeriodo({
         nombre_periodo: descripcion,
-        fecha_inicio: date1,
-        fecha_fin: date2,
+        fecha_inicio: date1.toISOString().split("T")[0],
+        fecha_fin: date2.toISOString().split("T")[0],
         estatus_periodo: "proximo",
         id_chapter: 1,
       });
@@ -64,15 +67,18 @@ export default function Periodo() {
           setEstado={{ sE1: setDate1, sE2: setDate2 }}
         />
 
-        <div className=" grid grid-cols-3 items-center gap-4 h-6 w-full">
+        <div className=" grid grid-cols-3 items-center gap-4 w-full">
           <input
             type={"text"}
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
             placeholder="Descripción de periodo ej:(Enero - Marzo 2022)"
-            className=" col-span-2 border-2 border-black rounded px-3 h-full"
+            className=" col-span-2 border-2 border-black rounded px-3 h-10"
           />
-          <button onClick={createPeriodo} className="btn font-bold text-xl">
+          <button
+            onClick={createPeriodo}
+            className="btn font-bold text-xl h-10"
+          >
             {" "}
             Agregar{" "}
           </button>

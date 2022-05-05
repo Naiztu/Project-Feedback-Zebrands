@@ -13,28 +13,43 @@ export default function RowMember({ data }) {
   const [estatus, setEstatus] = useState(estatus_periodo);
 
   const handleChange = async () => {
-    console.log("Handle change");
-    if (estatus === "Vigente") {
-      console.log("cambia vigente a finalizado");
-      setEstatus("Finalizado");
-      await updateEstatus({
-        estatus: "Finalizado",
-        id_periodo,
-      });
-    } else if (estatus === "Finalizado") {
-      console.log("cambia finalizado a Proximo");
-      setEstatus("Proximo");
-      await updateEstatus({
-        estatus: "Proximo",
-      });
-    } else if (estatus === "Proximo") {
-      console.log("cambia finalizado a Proximo");
-      setEstatus("Vigente");
-      await updateEstatus({
-        estatus: "Vigente",
+    try {
+      if (estatus.toLowerCase() === "vigente") {
+        setEstatus("Finalizado");
+        await updateEstatus({
+          estatus_periodo: "Finalizado",
+          id_periodo,
+        });
+        swal("Periodo Finalizado!", {
+          icon: "success",
+        });
+      } else if (estatus.toLowerCase() === "finalizado") {
+        setEstatus("Proximo");
+        await updateEstatus({
+          estatus_periodo: "Proximo",
+          id_periodo,
+        });
+        swal("Periodo Proximo!", {
+          icon: "success",
+        });
+      } else if (estatus.toLowerCase() === "proximo") {
+        setEstatus("Vigente");
+        await updateEstatus({
+          estatus_periodo: "Vigente",
+          id_periodo,
+        });
+        swal("Periodo Vigente!", {
+          icon: "success",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      swal("Hubo un error, periodo no actualizado", {
+        icon: "warning",
       });
     }
   };
+
   const fi = new Date(fecha_inicio);
   const ff = new Date(fecha_fin);
   return (
@@ -43,25 +58,20 @@ export default function RowMember({ data }) {
         <div className="text-left">{nombre_periodo}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <div className="text-left">
-          {fi.getDay() + "/" + fi.getMonth() + "/" + fi.getFullYear()}
-        </div>
+        <div className="text-left">{fi.toISOString().slice(0, 10)}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <div className="text-left">
-          {" "}
-          {ff.getDay() + "/" + ff.getMonth() + "/" + ff.getFullYear()}
-        </div>
+        <div className="text-left"> {ff.toISOString().slice(0, 10)}</div>
       </td>
       <td>
         <button
           onClick={handleChange}
           className={`text-black/60 px-3 py-1 rounded-lg hover:scale-105 active:scale-95 w-full font-bold text-xl ${
             estatus === "Vigente"
-              ? "bg-tertiary-50 "
+              ? "bg-tertiary-500 "
               : estatus === "Finalizado"
               ? "bg-tertiary-100"
-              : " bg-tertiary-500"
+              : " bg-tertiary-50"
           }`}
         >
           {estatus}
