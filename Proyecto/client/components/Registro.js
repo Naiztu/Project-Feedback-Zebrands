@@ -50,10 +50,24 @@ export default function Registro({ regMember, isSaved }) {
 
   const registerMember = async () => {
     try {
-      const data = await createMember(preMember);
+      const contrasena = random();
+      const data = await createMember({
+        nombre: data[1].descripcion_respuesta,
+    apellido_paterno: data[2].descripcion_respuesta,
+    apellido_materno: data[3].descripcion_respuesta,
+    nivel_craft: data[4].descripcion_respuesta,
+    nivel_business: data[5].descripcion_respuesta,
+    nivel_people: data[6].descripcion_respuesta,
+    nivel_general: preMember.nivel_general,
+    correo_electronico: data[0].descripcion_respuesta,
+    equipo: data[9].descripcion_respuesta,
+    id_chapter: data[7].descripcion_respuesta,
+    password: contrasena,
+    id_rol: data[8].descripcion_respuesta,
+      });
       swal(
         "Registraste un member con la contraseña: " +
-          preMember.password +
+           contrasena +
           " mándasela por correo.",
         {
           icon: "success",
