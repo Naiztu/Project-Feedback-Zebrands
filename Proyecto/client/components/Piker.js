@@ -8,7 +8,10 @@ export default function Piker({ estado: { e1, e2 }, setEstado: { sE1, sE2 } }) {
       <DatePicker
         dateFormat="dd/MM/yyyy"
         selected={e1}
-        onChange={(date) => sE1(date)}
+        onChange={(date) => {
+          console.log(date);
+          sE1(date);
+        }}
         selectsStart
         startDate={e1}
         endDate={e2}
@@ -17,7 +20,10 @@ export default function Piker({ estado: { e1, e2 }, setEstado: { sE1, sE2 } }) {
       <DatePicker
         dateFormat="dd/MM/yyyy"
         selected={e2}
-        onChange={(date) => sE2(date)}
+        onChange={(date) => {
+          console.log(date);
+          sE2(date);
+        }}
         selectsEnd
         startDate={e1}
         endDate={e2}

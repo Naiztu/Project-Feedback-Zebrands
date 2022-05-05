@@ -1,15 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
+import RowPeriodo from "../../components/RowPeriodo";
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 import Piker from "../../components/Piker";
+import swal from "sweetalert";
+import { getAllPeriodos, postPeriodo } from "../../services/periodo";
+import { useUser } from "../../context/userContext";
 
 const data = [1, 2, 3, 4, 5];
 
 export default function Periodo() {
+  const [periodos, setPeriodos] = useState([]);
   const today = new Date();
   const [date1, setDate1] = useState(today);
   const [date2, setDate2] = useState(today);
   const [descripcion, setDescripcion] = useState("");
+  const { isAuthenticated } = useUser();
+
+  async function getPeriodo() {
+    try {
+      const data = await getAllPeriodos(1);
+      console.log(data);
+      setPeriodos(data.periodos);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function createPeriodo() {
+    try {
+      const data = postPeriodo({
+        nombre_periodo: descripcion,
+        fecha_inicio: date1,
+        fecha_fin: date2,
+        estatus_periodo: "proximo",
+        id_chapter: 1,
+      });
+      swal("Periodo registrado!", {
+        icon: "success",
+      });
+    } catch (error) {
+      console.log(error);
+      swal("Hubo un error, periodo no registrado", {
+        icon: "warning",
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) getPeriodo();
+  }, [isAuthenticated]);
 
   return (
     <Layout>
@@ -32,11 +72,14 @@ export default function Periodo() {
             placeholder="Descripción de periodo ej:(Enero - Marzo 2022)"
             className=" col-span-2 border-2 border-black rounded px-3 h-full"
           />
-          <button className="btn font-bold text-xl"> Agregar </button>
+          <button onClick={createPeriodo} className="btn font-bold text-xl">
+            {" "}
+            Agregar{" "}
+          </button>
         </div>
       </div>
 
-      <section className="w-9/12 mx-auto ">
+      <section className="w-9/12 mx-auto p-2">
         <h2 className="title my-10">Próximos Periodos</h2>
         <table className="table-auto w-full shadow-lg rounded-lg">
           <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
@@ -45,40 +88,19 @@ export default function Periodo() {
                 <div className="font-semibold text-left">Periodo</div>
               </th>
               <th className="p-2 whitespace-nowrap ">
-                <div className="font-semibold text-left">Descripción</div>
+                <div className="font-semibold text-left">Fecha de inicio</div>
               </th>
               <th className="p-2 whitespace-nowrap ">
-                <div className="font-semibold text-left"></div>
+                <div className="font-semibold text-left">Fecha de fin</div>
+              </th>
+              <th className="p-2 whitespace-nowrap ">
+                <div className="font-semibold text-left">Estatus</div>
               </th>
             </tr>
           </thead>
           <tbody className="text-sm divide-y divide-gray-100">
-            {data.map((item, index) => (
-              <tr
-                key={index}
-                className="hover:bg-blue-400/20 active:scale-95 transition-all ease-in-out w-full cursor-pointer"
-              >
-                <td className="p-2 whitespace-nowrap ">
-                  <div className="flex items-center">
-                    <div className="font-medium text-gray-800">{item}</div>
-                  </div>
-                </td>
-                <td className=" p-2 whitespace-nowrap">
-                  <div className="font-medium text-gray-800">
-                    Trimestre {index}
-                  </div>
-                </td>
-                <td className=" p-2 whitespace-nowrap">
-                  <div className="font-medium text-gray-800 flex flex-col w-10 space-y-2 justify-center items-center">
-                    <button className="btn">
-                      <FaPencilAlt />
-                    </button>
-                    <button className=" btn-red">
-                      <FaTrashAlt />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+            {periodos.map((item, index) => (
+              <RowPeriodo data={item} key={index} />
             ))}
           </tbody>
         </table>
