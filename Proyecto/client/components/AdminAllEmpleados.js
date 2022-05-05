@@ -30,11 +30,11 @@ export default function AdminAllEmpleados() {
 
   const botonSearch = async () => {
     try {
-      const { data_empleados } = await getEmpleadosNotAssigned(
+      const data_empleados = await getFilterEmpleados(
         page,
         filterName
       );
-      setCompaneros(data_empleados);
+      setEmpleados(data_empleados.data_empleados);
     } catch (error) {
       console.log(error);
       swal("Hubo un error", {
@@ -46,15 +46,13 @@ export default function AdminAllEmpleados() {
   const changePage = async (num) => {
     let newPage;
     if (num + page <= 0) {
-      newPage = 1;
       setPage(1);
-    } else {
-      newPage = page + num;
-      setPage(page + num);
-    }
-
+    } 
     try {
       const { data_empleados } = await getFilterEmpleados(newPage, filterName);
+      if(data_empleados.lenght>0){
+        setPage(page+num)
+      }
       setEmpleados(data_empleados);
     } catch (error) {
       console.log(error);
@@ -64,9 +62,7 @@ export default function AdminAllEmpleados() {
     }
   };
 
-  const redirectRegister = () => {
-    router.push("/lead/register");
-  };
+
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -90,7 +86,7 @@ export default function AdminAllEmpleados() {
             onChange={(e) => setFilterName(e.target.value)}
           />
           <div className=" ml-2 flex items-center h-12 w-12">
-            <button className="btn-search rounded-md">
+            <button onClick={botonSearch} className="btn-search rounded-md">
               <FaSearch />
             </button>
           </div>
