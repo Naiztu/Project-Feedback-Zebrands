@@ -6,9 +6,19 @@ export default function CardMembers({ info }) {
   const router = useRouter();
 
   const { user } = useUser();
-  console.log(info)
+  console.log(info);
 
-  const { imagen_perfil, id_empleado, nombre, apellido_paterno, id_rol, equipo, nivel_general, nivel_craft, nivel_business, nivel_people
+  const {
+    imagen_perfil,
+    id_empleado,
+    nombre,
+    apellido_paterno,
+    id_rol,
+    equipo,
+    nivel_general,
+    nivel_craft,
+    nivel_business,
+    nivel_people,
   } = info || {};
 
   const redirectRegisterFeed = () => {
@@ -27,37 +37,20 @@ export default function CardMembers({ info }) {
           src={imagen_perfil}
         />
         <div className="">
-          <p className="text-base md:text-xl font-bold	 mb-4 text-center ">
-            {nombre + " " + apellido_paterno}
+          <p className="text-base md:text-xl font-bold text-center ">
+            {nombre + " " + apellido_paterno} <br/>
           </p>
-          {id_rol === 1 && (
-            <p className="text-lg md:text-tiny italic text-center">
-              - CL -
-            </p>
-          )}
-
-          {id_rol === 2 && (
-            <p className="text-lg md:text-tiny italic text-center">
-              - CLA -
-            </p>
-          )}
-          {id_rol === 3 && (
-            <p className="text-lg md:text-tiny italic text-center">
-              - CM -
-            </p>
-          )}
+          <p className="text-base md:text-sl italic text-center">
+          {equipo}
+          </p>
         </div>
-      
       </div>
-
-
-      
-
-
-
-
-
-
+      <div>
+        {id_rol === 1 && <p className="text-lg md:text-tiny mx-5">- CL -</p>}
+        {id_rol === 2 && <p className="text-lg md:text-tiny mx-5">- CLA -</p>}
+        {id_rol === 3 && <p className="text-lg md:text-tiny mx-5">- CM -</p>}
+      </div>
+      <div></div>
       <button
         onClick={redirectRegisterFeed}
         className="btn block mt-10 mx-auto md:text-base text-sm"
@@ -68,11 +61,10 @@ export default function CardMembers({ info }) {
       {id_rol === 2 && (
         <button
           onClick={redirectAdminAsig}
-          className="btn block mt-10 mx-auto md:text-base text-sm"
+          className="btn block mt-5 mx-auto md:text-base text-sm"
         >
           Administrar asignados
         </button>
-
       )}
 
     </div>
