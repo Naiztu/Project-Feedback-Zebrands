@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { useUser } from "../context/userContext";
 import { updateMember, createMember, desactivar } from "../services/empleado";
+import { getPerfil } from "../services/perfil";
 import { useForm } from "../hooks/useForm";
 import { objects, reg } from "../util/objectsInputs";
 
@@ -10,6 +11,7 @@ export default function Registro({ regMember, isSaved }) {
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [preMember, setPreMember] = useState(regMember);
   const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
+  const { isAuthenticated, user } = useUser();
   const [load, setLoad] = useState(false);
 
   //const { user, isAuthenticated } = useUser();
@@ -68,7 +70,7 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateEmpleado = async () => {
     try {
-      const data = await updateMember(data.preMember);
+      const data = await updateMember(id.id_empleado);
       swal("Member actualizado", {
         icon: "success",
       });
@@ -81,7 +83,7 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateDesactivar = async () => {
     try {
-      const data = await desactivar(data.preMember);
+      const data = await desactivar(id.id_empleado);
       swal("Member desactivado", {
         icon: "success",
       });
@@ -92,6 +94,21 @@ export default function Registro({ regMember, isSaved }) {
     }
   };
 
+
+  const [dataPerfil, setDataPerfil] = useState(null);
+
+  const getDataPerfil = async () => {
+    try {
+      const dataP = await getPerfil(id.id_empleado);
+      setDataPerfil(dataP.data_perfil);
+      console.log(dataP.data_perfil)
+      console.log("funcion");
+    } catch (err) {
+      console.log({ err });
+      console.log("error get data perfil");
+    }
+
+  };
   const handleChange = (e) => {
     handleBlur(e);
     const newMember = { ...preMember };
@@ -141,8 +158,8 @@ export default function Registro({ regMember, isSaved }) {
 
   const handleSave = () => {
     if (isSave) {
-      alert("funcion actualiza");
-      //updateEmpleado();
+      //alert("funcion actualiza");
+      updateEmpleado();
       setIsEdited(false);
     } else {
       if (checkErrors() === 0) {
@@ -155,6 +172,12 @@ export default function Registro({ regMember, isSaved }) {
       }
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getDataPerfil();
+    }
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -350,7 +373,7 @@ export default function Registro({ regMember, isSaved }) {
                         </div>
                       ) : (
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {data[0] && data[0].descripcion_respuesta}
+                          {data[4] && data[4].descripcion_respuesta}
                         </p>
                       )}
                       {errors &&
@@ -395,7 +418,7 @@ export default function Registro({ regMember, isSaved }) {
                         </div>
                       ) : (
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {data[0] && data[0].descripcion_respuesta}
+                          {data[5] && data[5].descripcion_respuesta}
                         </p>
                       )}
                       {errors &&
@@ -439,7 +462,7 @@ export default function Registro({ regMember, isSaved }) {
                         </div>
                       ) : (
                         <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {data[0] && data[0].descripcion_respuesta}
+                          {data[6] && data[6].descripcion_respuesta}
                         </p>
                       )}
                     </div>

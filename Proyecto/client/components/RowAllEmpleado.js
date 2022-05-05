@@ -20,13 +20,12 @@ export default function RowAllEmpleado({ info }) {
   };
 
   const botonFeedbacks = () => {
-    
-
-
+  
     
   };
   const redirectInfo = () => {
-    router.push("/lead/info");
+    //router.push("/lead/info");
+    router.push(`/perfil/${info.id_empleado}`);
   };
 
 
