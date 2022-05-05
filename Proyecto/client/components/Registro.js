@@ -90,7 +90,20 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateEmpleado = async () => {
     try {
-      const data = await updateMember(id.id_empleado);
+      const data = await updateMember(
+        correo_electronico,
+        nombre,
+        apellido_paterno,
+        apellido_materno,
+        nivel_general,
+        nivel_craft,
+        nivel_business,
+        nivel_people,
+        id_chapter,
+        id_rol,
+        equipo,
+        id_empleado,
+      );
       swal("Member actualizado", {
         icon: "success",
       });
@@ -117,7 +130,7 @@ export default function Registro({ regMember, isSaved }) {
 
   const [dataPerfil, setDataPerfil] = useState(null);
 
-  const getDataPerfil = async () => {
+ {/* const getDataPerfil = async () => {
     try {
       const dataP = await getPerfil(id.id_empleado);
       setDataPerfil(dataP.data_perfil);
@@ -128,7 +141,7 @@ export default function Registro({ regMember, isSaved }) {
       console.log("error get data perfil");
     }
 
-  };
+  };*/}
   const handleChange = (e) => {
     handleBlur(e);
     setNewNivel_general(

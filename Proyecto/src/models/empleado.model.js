@@ -333,7 +333,7 @@ export class Empleado {
         nivel_people = ${this.nivel_people},
         correo_electronico = '${this.correo_electronico}',
         equipo = '${this.equipo}',
-        id_chapter = ${this.id_chapter} 
+        id_chapter = ${this.id_chapter},
         WHERE id_empleado = ${this.id_empleado}`
       );
       console.log(rows);

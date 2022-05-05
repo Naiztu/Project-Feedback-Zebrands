@@ -21,6 +21,20 @@ export default function Post() {
 
   };
 
+  const updateDesactivar = async () => {
+    try {
+      const data = await desactivar(id);
+      swal("Member desactivado", {
+        icon: "success",
+      });
+    } catch (error) {
+      swal("Hubo un error, el Member no se desactivó", {
+        icon: "warning",
+      });
+    }
+  };
+
+
   useEffect(() => {
 
     if (router.isReady) {
