@@ -6,16 +6,17 @@ import Piker from "../../components/Piker";
 const data = [1, 2, 3, 4, 5];
 
 export default function Periodo() {
-  const [date1, setDate1] = useState(new Date());
-  const [date2, setDate2] = useState(new Date());
+  const today = new Date();
+  const [date1, setDate1] = useState(today);
+  const [date2, setDate2] = useState(today);
   const [descripcion, setDescripcion] = useState("");
 
   return (
     <Layout>
-      <h2 className="title my-10">Periodo</h2>
+      <h2 className="title my-10">Administrar periodos</h2>
 
-      <div className="flex flex-col w-12/12 mx-auto space-x-4">
-        <div className="flex justify-between w-9/12 mx-auto mb-2 italic font-semiboldt">
+      <div className="flex flex-col justify-center items-center w-11/12 lg:w-5/12 mx-auto space-x-4">
+        <div className=" w-9/12 mx-auto mb-2 italic font-semibold text-center">
           Fecha Inicio <label>-</label> Fecha Fin
         </div>
         <Piker
@@ -23,15 +24,15 @@ export default function Periodo() {
           setEstado={{ sE1: setDate1, sE2: setDate2 }}
         />
 
-        <div className="">
-          <label>Descripción del periodo: </label>
+        <div className=" grid grid-cols-3 items-center gap-4 h-6 w-full">
           <input
             type={"text"}
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            placeholder="Ej: Primer trimestre 2022"
-            className=" border-2 border-black rounded px-3"
+            placeholder="Descripción de periodo ej:(Enero - Marzo 2022)"
+            className=" col-span-2 border-2 border-black rounded px-3 h-full"
           />
+          <button className="btn font-bold text-xl"> Agregar </button>
         </div>
       </div>
 
