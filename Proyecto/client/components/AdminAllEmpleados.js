@@ -44,14 +44,19 @@ export default function AdminAllEmpleados() {
   };
 
   const changePage = async (num) => {
-    let newPage;
+    let newpage;
     if (num + page <= 0) {
       setPage(1);
+      newpage=1;
     } 
+    else{
+      newpage=num+page;
+    }
+    console.log(empleados)
     try {
-      const { data_empleados } = await getFilterEmpleados(newPage, filterName);
+      const { data_empleados } = await getFilterEmpleados(newpage, filterName);
       if(data_empleados.lenght>0){
-        setPage(page+num)
+        setPage(page-num)
       }
       setEmpleados(data_empleados);
     } catch (error) {
