@@ -47,12 +47,10 @@ export default function AdminAllEmpleados() {
       newpage = 1;
     } else {
       newpage = num + page;
+      setPage(newpage);
     }
     try {
       const { data_empleados } = await getFilterEmpleados(newpage, filterName);
-      if (data_empleados.lenght > 0) {
-        setPage(page - num);
-      }
       setEmpleados(data_empleados);
     } catch (error) {
       swal("Hubo un error", {

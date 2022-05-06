@@ -113,7 +113,7 @@ export default function UserIndex() {
   graph.forEach((data) => (pb += parseFloat(data.avgb)));
 
   return (
-    <Layout pg={parseFloat(pg).toFixed(1)}>
+    <Layout pg={parseFloat(pg/graph.length).toFixed(1)}>
       <div className=" w-full">
         <h1 className="title my-10 mx-auto">Resumen General del Chapter</h1>
         <p className="text text-center w-3/4 mx-auto">
@@ -125,15 +125,15 @@ export default function UserIndex() {
         <div className="text-base lg:text-xl">
           <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto mt-4 mb-2 py-2 px-6 flex-row flex justify-between">
             <h1 className="font-semibold">Craft</h1>{" "}
-            <p className="italic">{parseFloat(pc).toFixed(1)}</p>
+            <p className="italic">{parseFloat(pc/graph.length).toFixed(1)}</p>
           </div>
           <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
             <h1 className="font-semibold">Business</h1>{" "}
-            <p className="italic">{parseFloat(pb).toFixed(1)}</p>
+            <p className="italic">{parseFloat(pb/graph.length).toFixed(1)}</p>
           </div>
           <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
             <h1 className="font-semibold">People</h1>{" "}
-            <p className="italic">{parseFloat(pp).toFixed(1)}</p>
+            <p className="italic">{parseFloat(pp/graph.length).toFixed(1)}</p>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 
 export default function CardCompañero({ pendientes }) {
   const router = useRouter();
-  const { id_empleado, nombre, apellido_paterno, imagen_perfil } =
+  const { id_empleado, nombre, apellido_paterno, imagen_perfil, id_rol } =
     pendientes || {};
   return (
     <div className="  w-[300px] rounded-xl p-3 shadow-sm shadow-black text-black md:mx-20 md:my-10 my-5 mx-2">

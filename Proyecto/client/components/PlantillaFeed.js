@@ -77,7 +77,7 @@ export default function PlantillaFeed({
       <header className=" bg-slate-400/10 w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
           <h1 className=" title">
-            {(user.id_rol===1 ?("Consulta de feedback "):(isSaved ? "Mi feedback" : "Registrar Feedback"))}
+            {(user.id_rol===1 ?("Feedback"):(isSaved ? "Mi feedback" : "Registrar Feedback"))}
           </h1>
           <h2 className="mt-1 mb-10 italic font-semibold">
           </h2>
