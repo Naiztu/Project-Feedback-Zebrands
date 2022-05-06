@@ -200,7 +200,7 @@ export async function getNotAssigned(req, res) {
 }
 
 export async function updateActivo(req, res) {
-  const { id_empleado } = req.body;
+  const { id_empleado } = req.params;
   try {
     const data_activo = await Empleado.updateNotActivo(id_empleado);
     console.log(data_activo);
@@ -221,29 +221,22 @@ export async function updateEmpleado(req, res) {
     nivel_business,
     nivel_people,
     equipo,
+    id_rol,
     correo_electronico,
-    id_chapter,
   } = req.body;
 
-  const info_actualizada = new Empleado(
-    id_empleado,
-    nombre,
-    apellido_paterno,
-    apellido_materno,
-    nivel_general,
-    nivel_craft,
-    nivel_business,
-    nivel_people,
-    0,
-    correo_electronico,
-    "",
-    equipo,
-    id_chapter,
-    "",
-    0
-  );
   try {
-    const data_act = await info_actualizada.updateDataEmpleado();
+    const data_act = await Empleado.updateDataEmpleado(id_empleado,
+      nombre,
+      apellido_paterno,
+      apellido_materno,
+      nivel_general,
+      nivel_craft,
+      nivel_business,
+      nivel_people,
+      correo_electronico,
+      equipo,
+      id_rol);
     console.log(data_act);
     res.status(200).send({ data_act });
   } catch (err) {
