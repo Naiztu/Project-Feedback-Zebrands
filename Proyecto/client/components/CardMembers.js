@@ -70,7 +70,11 @@ export default function CardMembers({ info }) {
           {equipo}
           </p>
         </div>
-
+      </div>
+      <div>
+        {id_rol === 1 && <p className="text-lg md:text-tiny mx-5">- CL -</p>}
+        {id_rol === 2 && <p className="text-lg md:text-tiny mx-5">- CLA -</p>}
+        {id_rol === 3 && <p className="text-lg md:text-tiny mx-5">- CM -</p>}
       </div>
 
 

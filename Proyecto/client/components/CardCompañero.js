@@ -12,9 +12,22 @@ export default function CardCompañero({ pendientes }) {
           className="rounded-full border-4 border-white md:w-20 w-16 h-16 md:h-20"
           src={imagen_perfil}
         />
-        <p className=" font-bold text-lg md:text-xl text-center">
-          {nombre + " " + apellido_paterno}
-        </p>
+        <div className="">
+          <p className="text-base md:text-xl font-bold text-center ">
+            {nombre + " " + apellido_paterno} <br />
+          </p>
+          <p className="text-base md:text-sl italic text-center">
+            {id_rol === 1 && (
+              <p className="text-lg md:text-tiny mx-5">- CL -</p>
+            )}
+            {id_rol === 2 && (
+              <p className="text-lg md:text-tiny mx-5">- CLA -</p>
+            )}
+            {id_rol === 3 && (
+              <p className="text-lg md:text-tiny mx-5">- CM -</p>
+            )}
+          </p>
+        </div>
       </div>
       <button
         onClick={() => router.push(`/evalua/${id_empleado}`)}

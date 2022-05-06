@@ -206,7 +206,7 @@ export default function Registro({ regMember, isSaved }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      getDataPerfil();
+      //getDataPerfil();
     }
   }, [isAuthenticated]);
 
