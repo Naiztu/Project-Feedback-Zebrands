@@ -199,7 +199,7 @@ export async function updateActivo(req, res) {
   const { id_empleado } = req.params;
   try {
     const data_activo = await Empleado.updateNotActivo(id_empleado);
-    console.log(data_activo);
+
     res.status(200).send({ data_activo });
   } catch (err) {
     res.status(403).send({ err });
