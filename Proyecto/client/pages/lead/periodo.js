@@ -22,15 +22,11 @@ export default function Periodo() {
       const data = await getAllPeriodos(1);
       setPeriodos(data.periodos);
     } catch (error) {
-      console.log(error);
     }
   }
 
   async function createPeriodo() {
-    console.log({
-      fecha_inicio: date1.toISOString().split("T")[0],
-      fecha_fin: date2.toISOString().split("T")[0],
-    });
+
     try {
       const data = postPeriodo({
         nombre_periodo: descripcion,
@@ -43,7 +39,6 @@ export default function Periodo() {
         icon: "success",
       });
     } catch (error) {
-      console.log(error);
       swal("Hubo un error, periodo no registrado", {
         icon: "warning",
       });

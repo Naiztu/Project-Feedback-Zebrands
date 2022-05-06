@@ -21,7 +21,7 @@ export async function postPeriodo(req, res) {
     //   ? res.status(403).send({ err: "No hay ese empleado" })
     //   : res.status(200).send({ empleado: rows[0] });
   } catch (err) {
-    console.log({ err });
+   
     res.status(500).send({ err });
   }
 }
@@ -43,7 +43,7 @@ export async function cambiaEstatus(req, res) {
     await Periodo.changeStatus(estatus_periodo, id_periodo);
     res.status(200).send({ message: "correct update status" });
   } catch (err) {
-    console.log(err);
+
     res.status(403).send({ err });
   }
 }
@@ -64,7 +64,7 @@ export async function getPeriodos(req, res) {
     const periodos = await Periodo.getPeriodos(id_chapter);
     res.send({ periodos });
   } catch (err) {
-    console.log(err);
+
     res.status(403).send({ err });
   }
 }

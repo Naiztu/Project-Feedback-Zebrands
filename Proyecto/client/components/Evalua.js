@@ -12,10 +12,10 @@ export default function Evalua() {
     const id_user = user.id_empleado;
     try {
       const data = await getPendientes(id_periodo, id_user);
-      console.log(data.data_evalua);
+    
       setPendientes(data.data_evalua);
     } catch (err) {
-      console.log(err);
+     
     }
   };
 

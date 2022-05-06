@@ -8,7 +8,7 @@ export default function CardMembers({ info }) {
   const [feedbackExist, setFeedbackExist] = useState(0);
 
   const { id_periodo,isAuthenticated } = useUser();
-  console.log(info)
+
 
   const {
     imagen_perfil,
@@ -24,7 +24,6 @@ export default function CardMembers({ info }) {
   } = info || {};
 
   const redirectConsultarFeed = () => {
-    console.log("Amos a consultar")
     router.push(`/feedback/${id_periodo}/${id_empleado}`);
   };
 
@@ -42,11 +41,8 @@ export default function CardMembers({ info }) {
       if (data.data_feedback) {
         setFeedbackExist(1)
       }
-      console.log("hola")
 
-      console.log(data.data_feedback)
     } catch (error) {
-      console.log(error);
     }
   };
 

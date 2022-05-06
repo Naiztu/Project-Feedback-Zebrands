@@ -16,7 +16,6 @@ export default function Feedbacks({ id_user }) {
       setFeedbacks(data.data_feedbackHistory);
       setLoaded(1);
     } catch (err) {
-      console.log({ err });
     }
   };
 

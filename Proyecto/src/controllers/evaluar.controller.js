@@ -30,7 +30,6 @@ export async function postAsignarCompaniero(req, res) {
     id_empleado_evaluado,
     id_periodo
   );
-  console.log(post_evalua);
   try {
     const data_post_evalua = await post_evalua.postDataAsignarCompaniero();
     res.send({ data_post_evalua });
@@ -47,7 +46,6 @@ export async function getResumen(req, res) {
     const data_resumen = await evalua.getResumen();
     res.send({ data_resumen });
   } catch (err) {
-    console.log(err);
     res.status(500).send({ err });
   }
 }

@@ -13,9 +13,7 @@ export default function Post() {
       const data = await getEmpleado(id);
       setDataAssistant(data.data_empleado);
     } catch (err) {
-      console.log({ err });
     }
-    //console.log(dataAssistant.nombre)
 
   };
 

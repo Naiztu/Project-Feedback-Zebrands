@@ -14,7 +14,6 @@ export default function Post() {
       const data = await getPerfil(id);
       setDataPerfil(data.data_perfil);
     } catch (err) {
-      console.log({ err });
     }
 
   };

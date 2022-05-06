@@ -21,7 +21,7 @@ export async function getCurrentEmpleado(req, res) {
     const user = await Empleado.findId(id_empleado);
     res.status(200).send({ user });
   } catch (error) {
-    console.log(error);
+   
     res.status(401).send(error);
   }
 }
@@ -53,7 +53,6 @@ export async function getSearchEmpleado(req, res) {
     );
     res.status(200).send({ data_empleados });
   } catch (err) {
-    console.log({ err });
     res.status(500).send({ err });
   }
 }
@@ -70,7 +69,7 @@ export async function getNotRequested(req, res) {
     );
     res.status(200).send({ data_empleados });
   } catch (err) {
-    console.log({ err });
+   
     res.status(500).send({ err });
   }
 }
@@ -127,9 +126,7 @@ export async function updatePass(req, res) {
   let user = null;
   try {
     user = await Empleado.findPass(id_empleado);
-    console.log(user);
   } catch (error) {
-    console.log({ error });
   }
 
   const passwordCorrect =
@@ -182,7 +179,6 @@ export async function updateCMasCL(req, res) {
 
   try {
     const datas = nueva_informacion_lead.updateCMasCL();
-    console.log(datas);
     res.status(200).send({ message: "correct update" });
   } catch (err) {
     res.status(403).send({ err });
@@ -237,10 +233,8 @@ export async function updateEmpleado(req, res) {
       correo_electronico,
       equipo,
       id_rol);
-    console.log(data_act);
     res.status(200).send({ data_act });
   } catch (err) {
-    console.log(err);
     res.status(403).send({ err });
   }
 }

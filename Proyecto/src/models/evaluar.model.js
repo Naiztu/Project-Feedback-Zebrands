@@ -33,7 +33,6 @@ export class getEvaluar {
       );
       return rows;
     } catch (err) {
-      console.log({ err });
       throw { err };
     }
   }
@@ -137,7 +136,6 @@ export class getEvaluar {
   
       return resumen;
     } catch (error) {
-      console.log(error);
       if (conn) {
         await conn.rollback();
         await conn.release();

@@ -36,7 +36,6 @@ export default function AdminAllEmpleados() {
       );
       setEmpleados(data_empleados.data_empleados);
     } catch (error) {
-      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -52,7 +51,7 @@ export default function AdminAllEmpleados() {
     else{
       newpage=num+page;
     }
-    console.log(empleados)
+   
     try {
       const { data_empleados } = await getFilterEmpleados(newpage, filterName);
       if(data_empleados.lenght>0){
@@ -60,7 +59,7 @@ export default function AdminAllEmpleados() {
       }
       setEmpleados(data_empleados);
     } catch (error) {
-      console.log(error);
+     
       swal("Hubo un error", {
         icon: "warning",
       });
