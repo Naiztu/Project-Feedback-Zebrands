@@ -26,10 +26,8 @@ export default function RowEvaluaciones({ item, id_evaluado, id_periodo }) {
   const getData = async () => {
     try {
       const data = await getRespuestas(id_evaluador, id_evaluado, id_periodo);
-      console.log(data);
       setRespuestas(data.data_res);
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -72,7 +70,6 @@ export default function RowEvaluaciones({ item, id_evaluado, id_periodo }) {
                     {respuestas
                       .filter((e) => e.dimension_respuesta === item)
                       .map((el, i) => {
-                        console.log(item);
                         return <Respuesta info={el} key={i} isSaved={true} />;
                       })}
                   </div>
