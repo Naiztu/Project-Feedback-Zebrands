@@ -23,7 +23,7 @@ export class Assistant {
                  WHERE e.id_empleado IN 
                  (SELECT a.id_empleado_member FROM asignacion a
                   WHERE vigente=1
-                  AND id_empleado_assistant=${id_assistant});`
+                  AND id_empleado_assistant=${id_assistant}  AND e.activo = 1)`
       );
       return rows;
     } catch (err) {

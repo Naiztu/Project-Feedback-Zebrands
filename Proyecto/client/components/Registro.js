@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
-import { useUser } from "../context/userContext";
 import { updateMember, createMember, desactivar } from "../services/empleado";
-import { getPerfil } from "../services/perfil";
 import { useForm } from "../hooks/useForm";
 import { objects, reg } from "../util/objectsInputs";
+import { useRouter } from "next/router";
 
 export default function Registro({ regMember, isSaved }) {
   const {
@@ -24,7 +23,7 @@ export default function Registro({ regMember, isSaved }) {
     id_empleado,
   } = regMember;
 
-  const { isAuthenticated, user } = useUser();
+  const router = useRouter();
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [newApellido, setNewApellido] = useState("");
@@ -70,8 +69,9 @@ export default function Registro({ regMember, isSaved }) {
         id_rol: data[7].descripcion_respuesta,
       });
       setData([]);
+      setNewNivel_general(0);
 
-      swal(
+      await swal(
         "Registraste un member con la contraseña: \n\t\t" +
           contrasena +
           " \n\tmándasela por correo.",
@@ -81,7 +81,6 @@ export default function Registro({ regMember, isSaved }) {
       );
       objects(regMember).forEach((item, i) => setItem(item, reg[i]));
     } catch (error) {
-      console.log(error);
       swal("Hubo un error, member no registrado", {
         icon: "warning",
       });
@@ -90,20 +89,20 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateEmpleado = async () => {
     try {
-      const data = await updateMember(
-        correo_electronico,
-        nombre,
-        apellido_paterno,
-        apellido_materno,
-        nivel_general,
-        nivel_craft,
-        nivel_business,
-        nivel_people,
-        id_chapter,
-        id_rol,
-        equipo,
+      const res = await updateMember({
         id_empleado,
-      );
+        nombre: data[1].descripcion_respuesta,
+        apellido_paterno: data[2].descripcion_respuesta,
+        apellido_materno: newApellido,
+        nivel_craft: data[3].descripcion_respuesta,
+        nivel_business: data[4].descripcion_respuesta,
+        nivel_people: data[5].descripcion_respuesta,
+        nivel_general: newNivel_general,
+        correo_electronico: data[0].descripcion_respuesta,
+        equipo: data[8].descripcion_respuesta,
+        id_chapter: data[6].descripcion_respuesta,
+        id_rol: data[7].descripcion_respuesta,
+      });
       swal("Member actualizado", {
         icon: "success",
       });
@@ -116,10 +115,11 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateDesactivar = async () => {
     try {
-      const data = await desactivar(id.id_empleado);
+      const data = await desactivar(id_empleado);
       swal("Member desactivado", {
         icon: "success",
       });
+      router.push("/lead/member");
     } catch (error) {
       swal("Hubo un error, el Member no se desactivó", {
         icon: "warning",
@@ -127,21 +127,6 @@ export default function Registro({ regMember, isSaved }) {
     }
   };
 
-
-  const [dataPerfil, setDataPerfil] = useState(null);
-
- {/* const getDataPerfil = async () => {
-    try {
-      const dataP = await getPerfil(id.id_empleado);
-      setDataPerfil(dataP.data_perfil);
-      console.log(dataP.data_perfil)
-      console.log("funcion");
-    } catch (err) {
-      console.log({ err });
-      console.log("error get data perfil");
-    }
-
-  };*/}
   const handleChange = (e) => {
     handleBlur(e);
     setNewNivel_general(
@@ -204,37 +189,16 @@ export default function Registro({ regMember, isSaved }) {
     }
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      //getDataPerfil();
-    }
-  }, [isAuthenticated]);
-
   return (
     <>
-     
-      {/*<header className="w-full pt-10 rounded-b-3xl">
-        <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
-          <h1 className=" title">
-            {!isSaved ? "" : "Información del Member"}
-          </h1>
-        </div>
-      </header> */}
       <div className="container mx-auto">
         <div className="inputs w-full max-w-2xl  px-6 mx-auto">
-          {/* <h2 className="text-2xl text-gray-900">
-              
-              {!isSaved
-                ? "Información del nuevo Member:"
-                : "Información del Member:"}
-            </h2> */}
           <div className="mt-6 ">
             <div className="personal w-full">
               <div className="w-full md:w-full px-3 mb-6">
                 <div className="w-full md:w-full px-3 mb-6">
                   <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    //for="grid-text-1"
                   >
                     *Dirección de Correo
                   </label>
@@ -622,7 +586,7 @@ export default function Registro({ regMember, isSaved }) {
                     className="btn"
                     onClick={updateDesactivar}
                   >
-                    Desactivar Member
+                    Dar de baja Member
                   </button>
                 )}
 

@@ -35,10 +35,7 @@ export default function Perfil() {
     try {
       const data = await getMyAssistant(user.id_empleado);
       setAssistant(data.info_assistant);
-      console.log(data.info_assistant);
-    } catch (err) {
-      console.log({ err });
-    }
+    } catch (err) {}
   };
 
   const [password, setPassword] = useState([]);
@@ -215,13 +212,16 @@ export default function Perfil() {
                           </p>
                         </div>
                       </div>
-                      <div className="mt-6 border-t border-gray-400 pt-4"></div>
-                      <h2 className="text-2xl text-gray-900">
-                        Niveles
-                      </h2>
-                      <div className="flex items-center justify-between mt-6">
-                       <GraphPolar/>
-                      </div>
+                      {id_rol != 1 && (
+                        <>
+                          <div className="mt-6 border-t border-gray-400 pt-4"></div>
+                          <h2 className="text-2xl text-gray-900">Niveles</h2>
+
+                          <div className="flex items-center justify-between mt-6">
+                            <GraphPolar />
+                          </div>
+                        </>
+                      )}
                       <div className="mt-6 border-t border-gray-400 pt-4"></div>
                       <h2 className="text-2xl text-gray-900">
                         Cambios a tu Cuenta
@@ -231,10 +231,7 @@ export default function Perfil() {
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Password
                           </label>
-                          <button
-                            onClick={() => openModal2()}
-                            className="btn"
-                          >
+                          <button onClick={() => openModal2()} className="btn">
                             Change Password
                           </button>
                         </div>
@@ -242,54 +239,54 @@ export default function Perfil() {
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Imagen Perfil
                           </label>
-                          <button
-                            onClick={() => openModal()}
-                            className="btn"
-                          >
+                          <button onClick={() => openModal()} className="btn">
                             Change Profile Picture
                           </button>
                         </div>
                       </div>
-                      <div className="mt-6 border-t border-gray-400 pt-4"></div>
-                      <h2 className="text-2xl text-gray-900">
-                        Información de tu Chapter Lead Assistant
-                      </h2>
-                      <br></br>
+                      {id_rol != 1 && (
+                        <>
+                          <div className="mt-6 border-t border-gray-400 pt-4"></div>
+                          <h2 className="text-2xl text-gray-900">
+                            Información de tu Chapter Lead Assistant
+                          </h2>
 
-                      <div className="w-full md:w-full px-3 mb-6">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                          Nombre(s)
-                        </label>
-                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {assitant && assitant.nombre}
-                        </p>
-                      </div>
-                      <div className="flex items-center justify-between mt-4">
-                        <div className="w-full md:w-1/2 px-3 mb-6">
-                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            Apellido Paterno
-                          </label>
-                          <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                            {assitant && assitant.apellido_paterno}
-                          </p>
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 mb-6">
-                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            Apellido Materno
-                          </label>
-                          <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                            {assitant && assitant.apellido_materno}{" "}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="w-full md:w-full px-3 mb-6">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                          Correo
-                        </label>
-                        <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
-                          {assitant && assitant.correo_electronico}
-                        </p>
-                      </div>
+                          <div className="w-full md:w-full px-3 mb-6">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                              Nombre(s)
+                            </label>
+                            <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                              {assitant && assitant.nombre}
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-between mt-4">
+                            <div className="w-full md:w-1/2 px-3 mb-6">
+                              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Apellido Paterno
+                              </label>
+                              <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                                {assitant && assitant.apellido_paterno}
+                              </p>
+                            </div>
+                            <div className="w-full md:w-1/2 px-3 mb-6">
+                              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                Apellido Materno
+                              </label>
+                              <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                                {assitant && assitant.apellido_materno}{" "}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="w-full md:w-full px-3 mb-6">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                              Correo
+                            </label>
+                            <p className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500">
+                              {assitant && assitant.correo_electronico}
+                            </p>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

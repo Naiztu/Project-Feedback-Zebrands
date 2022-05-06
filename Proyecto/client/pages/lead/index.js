@@ -12,15 +12,9 @@ export default function UserIndex() {
   const getData = async () => {
     try {
       const data = await getAVGLead();
-      console.log(data);
-      setGraph(
-        data.data_AllGraph.sort((a, b) => a.id_periodo - b.id_periodo)
-      );
-    } catch (error) {
-      console.log(error);
-    }
+      setGraph(data.data_AllGraph.sort((a, b) => a.id_periodo - b.id_periodo));
+    } catch (error) {}
   };
-
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -28,74 +22,58 @@ export default function UserIndex() {
     }
   }, [isAuthenticated]);
 
-
-
   const data = {
     labels: graph.map((data) => data.id_periodo),
     //labels: [1, 2, 3, 4, 5],
     datasets: [
       {
-        label: "Craft",
-        data: graph.map((data) => data.avgc),
-        //data: [2, 2, 2, 2, 2],
+        label: "Promedio",
+        data: graph.map((data) => data.avgp),
         tension: 0.3,
-        borderColor: "#43505c",
-        pointBackgroundColor: "#43505c",
-        backgroudColor: "#43505c",
-        //fillColor: "#43505c",
+        borderColor: "rgb(246,223,164)",
+        pointBackgroundColor: "rgb(246,223,164)",
+        backgroundColor: "rgba(246,223,164,0.3)",
+        pointRadius: 4,
         borderWidth: 2,
       },
 
       {
         label: "Personal",
         data: graph.map((data) => data.avgpe),
-        //data: [4, 4, 3, 3, 4],
         tension: 0.3,
-        borderColor: "#866398",
-        pointBackgroundColor: "#866398",
-        backgroudColor: "#866398",
-        //fillColor: "#866398",
+        borderColor: "rgb(162,199,226)",
+        pointBackgroundColor: "rgb(162,199,226)",
+        pointRadius: 4,
+        backgroundColor: "rgba(162,199,226,0.3)",
         borderWidth: 2,
       },
 
       {
         label: "Craft",
-        data: graph.map((item) => item.avgp),
-        //data: [3, 3, 4, 4, 3],
+        data: graph.map((item) => item.avgc),
         tension: 0.3,
-        pointBackgroundColor: "#f1657d",
-        borderColor: "#f1657d",
-        backgroudColor: "#f1657d",
-        //fillColor: "#f1657d",
+        borderColor: "rgb(255,177,185)",
+        pointBackgroundColor: "rgb(255,177,185)",
+        pointRadius: 4,
+        backgroundColor: "rgba(255,177,185,0.3)",
         borderWidth: 2,
       },
 
       {
         label: "Business",
         data: graph.map((item) => item.avgb),
-        //data: [5, 4, 3, 3, 2],
         tension: 0.3,
-        borderColor: "#ffa600",
-        pointBackgroundColor: "#ffa600",
-        backgroudColor: "#ffa600",
-        //fillColor: "#ffa600",
+        borderColor: "rgb(199,160,206)",
+        pointBackgroundColor: "rgb(199,160,206)",
+        pointRadius: 4,
+        backgroundColor: "rgba(199,160,206,0.3)",
         borderWidth: 2,
       },
     ],
   };
   const options = {
     resposive: true,
-    fill: false,
-    showLine: true,
-    animations: {
-      tension: {
-        duration: 2000,
-        easing: "linear",
-        from: 0.8,
-        to: 0.2,
-        loop: true,
-      },
-    },
+    fill: true,
     scales: {
       x: {
         grid: {
@@ -103,13 +81,18 @@ export default function UserIndex() {
         },
       },
       y: {
-        grid: {
-          display: false,
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) {
+            if (value % 1 === 0) {
+              return value;
+            }
+          },
         },
         min: 0,
-        max: 5,
-        ticks: {
-          stepSize: 0.1,
+        max: 5.3,
+        grid: {
+          display: false,
         },
       },
     },
@@ -120,8 +103,17 @@ export default function UserIndex() {
     },
   };
 
+  var pg = 0;
+  graph.forEach((data) => (pg += parseFloat(data.avgp)));
+  var pc = 0;
+  graph.forEach((data) => (pc += parseFloat(data.avgc)));
+  var pp = 0;
+  graph.forEach((data) => (pp += parseFloat(data.avgpe)));
+  var pb = 0;
+  graph.forEach((data) => (pb += parseFloat(data.avgb)));
+
   return (
-    <Layout>
+    <Layout pg={parseFloat(pg).toFixed(1)}>
       <div className=" w-full">
         <h1 className="title my-10 mx-auto">Resumen General del Chapter</h1>
         <p className="text text-center w-3/4 mx-auto">
@@ -133,15 +125,15 @@ export default function UserIndex() {
         <div className="text-base lg:text-xl">
           <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto mt-4 mb-2 py-2 px-6 flex-row flex justify-between">
             <h1 className="font-semibold">Craft</h1>{" "}
-            <p className="italic">3.2</p>
+            <p className="italic">{parseFloat(pc).toFixed(1)}</p>
           </div>
           <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
             <h1 className="font-semibold">Business</h1>{" "}
-            <p className="italic">3.9</p>
+            <p className="italic">{parseFloat(pb).toFixed(1)}</p>
           </div>
           <div className=" w-6/12 lg:w-4/12 shadow-lg rounded-xl  border mx-auto my-2 py-2 px-6 flex-row flex justify-between">
             <h1 className="font-semibold">People</h1>{" "}
-            <p className="italic">4.2</p>
+            <p className="italic">{parseFloat(pp).toFixed(1)}</p>
           </div>
         </div>
       </div>

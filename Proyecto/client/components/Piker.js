@@ -9,7 +9,6 @@ export default function Piker({ estado: { e1, e2 }, setEstado: { sE1, sE2 } }) {
         dateFormat="dd/MM/yyyy"
         selected={e1}
         onChange={(date) => {
-          console.log(date);
           sE1(date);
         }}
         selectsStart
@@ -21,7 +20,6 @@ export default function Piker({ estado: { e1, e2 }, setEstado: { sE1, sE2 } }) {
         dateFormat="dd/MM/yyyy"
         selected={e2}
         onChange={(date) => {
-          console.log(date);
           sE2(date);
         }}
         selectsEnd

@@ -27,7 +27,6 @@ export default function UserIndex() {
           : listGraphOrd
       );
     } catch (error) {
-      console.log(error);
     }
   };
 

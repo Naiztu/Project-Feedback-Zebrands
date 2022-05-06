@@ -21,7 +21,7 @@ export async function getCurrentEmpleado(req, res) {
     const user = await Empleado.findId(id_empleado);
     res.status(200).send({ user });
   } catch (error) {
-    console.log(error);
+   
     res.status(401).send(error);
   }
 }
@@ -53,7 +53,6 @@ export async function getSearchEmpleado(req, res) {
     );
     res.status(200).send({ data_empleados });
   } catch (err) {
-    console.log({ err });
     res.status(500).send({ err });
   }
 }
@@ -70,7 +69,7 @@ export async function getNotRequested(req, res) {
     );
     res.status(200).send({ data_empleados });
   } catch (err) {
-    console.log({ err });
+   
     res.status(500).send({ err });
   }
 }
@@ -127,9 +126,7 @@ export async function updatePass(req, res) {
   let user = null;
   try {
     user = await Empleado.findPass(id_empleado);
-    console.log(user);
   } catch (error) {
-    console.log({ error });
   }
 
   const passwordCorrect =
@@ -182,7 +179,6 @@ export async function updateCMasCL(req, res) {
 
   try {
     const datas = nueva_informacion_lead.updateCMasCL();
-    console.log(datas);
     res.status(200).send({ message: "correct update" });
   } catch (err) {
     res.status(403).send({ err });
@@ -200,10 +196,10 @@ export async function getNotAssigned(req, res) {
 }
 
 export async function updateActivo(req, res) {
-  const { id_empleado } = req.body;
+  const { id_empleado } = req.params;
   try {
     const data_activo = await Empleado.updateNotActivo(id_empleado);
-    console.log(data_activo);
+
     res.status(200).send({ data_activo });
   } catch (err) {
     res.status(403).send({ err });
@@ -221,33 +217,24 @@ export async function updateEmpleado(req, res) {
     nivel_business,
     nivel_people,
     equipo,
+    id_rol,
     correo_electronico,
-    id_chapter,
   } = req.body;
 
-  const info_actualizada = new Empleado(
-    id_empleado,
-    nombre,
-    apellido_paterno,
-    apellido_materno,
-    nivel_general,
-    nivel_craft,
-    nivel_business,
-    nivel_people,
-    0,
-    correo_electronico,
-    "",
-    equipo,
-    id_chapter,
-    "",
-    0
-  );
   try {
-    const data_act = await info_actualizada.updateDataEmpleado();
-    console.log(data_act);
+    const data_act = await Empleado.updateDataEmpleado(id_empleado,
+      nombre,
+      apellido_paterno,
+      apellido_materno,
+      nivel_general,
+      nivel_craft,
+      nivel_business,
+      nivel_people,
+      correo_electronico,
+      equipo,
+      id_rol);
     res.status(200).send({ data_act });
   } catch (err) {
-    console.log(err);
     res.status(403).send({ err });
   }
 }

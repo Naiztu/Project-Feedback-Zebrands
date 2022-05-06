@@ -22,11 +22,8 @@ export class Rol {
         FROM empleado_rol e2 WHERE e2.id_empleado= ${id_member});`
       );
       const rol_member = data2[0].id_rol;
-      //console.log("rol_assistant:"+rol_assistant)
-      //console.log("rol_member:"+rol_member)
-
+    
       if (rol_assistant >= rol_member) {
-        console.log("Inconsistencia en la jerarquia de roles");
         return { msg: "Inconsistencia en la jerarquia de roles" };
       }
 
@@ -41,7 +38,6 @@ export class Rol {
       await conn.commit();
       await conn.release();
     } catch (error) {
-      console.log(error);
       if (conn) {
         await conn.rollback();
         await conn.release();

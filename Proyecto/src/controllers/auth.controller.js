@@ -9,7 +9,6 @@ export const loginRouter = async (req, res) => {
   try {
     user = await Empleado.findEmail(email);
   } catch (error) {
-    console.log({ error });
   }
 
   const passwordCorrect =

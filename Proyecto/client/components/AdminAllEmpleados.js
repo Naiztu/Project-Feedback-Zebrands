@@ -30,13 +30,10 @@ export default function AdminAllEmpleados() {
 
   const botonSearch = async () => {
     try {
-      const data_empleados = await getFilterEmpleados(
-        page,
-        filterName
-      );
+      setPage(1);
+      const data_empleados = await getFilterEmpleados(1, filterName);
       setEmpleados(data_empleados.data_empleados);
     } catch (error) {
-      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -47,27 +44,22 @@ export default function AdminAllEmpleados() {
     let newpage;
     if (num + page <= 0) {
       setPage(1);
-      newpage=1;
-    } 
-    else{
-      newpage=num+page;
+      newpage = 1;
+    } else {
+      newpage = num + page;
     }
-    console.log(empleados)
     try {
       const { data_empleados } = await getFilterEmpleados(newpage, filterName);
-      if(data_empleados.lenght>0){
-        setPage(page-num)
+      if (data_empleados.lenght > 0) {
+        setPage(page - num);
       }
       setEmpleados(data_empleados);
     } catch (error) {
-      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
     }
   };
-
-
 
   useEffect(() => {
     if (isAuthenticated) {

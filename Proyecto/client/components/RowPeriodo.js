@@ -43,7 +43,6 @@ export default function RowMember({ data }) {
         });
       }
     } catch (err) {
-      console.log(err);
       swal("Hubo un error, periodo no actualizado", {
         icon: "warning",
       });
