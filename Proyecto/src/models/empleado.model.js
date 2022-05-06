@@ -70,7 +70,7 @@ export class Empleado {
         e.id_chapter, r.id_rol, e.equipo
         FROM empleado e, empleado_rol r
         WHERE e.id_empleado = ${id} AND
-              r.id_empleado = e.id_empleado`
+              r.id_empleado = e.id_empleado AND e.activo = 1`
       );
       return rows[0] || null;
     } catch (err) {
@@ -83,7 +83,7 @@ export class Empleado {
       const [rows, fields] = await pool.execute(
         `SELECT e.password
         FROM empleado e
-        WHERE e.id_empleado = ${id} `
+        WHERE e.id_empleado = ${id} AND e.activo = 1`
       );
       return rows[0] || null;
     } catch (err) {
@@ -98,7 +98,7 @@ export class Empleado {
         e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
         e.password, r.id_rol, e.equipo
         FROM empleado e, empleado_rol r
-        WHERE e.activo = true AND
+        WHERE e.activo = 1 AND
           e.correo_electronico = '${correo}'
           AND r.id_empleado = e.id_empleado 
         ORDER BY r.fecha_rol DESC
@@ -114,7 +114,7 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people, activo
-           FROM empleado WHERE id_empleado = ${this.id_empleado}
+           FROM empleado WHERE id_empleado = ${this.id_empleado} AND activo = 1
            `
       );
       console.log(rows);
@@ -150,7 +150,7 @@ export class Empleado {
                   FROM evaluacion
                   WHERE id_empleado_evaluado = ${id_empleado} AND
                         id_periodo = ${id_periodo})
-                AND id_empleado <> ${id_empleado}
+                AND id_empleado <> ${id_empleado} AND activo = 1
         ${orderBy("nombre", "ASC")}
         ${pag(page, 10)}`
       );
@@ -177,7 +177,7 @@ export class Empleado {
            max(er.fecha_rol) 
            FROM empleado e, empleado_rol er, rol r
             WHERE
-             er.id_empleado = e.id_empleado AND r.id_rol=er.id_rol
+             er.id_empleado = e.id_empleado AND r.id_rol=er.id_rol AND e.activo = 1
         AND ${filter("nombre", filterName)}
              GROUP BY id_empleado
              ${orderBy("nombre", "ASC")}
@@ -293,7 +293,7 @@ export class Empleado {
              FROM asignacion
              WHERE vigente=1
              )
-             AND id_rol=3
+             AND id_rol=3 AND empleado.activo = 1
              AND ${filter("nombre", filterName)}
              ${orderBy("nombre", "ASC")}
              ${pag(page, 10)}`
