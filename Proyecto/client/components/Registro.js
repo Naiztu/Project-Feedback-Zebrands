@@ -73,8 +73,8 @@ export default function Registro({ regMember, isSaved }) {
 
       swal(
         "Registraste un member con la contraseña: \n\t\t" +
-          contrasena +
-          " \n\tmándasela por correo.",
+        contrasena +
+        " \n\tmándasela por correo.",
         {
           icon: "success",
         }
@@ -90,11 +90,25 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateEmpleado = async () => {
     try {
-      const data = await updateMember(id.id_empleado);
+      const res = await updateMember({
+        id_empleado,
+        nombre: data[1].descripcion_respuesta,
+        apellido_paterno: data[2].descripcion_respuesta,
+        apellido_materno: newApellido,
+        nivel_craft: data[3].descripcion_respuesta,
+        nivel_business: data[4].descripcion_respuesta,
+        nivel_people: data[5].descripcion_respuesta,
+        nivel_general: newNivel_general,
+        correo_electronico: data[0].descripcion_respuesta,
+        equipo: data[8].descripcion_respuesta,
+        id_chapter: data[6].descripcion_respuesta,
+        id_rol: data[7].descripcion_respuesta
+      });
       swal("Member actualizado", {
         icon: "success",
       });
     } catch (error) {
+      console.log({ error })
       swal("Hubo un error, no se actualizó el member", {
         icon: "warning",
       });
@@ -103,7 +117,7 @@ export default function Registro({ regMember, isSaved }) {
 
   const updateDesactivar = async () => {
     try {
-      const data = await desactivar(id.id_empleado);
+      const data = await desactivar(id_empleado);
       swal("Member desactivado", {
         icon: "success",
       });
@@ -115,20 +129,7 @@ export default function Registro({ regMember, isSaved }) {
   };
 
 
-  const [dataPerfil, setDataPerfil] = useState(null);
 
-  const getDataPerfil = async () => {
-    try {
-      const dataP = await getPerfil(id.id_empleado);
-      setDataPerfil(dataP.data_perfil);
-      console.log(dataP.data_perfil)
-      console.log("funcion");
-    } catch (err) {
-      console.log({ err });
-      console.log("error get data perfil");
-    }
-
-  };
   const handleChange = (e) => {
     handleBlur(e);
     setNewNivel_general(
@@ -178,6 +179,7 @@ export default function Registro({ regMember, isSaved }) {
     if (isSave) {
       //alert("funcion actualizada");
       updateEmpleado();
+      console.log("Paso updateEmpleado")
       setIsEdited(false);
     } else {
       if (checkErrors() === 0) {
@@ -191,15 +193,9 @@ export default function Registro({ regMember, isSaved }) {
     }
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      getDataPerfil();
-    }
-  }, [isAuthenticated]);
-
   return (
     <>
-     
+
       {/*<header className="w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
           <h1 className=" title">
@@ -221,7 +217,7 @@ export default function Registro({ regMember, isSaved }) {
                 <div className="w-full md:w-full px-3 mb-6">
                   <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    //for="grid-text-1"
+                  //for="grid-text-1"
                   >
                     *Dirección de Correo
                   </label>

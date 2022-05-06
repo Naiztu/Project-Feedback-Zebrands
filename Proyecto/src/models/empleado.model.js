@@ -51,10 +51,10 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `UPDATE empleado SET ` +
-          "`" +
-          `password` +
-          "`" +
-          ` = '${password}' WHERE id_empleado = ${id_empleado};`
+        "`" +
+        `password` +
+        "`" +
+        ` = '${password}' WHERE id_empleado = ${id_empleado};`
       );
       return rows;
     } catch (err) {
@@ -71,6 +71,21 @@ export class Empleado {
         FROM empleado e, empleado_rol r
         WHERE e.id_empleado = ${id} AND
               r.id_empleado = e.id_empleado`
+      );
+      return rows[0] || null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  static async findIdRol(id) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT r.id_rol
+        FROM empleado e, empleado_rol r
+        WHERE e.id_empleado = ${id} AND
+              r.id_empleado = e.id_empleado
+        ORDER BY r.fecha_rol;`
       );
       return rows[0] || null;
     } catch (err) {
@@ -320,27 +335,63 @@ export class Empleado {
     }
   }
 
-  async updateDataEmpleado() {
+  static async updateDataEmpleado(id_empleado,
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    nivel_general,
+    nivel_craft,
+    nivel_business,
+    nivel_people,
+    correo_electronico,
+    equipo,
+    id_rol) {
+
+    let conn = null;
     try {
-      const [rows, fields] = await pool.execute(
-        `UPDATE empleado 
-        SET nombre = '${this.nombre}', 
-        apellido_paterno = '${this.apellido_paterno}', 
-        apellido_materno = '${this.apellido_materno}',
-        nivel_general = ${this.nivel_general}, 
-        nivel_craft = ${this.nivel_craft}, 
-        nivel_business = ${this.nivel_business}, 
-        nivel_people = ${this.nivel_people},
-        correo_electronico = '${this.correo_electronico}',
-        equipo = '${this.equipo}',
-        id_chapter = ${this.id_chapter} 
-        WHERE id_empleado = ${this.id_empleado}`
+
+      conn = await pool.getConnection();
+      await conn.beginTransaction();
+      const [rows, fields] = await conn.query(`UPDATE empleado 
+      SET nombre = '${nombre}', 
+      apellido_paterno = '${apellido_paterno}', 
+      apellido_materno = '${apellido_materno}',
+      nivel_general = ${nivel_general}, 
+      nivel_craft = ${nivel_craft}, 
+      nivel_business = ${nivel_business}, 
+      nivel_people = ${nivel_people},
+      correo_electronico = '${correo_electronico}',
+      equipo = '${equipo}'
+      WHERE id_empleado = ${id_empleado}`);
+
+
+      const [current_rol] = await conn.query(
+        `SELECT id_rol FROM empleado_rol WHERE id_empleado= ${id_empleado} AND 
+      fecha_rol=(SELECT MAX(e2.fecha_rol) 
+      FROM empleado_rol e2 WHERE e2.id_empleado= ${id_empleado});`
       );
-      console.log(rows);
+      if (current_rol === 2 && id_rol === 1) {
+        await conn.query(
+          `UPDATE asignacion as a
+          SET vigente = 0
+          WHERE id_empleado_assistant = ${id_member}`
+        );
+      }
+
+      await conn.commit();
+      await conn.release();
       return rows;
-    } catch (err) {
-      console.log(err);
-      throw { err };
+    } catch (error) {
+      if (conn) {
+        await conn.rollback();
+        await conn.release();
+      }
+      throw error;
     }
+
+
+
+
+
   }
 }

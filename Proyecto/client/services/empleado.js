@@ -99,6 +99,7 @@ export async function createMember(body) {
 }
 
 export async function updateMember(body) {
+   console.log({body});
   try {
     const data_up = await api.put("/empleado/update", body);
     return data_up;
@@ -108,13 +109,13 @@ export async function updateMember(body) {
 }
 
 
-export async function desactivar(body) {
+export async function desactivar(id_empleado) {
   try {
-    const data_up = await api.put("/empleado/desactivar", body);
+    const data_up = await api.put(`/empleado/desactivar/${id_empleado}`);
     return data_up;
   } catch (error) {
     throw { error };
   }
-}
+} 
 
 
