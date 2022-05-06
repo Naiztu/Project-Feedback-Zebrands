@@ -45,7 +45,7 @@ export default function Asignar() {
       });
       router.push("/user");
     } catch (err) {
-      console.log(err);
+     
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -68,7 +68,7 @@ export default function Asignar() {
       );
       setCompaneros(data_empleados);
     } catch (error) {
-      console.log(error);
+ 
       swal("Hubo un error", {
         icon: "warning",
       });

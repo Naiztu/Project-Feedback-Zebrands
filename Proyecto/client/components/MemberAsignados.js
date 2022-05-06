@@ -16,7 +16,6 @@ export default function MemberAsignados() {
       const data = await getAsignados(user.id_empleado);
       setInfo(data.data_members);
     } catch (error) {
-      console.log(error);
     }
   };
 

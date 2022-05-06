@@ -89,7 +89,6 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
         icon: "success",
       });
     } catch (err) {
-      console.log(err);
       swal("Hubo un error, la pregunta no se registró", {
         icon: "warning",
       });

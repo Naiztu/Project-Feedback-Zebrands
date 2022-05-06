@@ -25,7 +25,6 @@ export const UserProvider = ({ children }) => {
         setUser(data.user);
         await getPeriodo(data.user.id_chapter);
       } catch (error) {
-        console.log(error);
       }
     }
   }
@@ -39,7 +38,6 @@ export const UserProvider = ({ children }) => {
       const data = await getIdPeriodo(id_chapter);
       setId_Periodo(data.id_periodo);
     } catch (err) {
-      console.log(err);
     }
   }
 
@@ -55,7 +53,6 @@ export const UserProvider = ({ children }) => {
       if (data.user.id_rol === 1) router.push("/lead");
       else router.push("/user");
     } catch (error) {
-      console.log(error);
       throw { error };
     }
   }

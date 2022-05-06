@@ -81,7 +81,6 @@ export default function Registro({ regMember, isSaved }) {
       );
       objects(regMember).forEach((item, i) => setItem(item, reg[i]));
     } catch (error) {
-      console.log(error);
       swal("Hubo un error, member no registrado", {
         icon: "warning",
       });
@@ -108,7 +107,6 @@ export default function Registro({ regMember, isSaved }) {
         icon: "success",
       });
     } catch (error) {
-      console.log({ error });
       swal("Hubo un error, no se actualizó el member", {
         icon: "warning",
       });
@@ -178,7 +176,6 @@ export default function Registro({ regMember, isSaved }) {
     if (isSave) {
       //alert("funcion actualizada");
       updateEmpleado();
-      console.log("Paso updateEmpleado");
       setIsEdited(false);
     } else {
       if (checkErrors() === 0) {

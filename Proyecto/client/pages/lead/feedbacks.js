@@ -13,7 +13,6 @@ export default function Feedbacks() {
       const data = await getFeedbackLead();
       setFeedbacks(data.data_feedbackAll);
     } catch (err) {
-      console.log(err);
     }
   };
 

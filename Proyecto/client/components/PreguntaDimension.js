@@ -12,7 +12,6 @@ export default function PreguntaDimension({ Nivel, Dimension }) {
       setPntas(data.preguntas);
       setAddQ([]);
     } catch (err) {
-      console.log(err);
     }
   };
 

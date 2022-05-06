@@ -12,11 +12,8 @@ export default function UserIndex() {
   const getData = async () => {
     try {
       const data = await getAVGLead();
-      console.log(data);
       setGraph(data.data_AllGraph.sort((a, b) => a.id_periodo - b.id_periodo));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

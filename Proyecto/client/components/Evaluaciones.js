@@ -13,7 +13,6 @@ export default function Evaluaciones({ id_periodo, id_user }) {
       setResumen(data_resumen.calificaciones);
       setProm(data_resumen.prom);
     } catch (err) {
-      console.log(err);
     }
   };
 

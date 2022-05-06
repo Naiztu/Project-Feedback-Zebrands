@@ -132,10 +132,10 @@ export class Empleado {
            FROM empleado WHERE id_empleado = ${this.id_empleado} AND activo = 1
            `
       );
-      console.log(rows);
+     
       return rows[0];
     } catch (err) {
-      console.log(err);
+ 
       throw { err };
     }
   }
@@ -169,7 +169,7 @@ export class Empleado {
         ${orderBy("nombre", "ASC")}
         ${pag(page, 10)}`
       );
-      //console.log(rows);
+      
       return rows;
     } catch (err) {
       throw { err };
@@ -315,7 +315,7 @@ export class Empleado {
       );
       return rows;
     } catch (err) {
-      console.log(err);
+
       throw { err };
     }
   }
@@ -327,10 +327,10 @@ export class Empleado {
         SET activo = 0
         WHERE id_empleado = ${id_empleado}`
       );
-      console.log(rows);
+     
       return rows;
     } catch (err) {
-      console.log(err);
+    
       throw { err };
     }
   }

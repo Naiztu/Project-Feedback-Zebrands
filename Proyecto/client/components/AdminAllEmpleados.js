@@ -34,7 +34,6 @@ export default function AdminAllEmpleados() {
       const data_empleados = await getFilterEmpleados(1, filterName);
       setEmpleados(data_empleados.data_empleados);
     } catch (error) {
-      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -56,7 +55,6 @@ export default function AdminAllEmpleados() {
       }
       setEmpleados(data_empleados);
     } catch (error) {
-      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });

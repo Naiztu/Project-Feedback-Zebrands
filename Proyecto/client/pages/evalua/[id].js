@@ -52,7 +52,6 @@ export default function Post() {
       });
       router.push("/user/evalua");
     } catch (err) {
-      console.log({ err });
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -80,7 +79,6 @@ export default function Post() {
         setItem(generatorData(item), expresion(item.tipo_pregunta))
       );
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -91,7 +89,6 @@ export default function Post() {
       const { nivel_business, nivel_craft, nivel_people } = data.data_empleado;
       getPreguntas(nivel_business, nivel_craft, nivel_people, id);
     } catch (err) {
-      console.log({ err });
     }
   };
 

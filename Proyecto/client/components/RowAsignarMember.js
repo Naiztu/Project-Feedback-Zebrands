@@ -17,12 +17,10 @@ export default function RowAsignarMember({
         id_assistant,
         id_member: info.id_empleado,
       });
-      console.log(data);
       swal("Mentorado Agregado", {
         icon: "success",
       });
     } catch (err) {
-      console.log(err);
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -34,12 +32,10 @@ export default function RowAsignarMember({
       const res = await desasignar({
         id_member: info.id_empleado,
       });
-      console.log(res);
       swal("Mentorado Retirado", {
         icon: "success",
       });
     } catch (err) {
-      console.log(err);
       swal("Hubo un error", {
         icon: "warning",
       });

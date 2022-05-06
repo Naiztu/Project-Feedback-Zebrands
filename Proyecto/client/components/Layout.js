@@ -63,7 +63,6 @@ export default function Layout({ children, pg }) {
                     `/feedback/${data_last_feedback.id_periodo}/${user.id_empleado}`
                   );
                 } catch (error) {
-                  console.log(error);
                 }
               }}
               className="z-50 text-white font-bold text-4xl active:scale-95 hover:scale-110  transition-all ease-in-out cursor-pointer m-4"

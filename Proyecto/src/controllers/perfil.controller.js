@@ -11,7 +11,7 @@ export async function getPerfil(req, res) {
     //   ? res.status(403).send({ err: "No hay ese empleado" })
     //   : res.status(200).send({ empleado: rows[0] });
   } catch (err) {
-    console.log(err),
+  
     res.status(403).send({ err });
   }
 }
