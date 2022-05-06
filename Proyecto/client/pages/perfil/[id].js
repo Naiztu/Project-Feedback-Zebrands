@@ -13,10 +13,8 @@ export default function Post() {
     try {
       const data = await getPerfil(id);
       setDataPerfil(data.data_perfil);
-      console.log(data.data_perfil)
     } catch (err) {
       console.log({ err });
-      console.log("aiudaaaaid");
     }
 
   };
@@ -45,6 +43,7 @@ export default function Post() {
     return (
     <>
       <Layout>
+        
         {dataPerfil && <Registro isSaved={true}  regMember={dataPerfil}/>}
       </Layout>
     </>
