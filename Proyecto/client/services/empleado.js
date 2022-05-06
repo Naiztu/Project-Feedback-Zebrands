@@ -52,10 +52,8 @@ export async function getEmpleadosNotRequested(page, filterName, id_periodo) {
     const { data } = await api.get(
       `/empleado/notrequested/${page}/${filterName}/${id_periodo}`
     );
-    console.log(id_periodo);
     return data;
   } catch (error) {
-    console.log(error);
     throw { error };
   }
 }
@@ -99,7 +97,7 @@ export async function createMember(body) {
 }
 
 export async function updateMember(body) {
-   console.log({body});
+  console.log({ body });
   try {
     const data_up = await api.put("/empleado/update", body);
     return data_up;
@@ -108,7 +106,6 @@ export async function updateMember(body) {
   }
 }
 
-
 export async function desactivar(id_empleado) {
   try {
     const data_up = await api.put(`/empleado/desactivar/${id_empleado}`);
@@ -116,6 +113,4 @@ export async function desactivar(id_empleado) {
   } catch (error) {
     throw { error };
   }
-} 
-
-
+}

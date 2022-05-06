@@ -6,7 +6,7 @@ import { BsHouse } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { getLastFeedback } from "../services/feedback";
 
-export default function Layout({ children }) {
+export default function Layout({ children, pg }) {
   const router = useRouter();
   const { user } = useUser();
 
@@ -68,7 +68,7 @@ export default function Layout({ children }) {
               }}
               className="z-50 text-white font-bold text-4xl active:scale-95 hover:scale-110  transition-all ease-in-out cursor-pointer m-4"
             >
-              {user && user.nivel_general}
+              {pg === 0 ? user && user.nivel_general : pg}
             </div>
           ) : (
             <BsHouse
@@ -85,3 +85,7 @@ export default function Layout({ children }) {
     </>
   );
 }
+
+Layout.defaultProps = {
+  pg: 0,
+};

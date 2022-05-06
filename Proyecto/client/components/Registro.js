@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
-import { useUser } from "../context/userContext";
 import { updateMember, createMember, desactivar } from "../services/empleado";
-import { getPerfil } from "../services/perfil";
 import { useForm } from "../hooks/useForm";
 import { objects, reg } from "../util/objectsInputs";
+import { useRouter } from "next/router";
 
 export default function Registro({ regMember, isSaved }) {
   const {
@@ -24,7 +23,7 @@ export default function Registro({ regMember, isSaved }) {
     id_empleado,
   } = regMember;
 
-  const { isAuthenticated, user } = useUser();
+  const router = useRouter();
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [newApellido, setNewApellido] = useState("");
@@ -70,11 +69,12 @@ export default function Registro({ regMember, isSaved }) {
         id_rol: data[7].descripcion_respuesta,
       });
       setData([]);
+      setNewNivel_general(0);
 
-      swal(
+      await swal(
         "Registraste un member con la contraseña: \n\t\t" +
-        contrasena +
-        " \n\tmándasela por correo.",
+          contrasena +
+          " \n\tmándasela por correo.",
         {
           icon: "success",
         }
@@ -102,13 +102,13 @@ export default function Registro({ regMember, isSaved }) {
         correo_electronico: data[0].descripcion_respuesta,
         equipo: data[8].descripcion_respuesta,
         id_chapter: data[6].descripcion_respuesta,
-        id_rol: data[7].descripcion_respuesta
+        id_rol: data[7].descripcion_respuesta,
       });
       swal("Member actualizado", {
         icon: "success",
       });
     } catch (error) {
-      console.log({ error })
+      console.log({ error });
       swal("Hubo un error, no se actualizó el member", {
         icon: "warning",
       });
@@ -121,14 +121,13 @@ export default function Registro({ regMember, isSaved }) {
       swal("Member desactivado", {
         icon: "success",
       });
+      router.push("/lead/member");
     } catch (error) {
       swal("Hubo un error, el Member no se desactivó", {
         icon: "warning",
       });
     }
   };
-
-
 
   const handleChange = (e) => {
     handleBlur(e);
@@ -179,7 +178,7 @@ export default function Registro({ regMember, isSaved }) {
     if (isSave) {
       //alert("funcion actualizada");
       updateEmpleado();
-      console.log("Paso updateEmpleado")
+      console.log("Paso updateEmpleado");
       setIsEdited(false);
     } else {
       if (checkErrors() === 0) {
@@ -195,7 +194,6 @@ export default function Registro({ regMember, isSaved }) {
 
   return (
     <>
-
       {/*<header className="w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
           <h1 className=" title">
@@ -217,7 +215,7 @@ export default function Registro({ regMember, isSaved }) {
                 <div className="w-full md:w-full px-3 mb-6">
                   <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  //for="grid-text-1"
+                    //for="grid-text-1"
                   >
                     *Dirección de Correo
                   </label>
@@ -605,7 +603,7 @@ export default function Registro({ regMember, isSaved }) {
                     className="btn"
                     onClick={updateDesactivar}
                   >
-                    Desactivar Member
+                    Dar de baja Member
                   </button>
                 )}
 
