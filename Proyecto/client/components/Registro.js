@@ -4,6 +4,7 @@ import { updateMember, createMember, desactivar } from "../services/empleado";
 import { useForm } from "../hooks/useForm";
 import { objects, reg } from "../util/objectsInputs";
 import { useRouter } from "next/router";
+import Spinner from "./loaders/Sppiner";
 
 export default function Registro({ regMember, isSaved }) {
   const {
