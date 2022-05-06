@@ -30,13 +30,10 @@ export default function AdminAllEmpleados() {
 
   const botonSearch = async () => {
     try {
-      const { data_empleados } = await getEmpleadosNotAssigned(
-        page,
-        filterName
-      );
-      setCompaneros(data_empleados);
+      setPage(1);
+      const data_empleados = await getFilterEmpleados(1, filterName);
+      setEmpleados(data_empleados.data_empleados);
     } catch (error) {
-      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -44,28 +41,24 @@ export default function AdminAllEmpleados() {
   };
 
   const changePage = async (num) => {
-    let newPage;
+    let newpage;
     if (num + page <= 0) {
-      newPage = 1;
       setPage(1);
+      newpage = 1;
     } else {
-      newPage = page + num;
-      setPage(page + num);
+      newpage = num + page;
     }
-
     try {
-      const { data_empleados } = await getFilterEmpleados(newPage, filterName);
+      const { data_empleados } = await getFilterEmpleados(newpage, filterName);
+      if (data_empleados.lenght > 0) {
+        setPage(page - num);
+      }
       setEmpleados(data_empleados);
     } catch (error) {
-      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
     }
-  };
-
-  const redirectRegister= () => {
-    router.push("/lead/register");
   };
 
   useEffect(() => {
@@ -90,7 +83,7 @@ export default function AdminAllEmpleados() {
             onChange={(e) => setFilterName(e.target.value)}
           />
           <div className=" ml-2 flex items-center h-12 w-12">
-            <button className="btn-search rounded-md">
+            <button onClick={botonSearch} className="btn-search rounded-md">
               <FaSearch />
             </button>
           </div>
@@ -150,7 +143,9 @@ export default function AdminAllEmpleados() {
         isOpen={isOpen}
         title="Registra Nuevo Member"
       >
-        <Registro isSaved={false} />
+        <div className=" py-5">
+          <Registro isSaved={false} />
+        </div>
       </Modal>
     </>
   );

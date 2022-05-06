@@ -10,23 +10,19 @@ import Feedbacks from "../components/Feedbacks";
 export default function RowAllEmpleado({ info }) {
   const router = useRouter();
   const [isOpenModal, openModal, closeModal] = useModal(false);
-  console.log("hueaih")
 
-  console.log(info)
-  console.log(info.id_empleado)
 
   const botonPerfil = () => {
     router.push(`/lead/adminasig/${id_empleado}`);
   };
 
   const botonFeedbacks = () => {
-    
-
-
+  
     
   };
   const redirectInfo = () => {
-    router.push("/lead/info");
+    //router.push("/lead/info");
+    router.push(`/perfil/${info.id_empleado}`);
   };
 
 

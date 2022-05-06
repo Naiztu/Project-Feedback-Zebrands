@@ -18,7 +18,7 @@ export async function postRespuestas(req, res) {
       const data_post_res = await post_res.postRespuestas();
       res.send({data_post_res});
     } catch (err) {
-      console.log(err);
+    
       res.status(500).send({ err });
     }
   }

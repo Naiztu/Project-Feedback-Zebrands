@@ -38,7 +38,6 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
           info,
         }
       );
-      console.log({ res });
       if (res.status != 200) {
         throw {
           err: true,
@@ -50,7 +49,6 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
         icon: "success",
       });
     } catch (err) {
-      console.log(err)
       swal("Hubo error", {
         icon: "warning",
       });
@@ -73,7 +71,6 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
           lead_member: datos.lead_member,
         }
       );
-      console.log({ res });
       if (res.status != 200) {
         throw {
           err: true,
@@ -85,7 +82,6 @@ export default function DatosEmpleado({info, isSaved, id_empleado}) {
         icon: "success",
       });
     } catch (err) {
-      console.log(err)
       swal("Hubo error", {
         icon: "warning",
       });

@@ -17,9 +17,7 @@ export const useFetch = (url) => {
             statusText: !res.statusText ? "Ocurrió un error" : res.statusText,
           };
         }
-        console.log(res.data);
         let data = await res.json();
-        console.log(data);
 
         setIsPending(false);
         setData(data);

@@ -66,7 +66,6 @@ export async function getAllFeedbacks(req, res) {
     const data_feedbackAll = await Feedback.getDataAllFeedback();
     res.send({ data_feedbackAll });
   } catch (err) {
-    console.log(err);
     res.status(500).send({ err });
   }
 }

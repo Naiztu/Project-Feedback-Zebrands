@@ -14,7 +14,8 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
   const [isSave, setIsSave] = useState(isSaved);
   const [isEdited, setIsEdited] = useState(!isSaved);
   const [tipo, setTipo] = useState(data.tipo_pregunta);
-  const [datas, errors, handle, handleBlur, setItem, checkErrors] = useForm();
+  const [datas, errors, handle, handleBlur, setItem, checkErrors, setData] =
+    useForm();
   const [load, setLoad] = useState(false);
 
   useEffect(() => {
@@ -88,7 +89,6 @@ export default function Pregunta({ data, isSaved, setPntas, pntas, setAddQ }) {
         icon: "success",
       });
     } catch (err) {
-      console.log(err);
       swal("Hubo un error, la pregunta no se registró", {
         icon: "warning",
       });

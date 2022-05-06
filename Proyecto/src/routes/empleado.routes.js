@@ -17,6 +17,7 @@ import onlyLead from "../middlewares/onlyLead";
 const router = Router();
 
 router.post("/", onlyLead, postEmpleado);
+router.put("/update", updateEmpleado);
 router.put("/updatePass", updatePass);
 router.put("/updateCMCL", updateCMasCL);
 router.get("/get/notassigned/:page/:filterName", getNotAssigned);
@@ -25,7 +26,7 @@ router.get("/notrequested/:page/:filterName/:id_periodo", getNotRequested);
 router.get("/search/:page/:filterName", getSearchEmpleado);
 router.get("/me", getCurrentEmpleado);
 router.get("/:id_empleado", getEmpleado);
-router.put("/desactivar", updateActivo);
-router.put("/update", updateEmpleado);
+router.put("/desactivar/:id_empleado", updateActivo);
+
 
 export default router;

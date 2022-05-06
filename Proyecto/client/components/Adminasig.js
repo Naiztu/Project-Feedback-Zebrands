@@ -52,7 +52,7 @@ export default function Adminasig({ data_assis, auto_asig }) {
       );
       setCompaneros(data_empleados);
     } catch (error) {
-      console.log(error);
+     
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -76,12 +76,12 @@ export default function Adminasig({ data_assis, auto_asig }) {
       );
       setCompaneros(data_empleados);
     } catch (error) {
-      console.log(error);
+     
       swal("Hubo un error", {
         icon: "warning",
       });
     }
-    console.log("pag" + page + "\n");
+   
   };
 
   return (

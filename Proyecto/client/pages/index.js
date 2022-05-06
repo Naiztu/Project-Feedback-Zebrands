@@ -11,7 +11,8 @@ export default function Home() {
   const [load, setLoad] = useState(false);
   const { loginAuth } = useUser();
   const [captchaValido, cambiarCaptchaValido] = useState(null);
-  const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
+  const [data, errors, handle, handleBlur, setItem, checkErrors, setData] =
+    useForm();
 
   const captcha = useRef(null);
 

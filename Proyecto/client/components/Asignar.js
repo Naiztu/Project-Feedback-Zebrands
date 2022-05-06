@@ -45,7 +45,7 @@ export default function Asignar() {
       });
       router.push("/user");
     } catch (err) {
-      console.log(err);
+     
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -60,14 +60,15 @@ export default function Asignar() {
 
   const botonSearch = async () => {
     try {
+      setPage(1);
       const { data_empleados } = await getEmpleadosNotRequested(
-        page,
+        1,
         filterName,
         id_periodo
       );
       setCompaneros(data_empleados);
     } catch (error) {
-      console.log(error);
+ 
       swal("Hubo un error", {
         icon: "warning",
       });
@@ -81,23 +82,23 @@ export default function Asignar() {
       setPage(1);
     } else {
       newPage = page + num;
-      setPage(page + num);
     }
 
     try {
       const { data_empleados } = await getEmpleadosNotRequested(
         newPage,
         filterName,
-        1
+        id_periodo
       );
-      setCompaneros(data_empleados);
+
+      if (data_empleados.length === 0) {
+        setPage(page - num);
+      } else setCompaneros(data_empleados);
     } catch (error) {
-      console.log(error);
       swal("Hubo un error", {
         icon: "warning",
       });
     }
-    console.log("pag" + page + "\n");
   };
 
   return (
@@ -140,7 +141,14 @@ export default function Asignar() {
                     <tbody className="text-sm divide-y divide-gray-100">
                       {companeros &&
                         companeros
-                          .filter((el) => !asignados.includes(el))
+                          .filter(
+                            (el) =>
+                              !asignados
+                                .map((ob) => {
+                                  return ob.id_empleado;
+                                })
+                                .includes(el.id_empleado)
+                          )
                           .map((item, index) => (
                             <CompaneroAsignar
                               select={true}

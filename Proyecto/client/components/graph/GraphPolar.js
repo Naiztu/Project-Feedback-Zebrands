@@ -14,7 +14,6 @@ export default function GraphPolar() {
       const res = await getPerfil(user.id_empleado);
       setGraph(res.data_perfil);
     } catch (error) {
-      console.log(error);
     }
   };
 

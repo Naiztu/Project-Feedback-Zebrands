@@ -14,10 +14,9 @@ export default function PlantillaFeed({
   id_periodo,
 }) {
   const router = useRouter();
-  const [data, errors, handle, handleBlur, setItem, checkErrors] = useForm();
+  const [data, errors, handle, handleBlur, setItem, checkErrors, setData] =
+    useForm();
   const [load, setLoad] = useState(false);
-    console.log("data")
-    console.log(data)
   const {
     comentario_personal,
     calificacion_personal,
@@ -28,6 +27,9 @@ export default function PlantillaFeed({
     comentario_general,
     calificacion_promedio,
   } = feedback;
+
+  const { user } = useUser();
+
 
   const [cal_prom, setCal_prom] = useState(calificacion_promedio);
 
@@ -75,10 +77,9 @@ export default function PlantillaFeed({
       <header className=" bg-slate-400/10 w-full pt-10 rounded-b-3xl">
         <div className="flex flex-col justify-center items-center w-10/12 mx-auto">
           <h1 className=" title">
-            {isSaved ? "Mi feedback" : "Registrar Feedback"}
+            {(user.id_rol===1 ?("Consulta de feedback "):(isSaved ? "Mi feedback" : "Registrar Feedback"))}
           </h1>
           <h2 className="mt-1 mb-10 italic font-semibold">
-            Periodo Enero-Febrero 2020
           </h2>
         </div>
       </header>
@@ -236,10 +237,10 @@ export default function PlantillaFeed({
 
       {/* comentario general */}
       <div className="w-full mx-auto my-6">
-        <h2 className=" text-3xl font-bold mb-2 ml-6">Comentario General</h2>
+        <h2 className="text-3xl font-bold text-center">Comentario General</h2>
         <div
           className="flex
-        flex-col md:flex-row space-x-0 md:space-x-2 mb-4 w-11/12 md:w-9/12 mx-auto"
+        flex-col md:flex-row space-x-0 md:space-x-2 mb-4 w-11/12 md:w-9/12 mx-auto my-4"
         >
           {isSaved ? (
             <div className="basis-10/12 rounded-t-3xl md:rounded-l-3xl coment">

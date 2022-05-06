@@ -7,13 +7,15 @@ import { useRouter } from "next/router";
 
 export default function Feedbacks({ id_user }) {
   const [feedbacks, setFeedbacks] = useState([]);
+  const [loaded, setLoaded] = useState(0);
+
 
   const getFeedbacks = async () => {
     try {
       const data = await getFeedbackHistory(id_user);
       setFeedbacks(data.data_feedbackHistory);
+      setLoaded(1);
     } catch (err) {
-      console.log({ err });
     }
   };
 
@@ -49,7 +51,15 @@ export default function Feedbacks({ id_user }) {
                     ))}
                 </tbody>
               </table>
-              {feedbacks.length === 0 && (
+              {feedbacks.length === 0 && loaded && (
+                <div className=" w-full my-20 flex justify-center items-center">
+                  <p className="text text-center w-3/4 mx-auto">
+                    Aún no hay información para mostrar
+                  </p>
+                </div>
+              )}
+
+              {feedbacks.length === 0 && !loaded && (
                 <div className=" w-full my-20 flex justify-center items-center">
                   <Loader hmax={70} hmin={10} w={15} />
                 </div>

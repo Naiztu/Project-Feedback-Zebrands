@@ -13,7 +13,6 @@ export default function Evaluaciones({ id_periodo, id_user }) {
       setResumen(data_resumen.calificaciones);
       setProm(data_resumen.prom);
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -71,11 +70,11 @@ export default function Evaluaciones({ id_periodo, id_user }) {
                 {prom && (
                   <tr className=" text-black/80">
                     <td></td>
-                    <td></td>
-                    <td className="p-2 whitespace-nowrap">{prom.prom_business ? prom.prom_business:"-"}</td>
-                    <td className="p-2 whitespace-nowrap">{prom.prom_people ? prom.prom_people:"-"}</td>
-                    <td className="p-2 whitespace-nowrap">{prom.prom_craft ? prom.prom_craft:"-"}</td>
-                    <td className="p-2 whitespace-nowrap">{prom.prom_gen ? prom.prom_gen.toFixed(1): "-" }</td>
+                    <td className=" text-secondary-300/90 font-bold	">Promedio</td>
+                    <td className="p-2 whitespace-nowrap text-secondary-300/95 font-bold	">{prom.prom_business ? prom.prom_business:"-"}</td>
+                    <td className="p-2 whitespace-nowrap text-secondary-300/95 font-bold">{prom.prom_people ? prom.prom_people:"-"}</td>
+                    <td className="p-2 whitespace-nowrap text-secondary-300/95 font-bold	">{prom.prom_craft ? prom.prom_craft:"-"}</td>
+                    <td className="p-2 whitespace-nowrap text-secondary-300/95 font-bold	">{prom.prom_gen ? prom.prom_gen.toFixed(1): "-" }</td>
                   </tr>)}
               </tbody>
             </table>

@@ -51,10 +51,10 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `UPDATE empleado SET ` +
-          "`" +
-          `password` +
-          "`" +
-          ` = '${password}' WHERE id_empleado = ${id_empleado};`
+        "`" +
+        `password` +
+        "`" +
+        ` = '${password}' WHERE id_empleado = ${id_empleado};`
       );
       return rows;
     } catch (err) {
@@ -70,7 +70,22 @@ export class Empleado {
         e.id_chapter, r.id_rol, e.equipo
         FROM empleado e, empleado_rol r
         WHERE e.id_empleado = ${id} AND
-              r.id_empleado = e.id_empleado`
+              r.id_empleado = e.id_empleado AND e.activo = 1`
+      );
+      return rows[0] || null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  static async findIdRol(id) {
+    try {
+      const [rows, fields] = await pool.execute(
+        `SELECT r.id_rol
+        FROM empleado e, empleado_rol r
+        WHERE e.id_empleado = ${id} AND
+              r.id_empleado = e.id_empleado
+        ORDER BY r.fecha_rol;`
       );
       return rows[0] || null;
     } catch (err) {
@@ -83,7 +98,7 @@ export class Empleado {
       const [rows, fields] = await pool.execute(
         `SELECT e.password
         FROM empleado e
-        WHERE e.id_empleado = ${id} `
+        WHERE e.id_empleado = ${id} AND e.activo = 1`
       );
       return rows[0] || null;
     } catch (err) {
@@ -98,7 +113,7 @@ export class Empleado {
         e.nivel_general, e.nivel_craft, e.nivel_business, e.nivel_people, e.correo_electronico, 
         e.password, r.id_rol, e.equipo
         FROM empleado e, empleado_rol r
-        WHERE e.activo = true AND
+        WHERE e.activo = 1 AND
           e.correo_electronico = '${correo}'
           AND r.id_empleado = e.id_empleado 
         ORDER BY r.fecha_rol DESC
@@ -114,13 +129,13 @@ export class Empleado {
     try {
       const [rows, fields] = await pool.execute(
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, nivel_business, nivel_craft, nivel_people, activo
-           FROM empleado WHERE id_empleado = ${this.id_empleado}
+           FROM empleado WHERE id_empleado = ${this.id_empleado} AND activo = 1
            `
       );
-      console.log(rows);
+     
       return rows[0];
     } catch (err) {
-      console.log(err);
+ 
       throw { err };
     }
   }
@@ -131,7 +146,7 @@ export class Empleado {
         `SELECT id_empleado, nombre, apellido_paterno, imagen_perfil, activo
         FROM empleado 
         ${orderBy("nombre", "ASC")}
-        ${pag(1, 15)}`
+        ${pag(1, 10)}`
       );
       return rows;
     } catch (err) {
@@ -150,11 +165,11 @@ export class Empleado {
                   FROM evaluacion
                   WHERE id_empleado_evaluado = ${id_empleado} AND
                         id_periodo = ${id_periodo})
-                AND id_empleado <> ${id_empleado}
+                AND id_empleado <> ${id_empleado} AND activo = 1
         ${orderBy("nombre", "ASC")}
-        ${pag(page, 15)}`
+        ${pag(page, 10)}`
       );
-      //console.log(rows);
+      
       return rows;
     } catch (err) {
       throw { err };
@@ -177,7 +192,7 @@ export class Empleado {
            max(er.fecha_rol) 
            FROM empleado e, empleado_rol er, rol r
             WHERE
-             er.id_empleado = e.id_empleado AND r.id_rol=er.id_rol
+             er.id_empleado = e.id_empleado AND r.id_rol=er.id_rol AND e.activo = 1
         AND ${filter("nombre", filterName)}
              GROUP BY id_empleado
              ${orderBy("nombre", "ASC")}
@@ -239,14 +254,13 @@ export class Empleado {
 
       await conn.commit();
       await conn.release();
-      return "user creted correct";
+      return rows;
     } catch (error) {
-      console.log(error);
       if (conn) {
         await conn.rollback();
         await conn.release();
       }
-      throw error;
+      throw { error };
     }
   }
 
@@ -294,14 +308,14 @@ export class Empleado {
              FROM asignacion
              WHERE vigente=1
              )
-             AND id_rol=3
+             AND id_rol=3 AND empleado.activo = 1
              AND ${filter("nombre", filterName)}
              ${orderBy("nombre", "ASC")}
-             ${pag(page, 15)}`
+             ${pag(page, 10)}`
       );
       return rows;
     } catch (err) {
-      console.log(err);
+
       throw { err };
     }
   }
@@ -313,35 +327,71 @@ export class Empleado {
         SET activo = 0
         WHERE id_empleado = ${id_empleado}`
       );
-      console.log(rows);
+     
       return rows;
     } catch (err) {
-      console.log(err);
+    
       throw { err };
     }
   }
 
-  async updateDataEmpleado() {
+  static async updateDataEmpleado(id_empleado,
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    nivel_general,
+    nivel_craft,
+    nivel_business,
+    nivel_people,
+    correo_electronico,
+    equipo,
+    id_rol) {
+
+    let conn = null;
     try {
-      const [rows, fields] = await pool.execute(
-        `UPDATE empleado 
-        SET nombre = '${this.nombre}', 
-        apellido_paterno = '${this.apellido_paterno}', 
-        apellido_materno = '${this.apellido_materno}',
-        nivel_general = ${this.nivel_general}, 
-        nivel_craft = ${this.nivel_craft}, 
-        nivel_business = ${this.nivel_business}, 
-        nivel_people = ${this.nivel_people},
-        correo_electronico = '${this.correo_electronico}',
-        equipo = '${this.equipo}',
-        id_chapter = ${this.id_chapter} 
-        WHERE id_empleado = ${this.id_empleado}`
+
+      conn = await pool.getConnection();
+      await conn.beginTransaction();
+      const [rows, fields] = await conn.query(`UPDATE empleado 
+      SET nombre = '${nombre}', 
+      apellido_paterno = '${apellido_paterno}', 
+      apellido_materno = '${apellido_materno}',
+      nivel_general = ${nivel_general}, 
+      nivel_craft = ${nivel_craft}, 
+      nivel_business = ${nivel_business}, 
+      nivel_people = ${nivel_people},
+      correo_electronico = '${correo_electronico}',
+      equipo = '${equipo}'
+      WHERE id_empleado = ${id_empleado}`);
+
+
+      const [current_rol] = await conn.query(
+        `SELECT id_rol FROM empleado_rol WHERE id_empleado= ${id_empleado} AND 
+      fecha_rol=(SELECT MAX(e2.fecha_rol) 
+      FROM empleado_rol e2 WHERE e2.id_empleado= ${id_empleado});`
       );
-      console.log(rows);
+      if (current_rol === 2 && id_rol === 1) {
+        await conn.query(
+          `UPDATE asignacion as a
+          SET vigente = 0
+          WHERE id_empleado_assistant = ${id_member}`
+        );
+      }
+
+      await conn.commit();
+      await conn.release();
       return rows;
-    } catch (err) {
-      console.log(err);
-      throw { err };
+    } catch (error) {
+      if (conn) {
+        await conn.rollback();
+        await conn.release();
+      }
+      throw error;
     }
+
+
+
+
+
   }
 }

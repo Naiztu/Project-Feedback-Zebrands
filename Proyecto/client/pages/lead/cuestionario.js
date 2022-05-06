@@ -29,10 +29,15 @@ export default function Cuestionario() {
           </select>
         </label>
       </div>
-
-      {isAuthenticated && dimensiones.map((item, index) => (
-        <PreguntaDimension Dimension={item} Nivel={nivel} key={index} />
-      ))}
+      <div className="text-center py-10 sm:space-x-5 rounded-b-lg w-3/4 text-secondary-50 mx-auto">
+        IMPORTANTE. Asegúrate de que SIEMPRE tengas una pregunta de tipo
+        calificación en cada apartado Esto servirá para mantener visibilidad en
+        el desempeño de cada miembro evaluado
+      </div>
+      {isAuthenticated &&
+        dimensiones.map((item, index) => (
+          <PreguntaDimension Dimension={item} Nivel={nivel} key={index} />
+        ))}
     </Layout>
   );
 }
